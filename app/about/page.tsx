@@ -89,7 +89,7 @@ export default function AboutPage() {
               <div className="relative">
                 <div className="aspect-square rounded-2xl overflow-hidden">
                   <Image
-                    src="/modern-fuel-station-exterior-view.jpg"
+                    src="/fuel-station-reference.png"
                     alt="BG OIL ВРАЦА бензиностанция"
                     fill
                     className="object-cover"
