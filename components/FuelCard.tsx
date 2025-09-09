@@ -40,11 +40,14 @@ export default function FuelCard({ fuel }: FuelCardProps) {
           </div>
         </div>
 
-        {savings > 0 && (
-          <div className="bg-accent/10 border border-accent/20 rounded-md p-2">
-            <p className="text-xs text-accent-foreground font-medium text-center">Получете карта BG OIL и спестете!</p>
-          </div>
-        )}
+      {savings > 0 && (
+  <div className="bg-accent/10 border border-accent/20 rounded-md p-2">
+    <p className="text-xs text-black font-medium text-center">
+      Получете карта BG OIL и спестете!
+    </p>
+  </div>
+)}
+
       </CardContent>
     </Card>
   )

@@ -130,18 +130,19 @@ export default function ProductsPage() {
             </Card>
 
             {/* Price Disclaimer */}
-            <div className="mt-8 p-4 bg-black border border-gray-800 rounded-lg">
+<div className="mt-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
   <div className="flex items-start space-x-3">
-    <Info className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
+    <Info className="w-5 h-5 text-black mt-0.5 flex-shrink-0" />
     <div className="space-y-1">
-      <p className="text-sm font-medium text-white">Важна информация за цените</p>
-      <p className="text-sm text-gray-300">
+      <p className="text-sm font-medium text-black">Важна информация за цените</p>
+      <p className="text-sm text-black/80">
         Цените са ориентировъчни и могат да се променят без предварително уведомление. 
         Моля, потвърдете актуалните цени на място при персонала на бензиностанцията.
       </p>
     </div>
   </div>
 </div>
+
 
           </div>
         </section>

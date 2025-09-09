@@ -34,10 +34,11 @@ export default function FeaturedFuels() {
         </div>
 
         <div className="mt-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
-          <p className="text-sm text-accent-foreground text-center font-medium">
-            ⚠️ Цените са ориентировъчни. Моля, потвърдете актуалните цени на място.
-          </p>
-        </div>
+  <p className="text-sm text-black text-center font-medium">
+    ⚠️ Цените са ориентировъчни. Моля, потвърдете актуалните цени на място.
+  </p>
+</div>
+
       </div>
     </section>
   )
