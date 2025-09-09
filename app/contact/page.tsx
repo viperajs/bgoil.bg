@@ -14,11 +14,11 @@ import { MapPin, Phone, Mail, Clock, Car, Navigation } from "lucide-react"
 
 export default function ContactPage() {
   const workingHours = [
-    { service: "Бензиностанция", hours: "24/7" },
-    { service: "Магазин", hours: "24/7" },
-    { service: "Хотел рецепция", hours: "24/7" },
+    { service: "Бензиностанция", hours: "Работно време: 24/7" },
+    { service: "Магазин", hours: "Работно време: 24/7" },
+    { service: "Хотел рецепция", hours: "Работно време: 24/7" },
     { service: "Автосервиз", hours: "Пон-Пет: 08:00-18:00, Съб: 08:00-14:00" },
-    { service: "Автомивка", hours: "Всеки ден: 07:00-20:00" },
+    { service: "Автомивка", hours: "Работно време: 24/7" },
   ]
 
   return (
