@@ -175,10 +175,6 @@ export default function ContactPage() {
                       <ul className="space-y-2 text-sm text-muted-foreground">
                         <li className="flex items-start space-x-2">
                           <span className="text-primary">•</span>
-                          <span>От центъра на Враца - по бул. Мито Орозов към изхода за София</span>
-                        </li>
-                        <li className="flex items-start space-x-2">
-                          <span className="text-primary">•</span>
                           <span>Безплатен паркинг за клиенти</span>
                         </li>
                         <li className="flex items-start space-x-2">
