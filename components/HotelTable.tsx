@@ -8,6 +8,9 @@ interface HotelTableProps {
   rooms: HotelRoom[]
 }
 
+const BGN_PER_EUR = 1.95583
+const fx2 = (n: number) => n.toFixed(2)
+
 export default function HotelTable({ rooms }: HotelTableProps) {
   return (
     <Card>
@@ -22,6 +25,7 @@ export default function HotelTable({ rooms }: HotelTableProps) {
           </Button>
         </CardTitle>
       </CardHeader>
+
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -32,15 +36,26 @@ export default function HotelTable({ rooms }: HotelTableProps) {
               </tr>
             </thead>
             <tbody>
-              {rooms.map((room, index) => (
-                <tr key={index} className="border-b border-border/50 last:border-b-0">
-                  <td className="py-3 px-2 text-muted-foreground">{room.type}</td>
-                  <td className="py-3 px-2 text-right">
-                    <span className="font-semibold text-primary">{room.price} лв</span>
-                    <span className="text-sm text-muted-foreground ml-1">/ нощ</span>
-                  </td>
-                </tr>
-              ))}
+              {rooms.map((room, index) => {
+                const priceBGN = Number(room.price) || 0
+                const priceEUR = priceBGN / BGN_PER_EUR
+
+                return (
+                  <tr key={index} className="border-b border-border/50 last:border-b-0">
+                    <td className="py-3 px-2 text-muted-foreground">{room.type}</td>
+                    <td className="py-3 px-2 text-right">
+                      <span className="font-semibold text-primary">
+                        {fx2(priceBGN)} лв
+                      </span>
+                      <span className="mx-1">/</span>
+                      <span className="font-semibold text-foreground">
+                        {fx2(priceEUR)} €
+                      </span>
+                      <span className="text-sm text-muted-foreground ml-1">/ нощ</span>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
