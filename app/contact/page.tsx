@@ -134,7 +134,7 @@ export default function ContactPage() {
                   </div>
                   <div className="mt-6 p-4 bg-primary/5 rounded-lg">
                     <p className="text-sm text-primary font-medium text-center">
-                      🕐 Основните услуги (горива, магазин, хотел) работят 24/7 за вашето удобство
+                      🕐 Основните услуги  работят 24/7 за вашето удобство
                     </p>
                   </div>
                 </CardContent>
