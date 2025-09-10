@@ -22,10 +22,10 @@ const fx2 = (n: number) => n.toFixed(2)
    Горива (тип Fuel) + отстъпка 0.10 лв/л
    ========================= */
 export const fuels: Fuel[] = [
-  { name: "Дизел",      price: 2.45, memberPrice: 2.45 - DISCOUNT_BGN, unit: "лв/л" },
-  { name: "Бензин А95", price: 2.55, memberPrice: 2.55 - DISCOUNT_BGN, unit: "лв/л" },
-  { name: "Бензин А98", price: 2.65, memberPrice: 2.65 - DISCOUNT_BGN, unit: "лв/л" },
-  { name: "AdBlue",     price: 1.80, memberPrice: 1.80 - DISCOUNT_BGN, unit: "лв/л" },
+  { name: "Дизел",      price: 2.29, memberPrice: 2.29 - DISCOUNT_BGN, unit: "лв/л" },
+  { name: "Бензин А95", price: 2.29, memberPrice: 2.29 - DISCOUNT_BGN, unit: "лв/л" },
+  { name: "Г П Б", price: 1.05, memberPrice: 1.05 - DISCOUNT_BGN, unit: "лв/л" },
+  { name: "AdBlue",     price: 1.19, memberPrice: 1.19 - DISCOUNT_BGN, unit: "лв/л" },
 ]
 
 /* UI-помощна версия за горива: лв + €, текстове за директен рендер */
