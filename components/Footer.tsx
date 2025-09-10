@@ -77,18 +77,12 @@ export default function Footer() {
             </div>
           </div>
         </div>
+<div className="border-t border-border mt-8 pt-8 flex justify-center items-center">
+  <p className="text-sm text-muted-foreground text-center">
+    © 2024 {companyInfo.name}. Всички права запазени.
+  </p>
+</div>
 
-        <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-sm text-muted-foreground">© 2024 {companyInfo.name}. Всички права запазени.</p>
-          <div className="flex space-x-6">
-            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Политика за поверителност
-            </Link>
-            <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Условия за ползване
-            </Link>
-          </div>
-        </div>
       </div>
     </footer>
   )
