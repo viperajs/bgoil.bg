@@ -1,14 +1,9 @@
-export const metadata = {
-  title: "Начало",
-  description:
-    "BG OIL ВРАЦА - Модерна бензиностанция с 24/7 магазин, хотел и пълен спектър от услуги във Враца.",
-}
-
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import Hero from "@/components/Hero"
 import ServicesSection from "@/components/ServicesSection"
 import FeaturedFuels from "@/components/FeaturedFuels"
+import { Suspense } from "react"
 
 export default function HomePage() {
   return (
@@ -17,8 +12,10 @@ export default function HomePage() {
       <main>
         <Hero />
         <ServicesSection />
-        {/* Тук картите за горива са динамични (идват от /api/fuel) */}
-        <FeaturedFuels />
+        <Suspense fallback={null}>
+          {/* @ts-expect-error Async Server Component */}
+          <FeaturedFuels />
+        </Suspense>
       </main>
       <Footer />
     </>
