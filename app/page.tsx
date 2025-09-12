@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Начало",
-  description: "BG OIL ВРАЦА - Модерна бензиностанция с 24/7 магазин, хотел и пълен спектър от услуги във Враца.",
+  description:
+    "BG OIL ВРАЦА - Модерна бензиностанция с 24/7 магазин, хотел и пълен спектър от услуги във Враца.",
 }
 
 import Header from "@/components/Header"
@@ -16,6 +17,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <ServicesSection />
+        {/* Тук картите за горива са динамични (идват от /api/fuel) */}
         <FeaturedFuels />
       </main>
       <Footer />

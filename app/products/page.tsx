@@ -1,3 +1,6 @@
+// app/products/page.tsx
+export const revalidate = 0; // без кеширане на страницата (или export const dynamic = 'force-dynamic')
+
 export const metadata = {
   title: "Продукти",
   description:
@@ -7,12 +10,16 @@ export const metadata = {
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import FuelCard from "@/components/FuelCard"
-import { fuels } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Fuel, CreditCard, Info } from "lucide-react"
+import { Fuel as FuelIcon, CreditCard, Info } from "lucide-react"
 
-export default function ProductsPage() {
+// 🔑 вече четем динамичните цени
+import { getEffectiveFuels } from "@/lib/fuelStore"
+
+export default async function ProductsPage() {
+  const fuels = await getEffectiveFuels() // актуални цени от store
+
   return (
     <>
       <Header />
@@ -23,10 +30,12 @@ export default function ProductsPage() {
             <div className="text-center max-w-4xl mx-auto">
               <div className="flex items-center justify-center mb-6">
                 <div className="p-3 bg-primary/10 rounded-full">
-                  <Fuel className="w-8 h-8 text-primary" />
+                  <FuelIcon className="w-8 h-8 text-primary" />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">Продукти и цени</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+                Продукти и цени
+              </h1>
               <p className="text-lg md:text-xl text-muted-foreground text-pretty">
                 Качествени горива на конкурентни цени с допълнителни отстъпки за картови клиенти
               </p>
@@ -54,7 +63,9 @@ export default function ProductsPage() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <h3 className="font-semibold text-card-foreground">Как да получите карта:</h3>
+                    <h3 className="font-semibold text-card-foreground">
+                      Как да получите карта:
+                    </h3>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-start space-x-2">
                         <Badge variant="outline" className="mt-0.5 text-xs">
@@ -77,7 +88,9 @@ export default function ProductsPage() {
                     </ul>
                   </div>
                   <div className="space-y-3">
-                    <h3 className="font-semibold text-card-foreground">Допълнителни предимства:</h3>
+                    <h3 className="font-semibold text-card-foreground">
+                      Допълнителни предимства:
+                    </h3>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-start space-x-2">
                         <span className="text-accent-foreground">•</span>
@@ -109,41 +122,48 @@ export default function ProductsPage() {
                       <span className="text-2xl">🚿</span>
                     </div>
                     <h3 className="font-semibold">Автомивка</h3>
-                    <p className="text-sm text-muted-foreground">Професионално почистване на автомобили</p>
+                    <p className="text-sm text-muted-foreground">
+                      Професионално почистване на автомобили
+                    </p>
                   </div>
                   <div className="text-center space-y-2">
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                       <span className="text-2xl">🔧</span>
                     </div>
                     <h3 className="font-semibold">Автосервиз</h3>
-                    <p className="text-sm text-muted-foreground">Техническо обслужване и ремонти</p>
+                    <p className="text-sm text-muted-foreground">
+                      Техническо обслужване и ремонти
+                    </p>
                   </div>
                   <div className="text-center space-y-2">
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                       <span className="text-2xl">🏪</span>
                     </div>
                     <h3 className="font-semibold">24/7 Магазин</h3>
-                    <p className="text-sm text-muted-foreground">Непрекъснато работещ магазин</p>
+                    <p className="text-sm text-muted-foreground">
+                      Непрекъснато работещ магазин
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Price Disclaimer */}
-<div className="mt-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
-  <div className="flex items-start space-x-3">
-    <Info className="w-5 h-5 text-black mt-0.5 flex-shrink-0" />
-    <div className="space-y-1">
-      <p className="text-sm font-medium text-black">Важна информация за цените</p>
-      <p className="text-sm text-black/80">
-        Цените са ориентировъчни и могат да се променят без предварително уведомление. 
-        Моля, потвърдете актуалните цени на място при персонала на бензиностанцията.
-      </p>
-    </div>
-  </div>
-</div>
-
-
+            <div className="mt-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
+              <div className="flex items-start space-x-3">
+                <Info className="w-5 h-5 text-black mt-0.5 flex-shrink-0" />
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-black">
+                    Важна информация за цените
+                  </p>
+                  <p className="text-sm text-black/80">
+                    Цените са ориентировъчни и могат да се променят без
+                    предварително уведомление. Моля, потвърдете актуалните
+                    цени на място при персонала на бензиностанцията.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>

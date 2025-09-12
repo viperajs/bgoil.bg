@@ -1,12 +1,16 @@
+// components/FeaturedFuels.tsx
+export const revalidate = 0 // без SSG кеш; можеш и export const dynamic = 'force-dynamic'
+
 import Link from "next/link"
-import { fuels } from "@/lib/config"
 import { Button } from "@/components/ui/button"
 import FuelCard from "./FuelCard"
 import { ArrowRight } from "lucide-react"
 
-export default function FeaturedFuels() {
-  // Show first 3 fuels as featured
-  const featuredFuels = fuels.slice(0, 3)
+import { getEffectiveFuels } from "@/lib/fuelStore"  // ← единен източник на истина
+
+export default async function FeaturedFuels() {
+  const allFuels = await getEffectiveFuels()       // ← взимаме актуалните (персистентни) цени
+  const featuredFuels = allFuels.slice(0, 3)
 
   return (
     <section className="py-16">
@@ -34,11 +38,10 @@ export default function FeaturedFuels() {
         </div>
 
         <div className="mt-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
-  <p className="text-sm text-black text-center font-medium">
-    ⚠️ Цените са ориентировъчни. Моля, потвърдете актуалните цени на място.
-  </p>
-</div>
-
+          <p className="text-sm text-black text-center font-medium">
+            ⚠️ Цените са ориентировъчни. Моля, потвърдете актуалните цени на място.
+          </p>
+        </div>
       </div>
     </section>
   )
