@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server'
 import { fuels as configFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
-
+type FuelUpdate = { name: string; price: number }
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic' // забранява статично кеширане
 
@@ -41,17 +41,39 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
+
     const raw = Array.isArray(body?.items) ? body.items : []
-    const items = raw
+
+    // Ясно типизиран резултат => няма any
+    const items: FuelUpdate[] = raw
       .map((x: any) => ({
         name: String(x?.name ?? '').trim(),
         price: Number(x?.price),
       }))
-      .filter((x: any) => x.name && Number.isFinite(x.price) && x.price >= 0)
+      .filter((x: FuelUpdate) => x.name && Number.isFinite(x.price) && x.price >= 0)
 
-    const ok = await safeSetPrices(items)
-    return NextResponse.json({ ok, saved: items })
+    if (items.length === 0) {
+      return NextResponse.json({ ok: false, reason: 'empty_items' }, { status: 400 })
+    }
+
+    // типизиран import, за да имаш intellisense
+    const mod = (await import('@/lib/fuelStore')) as typeof import('@/lib/fuelStore')
+
+    const before = await mod.getEffectiveFuels()
+    await mod.setFuelPrices(items)
+    const after = await mod.getEffectiveFuels()
+
+    // вече няма any
+    const changed = items.filter((it: FuelUpdate) => {
+      const a = before.find(f => f.name === it.name)?.price
+      const b = after.find(f => f.name === it.name)?.price
+      return a !== b
+    })
+
+    const wrote = changed.length > 0
+    return NextResponse.json({ ok: wrote, saved: items, changed })
   } catch {
-    return NextResponse.json({ error: 'Bad JSON' }, { status: 400 })
+    return NextResponse.json({ ok: false, error: 'Bad JSON' }, { status: 400 })
   }
 }
+
