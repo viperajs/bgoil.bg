@@ -1,23 +1,13 @@
 // lib/fuelStore.ts
+import 'server-only'
 import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
-
 import { promises as fs } from 'fs'
 import path from 'path'
 
 type FuelOverride = Record<string, number>
-const KEY = 'fuels:prices:v1'
 
-// --- Upstash Redis ---
-let redis: Redis | null = null
-if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-  redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL!,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-  })
-}
-
-// --- JSON файл за локално ---
+// --- само JSON файл, без Redis ---
 const dataDir = path.join(process.cwd(), '.data')
 const dataFile = path.join(dataDir, 'fuels.json')
 
@@ -34,30 +24,8 @@ async function fileWrite(value: FuelOverride): Promise<void> {
   await fs.writeFile(dataFile, JSON.stringify(value, null, 2), 'utf8')
 }
 
-// --- Safe функции ---
-async function safeGetOverrides(): Promise<FuelOverride | null> {
-  if (redis) {
-    try {
-      const res = await redis.get<FuelOverride>(KEY)
-      return res ?? null
-    } catch {}
-  }
-  return await fileRead()
-}
-
-async function safeSetOverrides(value: FuelOverride): Promise<void> {
-  if (redis) {
-    try {
-      await redis.set(KEY, value)
-      return
-    } catch {}
-  }
-  await fileWrite(value)
-}
-
-// --- Публичен API ---
 export async function getEffectiveFuels(): Promise<Fuel[]> {
-  const overrides = (await safeGetOverrides()) ?? {}
+  const overrides = (await fileRead()) ?? {}
   return defaultFuels.map((f) => {
     const price = typeof overrides[f.name] === 'number' ? overrides[f.name] : f.price
     const memberPrice = Math.max(0, price - DISCOUNT_BGN)
@@ -74,5 +42,5 @@ export async function setFuelPrices(items: { name: string; price: number }[]) {
     if (!Number.isFinite(price) || price < 0) continue
     clean[name] = price
   }
-  await safeSetOverrides(clean)
+  await fileWrite(clean)
 }
