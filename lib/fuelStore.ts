@@ -5,9 +5,9 @@ import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
 
 type FuelOverride = Record<string, number>
-// lib/fuelStore.ts
-const KEY = 'fuels:prices:v2' // <-- вдигни версията (v1 -> v2)
 
+// ↑ вдигаме версията, за да заобиколим стари, развалени данни
+const KEY = 'fuels:prices:v3'
 
 // ---- Redis клиент ----
 function getRedis() {
@@ -19,31 +19,22 @@ function getRedis() {
   } catch {}
   return new Redis({ url, token })
 }
-
 const redis = getRedis()
 
-// ---- безопасно четене от KV ----
+// ---- безопасно четене от KV (приема string ИЛИ object) ----
 async function safeGetOverrides(): Promise<FuelOverride | null> {
   if (!redis) return null
   try {
-    const val = await redis.get(KEY as any) as unknown
+    const val = (await redis.get(KEY as any)) as unknown
     if (val == null) return null
 
-    // приемаме и string JSON, и директен обект
     if (typeof val === 'string') {
-      try {
-        return JSON.parse(val) as FuelOverride
-      } catch (e) {
-        console.error('fuelStore: parse failed (string)', e)
-        return null
-      }
+      try { return JSON.parse(val) as FuelOverride }
+      catch (e) { console.error('fuelStore: parse failed (string)', e); return null }
     }
-
     if (typeof val === 'object') {
-      // Upstash може да върне директно JSON
       return val as FuelOverride
     }
-
     return null
   } catch (e) {
     console.error('fuelStore: redis.get failed:', (e as Error).message)
@@ -51,11 +42,10 @@ async function safeGetOverrides(): Promise<FuelOverride | null> {
   }
 }
 
-// ---- безопасен запис в KV ----
+// ---- безопасен запис в KV (пишем директно обект) ----
 async function safeSetOverrides(value: FuelOverride): Promise<void> {
   if (!redis) { console.warn('fuelStore: no redis env; skip set'); return }
   try {
-    // записвай директно като JSON обект (без stringify)
     await redis.set(KEY, value as any)
     console.log('fuelStore: saved overrides', value)
   } catch (e) {
@@ -63,8 +53,7 @@ async function safeSetOverrides(value: FuelOverride): Promise<void> {
   }
 }
 
-
-// ---- публичен API ----
+// ---- публичен API: четене на ефективните цени ----
 export async function getEffectiveFuels(): Promise<Fuel[]> {
   const overrides = (await safeGetOverrides()) ?? {}
   return defaultFuels.map(f => {
@@ -75,29 +64,33 @@ export async function getEffectiveFuels(): Promise<Fuel[]> {
   })
 }
 
-// ---- запис на нови цени ----
+// ---- запис на нови цени (алиаси към БГ каноните от config) ----
 export async function setFuelPrices(items: { name: string; price: number }[]) {
-  // нормализатор
   const norm = (s: string) => s.toLowerCase().replace(/[\s\-\._]+/g, '')
 
-  // канонични имена от config
-  const byNorm = new Map(
-    defaultFuels.map(f => [norm(f.name), f.name]) // напр. diesel -> 'Diesel'
-  )
+  // каноничните ИМЕНА са тези от config (на български)
+  const byNorm = new Map(defaultFuels.map(f => [norm(f.name), f.name]))
 
-  // ✅ алиаси за българските етикети
+  // алиаси → винаги сочат към БГ каноните
   const aliases: Record<string, string> = {
-    [norm('Дизел')]: 'Diesel',
-    [norm('Бензин А95')]: 'A95',
-    [norm('A95')]: 'A95',
-    [norm('ГПБ')]: 'LPG',
-    [norm('Г П Б')]: 'LPG',
-    [norm('Газ Пропан Бутан')]: 'LPG',
-    [norm('Газ')]: 'LPG',
+    [norm('Дизел')]: 'Дизел',
+    [norm('Diesel')]: 'Дизел',
+    [norm('Dizel')]: 'Дизел',
+
+    [norm('Бензин А95')]: 'Бензин А95',
+    [norm('A95')]: 'Бензин А95',
+    [norm('А95')]: 'Бензин А95',
+    [norm('Бензин A95')]: 'Бензин А95',
+
+    [norm('Г П Б')]: 'Г П Б',
+    [norm('ГПБ')]: 'Г П Б',
+    [norm('Газ Пропан Бутан')]: 'Г П Б',
+    [norm('Газ')]: 'Г П Б',
+    [norm('LPG')]: 'Г П Б',
+
     [norm('AdBlue')]: 'AdBlue',
   }
 
-  // обединен резолвер: първо алиаси, после директно съвпадение
   const resolve = (raw: string) => {
     const n = norm(raw)
     return aliases[n] ?? byNorm.get(n) ?? null
@@ -107,11 +100,10 @@ export async function setFuelPrices(items: { name: string; price: number }[]) {
   for (const it of items) {
     const canonical = resolve(String(it?.name ?? ''))
     const price = Number(it?.price)
-    if (!canonical) continue                      // непознато име → игнор
+    if (!canonical) continue
     if (!Number.isFinite(price) || price < 0) continue
     clean[canonical] = price
   }
 
   await safeSetOverrides(clean)
 }
-
