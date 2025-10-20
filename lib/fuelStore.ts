@@ -65,26 +65,41 @@ export async function getEffectiveFuels(): Promise<Fuel[]> {
 
 // ---- запис на нови цени ----
 export async function setFuelPrices(items: { name: string; price: number }[]) {
-  // нормализира имена, за да няма разминаване между формата и config
+  // нормализатор
+  const norm = (s: string) => s.toLowerCase().replace(/[\s\-\._]+/g, '')
+
+  // канонични имена от config
   const byNorm = new Map(
-    defaultFuels.map(f => [
-      f.name.toLowerCase().replace(/[\s-]+/g, ''),
-      f.name,
-    ]),
+    defaultFuels.map(f => [norm(f.name), f.name]) // напр. diesel -> 'Diesel'
   )
 
-  const clean: FuelOverride = {}
+  // ✅ алиаси за българските етикети
+  const aliases: Record<string, string> = {
+    [norm('Дизел')]: 'Diesel',
+    [norm('Бензин А95')]: 'A95',
+    [norm('A95')]: 'A95',
+    [norm('ГПБ')]: 'LPG',
+    [norm('Г П Б')]: 'LPG',
+    [norm('Газ Пропан Бутан')]: 'LPG',
+    [norm('Газ')]: 'LPG',
+    [norm('AdBlue')]: 'AdBlue',
+  }
+
+  // обединен резолвер: първо алиаси, после директно съвпадение
+  const resolve = (raw: string) => {
+    const n = norm(raw)
+    return aliases[n] ?? byNorm.get(n) ?? null
+  }
+
+  const clean: Record<string, number> = {}
   for (const it of items) {
-    const raw = String(it?.name ?? '')
-    const norm = raw.toLowerCase().replace(/[\s-]+/g, '')
-    const canonical = byNorm.get(norm)
+    const canonical = resolve(String(it?.name ?? ''))
     const price = Number(it?.price)
-
-    if (!canonical) continue
+    if (!canonical) continue                      // непознато име → игнор
     if (!Number.isFinite(price) || price < 0) continue
-
     clean[canonical] = price
   }
 
   await safeSetOverrides(clean)
 }
+
