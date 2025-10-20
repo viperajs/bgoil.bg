@@ -24,14 +24,25 @@ const redis = getRedis()
 async function safeGetOverrides(): Promise<FuelOverride | null> {
   if (!redis) return null
   try {
-    const str = await redis.get<string>(KEY)
-    if (!str) return null
-    try {
-      return JSON.parse(str) as FuelOverride
-    } catch (e) {
-      console.error('fuelStore: bad JSON', e)
-      return null
+    const val = await redis.get(KEY as any) as unknown
+    if (val == null) return null
+
+    // приемаме и string JSON, и директен обект
+    if (typeof val === 'string') {
+      try {
+        return JSON.parse(val) as FuelOverride
+      } catch (e) {
+        console.error('fuelStore: parse failed (string)', e)
+        return null
+      }
     }
+
+    if (typeof val === 'object') {
+      // Upstash може да върне директно JSON
+      return val as FuelOverride
+    }
+
+    return null
   } catch (e) {
     console.error('fuelStore: redis.get failed:', (e as Error).message)
     return null
@@ -40,17 +51,16 @@ async function safeGetOverrides(): Promise<FuelOverride | null> {
 
 // ---- безопасен запис в KV ----
 async function safeSetOverrides(value: FuelOverride): Promise<void> {
-  if (!redis) {
-    console.warn('fuelStore: no redis env; skip set')
-    return
-  }
+  if (!redis) { console.warn('fuelStore: no redis env; skip set'); return }
   try {
-    await redis.set(KEY, JSON.stringify(value))
+    // записвай директно като JSON обект (без stringify)
+    await redis.set(KEY, value as any)
     console.log('fuelStore: saved overrides', value)
   } catch (e) {
     console.error('fuelStore: redis.set failed:', (e as Error).message)
   }
 }
+
 
 // ---- публичен API ----
 export async function getEffectiveFuels(): Promise<Fuel[]> {
