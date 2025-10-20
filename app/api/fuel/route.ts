@@ -14,7 +14,10 @@ async function safeGetEffective(): Promise<Fuel[]> {
     }
   } catch {}
   // fallback към дефолти (не се очаква често)
-  return configFuels.map(f => ({ ...f, memberPrice: Math.max(0, f.price - DISCOUNT_BGN) }))
+  return configFuels.map(f => ({
+    ...f,
+    memberPrice: Math.max(0, f.price - DISCOUNT_BGN),
+  }))
 }
 
 async function safeSetPrices(items: { name: string; price: number }[]) {
@@ -22,16 +25,16 @@ async function safeSetPrices(items: { name: string; price: number }[]) {
     const mod = await import('@/lib/fuelStore')
     if (typeof (mod as any).setFuelPrices === 'function') {
       await (mod as any).setFuelPrices(items)
+      return true
     }
   } catch {}
+  return false
 }
 
 export async function GET() {
   const items = await safeGetEffective()
   return NextResponse.json(items, {
-    headers: {
-      'Cache-Control': 'no-store',
-    },
+    headers: { 'Cache-Control': 'no-store' },
   })
 }
 
@@ -40,11 +43,14 @@ export async function POST(req: Request) {
     const body = await req.json()
     const raw = Array.isArray(body?.items) ? body.items : []
     const items = raw
-      .map((x: any) => ({ name: String(x?.name ?? '').trim(), price: Number(x?.price) }))
+      .map((x: any) => ({
+        name: String(x?.name ?? '').trim(),
+        price: Number(x?.price),
+      }))
       .filter((x: any) => x.name && Number.isFinite(x.price) && x.price >= 0)
 
-    await safeSetPrices(items)
-    return NextResponse.json({ ok: true })
+    const ok = await safeSetPrices(items)
+    return NextResponse.json({ ok, saved: items })
   } catch {
     return NextResponse.json({ error: 'Bad JSON' }, { status: 400 })
   }
