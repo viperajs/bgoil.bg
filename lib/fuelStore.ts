@@ -5,7 +5,9 @@ import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
 
 type FuelOverride = Record<string, number>
-const KEY = 'fuels:prices:v1'
+// lib/fuelStore.ts
+const KEY = 'fuels:prices:v2' // <-- вдигни версията (v1 -> v2)
+
 
 // ---- Redis клиент ----
 function getRedis() {
