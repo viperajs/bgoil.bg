@@ -1,7 +1,7 @@
 // lib/fuelStore.ts
 import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
-import { Redis } from '@upstash/redis'
+
 import { promises as fs } from 'fs'
 import path from 'path'
 
