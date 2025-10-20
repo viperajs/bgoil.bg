@@ -1,19 +1,23 @@
-// lib/fuelStore.ts
 import 'server-only'
-import { kv } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
 import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
 
 type FuelOverride = Record<string, number>
 const KEY = 'fuels:prices:v1'
 
+// чете твоите UPSTASH_* променливи
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_KV_REST_API_URL!,
+  token: process.env.UPSTASH_REDIS_KV_REST_API_TOKEN!,
+})
+
 async function safeGetOverrides(): Promise<FuelOverride | null> {
-  const str = await kv.get<string>(KEY)
+  const str = await redis.get<string>(KEY)
   return str ? (JSON.parse(str) as FuelOverride) : null
 }
-
 async function safeSetOverrides(value: FuelOverride): Promise<void> {
-  await kv.set(KEY, JSON.stringify(value))
+  await redis.set(KEY, JSON.stringify(value))
 }
 
 export async function getEffectiveFuels(): Promise<Fuel[]> {
@@ -24,7 +28,6 @@ export async function getEffectiveFuels(): Promise<Fuel[]> {
     return { ...f, price, memberPrice }
   })
 }
-
 export async function setFuelPrices(items: { name: string; price: number }[]) {
   const clean: FuelOverride = {}
   for (const it of items) {
