@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { generateLocalBusinessSchema, generateOrganizationSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
 import { Suspense } from "react"
+
 import "./globals.css"
 
 export const metadata: Metadata = {
