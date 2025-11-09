@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export const config = { matcher: ['/admin-prices/:path*'] }
+export const config = { matcher: ['/admin/:path*', '/admin-prices/:path*'] }
 
 function safeEqual(a: string, b: string) {
   if (a.length !== b.length) return false

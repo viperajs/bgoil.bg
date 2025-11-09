@@ -1,88 +1,153 @@
 import Link from "next/link"
 import { companyInfo, contacts } from "@/lib/config"
-import { Phone, Mail, MapPin, Clock } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Facebook, Instagram, ArrowRight } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="relative bg-gradient-to-br from-foreground via-foreground/98 to-foreground text-white overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-3">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-primary"></div>
+      </div>
+      
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">BG</span>
+          <div className="space-y-5">
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-primary rounded-full blur-xl opacity-60"></div>
+                <div className="relative w-14 h-14 bg-gradient-primary rounded-full flex items-center justify-center shadow-xl">
+                  <span className="text-white font-black text-xl">BG</span>
+                </div>
               </div>
-              <span className="font-bold text-lg text-card-foreground">{companyInfo.name}</span>
+              <span className="font-black text-2xl text-white">{companyInfo.name}</span>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed">{companyInfo.description}</p>
-            <p className="text-sm font-medium text-card-foreground">{companyInfo.slogan}</p>
+            <p className="text-white/95 leading-relaxed text-sm font-medium">
+              {companyInfo.description}
+            </p>
+            <p className="text-primary font-bold text-base">{companyInfo.slogan}</p>
+            
+            {/* Social Media */}
+            <div className="flex items-center space-x-3 pt-2">
+              <a 
+                href="#" 
+                className="w-11 h-11 rounded-full bg-white/15 hover:bg-primary border border-white/30 flex items-center justify-center transition-all duration-300 hover-lift hover:border-primary hover:shadow-lg"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="#" 
+                className="w-11 h-11 rounded-full bg-white/15 hover:bg-primary border border-white/30 flex items-center justify-center transition-all duration-300 hover-lift hover:border-primary hover:shadow-lg"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5 text-white" />
+              </a>
+            </div>
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-card-foreground">Контакти</h3>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">{contacts.address}</span>
+          <div className="space-y-5">
+            <h3 className="font-bold text-xl text-white mb-2">Контакти</h3>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3 group">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0 mt-0.5">
+                  <MapPin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+                </div>
+                <span className="text-white/95 text-sm leading-relaxed pt-1.5 font-medium">{contacts.address}</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-primary flex-shrink-0" />
+              <div className="flex items-center space-x-3 group">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
+                  <Phone className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+                </div>
                 <a
                   href={`tel:${contacts.phoneMain}`}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-white/95 hover:text-white transition-colors duration-300 font-semibold text-base"
                 >
                   {contacts.phoneMain}
                 </a>
               </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-primary flex-shrink-0" />
+              <div className="flex items-center space-x-3 group">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
+                  <Mail className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+                </div>
                 <a
                   href={`mailto:${contacts.email}`}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-white/95 hover:text-white transition-colors duration-300 font-semibold text-base"
                 >
                   {contacts.email}
                 </a>
               </div>
-              <div className="flex items-center space-x-3">
-                <Clock className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">{contacts.workingHours}</span>
+              <div className="flex items-center space-x-3 group">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
+                  <Clock className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+                </div>
+                <span className="text-white/95 text-sm font-semibold">{contacts.workingHours}</span>
               </div>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-card-foreground">Бързи връзки</h3>
-            <div className="space-y-2">
-              <Link
-                href="/products"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Цени на горива
+          <div className="space-y-5">
+            <h3 className="font-bold text-xl text-white mb-2">Бързи връзки</h3>
+            <div className="space-y-3">
+              {[
+                { name: "Цени на горива", href: "/products" },
+                { name: "Хотелски резервации", href: "/hotel" },
+                { name: "Нашите услуги", href: "/about" },
+                { name: "Как да ни намерите", href: "/contact" },
+              ].map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="flex items-center space-x-2 text-white/95 hover:text-white transition-all duration-300 group font-semibold"
+                >
+                  <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                  <span className="group-hover:translate-x-2 transition-transform duration-300">{link.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Newsletter/CTA */}
+          <div className="space-y-5">
+            <h3 className="font-bold text-xl text-white mb-2">Следвайте ни</h3>
+            <p className="text-white/95 text-sm leading-relaxed font-medium">
+              Получавайте актуални новини и специални оферти
+            </p>
+            <div className="p-4 rounded-xl bg-gradient-primary/25 border-2 border-primary/40 backdrop-blur-sm shadow-lg">
+              <p className="text-white font-bold text-sm mb-2">24/7 Обслужване</p>
+              <p className="text-white/95 text-xs leading-relaxed">
+                Винаги на ваше разположение за вашия комфорт
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/20 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-white/90 text-sm text-center md:text-left font-semibold">
+              © {new Date().getFullYear()} {companyInfo.name}. Всички права запазени.
+            </p>
+            <div className="flex items-center space-x-6 text-sm">
+              <Link href="/about" className="text-white/90 hover:text-white transition-colors duration-300 font-semibold">
+                За нас
               </Link>
-              <Link href="/hotel" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Хотелски резервации
+              <Link href="/contact" className="text-white/90 hover:text-white transition-colors duration-300 font-semibold">
+                Контакти
               </Link>
-              <Link href="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                Нашите услуги
-              </Link>
-              <Link
-                href="/contact"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Как да ни намерите
+              <Link href="/products" className="text-white/90 hover:text-white transition-colors duration-300 font-semibold">
+                Продукти
               </Link>
             </div>
           </div>
         </div>
-<div className="border-t border-border mt-8 pt-8 flex justify-center items-center">
-  <p className="text-sm text-muted-foreground text-center">
-    © 2024 {companyInfo.name}. Всички права запазени.
-  </p>
-</div>
-
       </div>
     </footer>
   )

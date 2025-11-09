@@ -1,6 +1,9 @@
 // app/admin-prices/page.tsx
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Fuel, Save, RefreshCw, CheckCircle2, AlertCircle, Sparkles } from "lucide-react"
 
 const BGN_PER_EUR = 1.95583
 const DISCOUNT_BGN = 0.10
@@ -13,7 +16,7 @@ export default function AdminPricesPage() {
   const [rows, setRows] = useState<Row[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [msg, setMsg] = useState<string | null>(null)
+  const [msg, setMsg] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
   useEffect(() => { loadData() }, [])
 
@@ -24,9 +27,10 @@ export default function AdminPricesPage() {
       if (!res.ok) throw new Error(`GET /api/fuel -> ${res.status}`)
       const data = (await res.json()) as Fuel[]
       setRows(data.map(f => ({ name: f.name, priceStr: String(f.price) })))
+      setMsg(null)
     } catch (e) {
       console.error(e)
-      setMsg('Грешка при зареждане ❌')
+      setMsg({ type: 'error', text: 'Грешка при зареждане ❌' })
     } finally {
       setLoading(false)
     }
@@ -45,6 +49,11 @@ export default function AdminPricesPage() {
     setSaving(true); setMsg(null)
     try {
       const items = computed.filter(r => r.valid).map(r => ({ name: r.name.trim(), price: r.priceBGN }))
+      if (items.length === 0) {
+        setMsg({ type: 'error', text: 'Няма валидни цени за записване ❌' })
+        return
+      }
+
       const res = await fetch('/api/fuel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -52,12 +61,12 @@ export default function AdminPricesPage() {
       })
       if (!res.ok) throw new Error(`POST /api/fuel -> ${res.status}`)
 
-      await loadData()                // ← опресни веднага
-      setMsg('Записано успешно ✅')
-      setTimeout(() => setMsg(null), 3000) // по избор: скрий съобщението след 3s
+      await loadData()
+      setMsg({ type: 'success', text: 'Записано успешно ✅' })
+      setTimeout(() => setMsg(null), 5000)
     } catch (e) {
       console.error(e)
-      setMsg('Грешка при запис ❌')
+      setMsg({ type: 'error', text: 'Грешка при запис ❌' })
     } finally {
       setSaving(false)
     }
@@ -65,73 +74,205 @@ export default function AdminPricesPage() {
 
   if (loading) {
     return (
-      <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold text-primary">Админ – Цени</h1>
-        <p>Зареждане…</p>
-      </main>
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center">
+        <Card className="max-w-md w-full">
+          <CardContent className="p-12 text-center">
+            <RefreshCw className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
+            <p className="text-lg font-semibold text-foreground">Зареждане…</p>
+          </CardContent>
+        </Card>
+      </div>
     )
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-semibold text-primary">Админ – Цени</h1>
-          <p className="text-sm text-muted-foreground">
-            Отстъпката ({fx2(DISCOUNT_BGN)} лв/л) се смята автоматично.
-          </p>
-        </div>
-        <button onClick={saveAll} disabled={saving}
-          className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent disabled:opacity-60">
-          {saving ? 'Записване…' : '💾 Запази всички'}
-        </button>
-      </div>
-
-      {msg && <p className="mb-4 text-sm">{msg}</p>}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {computed.map((it, idx) => (
-          <div key={idx} className="relative overflow-hidden rounded-xl border border-accent/30 bg-accent/10 p-5">
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-lg font-semibold">{it.name}</h3>
-              <span className="text-xs rounded-full bg-secondary px-3 py-1 text-secondary-foreground">лв/л • €/л</span>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Стандартна цена:</span>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number" step="0.01" min="0"
-                    value={it.priceStr}
-                    onChange={(e) => setRows(prev => { const n=[...prev]; n[idx]={...n[idx], priceStr:e.target.value}; return n })}
-                    className={`w-28 rounded-md border px-2 py-1 text-right font-semibold ${it.valid ? 'border-border' : 'border-red-300'}`}
-                  />
-                  <span className="text-sm font-semibold">лв</span>
-                  <span className="mx-1 text-muted-foreground">/</span>
-                  <span className="text-right font-semibold">{fx2(it.priceEUR)} €</span>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-12">
+      <div className="container mx-auto px-4 max-w-7xl">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="w-12 h-12 rounded-xl bg-gradient-primary/10 flex items-center justify-center">
+                  <Fuel className="w-6 h-6 text-primary" />
                 </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">С карта BG OIL:</span>
-                <div className="text-right">
-                  <div className="text-lg font-bold text-primary">
-                    {fx2(it.memberBGN)} лв / {fx2(it.memberEUR)} €
-                  </div>
-                  <div className="text-xs text-primary font-medium">
-                    спестяване {fx2(DISCOUNT_BGN)} лв/л / {fx2(DISCOUNT_BGN / BGN_PER_EUR)} €/л
-                  </div>
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-black text-gradient-primary">Админ – Цени</h1>
+                  <p className="text-sm text-muted-foreground">
+                    Отстъпката ({fx2(DISCOUNT_BGN)} лв/л) се смята автоматично.
+                  </p>
                 </div>
               </div>
             </div>
-
-            <div className="mt-4 rounded-md border border-accent/20 bg-accent/10 p-2 text-center text-xs font-medium text-black">
-              Получете карта BG OIL и спестете!
+            <div className="flex items-center space-x-3">
+              <Button
+                onClick={loadData}
+                disabled={loading}
+                variant="outline"
+                className="hover-lift"
+              >
+                <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                Обнови
+              </Button>
+              <Button
+                onClick={saveAll}
+                disabled={saving}
+                className="bg-gradient-primary hover:opacity-90 text-white border-0 hover-lift shadow-lg"
+              >
+                {saving ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Записване…
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" />
+                    Запази всички
+                  </>
+                )}
+              </Button>
             </div>
           </div>
-        ))}
+
+          {/* Message */}
+          {msg && (
+            <Card className={`mb-6 border-2 ${
+              msg.type === 'success' 
+                ? 'border-green-500 bg-green-50' 
+                : 'border-red-500 bg-red-50'
+            }`}>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-3">
+                  {msg.type === 'success' ? (
+                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                  ) : (
+                    <AlertCircle className="w-5 h-5 text-red-600" />
+                  )}
+                  <p className={`font-semibold ${
+                    msg.type === 'success' ? 'text-green-800' : 'text-red-800'
+                  }`}>
+                    {msg.text}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
+        {/* Fuel Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {computed.map((it, idx) => (
+            <Card
+              key={idx}
+              className={`relative overflow-hidden border-2 transition-all duration-300 hover-lift shadow-lg ${
+                it.valid 
+                  ? 'border-border hover:border-primary/50 bg-gradient-card' 
+                  : 'border-red-300 bg-red-50/50'
+              }`}
+            >
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <CardTitle className="text-xl font-bold">{it.name}</CardTitle>
+                  <span className="text-xs rounded-full bg-gradient-secondary px-3 py-1 text-white font-semibold">
+                    лв/л • €/л
+                  </span>
+                </div>
+              </CardHeader>
+
+              <CardContent className="space-y-4">
+                {/* Standard Price Input */}
+                <div className="p-4 rounded-xl bg-muted/50 border border-border">
+                  <label className="text-sm font-medium text-muted-foreground mb-2 block">
+                    Стандартна цена:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={it.priceStr}
+                      onChange={(e) => setRows(prev => {
+                        const n = [...prev]
+                        n[idx] = { ...n[idx], priceStr: e.target.value }
+                        return n
+                      })}
+                      className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-lg transition-colors ${
+                        it.valid
+                          ? 'border-border focus:border-primary focus:ring-2 focus:ring-primary/20'
+                          : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
+                      }`}
+                    />
+                    <span className="text-sm font-semibold text-muted-foreground">лв</span>
+                    <span className="mx-1 text-muted-foreground">/</span>
+                    <span className="text-right font-bold text-primary min-w-[60px]">
+                      {fx2(it.priceEUR)} €
+                    </span>
+                  </div>
+                </div>
+
+                {/* Member Price Display */}
+                <div className="p-4 rounded-xl bg-gradient-primary/10 border-2 border-primary/20">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Sparkles className="w-4 h-4 text-primary" />
+                    <span className="text-sm font-bold text-primary">С карта BG OIL:</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-black text-primary mb-1">
+                      {fx2(it.memberBGN)} лв / {fx2(it.memberEUR)} €
+                    </div>
+                    <div className="text-xs font-bold text-green-600">
+                      спестяване {fx2(DISCOUNT_BGN)} лв/л / {fx2(DISCOUNT_BGN / BGN_PER_EUR)} €/л
+                    </div>
+                  </div>
+                </div>
+
+                {/* Validation Message */}
+                {!it.valid && (
+                  <div className="p-3 rounded-lg bg-red-100 border border-red-300">
+                    <p className="text-xs font-medium text-red-800 text-center">
+                      Моля, въведете валидна цена
+                    </p>
+                  </div>
+                )}
+
+                {/* CTA Banner */}
+                <div className="p-3 rounded-lg bg-gradient-accent text-white text-center text-xs font-bold">
+                  Получете карта BG OIL и спестете!
+                </div>
+              </CardContent>
+
+              {/* Shine Effect */}
+              <div className="absolute inset-0 -translate-x-full hover:translate-x-full transition-transform duration-1000 shine opacity-20 pointer-events-none"></div>
+            </Card>
+          ))}
+        </div>
+
+        {/* Info Card */}
+        <Card className="mt-8 border-primary/20 bg-gradient-primary/5">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Fuel className="w-5 h-5 text-primary" />
+              <span>Информация</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start space-x-2">
+                <span className="text-primary font-bold">•</span>
+                <span>Промените се запазват веднага след натискане на "Запази всички"</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-primary font-bold">•</span>
+                <span>Отстъпката от {fx2(DISCOUNT_BGN)} лв/л се прилага автоматично за картови клиенти</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="text-primary font-bold">•</span>
+                <span>Цените трябва да са положителни числа</span>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
       </div>
-    </main>
+    </div>
   )
 }

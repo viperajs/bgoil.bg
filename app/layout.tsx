@@ -5,11 +5,11 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { generateLocalBusinessSchema, generateOrganizationSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
-import { Suspense } from "react"
 
 import "./globals.css"
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bgoil-vraca.com"),
   title: {
     default: companyInfo.name,
     template: `%s | ${companyInfo.name}`,
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     google: "google-site-verification-code",
     yandex: "yandex-verification-code",
   },
-    generator: 'v0.app'
+  generator: "Next.js"
 }
 
 export default function RootLayout({
@@ -110,7 +110,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
+        {children}
         <Analytics />
       </body>
     </html>

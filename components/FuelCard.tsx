@@ -1,6 +1,7 @@
 import type { Fuel } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { CreditCard, TrendingDown, Sparkles } from "lucide-react"
 
 interface FuelCardProps {
   fuel: Fuel
@@ -11,7 +12,7 @@ const DISCOUNT_BGN = 0.10
 
 export default function FuelCard({ fuel }: FuelCardProps) {
   const priceBGN = fuel.price
-  const memberPriceBGN = Math.max(0, priceBGN - DISCOUNT_BGN) // безопасно при ниски цени
+  const memberPriceBGN = Math.max(0, priceBGN - DISCOUNT_BGN)
   const savingsBGN = DISCOUNT_BGN
 
   const priceEUR = priceBGN / BGN_PER_EUR
@@ -21,48 +22,81 @@ export default function FuelCard({ fuel }: FuelCardProps) {
   const fx2 = (n: number) => n.toFixed(2)
 
   return (
-    <Card className="relative overflow-hidden">
-      <CardHeader className="pb-3">
+    <Card className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+      
+      {/* Top Accent Bar */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      
+      {/* Badge */}
+      <div className="absolute top-4 right-4 z-10">
+        <Badge 
+          variant="secondary" 
+          className="bg-gradient-secondary text-white border-0 shadow-lg group-hover:scale-110 transition-transform duration-300"
+        >
+          <Sparkles className="w-3 h-3 mr-1" />
+          Популярно
+        </Badge>
+      </div>
+
+      <CardHeader className="pb-4 pt-8 relative z-10">
         <CardTitle className="flex items-center justify-between">
-          <span className="text-lg font-semibold">{fuel.name}</span>
-          <Badge variant="secondary" className="text-xs">
-            лв/л • €/л
-          </Badge>
+          <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+            {fuel.name}
+          </span>
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          {/* Стандартна цена */}
+      <CardContent className="space-y-6 relative z-10">
+        {/* Standard Price */}
+        <div className="space-y-2 p-4 rounded-xl bg-muted/50 border border-border group-hover:border-primary/30 transition-colors duration-300">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Стандартна цена:</span>
-            <span className="text-right text-lg font-bold text-foreground">
-              {fx2(priceBGN)} лв / {fx2(priceEUR)} €
+            <span className="text-sm font-medium text-muted-foreground">Стандартна цена:</span>
+            <span className="text-right">
+              <span className="text-2xl font-black text-foreground">
+                {fx2(priceBGN)} лв
+              </span>
+              <span className="text-sm text-muted-foreground ml-2">/ {fx2(priceEUR)} €</span>
             </span>
           </div>
+        </div>
 
-          {/* С карта BG OIL */}
+        {/* Member Price - Highlighted */}
+        <div className="relative p-5 rounded-xl bg-gradient-primary/10 border-2 border-primary/20 group-hover:border-primary/40 transition-all duration-300">
+          <div className="flex items-center space-x-2 mb-3">
+            <CreditCard className="w-5 h-5 text-primary" />
+            <span className="text-sm font-bold text-primary">С карта BG OIL:</span>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">С карта BG OIL:</span>
+            <div className="flex items-center space-x-2">
+              <TrendingDown className="w-5 h-5 text-green-600" />
+              <span className="text-xs font-medium text-green-600">Спестяване</span>
+            </div>
             <div className="text-right">
-              <span className="text-lg font-bold text-primary">
-                {fx2(memberPriceBGN)} лв / {fx2(memberPriceEUR)} €
+              <span className="text-3xl font-black text-primary">
+                {fx2(memberPriceBGN)} лв
               </span>
-
-              {/* Спестяване: фиксирани 0.10 лв / еквивалента в евро */}
-              <div className="text-xs text-primary font-medium">
-                спестяване {fx2(savingsBGN)} лв/л / {fx2(savingsEUR)} €/л
+              <span className="text-sm text-primary/70 ml-2">/ {fx2(memberPriceEUR)} €</span>
+              <div className="text-xs font-bold text-green-600 mt-1">
+                -{fx2(savingsBGN)} лв/л
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-accent/10 border border-accent/20 rounded-md p-2">
-          <p className="text-xs text-black font-medium text-center">
-            Получете карта BG OIL и спестете!
+        {/* CTA Banner */}
+        <div className="p-4 rounded-xl bg-gradient-accent text-white border-0 shadow-lg group-hover:shadow-xl transition-all duration-300">
+          <p className="text-sm font-bold text-center flex items-center justify-center space-x-2">
+            <Sparkles className="w-4 h-4" />
+            <span>Получете карта BG OIL и спестете!</span>
+            <Sparkles className="w-4 h-4" />
           </p>
         </div>
       </CardContent>
+
+      {/* Shine Effect */}
+      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 shine opacity-20"></div>
     </Card>
   )
 }
