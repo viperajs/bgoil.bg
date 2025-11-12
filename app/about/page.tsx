@@ -51,14 +51,8 @@ export default function AboutPage() {
       <Header />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 overflow-hidden">
-          {/* Background Decoration */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="container mx-auto px-4 relative z-10">
+        <section className="py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10">
+          <div className="container mx-auto px-4">
             <div className="text-center max-w-4xl mx-auto animate-fade-in-up">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -104,6 +98,30 @@ export default function AboutPage() {
                     където клиентите се чувстват добре дошли и получават повече от очакваното.
                   </p>
                 </div>
+                <div className="space-y-4 p-6 rounded-2xl bg-gradient-secondary/5 border border-secondary/20">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Building2 className="w-6 h-6 text-secondary" />
+                    <h3 className="text-2xl font-bold text-foreground">Хотел BG OIL</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Нашият хотел предлага комфортни стаи и апартаменти за вашия престой във Враца. Всички стаи са оборудвани с модерни удобства, безплатен WiFi, климатик и кабелна телевизия. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Разполагаме с единични и двойни стаи, както и луксозни апартаменти за по-дълги престои. Всички гости имат достъп до безплатен паркинг и 24/7 рецепция. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  </p>
+                </div>
+                <div className="space-y-4 p-6 rounded-2xl bg-gradient-accent/5 border border-accent/20">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Sparkles className="w-6 h-6 text-accent" />
+                    <h3 className="text-2xl font-bold text-foreground">Допълнителни услуги</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Освен горива и хотел, предлагаме и широк спектър от допълнителни услуги. Нашият 24/7 магазин предлага всичко необходимо за пътуване и ежедневие. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Разполагаме с автомивка и автосервиз за пълно обслужване на вашия автомобил. Нашият професионален екип е винаги на разположение да помогне с всякакви нужди. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                  </p>
+                </div>
               </div>
               <div className="relative animate-fade-in-right">
                 <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 hover-lift">
@@ -115,21 +133,14 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
-                {/* Decorative Element */}
-                <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-primary rounded-full blur-3xl opacity-30 -z-10"></div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Our Values */}
-        <section className="py-24 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="container mx-auto px-4 relative z-10">
+        <section className="py-24 bg-gradient-to-b from-muted/30 to-background">
+          <div className="container mx-auto px-4">
             <div className="text-center mb-16 animate-fade-in-up">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -220,13 +231,8 @@ export default function AboutPage() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="py-24 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="container mx-auto px-4 relative z-10">
+        <section className="py-24 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
+          <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <Card className="border-2 border-primary/20 bg-gradient-card shadow-2xl hover-lift">
                 <CardHeader className="text-center pb-8">

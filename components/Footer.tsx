@@ -4,26 +4,14 @@ import { Phone, Mail, MapPin, Clock, Facebook, Instagram, ArrowRight } from "luc
 
 export default function Footer() {
   return (
-    <footer className="relative bg-gradient-to-br from-foreground via-foreground/98 to-foreground text-white overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-3">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-primary"></div>
-      </div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
-
-      <div className="container mx-auto px-4 py-16 relative z-10">
+    <footer className="bg-gradient-to-br from-foreground via-foreground/98 to-foreground text-white">
+      <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
           <div className="space-y-5">
             <div className="flex items-center space-x-3">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-primary rounded-full blur-xl opacity-60"></div>
-                <div className="relative w-14 h-14 bg-gradient-primary rounded-full flex items-center justify-center shadow-xl">
-                  <span className="text-white font-black text-xl">BG</span>
-                </div>
+              <div className="w-14 h-14 bg-gradient-primary rounded-full flex items-center justify-center shadow-xl">
+                <span className="text-white font-black text-xl">BG</span>
               </div>
               <span className="font-black text-2xl text-white">{companyInfo.name}</span>
             </div>
@@ -98,7 +86,7 @@ export default function Footer() {
             <div className="space-y-3">
               {[
                 { name: "Цени на горива", href: "/products" },
-                { name: "Хотелски резервации", href: "/hotel" },
+                { name: "Новини за горивата", href: "/news" },
                 { name: "Нашите услуги", href: "/about" },
                 { name: "Как да ни намерите", href: "/contact" },
               ].map((link) => (
@@ -120,7 +108,7 @@ export default function Footer() {
             <p className="text-white/95 text-sm leading-relaxed font-medium">
               Получавайте актуални новини и специални оферти
             </p>
-            <div className="p-4 rounded-xl bg-gradient-primary/25 border-2 border-primary/40 backdrop-blur-sm shadow-lg">
+            <div className="p-4 rounded-xl bg-gradient-primary/25 border-2 border-primary/40 shadow-lg">
               <p className="text-white font-bold text-sm mb-2">24/7 Обслужване</p>
               <p className="text-white/95 text-xs leading-relaxed">
                 Винаги на ваше разположение за вашия комфорт

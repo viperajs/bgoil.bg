@@ -236,7 +236,7 @@ export default function AdminPricesPage() {
                 )}
 
                 {/* CTA Banner */}
-                <div className="p-3 rounded-lg bg-gradient-accent text-white text-center text-xs font-bold">
+                <div className="p-3 rounded-lg bg-gradient-to-r from-pink-50 to-pink-100 border-2 border-pink-300 text-center text-xs font-bold text-gray-800">
                   Получете карта BG OIL и спестете!
                 </div>
               </CardContent>

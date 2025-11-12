@@ -29,7 +29,7 @@ export default function Hero() {
       <div className="relative z-10 container mx-auto px-4 text-center text-white">
         <div className="max-w-5xl mx-auto space-y-8 animate-fade-in-up">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white/20 backdrop-blur-lg rounded-full border border-white/30 mb-6 animate-fade-in-down shadow-lg">
+          <div className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white/20 rounded-full border border-white/30 mb-6 animate-fade-in-down shadow-lg">
             <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
             <span className="text-sm font-semibold text-white">24/7 Обслужване</span>
           </div>
@@ -71,7 +71,7 @@ export default function Hero() {
               size="lg" 
               variant="secondary" 
               asChild 
-              className="w-full sm:w-auto bg-white/20 backdrop-blur-md hover:bg-white/30 text-white border-2 border-white/40 text-lg px-8 py-7 hover-lift shadow-xl transition-all duration-300 group font-bold"
+              className="w-full sm:w-auto bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 text-lg px-8 py-7 hover-lift shadow-xl transition-all duration-300 group font-bold"
             >
               <Link href="/hotel" className="flex items-center space-x-3">
                 <Hotel className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
@@ -96,15 +96,15 @@ export default function Hero() {
 
           {/* Stats - по-видими */}
           <div className="grid grid-cols-3 gap-6 mt-20 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <div className="glass rounded-2xl p-6 backdrop-blur-lg border-2 border-white/30 hover-lift shadow-xl">
+            <div className="glass rounded-2xl p-6 border-2 border-white/30 hover-lift shadow-xl">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">24/7</div>
               <div className="text-sm font-semibold text-white/90">Работно време</div>
             </div>
-            <div className="glass rounded-2xl p-6 backdrop-blur-lg border-2 border-white/30 hover-lift shadow-xl">
+            <div className="glass rounded-2xl p-6 border-2 border-white/30 hover-lift shadow-xl">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">100%</div>
               <div className="text-sm font-semibold text-white/90">Качество</div>
             </div>
-            <div className="glass rounded-2xl p-6 backdrop-blur-lg border-2 border-white/30 hover-lift shadow-xl">
+            <div className="glass rounded-2xl p-6 border-2 border-white/30 hover-lift shadow-xl">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">15+</div>
               <div className="text-sm font-semibold text-white/90">Години опит</div>
             </div>
@@ -116,7 +116,7 @@ export default function Hero() {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
         <div className="flex flex-col items-center space-y-2">
           <span className="text-white/90 text-sm font-semibold drop-shadow-lg">Превърти надолу</span>
-          <div className="w-6 h-10 border-2 border-white/70 rounded-full flex justify-center p-2 bg-white/10 backdrop-blur-sm">
+          <div className="w-6 h-10 border-2 border-white/70 rounded-full flex justify-center p-2 bg-white/10">
             <div className="w-1.5 h-3 bg-white rounded-full animate-pulse"></div>
           </div>
         </div>

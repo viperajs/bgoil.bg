@@ -13,14 +13,8 @@ export default async function FeaturedFuels() {
   const featuredFuels = allFuels.slice(0, 3)
 
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-muted/20 relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="py-24 bg-gradient-to-b from-background to-muted/20">
+      <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in-up">
           <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
             <Fuel className="w-5 h-5 text-primary" />
@@ -59,7 +53,7 @@ export default async function FeaturedFuels() {
           </Button>
         </div>
 
-        <div className="mt-12 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border-2 border-primary/20 rounded-2xl backdrop-blur-sm animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+        <div className="mt-12 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border-2 border-primary/20 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
           <div className="flex items-center justify-center space-x-3">
             <Sparkles className="w-6 h-6 text-primary" />
             <p className="text-sm font-bold text-foreground text-center">
