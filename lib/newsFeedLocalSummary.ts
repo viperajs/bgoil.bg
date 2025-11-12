@@ -57,3 +57,4 @@ export function extractKeyFacts(text: string): string[] {
   return facts.slice(0, 3);
 }
 
+

@@ -23,3 +23,4 @@ export const FUEL_WHITELIST = [
   'capital.bg', 'dnevnik.bg', 'segabg.com', 'economedia.bg'
 ]
 
+

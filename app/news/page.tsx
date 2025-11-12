@@ -89,13 +89,6 @@ export default function NewsPage() {
               <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
                 Новини за горивата
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground text-pretty mb-8">
-                Актуална информация и анализ на пазара на горива, генерирана с AI технология
-              </p>
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span>AI-генерирано съдържание</span>
-              </div>
             </div>
           </div>
         </section>
@@ -121,58 +114,65 @@ export default function NewsPage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => {
-                  const CardWrapper = article.link ? Link : 'div'
-                  const wrapperProps = article.link 
-                    ? { href: article.link, className: "block" }
-                    : {}
-                  
-                  return (
-                    <CardWrapper key={article.id} {...wrapperProps}>
-                      <Card
-                        className={`group hover:shadow-xl transition-all duration-300 hover-lift border-2 border-border hover:border-primary/50 ${
-                          article.link ? 'cursor-pointer' : ''
-                        }`}
-                      >
-                        <CardHeader>
-                          <div className="flex items-start justify-between mb-2">
-                            <Badge className={getCategoryColor(article.category)}>
-                              {article.category}
-                            </Badge>
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="w-3 h-3" />
-                              <span>{formatDate(article.date)}</span>
+                  const cardContent = (
+                    <Card
+                      className={`group hover:shadow-xl transition-all duration-300 hover-lift border-2 border-border hover:border-primary/50 ${
+                        article.link ? 'cursor-pointer' : ''
+                      }`}
+                    >
+                      <CardHeader>
+                        <div className="flex items-start justify-between mb-2">
+                          <Badge className={getCategoryColor(article.category)}>
+                            {article.category}
+                          </Badge>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Clock className="w-3 h-3" />
+                            <span>{formatDate(article.date)}</span>
+                          </div>
+                        </div>
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors flex items-center gap-2">
+                          {article.title}
+                          {article.link && (
+                            <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          )}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-muted-foreground leading-relaxed line-clamp-4">
+                          {article.content}
+                        </p>
+                        {article.source && (
+                          <div className="mt-4 pt-4 border-t border-border">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <TrendingUp className="w-3 h-3" />
+                              <span>{article.source}</span>
                             </div>
                           </div>
-                          <CardTitle className="text-xl group-hover:text-primary transition-colors flex items-center gap-2">
-                            {article.title}
-                            {article.link && (
-                              <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            )}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground leading-relaxed line-clamp-4">
-                            {article.content}
-                          </p>
-                          {article.source && (
-                            <div className="mt-4 pt-4 border-t border-border">
-                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                <TrendingUp className="w-3 h-3" />
-                                <span>{article.source}</span>
-                              </div>
+                        )}
+                        {article.link && (
+                          <div className="mt-4 pt-4 border-t border-border">
+                            <div className="flex items-center gap-2 text-sm text-primary font-medium group-hover:gap-3 transition-all">
+                              <span>Прочети повече</span>
+                              <ExternalLink className="w-4 h-4" />
                             </div>
-                          )}
-                          {article.link && (
-                            <div className="mt-4 pt-4 border-t border-border">
-                              <div className="flex items-center gap-2 text-sm text-primary font-medium group-hover:gap-3 transition-all">
-                                <span>Прочети повече</span>
-                                <ExternalLink className="w-4 h-4" />
-                              </div>
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    </CardWrapper>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )
+                  
+                  if (article.link) {
+                    return (
+                      <Link key={article.id} href={article.link} className="block">
+                        {cardContent}
+                      </Link>
+                    )
+                  }
+                  
+                  return (
+                    <div key={article.id}>
+                      {cardContent}
+                    </div>
                   )
                 })}
               </div>

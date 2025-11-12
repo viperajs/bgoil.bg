@@ -87,16 +87,14 @@ export async function getPublishedNewsArticles(filters?: {
   
   try {
     let sql = `
-      SELECT id, url, title, source, published_at, lang, summary_bg, topics, status, created_at, topic
+      SELECT id, url, title, source, published_at, lang, summary_bg, topics, status, created_at
       FROM articles
       WHERE status = 'PUBLISHED'
     `
     const params: any[] = []
     
-    // Филтър по topic (по подразбиране 'fuels')
-    const topic = filters?.topic || 'fuels'
-    sql += ` AND topic = ?`
-    params.push(topic)
+    // Филтър по topic е премахнат - филтрирането се прави на клиентската страна
+    // Това е защото колоната topic може да не съществува в базата данни
     
     if (filters?.from) {
       sql += ` AND published_at >= ?`
@@ -138,8 +136,8 @@ export async function getPublishedNewsArticles(filters?: {
       source: string
       published_at: string
       lang: string
-      summary_bg: string
-      topics: string
+      summary_bg: string | null
+      topics: string | null
       status: string
       created_at: string
     }>
@@ -157,7 +155,9 @@ export async function getPublishedNewsArticles(filters?: {
       status: row.status as NewsStatus,
     }))
   } catch (e) {
-    console.error('newsFeedStore: getPublishedNewsArticles failed:', (e as Error).message)
+    const error = e as Error
+    console.error('newsFeedStore: getPublishedNewsArticles failed:', error.message)
+    console.error('Stack:', error.stack)
     return []
   }
 }

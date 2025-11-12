@@ -32,11 +32,19 @@ export default function NewsFeedPage() {
       setError(null)
       
       const params = new URLSearchParams()
-      params.set('limit', '10')
+      params.set('limit', '50') // Увеличаваме лимита за да показваме повече новини
       
-      const base = process.env.NEXT_PUBLIC_BASE_URL || ''
-      const res = await fetch(`${base}/api/news-feed?${params.toString()}`, {
+      // Вземаме новини от последните 7 дни
+      const weekAgo = new Date()
+      weekAgo.setDate(weekAgo.getDate() - 7)
+      params.set('from', weekAgo.toISOString())
+      
+      // Използваме относителен път за да работи и в development и в production
+      const res = await fetch(`/api/news-feed?${params.toString()}`, {
         cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
       
       if (!res.ok) {
@@ -60,14 +68,17 @@ export default function NewsFeedPage() {
     }
   }
 
-  // Филтриране на новини - само тези по-нови от 19 часа
+  // Филтриране на новини - показваме всички новини от последните 7 дни
+  // Филтрирането по релевантност се прави в API endpoint-а
   const filteredArticles = useMemo(() => {
     const now = dayjs()
-    const nineteenHoursAgo = now.subtract(19, 'hours')
+    const sevenDaysAgo = now.subtract(7, 'days')
     
+    // Филтрираме само по време - последните 7 дни
+    // Филтрирането по релевантност вече е направено в API endpoint-а
     return articles.filter(article => {
       const publishedDate = dayjs(article.published_at)
-      return publishedDate.isAfter(nineteenHoursAgo)
+      return publishedDate.isAfter(sevenDaysAgo)
     })
   }, [articles])
 
@@ -95,7 +106,7 @@ export default function NewsFeedPage() {
           </div>
         </section>
 
-        {/* News List - показва се само ако има повече от 2 новини */}
+        {/* News List */}
         <div className="container mx-auto px-4 pb-12">
           {loading ? (
             <Card className="p-12">
@@ -116,13 +127,16 @@ export default function NewsFeedPage() {
                 </button>
               </CardContent>
             </Card>
-          ) : filteredArticles.length > 2 ? (
+          ) : filteredArticles.length > 0 ? (
             <NewsFeedList articles={filteredArticles} />
           ) : (
             <Card className="p-12">
               <CardContent className="text-center">
-                <p className="text-muted-foreground text-lg">
-                  Няма достатъчно нови новини за показване.
+                <p className="text-muted-foreground text-lg mb-2">
+                  Няма нови новини за показване.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Показват се само новини за горива и бензиностанции, публикувани в последните 7 дни.
                 </p>
               </CardContent>
             </Card>

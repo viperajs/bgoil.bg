@@ -1,18 +1,7 @@
 import 'server-only'
 import { saveNewsArticle, articleExists, markAsImportant } from './newsFeedStore'
 import type { NewsFeedArticle, NewsStatus } from './newsFeedStore'
-
-// Ключови думи за релевантност
-const STRONG_KEYWORDS = [
-  'горива', 'бензин', 'дизел', 'LPG', 'пропан-бутан', 'нефт', 'Brent', 'WTI',
-  'рафинерия', 'акциз', 'цени на горивата', 'барел', 'котировки', 'бензиностанции',
-  'petrol', 'diesel', 'fuel', 'oil', 'crude', 'refinery', 'gasoline', 'gas station'
-]
-
-const WEAK_KEYWORDS = [
-  'цени', 'цена', 'пазар', 'енергия', 'транспорт', 'автомобил', 'автомобили',
-  'prices', 'market', 'energy', 'transport', 'automotive'
-]
+import { isFuelRelevant, STRONG_FUEL } from './newsFeedRelevance'
 
 // Правила за важни новини
 const IMPORTANT_TRIGGERS = [
@@ -21,17 +10,9 @@ const IMPORTANT_TRIGGERS = [
 ]
 
 // ---- Проверка за релевантност ----
-export function isRelevant(title: string, content: string): boolean {
-  const text = `${title} ${content}`.toLowerCase()
-  
-  // Броене на силни ключови думи
-  const strongCount = STRONG_KEYWORDS.filter(kw => text.includes(kw.toLowerCase())).length
-  
-  // Броене на слаби ключови думи
-  const weakCount = WEAK_KEYWORDS.filter(kw => text.includes(kw.toLowerCase())).length
-  
-  // Правило: поне една силна или две слаби
-  return strongCount >= 1 || weakCount >= 2
+// Използваме по-строгия филтър от newsFeedRelevance, който изключва политика, заплати и т.н.
+export function isRelevant(title: string, content: string, url: string = ''): boolean {
+  return isFuelRelevant(title, content, url)
 }
 
 // ---- Проверка за важна новина ----
@@ -97,8 +78,8 @@ export async function parseRSSFeed(feedUrl: string, sourceName: string): Promise
           continue
         }
         
-        // Проверка за релевантност
-        if (!isRelevant(title, content)) {
+        // Проверка за релевантност (използваме по-строг филтър който изключва политика, заплати и т.н.)
+        if (!isRelevant(title, content, url)) {
           continue
         }
         
@@ -244,8 +225,18 @@ export function extractKeywords(title: string, content: string): string[] {
   const text = `${title} ${content}`.toLowerCase()
   const keywords: string[] = []
   
+  // Силни ключови думи за горива
+  const STRONG_KEYWORDS = STRONG_FUEL
+  
+  // Вторични (поддържащи) термини
+  const RELATED_KEYWORDS = [
+    'цени', 'котировки', 'пазар', 'barrel', 'нефт', 'търговия', 'energy market',
+    'petrochemical', 'refinery', 'pipeline', 'доставка', 'склад', 'резерви',
+    'gas station', 'бензиностанции', 'газстанция'
+  ]
+  
   // Добавяне на намерените ключови думи
-  for (const kw of [...STRONG_KEYWORDS, ...WEAK_KEYWORDS]) {
+  for (const kw of [...STRONG_KEYWORDS, ...RELATED_KEYWORDS]) {
     if (text.includes(kw.toLowerCase())) {
       keywords.push(kw)
     }

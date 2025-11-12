@@ -29,7 +29,6 @@ export default function NewsSection() {
       setLoading(true)
       setError(null)
       
-      const base = process.env.NEXT_PUBLIC_BASE_URL ?? ''
       const params = new URLSearchParams()
       params.set('limit', '3')
       
@@ -38,10 +37,18 @@ export default function NewsSection() {
       weekAgo.setDate(weekAgo.getDate() - 7)
       params.set('from', weekAgo.toISOString())
       
-      const res = await fetch(`${base}/api/news-feed?${params.toString()}`, { cache: 'no-store' })
+      // Използваме относителен път за да работи и в development и в production
+      const res = await fetch(`/api/news-feed?${params.toString()}`, { 
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       
       if (!res.ok) {
-        throw new Error('Failed to load news')
+        const errorText = await res.text()
+        console.error('API error:', res.status, errorText)
+        throw new Error(`Failed to load news: ${res.status}`)
       }
       
       const data = await res.json()
@@ -114,9 +121,6 @@ export default function NewsSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6">
             <span className="text-gradient-primary">Новини</span> за горивата
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Актуална информация и анализ на пазара на горива, генерирана с AI технология
-          </p>
         </div>
 
         {loading ? (
