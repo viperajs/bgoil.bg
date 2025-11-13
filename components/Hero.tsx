@@ -67,18 +67,7 @@ export default function Hero() {
               </Link>
             </Button>
 
-            <Button 
-              size="lg" 
-              variant="secondary" 
-              asChild 
-              className="w-full sm:w-auto bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 text-lg px-8 py-7 hover-lift shadow-xl transition-all duration-300 group font-bold"
-            >
-              <Link href="/hotel" className="flex items-center space-x-3">
-                <Hotel className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
-                <span>Хотел</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-            </Button>
+            
 
             <Button
               size="lg"
@@ -112,15 +101,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-white/90 text-sm font-semibold drop-shadow-lg">Превърти надолу</span>
-          <div className="w-6 h-10 border-2 border-white/70 rounded-full flex justify-center p-2 bg-white/10">
-            <div className="w-1.5 h-3 bg-white rounded-full animate-pulse"></div>
-          </div>
-        </div>
-      </div>
+      
     </section>
   )
 }
