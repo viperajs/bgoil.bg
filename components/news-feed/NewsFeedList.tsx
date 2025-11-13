@@ -1,11 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import useEmblaCarousel from 'embla-carousel-react'
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react"
+import { ExternalLink, Calendar, User } from "lucide-react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import "dayjs/locale/bg"
@@ -32,46 +29,18 @@ interface NewsFeedListProps {
 }
 
 export default function NewsFeedList({ articles }: NewsFeedListProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    align: 'center',
-    slidesToScroll: 1,
-    containScroll: 'trimSnaps',
-    loop: false,
-  })
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev()
-  }, [emblaApi])
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext()
-  }, [emblaApi])
-
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(false)
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return
-    setCanScrollPrev(emblaApi.canScrollPrev())
-    setCanScrollNext(emblaApi.canScrollNext())
-  }, [emblaApi])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    onSelect()
-    emblaApi.on('select', onSelect)
-    emblaApi.on('reInit', onSelect)
-  }, [emblaApi, onSelect])
 
   if (articles.length === 0) {
     return (
-      <Card className="p-12">
-        <CardContent className="text-center">
-          <p className="text-muted-foreground text-lg">
-            Няма намерени новини. Опитайте с различни критерии за търсене.
-          </p>
-        </CardContent>
-      </Card>
+      <div className="max-w-4xl mx-auto">
+        <Card className="p-12">
+          <CardContent className="text-center">
+            <p className="text-muted-foreground text-lg">
+              Няма намерени новини. Опитайте с различни критерии за търсене.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     )
   }
 
@@ -151,64 +120,14 @@ export default function NewsFeedList({ articles }: NewsFeedListProps) {
     )
   }
 
-  // Ако има по-малко от 3 новини, показваме прост списък (без карусел)
-  if (articles.length < 3) {
-    return (
-      <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {articles.map((article) => (
-            <NewsCard key={article.id} article={article} />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  // Ако има 3 или повече новини, показваме карусел
-  // Групиране на новини по 2 на слайд (на десктоп)
-  const slides: NewsArticle[][] = []
-  for (let i = 0; i < articles.length; i += 2) {
-    const pair = articles.slice(i, i + 2)
-    slides.push(pair)
-  }
-
+  // Показваме всички новини в центриран grid layout
   return (
-    <div className="relative max-w-6xl mx-auto">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
-          {slides.map((slideArticles, slideIndex) => (
-            <div key={slideIndex} className="flex-[0_0_100%] md:flex-[0_0_50%] min-w-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-                {slideArticles.map((article) => (
-                  <NewsCard key={article.id} article={article} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {articles.map((article) => (
+          <NewsCard key={article.id} article={article} />
+        ))}
       </div>
-
-      {/* Navigation Buttons */}
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={scrollPrev}
-        disabled={!canScrollPrev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 rounded-full w-12 h-12 shadow-lg bg-background hover:bg-muted"
-        aria-label="Предишен слайд"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </Button>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={scrollNext}
-        disabled={!canScrollNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 rounded-full w-12 h-12 shadow-lg bg-background hover:bg-muted"
-        aria-label="Следващ слайд"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </Button>
     </div>
   )
 }
