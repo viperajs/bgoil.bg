@@ -46,7 +46,7 @@ export default function Header() {
               className="flex items-center group hover-scale transition-transform duration-300"
             >
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/BG%20OIL-OjX1ISOYZyh3zOlTd5DSuVyk2Y1c3B.webp"
+                src="/bg-oil-logo.webp"
                 alt="BG OIL Logo"
                 width={140}
                 height={50}
@@ -126,7 +126,7 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/BG%20OIL-OjX1ISOYZyh3zOlTd5DSuVyk2Y1c3B.webp"
+                src="/bg-oil-logo.webp"
                 alt="BG OIL Logo"
                 width={120}
                 height={40}

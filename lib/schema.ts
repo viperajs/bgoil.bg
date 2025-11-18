@@ -74,7 +74,7 @@ export function generateOrganizationSchema() {
     "@type": "Organization",
     name: companyInfo.name,
     url: "https://bgoil-vraca.com",
-    logo: "https://bgoil-vraca.com/logo.png",
+    logo: "https://bgoil-vraca.com/bg-oil-logo.webp",
     description: companyInfo.description,
     address: {
       "@type": "PostalAddress",
