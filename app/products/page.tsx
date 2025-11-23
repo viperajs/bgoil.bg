@@ -11,11 +11,22 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import FuelCard from "@/components/FuelCard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Fuel as FuelIcon, CreditCard, Info } from "lucide-react"
 
 // 🔑 вече четем динамичните цени
 import { getEffectiveFuels } from "@/lib/fuelStore"
+
+const CARD_STEPS = [
+  "Посетете нашата бензиностанция",
+  "Попълнете заявление за карта",
+  "Получете картата си веднага",
+]
+
+const EXTRA_BENEFITS = [
+  "Отстъпки при всяко зареждане",
+  "Специални промоции за членове",
+  "Бонус точки за лоялност",
+]
 
 export default async function ProductsPage() {
   const fuels = await getEffectiveFuels() // актуални цени от store
@@ -53,59 +64,49 @@ export default async function ProductsPage() {
             </div>
 
             {/* Member Benefits Card */}
-            <Card className="bg-primary/5 border-primary/20 mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <CreditCard className="w-6 h-6 text-primary" />
-                  <span>Предимства на картата BG OIL</span>
-                </CardTitle>
+            <Card className="mb-10 rounded-3xl border border-white/10 bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
+              <CardHeader className="pb-0">
+                <div className="flex flex-col gap-2">
+                  <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
+                    <CreditCard className="h-4 w-4 text-primary" />
+                    BG OIL CARD
+                  </div>
+                  <CardTitle className="text-3xl font-bold text-white">
+                    Предимства на картата BG OIL
+                  </CardTitle>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-card-foreground">
-                      Как да получите карта:
-                    </h3>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-start space-x-2">
-                        <Badge variant="outline" className="mt-0.5 text-xs">
-                          1
-                        </Badge>
-                        <span>Посетете нашата бензиностанция</span>
+              <CardContent className="grid gap-10 pt-8 md:grid-cols-2">
+                <div className="space-y-6">
+                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/50">
+                    Как да получите карта
+                  </p>
+                  <ol className="space-y-4">
+                    {CARD_STEPS.map((step, index) => (
+                      <li key={step} className="flex items-center gap-4">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-lg font-bold text-white">
+                          {index + 1}
+                        </span>
+                        <p className="text-base font-medium text-white/90">{step}</p>
                       </li>
-                      <li className="flex items-start space-x-2">
-                        <Badge variant="outline" className="mt-0.5 text-xs">
-                          2
-                        </Badge>
-                        <span>Попълнете заявление за карта</span>
+                    ))}
+                  </ol>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/50">
+                    Допълнителни предимства
+                  </p>
+                  <ul className="space-y-4">
+                    {EXTRA_BENEFITS.map(benefit => (
+                      <li
+                        key={benefit}
+                        className="flex items-center gap-4 rounded-full bg-gradient-to-r from-[#ff3b3b] via-[#ff5a3a] to-[#ff8c3c] px-6 py-4 text-white shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+                      >
+                        <span className="h-3 w-3 rounded-full bg-white/85 shadow-md shadow-white/40"></span>
+                        <span className="text-base font-semibold">{benefit}</span>
                       </li>
-                      <li className="flex items-start space-x-2">
-                        <Badge variant="outline" className="mt-0.5 text-xs">
-                          3
-                        </Badge>
-                        <span>Получете картата си веднага</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-card-foreground">
-                      Допълнителни предимства:
-                    </h3>
-                    <ul className="space-y-3">
-                      <li className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2 text-white shadow-lg shadow-primary/30">
-                        <span className="text-xl leading-none">•</span>
-                        <span className="font-medium">Отстъпки при всяко зареждане</span>
-                      </li>
-                      <li className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2 text-white shadow-lg shadow-primary/30">
-                        <span className="text-xl leading-none">•</span>
-                        <span className="font-medium">Специални промоции за членове</span>
-                      </li>
-                      <li className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2 text-white shadow-lg shadow-primary/30">
-                        <span className="text-xl leading-none">•</span>
-                        <span className="font-medium">Бонус точки за лоялност</span>
-                      </li>
-                    </ul>
-                  </div>
+                    ))}
+                  </ul>
                 </div>
               </CardContent>
             </Card>
@@ -149,17 +150,20 @@ export default async function ProductsPage() {
             </Card>
 
             {/* Price Disclaimer */}
-            <div className="mt-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
-              <div className="flex items-start space-x-3">
-                <Info className="w-5 h-5 text-black mt-0.5 flex-shrink-0" />
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-black">
+            <div className="mt-10 rounded-2xl border border-[#ff5b5b]/40 bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
+                <div className="flex items-center gap-3 text-[#ffb3b3]">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ff4d4d]/15 text-[#ffb3b3]">
+                    <Info className="h-6 w-6" />
+                  </span>
+                  <p className="text-base font-bold uppercase tracking-[0.2em] text-[#ff8f72]">
                     Важна информация за цените
                   </p>
-                  <p className="text-sm text-black/80">
-                   Цените са ориентировъчни и подлежат на промяна. За потвърждение на актуалните стойности, моля, обърнете се към персонала на място.
-                  </p>
                 </div>
+                <p className="text-base text-[#ffe0e0] md:flex-1">
+                  Цените са ориентировъчни и подлежат на промяна. За потвърждение
+                  на актуалните стойности, моля, обърнете се към персонала на място.
+                </p>
               </div>
             </div>
           </div>
