@@ -35,6 +35,6 @@ export const contacts: Contacts = {
   phoneMain: '+359 878 618 640',
   hotelPhone: '0889 15 55 12',
   email: 'bgoil_vraca@abv.bg',
-  mapsLink: 'https://maps.google.com/?q=43.203,23.548',
+  mapsLink: 'https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8',
   workingHours: 'Работно време: 24/7',
 }

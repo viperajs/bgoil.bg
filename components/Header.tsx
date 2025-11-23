@@ -33,11 +33,13 @@ export default function Header() {
   return (
     <>
       {/* Desktop Navigation */}
-      <header className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white shadow-lg border-b border-gray-200" 
-          : "bg-gradient-to-r from-pink-50 via-pink-100 to-pink-50 border-b border-pink-200"
-      }`}>
+      <header
+        className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-[#050910]/95 backdrop-blur-xl shadow-2xl border-b border-primary/40"
+            : "bg-[#04060f]/80 backdrop-blur-lg border-b border-white/10"
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -63,15 +65,15 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`relative px-4 py-2 font-medium transition-all duration-300 rounded-lg ${
-                      isActive
-                        ? "text-primary bg-primary/10"
-                        : "text-gray-700 hover:text-primary hover:bg-gray-100"
-                    }`}
+                className={`relative px-4 py-2 font-semibold transition-all duration-300 rounded-lg ${
+                  isActive
+                    ? "text-white bg-primary/30 shadow-lg shadow-primary/25 ring-1 ring-primary/40"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
+                }`}
                   >
                     <span className="relative z-10">{item.name}</span>
                     {isActive && (
-                      <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></span>
+                  <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full shadow-[0_0_10px_rgba(255,59,59,0.8)]"></span>
                     )}
                   </Link>
                 )
@@ -84,7 +86,7 @@ export default function Header() {
                 variant="outline" 
                 size="sm" 
                 asChild
-                className="hover-lift border-2 border-gray-300 bg-white hover:border-primary text-gray-700 transition-all duration-300"
+                className="hover-lift border border-white/30 bg-white/5 text-white hover:border-primary/60 hover:bg-white/10 transition-all duration-300 backdrop-blur"
               >
                 <a href={`tel:${contacts.phoneMain}`} className="flex items-center space-x-2">
                   <Phone className="w-4 h-4" />
@@ -112,11 +114,13 @@ export default function Header() {
       </header>
 
       {/* Mobile Navigation */}
-      <header className={`lg:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white shadow-lg border-b border-gray-200" 
-          : "bg-white border-b border-gray-200"
-      }`}>
+      <header
+        className={`lg:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-[#050910]/95 backdrop-blur-xl shadow-2xl border-b border-primary/40"
+            : "bg-[#04060f]/85 backdrop-blur-lg border-b border-white/10"
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -137,7 +141,7 @@ export default function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="p-2 transition-colors rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100"
+              className="p-2 transition-colors rounded-lg text-white/80 hover:text-white hover:bg-white/10"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -150,22 +154,22 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu */}
-          <div 
+          <div
             className={`overflow-hidden transition-all duration-300 ${
               isMobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
             }`}
           >
-            <nav className="py-4 space-y-2 border-t border-gray-200">
+            <nav className="py-4 space-y-2 border-t border-white/10">
               {navigation.map((item) => {
                 const isActive = pathname === item.href
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`block px-4 py-3 rounded-lg transition-all duration-200 font-medium ${
+                    className={`block px-4 py-3 rounded-lg transition-all duration-200 font-semibold ${
                       isActive
-                        ? "text-primary bg-primary/10"
-                        : "text-gray-700 hover:text-primary hover:bg-gray-100"
+                        ? "text-white bg-primary/30 shadow-lg shadow-primary/25"
+                        : "text-white/70 hover:text-white hover:bg-white/10"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -173,12 +177,12 @@ export default function Header() {
                   </Link>
                 )
               })}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
+              <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
                 <Button 
                   variant="outline" 
                   size="sm" 
                   asChild
-                  className="mx-4 hover-lift"
+                  className="mx-4 hover-lift border border-white/30 bg-white/5 text-white hover:border-primary/60 hover:bg-white/10"
                 >
                   <a href={`tel:${contacts.phoneMain}`} className="flex items-center justify-center space-x-2">
                     <Phone className="w-4 h-4" />
@@ -188,7 +192,7 @@ export default function Header() {
                 <Button 
                   size="sm" 
                   asChild
-                  className="mx-4 bg-gradient-primary text-white border-0 hover-lift"
+                  className="mx-4 bg-gradient-primary text-white border-0 hover-lift shadow-lg shadow-primary/50"
                 >
                   <a
                     href={contacts.mapsLink}

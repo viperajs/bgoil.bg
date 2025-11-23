@@ -3,7 +3,7 @@
 import { contacts } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Phone, Mail, MapPin, Navigation, Copy, Check } from "lucide-react"
+import { Phone, Mail, MapPin, Navigation, Copy, Check, CreditCard } from "lucide-react"
 import { useState } from "react"
 
 export default function ContactBlock() {
@@ -61,7 +61,7 @@ export default function ContactBlock() {
                   <Phone className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-card-foreground mb-1">Основен телефон:</p>
+                  <p className="text-sm font-bold text-card-foreground mb-1">Информация на бензиностанция:</p>
                   <a href={`tel:${contacts.phoneMain}`} className="text-lg font-bold text-primary hover:underline transition-colors">
                     {contacts.phoneMain}
                   </a>
@@ -91,6 +91,18 @@ export default function ContactBlock() {
                   </a>
                 </div>
               </div>
+
+              <div className="flex items-start space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-300">
+                <div className="w-12 h-12 rounded-lg bg-gradient-primary/10 flex items-center justify-center flex-shrink-0">
+                  <CreditCard className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-card-foreground mb-1">EasyPay услуги:</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    На място разполагаме с EasyPay 24/7 каса за плащане на сметки и услуги.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-col space-y-4">
@@ -114,10 +126,7 @@ export default function ContactBlock() {
                 asChild
                 className="border-2 hover:border-primary hover-lift h-14 text-base"
               >
-                <a href={`tel:${contacts.phoneMain}`} className="flex items-center justify-center space-x-3">
-                  <Phone className="w-5 h-5" />
-                  <span>Обади се сега</span>
-                </a>
+                
               </Button>
             </div>
           </div>

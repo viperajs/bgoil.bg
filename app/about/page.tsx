@@ -4,7 +4,7 @@ import Footer from "@/components/Footer"
 import { services, companyInfo } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap } from "lucide-react"
+import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, BedDouble, Wrench } from "lucide-react"
 import Image from "next/image"
 
 export const metadata = {
@@ -51,8 +51,14 @@ export default function AboutPage() {
       <Header />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10">
-          <div className="container mx-auto px-4">
+        <section className="relative py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 overflow-hidden">
+          {/* Background Decoration */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="text-center max-w-4xl mx-auto animate-fade-in-up">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -98,30 +104,6 @@ export default function AboutPage() {
                     където клиентите се чувстват добре дошли и получават повече от очакваното.
                   </p>
                 </div>
-                <div className="space-y-4 p-6 rounded-2xl bg-gradient-secondary/5 border border-secondary/20">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Building2 className="w-6 h-6 text-secondary" />
-                    <h3 className="text-2xl font-bold text-foreground">Хотел BG OIL</h3>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Нашият хотел предлага комфортни стаи и апартаменти за вашия престой във Враца. Всички стаи са оборудвани с модерни удобства, безплатен WiFi, климатик и кабелна телевизия. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Разполагаме с единични и двойни стаи, както и луксозни апартаменти за по-дълги престои. Всички гости имат достъп до безплатен паркинг и 24/7 рецепция. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                  </p>
-                </div>
-                <div className="space-y-4 p-6 rounded-2xl bg-gradient-accent/5 border border-accent/20">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Sparkles className="w-6 h-6 text-accent" />
-                    <h3 className="text-2xl font-bold text-foreground">Допълнителни услуги</h3>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Освен горива и хотел, предлагаме и широк спектър от допълнителни услуги. Нашият 24/7 магазин предлага всичко необходимо за пътуване и ежедневие. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Разполагаме с автомивка и автосервиз за пълно обслужване на вашия автомобил. Нашият професионален екип е винаги на разположение да помогне с всякакви нужди. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
-                  </p>
-                </div>
               </div>
               <div className="relative animate-fade-in-right">
                 <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 hover-lift">
@@ -133,14 +115,21 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
+                {/* Decorative Element */}
+                <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-primary rounded-full blur-3xl opacity-30 -z-10"></div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Our Values */}
-        <section className="py-24 bg-gradient-to-b from-muted/30 to-background">
-          <div className="container mx-auto px-4">
+        <section className="py-24 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+            <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="text-center mb-16 animate-fade-in-up">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -230,9 +219,115 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Why Choose Us */}
-        <section className="py-24 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
+        {/* Hospitality & Workshop */}
+        <section className="py-24 bg-muted/20">
           <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <Badge variant="outline" className="w-fit px-4 py-2 text-sm font-semibold mx-auto mb-6">
+                Допълнителни удобства
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-balance">
+                Хотел и автосервиз на една крачка
+              </h2>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
+                На място ще намерите както уютен хотел, така и пълноценен автосервиз, за да продължите пътя си отпочинали,
+                с обслужен автомобил и без излишно губене на време.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              <Card className="border-primary/30 bg-background/80 shadow-lg hover-lift">
+                <CardHeader className="space-y-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                      <BedDouble className="w-7 h-7 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl font-bold text-card-foreground">Хотел BG OIL</CardTitle>
+                      <p className="text-sm text-muted-foreground">Тихи стаи, свеж въздух и гъвкаво настаняване</p>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Хотелската част е идеална за професионални шофьори и семейства. Стаите са с черни аут блокиращи завеси,
+                    удобни матраци и климатизация, а рецепцията ни е на разположение 24/7 за късни настанявания.
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-center justify-between border-b border-border/50 pb-2 last:border-b-0">
+                      <span className="font-medium text-card-foreground">Единична стая</span>
+                      <span>40 лв / нощ</span>
+                    </li>
+                    <li className="flex items-center justify-between border-b border-border/50 pb-2 last:border-b-0">
+                      <span className="font-medium text-card-foreground">Двойна стая</span>
+                      <span>50 лв / нощ</span>
+                    </li>
+                    <li className="flex items-center justify-between border-b border-border/50 pb-2 last:border-b-0">
+                      <span className="font-medium text-card-foreground">Тройна стая</span>
+                      <span>60 лв / нощ</span>
+                    </li>
+                    <li className="flex items-center justify-between">
+                      <span className="font-medium text-card-foreground">Апартамент</span>
+                      <span>70 лв / нощ</span>
+                    </li>
+                  </ul>
+                
+                </CardContent>
+              </Card>
+
+              <Card className="border-secondary/30 bg-background/80 shadow-lg hover-lift">
+                <CardHeader className="space-y-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center">
+                      <Wrench className="w-7 h-7 text-secondary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl font-bold text-card-foreground">Автосервиз и автокозметика</CardTitle>
+                      <p className="text-sm text-muted-foreground">Всичко нужно за автомобила на едно място</p>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Работим с доверени майстори, а аз лично следя сервизът да остава практичен, честен и винаги с налични
+                    части за спешни ремонти.
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-start space-x-3">
+                      <span className="text-secondary font-bold mt-1">•</span>
+                      <span>Авточасти и сервиз с бърза диагностика и монтаж на оригинални и алтернативни компоненти</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-secondary font-bold mt-1">•</span>
+                      <span>Автобои и консумативи за локални ремонти или цялостно възстановяване на автомобила</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-secondary font-bold mt-1">•</span>
+                      <span>Гуми и машинно изправяне на джанти с модерна баланс машина и гаранция за праволинейност</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-secondary font-bold mt-1">•</span>
+                      <span>Камера за боядисване под наем за професионалисти, които искат контрол върху резултата</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-secondary font-bold mt-1">•</span>
+                      <span>Автомивка на самообслужване за финалното полиране преди път</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Us */}
+        <section className="py-24 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-5xl mx-auto">
               <Card className="border-2 border-primary/20 bg-gradient-card shadow-2xl hover-lift">
                 <CardHeader className="text-center pb-8">
@@ -285,7 +380,7 @@ export default function AboutPage() {
                         </li>
                         <li className="flex items-start space-x-3">
                           <span className="text-primary font-bold mt-1">•</span>
-                          <span>Безплатен паркинг и охрана</span>
+                          <span>Безплатен паркинг</span>
                         </li>
                         <li className="flex items-start space-x-3">
                           <span className="text-primary font-bold mt-1">•</span>

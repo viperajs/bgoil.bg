@@ -10,12 +10,13 @@ import ContactBlock from "@/components/ContactBlock"
 import { contacts } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { MapPin, Phone, Mail, Clock, Car, Navigation } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Navigation } from "lucide-react"
 
 export default function ContactPage() {
   const workingHours = [
     { service: "Бензиностанция", hours: "Работно време: 24/7" },
     { service: "Магазин", hours: "Работно време: 24/7" },
+    { service: "EasyPay каса", hours: "Работно време: 24/7" },
     { service: "Хотел рецепция", hours: "Работно време: 24/7" },
     { service: "Автосервиз", hours: "Пон-Пет: 08:00-18:00, Съб: 08:00-14:00" },
     { service: "Автомивка", hours: "Работно време: 24/7" },
@@ -157,55 +158,6 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Directions */}
-        <section className="py-16 bg-card">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <Card className="border-primary/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Car className="w-6 h-6 text-primary" />
-                    <span>Как да стигнете до нас</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <h3 className="font-semibold text-lg text-card-foreground">С автомобил</h3>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li className="flex items-start space-x-2">
-                          <span className="text-primary">•</span>
-                          <span>Безплатен паркинг за клиенти</span>
-                        </li>
-                        <li className="flex items-start space-x-2">
-                          <span className="text-primary">•</span>
-                          <span>Лесен достъп от главния път</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="space-y-4">
-                      <h3 className="font-semibold text-lg text-card-foreground">С обществен транспорт</h3>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li className="flex items-start space-x-2">
-                          <span className="text-primary">•</span>
-                          <span>Автобусна спирка "Мито Орозов" на 200м</span>
-                        </li>
-                        <li className="flex items-start space-x-2">
-                          <span className="text-primary">•</span>
-                          <span>Линии: 1, 3, 7 до центъра на града</span>
-                        </li>
-                        <li className="flex items-start space-x-2">
-                          <span className="text-primary">•</span>
-                          <span>Пешеходно разстояние от центъра - 15 минути</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>

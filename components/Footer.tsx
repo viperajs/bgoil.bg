@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Clock, Facebook, Instagram, ArrowRight } from "luc
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-foreground via-foreground/98 to-foreground text-white">
+    <footer className="bg-gradient-to-br from-[#04060f] via-[#080f1f] to-[#04060f] text-white">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
@@ -23,19 +23,13 @@ export default function Footer() {
             {/* Social Media */}
             <div className="flex items-center space-x-3 pt-2">
               <a 
-                href="#" 
+                href="https://www.facebook.com/share/1ZaL36Ykbk/?mibextid=wwXIfr" 
                 className="w-11 h-11 rounded-full bg-white/15 hover:bg-primary border border-white/30 flex items-center justify-center transition-all duration-300 hover-lift hover:border-primary hover:shadow-lg"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5 text-white" />
               </a>
-              <a 
-                href="#" 
-                className="w-11 h-11 rounded-full bg-white/15 hover:bg-primary border border-white/30 flex items-center justify-center transition-all duration-300 hover-lift hover:border-primary hover:shadow-lg"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5 text-white" />
-              </a>
+            
             </div>
           </div>
 

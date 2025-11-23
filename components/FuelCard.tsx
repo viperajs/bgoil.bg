@@ -86,11 +86,11 @@ export default function FuelCard({ fuel }: FuelCardProps) {
         </div>
 
         {/* CTA Banner */}
-        <div className="p-4 rounded-xl bg-gradient-to-r from-pink-50 to-pink-100 border-2 border-pink-300 shadow-lg group-hover:shadow-xl transition-all duration-300">
-          <p className="text-sm font-bold text-center flex items-center justify-center space-x-2 text-gray-800">
-            <Sparkles className="w-4 h-4 text-pink-600" />
+        <div className="p-4 rounded-xl border border-primary/40 bg-gradient-to-r from-primary/15 via-secondary/15 to-primary/15 shadow-lg group-hover:shadow-primary/40 transition-all duration-300">
+          <p className="text-sm font-semibold text-center flex items-center justify-center space-x-2 text-foreground">
+            <Sparkles className="w-4 h-4 text-accent animate-pulse" />
             <span>Получете карта BG OIL и спестете!</span>
-            <Sparkles className="w-4 h-4 text-pink-600" />
+            <Sparkles className="w-4 h-4 text-accent animate-pulse" />
           </p>
         </div>
       </CardContent>

@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { GoArrowUpRight } from 'react-icons/go';
 import './CardNav.css';
+import { ArrowUpRight } from 'lucide-react';
 
 interface CardNavLink {
   label: string;
@@ -60,7 +61,7 @@ const CardNav = ({
     const navEl = navRef.current;
     if (!navEl) return 260;
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isMobile = window.matchMedia('(max-width: 378px)').matches;
     if (isMobile) {
       const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
       if (contentEl) {
@@ -247,7 +248,7 @@ const CardNav = ({
                       }
                     }}
                   >
-                    <GoArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
+                    <ArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
                     {lnk.label}
                   </a>
                 ))}

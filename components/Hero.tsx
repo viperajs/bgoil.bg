@@ -6,7 +6,7 @@ import { Fuel, Hotel, Phone, ArrowRight, Sparkles } from "lucide-react"
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-[#03060f]">
       {/* Animated Background */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -17,12 +17,13 @@ export default function Hero() {
           priority
           quality={90}
         />
-        {/* Gradient Overlay - по-силен за по-добра четливост */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/85 via-primary/75 to-secondary/85"></div>
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* Gradient Overlay - показва снимката, но оставя нощно усещане */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#03060f] via-[#050a18]/70 to-transparent mix-blend-multiply"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/35 via-transparent to-secondary/40 mix-blend-screen"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-[#020309]/65"></div>
         
         {/* Subtle animated particles */}
-        <div className="absolute inset-0 particle-bg opacity-20"></div>
+        <div className="absolute inset-0 particle-bg opacity-10"></div>
       </div>
 
       {/* Content */}
@@ -54,7 +55,7 @@ export default function Hero() {
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-10 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <Button 
               size="lg" 
               asChild 
@@ -84,16 +85,16 @@ export default function Hero() {
           </div>
 
           {/* Stats - по-видими */}
-          <div className="grid grid-cols-3 gap-6 mt-20 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <div className="glass rounded-2xl p-6 border-2 border-white/30 hover-lift shadow-xl">
+          <div className="grid grid-cols-3 gap-6 mt-20 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+            <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">24/7</div>
               <div className="text-sm font-semibold text-white/90">Работно време</div>
             </div>
-            <div className="glass rounded-2xl p-6 border-2 border-white/30 hover-lift shadow-xl">
+            <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">100%</div>
               <div className="text-sm font-semibold text-white/90">Качество</div>
             </div>
-            <div className="glass rounded-2xl p-6 border-2 border-white/30 hover-lift shadow-xl">
+            <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">15+</div>
               <div className="text-sm font-semibold text-white/90">Години опит</div>
             </div>

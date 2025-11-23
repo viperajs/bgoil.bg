@@ -22,8 +22,25 @@ body {
 
 body {
   font-size: 16px;
-  color: #1a1a1a;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  color: var(--foreground);
+  background-color: #02030a;
+  background-image: radial-gradient(
+      circle at 15% 20%,
+      rgba(255, 59, 59, 0.35),
+      transparent 45%
+    ),
+    radial-gradient(circle at 85% 0%, rgba(31, 77, 242, 0.25), transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.18), transparent 35%),
+    repeating-linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 2px,
+      transparent 2px,
+      transparent 60px
+    ),
+    linear-gradient(145deg, #02030a 0%, #070c18 55%, #0d172b 100%);
+  background-attachment: fixed;
+  background-size: cover;
   min-height: 100vh;
 }
 
@@ -48,60 +65,59 @@ p {
 /* ====== УНИКАЛНА ЦВЕТОВА ПАЛИТРА ====== */
 :root {
   /* Основни цветове - Модерна палитра с червено и синьо */
-  --background: #ffffff;
-  --foreground: #1a1a1a;
+  --background: #04060f;
+  --foreground: #f5f7ff;
 
   /* Primary - Ярко червено с градиент */
-  --primary: #dc2626;
+  --primary: #ff3b3b;
   --primary-foreground: #ffffff;
-  --primary-light: #ef4444;
-  --primary-dark: #b91c1c;
+  --primary-light: #ff6666;
+  --primary-dark: #c81818;
 
   /* Secondary - Синьо */
-  --secondary: #2563eb;
+  --secondary: #1f4df2;
   --secondary-foreground: #ffffff;
-  --secondary-light: #3b82f6;
-  --secondary-dark: #1e40af;
+  --secondary-light: #4f7dff;
+  --secondary-dark: #0f2fcf;
 
   /* Accent - Оранжево/Златисто */
-  --accent: #f59e0b;
-  --accent-foreground: #ffffff;
+  --accent: #fbbf24;
+  --accent-foreground: #0b1120;
 
   /* Card */
-  --card: #ffffff;
-  --card-foreground: #1a1a1a;
+  --card: #0b1120;
+  --card-foreground: #f4f7ff;
 
   /* Muted */
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
+  --muted: #101a2b;
+  --muted-foreground: #9fb2d4;
 
   /* Border */
-  --border: #e5e7eb;
-  --input: #f9fafb;
-  --ring: #dc2626;
+  --border: #1c2740;
+  --input: #141c2f;
+  --ring: #ff5c5c;
 
   /* Radius */
   --radius: 1rem;
 
   /* Градиенти */
-  --gradient-primary: linear-gradient(
-    135deg,
-    #dc2626 0%,
-    #ef4444 50%,
-    #f59e0b 100%
-  );
+  --gradient-primary: linear-gradient(135deg, #ff3b3b 0%, #ff6a2c 45%, #fbbf24 100%);
   --gradient-secondary: linear-gradient(
     135deg,
-    #2563eb 0%,
+    #1f4df2 0%,
     #3b82f6 50%,
     #60a5fa 100%
   );
   --gradient-hero: linear-gradient(
     135deg,
-    rgba(220, 38, 38, 0.95) 0%,
-    rgba(37, 99, 235, 0.95) 100%
+    rgba(255, 59, 59, 0.95) 0%,
+    rgba(31, 77, 242, 0.95) 100%
   );
-  --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  --gradient-card: linear-gradient(
+    145deg,
+    rgba(9, 15, 29, 0.95) 0%,
+    rgba(3, 7, 18, 0.92) 100%
+  );
   --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
 }
 
@@ -550,7 +566,7 @@ p {
 }
 
 /* ====== RESPONSIVE ТИПОГРАФИЯ ====== */
-@media (max-width: 768px) {
+@media (max-width: 378px) {
   h1 {
     font-size: 2rem;
   }
