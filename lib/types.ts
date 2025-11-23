@@ -20,7 +20,9 @@ export interface Contacts {
   address: string
   phoneMain: string
   hotelPhone: string
+  servicePhone: string
   email: string
+  serviceEmail: string
   mapsLink: string
   workingHours: string
 }

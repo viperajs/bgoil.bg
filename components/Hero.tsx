@@ -24,6 +24,8 @@ export default function Hero() {
         
         {/* Subtle animated particles */}
         <div className="absolute inset-0 particle-bg opacity-10"></div>
+        {/* Soft fade into body background */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-[#04060f]/80 to-[#04060f]"></div>
       </div>
 
       {/* Content */}

@@ -3,7 +3,7 @@
 import { contacts } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Phone, Mail, MapPin, Navigation, Copy, Check, CreditCard } from "lucide-react"
+import { Phone, Mail, MapPin, Navigation, Copy, Check, CreditCard, Wrench } from "lucide-react"
 import { useState } from "react"
 
 export default function ContactBlock() {
@@ -80,6 +80,24 @@ export default function ContactBlock() {
                 </div>
               </div>
 
+              <div className="flex items-start space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-300">
+                <div className="w-12 h-12 rounded-lg bg-gradient-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Wrench className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-card-foreground mb-1">Авточасти и сервиз:</p>
+                  <a href={`tel:${contacts.servicePhone}`} className="text-lg font-bold text-primary hover:underline transition-colors block">
+                    {contacts.servicePhone}
+                  </a>
+                  <p className="text-xs text-muted-foreground">
+                    Имейл:{" "}
+                    <a href={`mailto:${contacts.serviceEmail}`} className="hover:underline">
+                      {contacts.serviceEmail}
+                    </a>
+                  </p>
+                </div>
+              </div>
+
               <div className="flex items-center space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-300">
                 <div className="w-12 h-12 rounded-lg bg-gradient-primary/10 flex items-center justify-center flex-shrink-0">
                   <Mail className="w-6 h-6 text-primary" />
@@ -126,7 +144,16 @@ export default function ContactBlock() {
                 asChild
                 className="border-2 hover:border-primary hover-lift h-14 text-base"
               >
-                
+                <a
+                  href={`tel:${contacts.phoneMain}`}
+                  className="flex items-center justify-center space-x-3 text-card-foreground"
+                >
+                  <Phone className="w-5 h-5 text-primary" />
+                  <div className="flex flex-col leading-tight">
+                    <span className="font-semibold">Основен телефон:</span>
+                    <span className="text-sm text-muted-foreground">{contacts.phoneMain}</span>
+                  </div>
+                </a>
               </Button>
             </div>
           </div>

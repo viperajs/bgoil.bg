@@ -25,7 +25,7 @@ export default async function ProductsPage() {
       <Header />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 to-accent/5 py-16">
+        <section className="bg-gradient-to-br from-primary/10 to-accent/5 pt-28 md:pt-32 pb-16">
           <div className="container mx-auto px-4">
             <div className="text-center max-w-4xl mx-auto">
               <div className="flex items-center justify-center mb-6">
@@ -91,18 +91,18 @@ export default async function ProductsPage() {
                     <h3 className="font-semibold text-card-foreground">
                       Допълнителни предимства:
                     </h3>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-start space-x-2">
-                        <span className="text-accent-foreground">•</span>
-                        <span>Отстъпки при всяко зареждане</span>
+                    <ul className="space-y-3">
+                      <li className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2 text-white shadow-lg shadow-primary/30">
+                        <span className="text-xl leading-none">•</span>
+                        <span className="font-medium">Отстъпки при всяко зареждане</span>
                       </li>
-                      <li className="flex items-start space-x-2">
-                        <span className="text-accent-foreground">•</span>
-                        <span>Специални промоции за членове</span>
+                      <li className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2 text-white shadow-lg shadow-primary/30">
+                        <span className="text-xl leading-none">•</span>
+                        <span className="font-medium">Специални промоции за членове</span>
                       </li>
-                      <li className="flex items-start space-x-2">
-                        <span className="text-accent-foreground">•</span>
-                        <span>Бонус точки за лоялност</span>
+                      <li className="flex items-center gap-3 rounded-lg bg-primary px-4 py-2 text-white shadow-lg shadow-primary/30">
+                        <span className="text-xl leading-none">•</span>
+                        <span className="font-medium">Бонус точки за лоялност</span>
                       </li>
                     </ul>
                   </div>

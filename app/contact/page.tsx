@@ -27,7 +27,7 @@ export default function ContactPage() {
       <Header />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 to-accent/5 py-16">
+        <section className="bg-gradient-to-br from-primary/10 to-accent/5 pt-28 md:pt-32 pb-16">
           <div className="container mx-auto px-4">
             <div className="text-center max-w-4xl mx-auto">
               <div className="flex items-center justify-center mb-6">
@@ -62,6 +62,10 @@ export default function ContactPage() {
                   <p className="text-sm text-muted-foreground">Хотел резервации:</p>
                   <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
                     <a href={`tel:${contacts.hotelPhone}`}>{contacts.hotelPhone}</a>
+                  </Button>
+                  <p className="text-sm text-muted-foreground">Авточасти и сервиз:</p>
+                  <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
+                    <a href={`tel:${contacts.servicePhone}`}>{contacts.servicePhone}</a>
                   </Button>
                 </CardContent>
               </Card>
@@ -134,8 +138,9 @@ export default function ContactPage() {
                     ))}
                   </div>
                   <div className="mt-6 p-4 bg-primary/5 rounded-lg">
-                    <p className="text-sm text-primary font-medium text-center">
-                      🕐 Основните услуги  работят 24/7 за вашето удобство
+                    <p className="flex items-center justify-center gap-2 text-base text-primary font-semibold text-center tracking-tight">
+                      <span className="text-2xl leading-none">🕐</span>
+                      <span>Основните услуги работят 24/7 за вашето удобство</span>
                     </p>
                   </div>
                 </CardContent>

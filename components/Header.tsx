@@ -41,7 +41,7 @@ export default function Header() {
         }`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center h-20 gap-6">
             {/* Logo */}
             <Link 
               href="/" 
@@ -57,57 +57,61 @@ export default function Header() {
               />
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="flex items-center space-x-1">
-              {navigation.map((item, index) => {
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                className={`relative px-4 py-2 font-semibold transition-all duration-300 rounded-lg ${
-                  isActive
-                    ? "text-white bg-primary/30 shadow-lg shadow-primary/25 ring-1 ring-primary/40"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
-                  >
-                    <span className="relative z-10">{item.name}</span>
-                    {isActive && (
-                  <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full shadow-[0_0_10px_rgba(255,59,59,0.8)]"></span>
-                    )}
-                  </Link>
-                )
-              })}
-            </nav>
+            {/* Desktop Navigation & CTA cluster */}
+            <div className="flex-1 flex justify-end">
+              <div className="flex items-center gap-4 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.45)] flex-nowrap">
+                <nav className="flex items-center gap-3 pr-4 border-r border-white/10">
+                  {navigation.map((item) => {
+                    const isActive = pathname === item.href
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={`inline-flex flex-col items-center gap-2 px-4 py-1.5 text-sm font-semibold tracking-wide transition-all duration-300 rounded-lg ${
+                          isActive
+                            ? "text-white bg-primary/30 shadow-lg shadow-primary/25 ring-1 ring-primary/40"
+                            : "text-white/70 hover:text-white hover:bg-white/10"
+                        }`}
+                      >
+                        <span>{item.name}</span>
+                        {isActive && (
+                          <span className="block w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_12px_rgba(255,59,59,0.8)]"></span>
+                        )}
+                      </Link>
+                    )
+                  })}
+                </nav>
 
-            {/* CTA Buttons */}
-            <div className="flex items-center space-x-3">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                asChild
-                className="hover-lift border border-white/30 bg-white/5 text-white hover:border-primary/60 hover:bg-white/10 transition-all duration-300 backdrop-blur"
-              >
-                <a href={`tel:${contacts.phoneMain}`} className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4" />
-                  <span>Обади се</span>
-                </a>
-              </Button>
-              <Button 
-                size="sm" 
-                asChild
-                className="bg-gradient-primary hover:opacity-90 text-white border-0 hover-lift shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <a
-                  href={contacts.mapsLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2"
-                >
-                  <MapPin className="w-4 h-4" />
-                  <span>Навигация</span>
-                </a>
-              </Button>
+                {/* CTA Buttons */}
+                <div className="flex items-center gap-2 pl-4 ml-2 border-l border-white/10">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    asChild
+                    className="hover-lift border border-white/30 bg-white/5 text-white hover:border-primary/60 hover:bg-white/10 transition-all duration-300 backdrop-blur flex-shrink-0"
+                  >
+                    <a href={`tel:${contacts.phoneMain}`} className="flex items-center space-x-2">
+                      <Phone className="w-4 h-4" />
+                      <span>Обади се</span>
+                    </a>
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    asChild
+                    className="bg-gradient-primary hover:opacity-90 text-white border-0 hover-lift shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0"
+                  >
+                    <a
+                      href={contacts.mapsLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      <span>Навигация</span>
+                    </a>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

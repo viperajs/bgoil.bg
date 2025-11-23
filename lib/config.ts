@@ -32,9 +32,11 @@ export const services: Service[] = [
 
 export const contacts: Contacts = {
   address: 'гр. Враца 3000, бул. Мито Орозов 34',
-  phoneMain: '+359 878 618 640',
+  phoneMain: '359 878 618 640',
   hotelPhone: '0889 15 55 12',
+  servicePhone: '+359 87 714 1742',
   email: 'bgoil_vraca@abv.bg',
+  serviceEmail: 'autoservice_1313@abv.bg',
   mapsLink: 'https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8',
   workingHours: 'Работно време: 24/7',
 }
