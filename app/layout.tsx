@@ -7,7 +7,7 @@ import { companyInfo } from "@/lib/config"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bgoil-vraca.com"),
+  metadataBase: new URL("https://bgoil.com"),
   title: {
     default: companyInfo.name,
     template: `%s | ${companyInfo.name}`,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   creator: companyInfo.name,
   publisher: companyInfo.name,
   alternates: {
-    canonical: "https://bgoil-vraca.com",
+    canonical: "https://bgoil.com",
   },
   formatDetection: {
     email: false,
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "bg_BG",
-    url: "https://bgoil-vraca.com",
+    url: "https://bgoil.com",
     siteName: companyInfo.name,
     title: companyInfo.name,
     description: companyInfo.description,
@@ -63,6 +63,45 @@ export const metadata: Metadata = {
     description: companyInfo.description,
     images: ["/og-image.jpg"],
   },
+  icons: {
+    icon: [
+      {
+        url: "/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+    other: [
+      {
+        rel: "manifest",
+        url: "/site.webmanifest",
+      },
+    ],
+  },
+  manifest: "/site.webmanifest",
   robots: {
     index: true,
     follow: true,

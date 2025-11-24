@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bgoil-vraca.com/sitemap.xml
+Sitemap: https://bgoil.com/sitemap.xml

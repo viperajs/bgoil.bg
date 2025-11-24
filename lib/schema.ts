@@ -73,8 +73,8 @@ export function generateOrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: companyInfo.name,
-    url: "https://bgoil-vraca.com",
-    logo: "https://bgoil-vraca.com/bg-oil-logo.webp",
+    url: "https://bgoil.com",
+    logo: "https://bgoil.com/bg-oil-logo.webp",
     description: companyInfo.description,
     address: {
       "@type": "PostalAddress",

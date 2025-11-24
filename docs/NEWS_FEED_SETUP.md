@@ -17,8 +17,8 @@
 
 ```env
 # Base URL на приложението
-BASE_URL=https://bgoil-vraca.com
-NEXT_PUBLIC_BASE_URL=https://bgoil-vraca.com
+BASE_URL=https://bgoil.com
+NEXT_PUBLIC_BASE_URL=https://bgoil.com
 
 # OpenAI API ключ за генериране на резюмета
 OPENAI_API_KEY=скрий-тук-ключа

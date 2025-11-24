@@ -54,7 +54,7 @@ export async function GET(request: Request) {
       summary_bg: string
     }>
     
-    const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://bgoil-vraca.com'
+    const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://bgoil.com'
     const now = new Date().toUTCString()
     
     // Форматиране на дата за RSS (RFC 822)
