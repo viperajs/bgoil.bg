@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { fuels as configFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
 
-type FuelUpdate = { name: string; price: number }
+type FuelUpdate = { name: string; price: number; discount?: number }
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic' // без статичен кеш
@@ -16,10 +16,14 @@ async function safeGetEffective(): Promise<Fuel[]> {
     }
   } catch {}
   // fallback към дефолтите от config
-  return configFuels.map(f => ({
-    ...f,
-    memberPrice: Math.max(0, f.price - DISCOUNT_BGN),
-  }))
+  return configFuels.map(f => {
+    const discount = typeof f.discount === 'number' ? f.discount : DISCOUNT_BGN
+    return {
+      ...f,
+      discount,
+      memberPrice: Math.max(0, f.price - discount),
+    }
+  })
 }
 
 export async function GET() {
@@ -36,8 +40,14 @@ export async function POST(req: Request) {
       .map((x: any) => ({
         name: String(x?.name ?? '').trim(),
         price: Number(x?.price),
+        discount: x?.discount === undefined ? undefined : Number(x.discount),
       }))
-      .filter((x: FuelUpdate) => x.name && Number.isFinite(x.price) && x.price >= 0)
+      .filter((x: FuelUpdate) => {
+        const priceValid = Number.isFinite(x.price) && x.price >= 0
+        const discountValid =
+          x.discount === undefined ? true : (Number.isFinite(x.discount) && x.discount >= 0)
+        return x.name.length > 0 && priceValid && discountValid
+      })
 
     if (items.length === 0) {
       return NextResponse.json({ ok: false, reason: 'empty_items' }, { status: 400 })
@@ -49,10 +59,19 @@ export async function POST(req: Request) {
     await mod.setFuelPrices(items)
     const after = await mod.getEffectiveFuels()
 
+    const resolveDiscount = (fuel?: Fuel) => {
+      if (!fuel) return undefined
+      if (typeof fuel.discount === 'number') return fuel.discount
+      return Math.max(0, fuel.price - fuel.memberPrice)
+    }
+
     const changed = items.filter((it: FuelUpdate) => {
-      const a = before.find(f => f.name === it.name)?.price
-      const b = after.find(f => f.name === it.name)?.price
-      return a !== b
+      const beforeFuel = before.find(f => f.name === it.name)
+      const afterFuel = after.find(f => f.name === it.name)
+      if (!beforeFuel || !afterFuel) return false
+      const priceChanged = beforeFuel.price !== afterFuel.price
+      const discountChanged = resolveDiscount(beforeFuel) !== resolveDiscount(afterFuel)
+      return priceChanged || discountChanged
     })
 
     const wrote = changed.length > 0

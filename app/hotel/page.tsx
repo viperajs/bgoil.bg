@@ -2,7 +2,7 @@ import { generateHotelSchema } from "@/lib/schema"
 
 export const metadata = {
   title: "Хотел",
-  description: "Комфортни стаи и апартаменти в хотела на BG OIL ВРАЦА. Резервации на телефон 0889 15 55 12.",
+  description: "Комфортни стаи и апартаменти в хотела на BG OIL. Резервации на телефон 0889 15 55 12.",
 }
 
 import Header from "@/components/Header"

@@ -4,7 +4,8 @@ import { Redis } from '@upstash/redis'
 import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
 
-type FuelOverride = Record<string, number>
+type FuelOverrideValue = number | { price?: number; discount?: number }
+type FuelOverrides = Record<string, FuelOverrideValue>
 
 // ↑ вдигаме версията, за да заобиколим стари, развалени данни
 const KEY = 'fuels:prices:v3'
@@ -22,18 +23,18 @@ function getRedis() {
 const redis = getRedis()
 
 // ---- безопасно четене от KV (приема string ИЛИ object) ----
-async function safeGetOverrides(): Promise<FuelOverride | null> {
+async function safeGetOverrides(): Promise<FuelOverrides | null> {
   if (!redis) return null
   try {
     const val = (await redis.get(KEY as any)) as unknown
     if (val == null) return null
 
     if (typeof val === 'string') {
-      try { return JSON.parse(val) as FuelOverride }
+      try { return JSON.parse(val) as FuelOverrides }
       catch (e) { console.error('fuelStore: parse failed (string)', e); return null }
     }
     if (typeof val === 'object') {
-      return val as FuelOverride
+      return val as FuelOverrides
     }
     return null
   } catch (e) {
@@ -43,7 +44,7 @@ async function safeGetOverrides(): Promise<FuelOverride | null> {
 }
 
 // ---- безопасен запис в KV (пишем директно обект) ----
-async function safeSetOverrides(value: FuelOverride): Promise<void> {
+async function safeSetOverrides(value: FuelOverrides): Promise<void> {
   if (!redis) { console.warn('fuelStore: no redis env; skip set'); return }
   try {
     await redis.set(KEY, value as any)
@@ -57,15 +58,29 @@ async function safeSetOverrides(value: FuelOverride): Promise<void> {
 export async function getEffectiveFuels(): Promise<Fuel[]> {
   const overrides = (await safeGetOverrides()) ?? {}
   return defaultFuels.map(f => {
-    const price =
-      typeof overrides[f.name] === 'number' ? overrides[f.name] : f.price
-    const memberPrice = Math.max(0, price - DISCOUNT_BGN)
-    return { ...f, price, memberPrice }
+    const raw = overrides[f.name]
+    const overridePrice =
+      typeof raw === 'number'
+        ? raw
+        : typeof raw === 'object' && raw
+          ? raw.price
+          : undefined
+    const overrideDiscount =
+      typeof raw === 'object' && raw && typeof raw.discount === 'number'
+        ? raw.discount
+        : undefined
+
+    const price = typeof overridePrice === 'number' ? overridePrice : f.price
+    const fallbackDiscount =
+      typeof f.discount === 'number' ? f.discount : DISCOUNT_BGN
+    const discount = typeof overrideDiscount === 'number' ? overrideDiscount : fallbackDiscount
+    const memberPrice = Math.max(0, price - discount)
+    return { ...f, price, discount, memberPrice }
   })
 }
 
 // ---- запис на нови цени (алиаси към БГ каноните от config) ----
-export async function setFuelPrices(items: { name: string; price: number }[]) {
+export async function setFuelPrices(items: { name: string; price: number; discount?: number }[]) {
   const norm = (s: string) => s.toLowerCase().replace(/[\s\-\._]+/g, '')
 
   // каноничните ИМЕНА са тези от config (на български)
@@ -96,13 +111,19 @@ export async function setFuelPrices(items: { name: string; price: number }[]) {
     return aliases[n] ?? byNorm.get(n) ?? null
   }
 
-  const clean: Record<string, number> = {}
+  const clean: Record<string, { price: number; discount?: number }> = {}
   for (const it of items) {
     const canonical = resolve(String(it?.name ?? ''))
     const price = Number(it?.price)
+    const discount = it?.discount
     if (!canonical) continue
     if (!Number.isFinite(price) || price < 0) continue
-    clean[canonical] = price
+    const entry: { price: number; discount?: number } = { price }
+    const discountNum = Number(discount)
+    if (Number.isFinite(discountNum) && discountNum >= 0) {
+      entry.discount = discountNum
+    }
+    clean[canonical] = entry
   }
 
   await safeSetOverrides(clean)

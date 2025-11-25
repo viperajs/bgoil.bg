@@ -9,7 +9,7 @@ import Image from "next/image"
 
 export const metadata = {
   title: "За нас",
-  description: "Научете повече за BG OIL ВРАЦА - нашите услуги, история и ангажимент към качеството.",
+  description: "Научете повече за BG OIL - нашите услуги, история и ангажимент към качеството.",
 }
 
 export default function AboutPage() {
@@ -67,7 +67,7 @@ export default function AboutPage() {
                 <span className="text-sm font-semibold text-primary">За нас</span>
               </div>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-6">
-                <span className="text-gradient-primary">BG OIL ВРАЦА</span>
+                <span className="text-gradient-primary">BG OIL</span>
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 Научете повече за нашата история, мисия и ангажимент към качеството
@@ -90,7 +90,7 @@ export default function AboutPage() {
                     <span className="text-gradient-primary">{companyInfo.slogan}</span>
                   </h2>
                   <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    BG OIL ВРАЦА е модерна бензиностанция, която служи на общността във Враца с най-високо качество на
+                    BG OIL е модерна бензиностанция, която служи на общността във Враца с най-високо качество на
                     горива и услуги. Нашата мисия е да предоставяме надеждни, качествени продукти и услуги, които
                     отговарят на нуждите на нашите клиенти.
                   </p>
@@ -111,7 +111,7 @@ export default function AboutPage() {
                 <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 hover-lift">
                   <Image
                     src="/fuel-station-reference.png"
-                    alt="BG OIL ВРАЦА бензиностанция"
+                    alt="BG OIL бензиностанция"
                     fill
                     className="object-cover"
                   />
@@ -337,7 +337,7 @@ export default function AboutPage() {
               <Card className="border-2 border-primary/20 bg-gradient-card shadow-2xl hover-lift">
                 <CardHeader className="text-center pb-8">
                   <CardTitle className="text-3xl md:text-4xl lg:text-5xl font-black text-gradient-primary mb-4">
-                    Защо да изберете BG OIL ВРАЦА?
+                    Защо да изберете BG OIL?
                   </CardTitle>
                   <p className="text-lg text-muted-foreground">
                     Вашият надежден партньор за качествени горива и услуги

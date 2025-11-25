@@ -102,7 +102,7 @@ function getDefaultArticles(): NewsArticle[] {
     {
       id: "1",
       title: "Нови цени на горивата за септември 2024",
-      content: "Според последните данни от пазара на горива, цените на бензина и дизела остават стабилни през септември. Очаква се леко увеличение на търсенето поради началото на учебната година. BG OIL ВРАЦА продължава да предлага конкурентни цени и специални отстъпки за членове на клубната програма.",
+      content: "Според последните данни от пазара на горива, цените на бензина и дизела остават стабилни през септември. Очаква се леко увеличение на търсенето поради началото на учебната година. BG OIL  продължава да предлага конкурентни цени и специални отстъпки за членове на клубната програма.",
       date: new Date().toISOString(),
       category: "Цени",
       source: "AI Analysis",
@@ -111,7 +111,7 @@ function getDefaultArticles(): NewsArticle[] {
     {
       id: "2",
       title: "Екологични горива - бъдещето на транспорта",
-      content: "Повишеното внимание към екологичните решения в транспорта води до растеж на търсенето на алтернативни горива. BG OIL ВРАЦА инвестира в модерни технологии за зареждане на електрически и хибридни превозни средства. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      content: "Повишеното внимание към екологичните решения в транспорта води до растеж на търсенето на алтернативни горива. BG OIL инвестира в модерни технологии за зареждане на електрически и хибридни превозни средства. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       date: new Date(Date.now() - 86400000).toISOString(),
       category: "Екология",
       source: "AI Analysis",
@@ -120,7 +120,7 @@ function getDefaultArticles(): NewsArticle[] {
     {
       id: "3",
       title: "Подобрения в качеството на горивата",
-      content: "Производителите на горива продължават да подобряват качеството на своите продукти, като добавят нови добавки за по-добра производителност на двигателите. BG OIL ВРАЦА работи само с сертифицирани доставчици, гарантиращи най-високо качество. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      content: "Производителите на горива продължават да подобряват качеството на своите продукти, като добавят нови добавки за по-добра производителност на двигателите. BG OIL  работи само с сертифицирани доставчици, гарантиращи най-високо качество. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       date: new Date(Date.now() - 172800000).toISOString(),
       category: "Качество",
       source: "AI Analysis",
@@ -138,7 +138,7 @@ function getDefaultArticles(): NewsArticle[] {
     {
       id: "5",
       title: "Специални оферти за лоялни клиенти",
-      content: "BG OIL ВРАЦА въвежда нови програми за лоялност с допълнителни отстъпки и бонуси за редовни клиенти. Членовете на клубната програма могат да се възползват от ексклузивни оферти и приоритетно обслужване. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      content: "BG OIL въвежда нови програми за лоялност с допълнителни отстъпки и бонуси за редовни клиенти. Членовете на клубната програма могат да се възползват от ексклузивни оферти и приоритетно обслужване. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       date: new Date(Date.now() - 345600000).toISOString(),
       category: "Оферти",
       source: "AI Analysis",
@@ -147,7 +147,7 @@ function getDefaultArticles(): NewsArticle[] {
     {
       id: "6",
       title: "Безопасност при работа с горива",
-      content: "Спазването на стандартите за безопасност е от първостепенно значение при работа с горива. BG OIL ВРАЦА следва най-строгите протоколи за безопасност и редовно провежда обучения на персонала. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+      content: "Спазването на стандартите за безопасност е от първостепенно значение при работа с горива. BG OIL следва най-строгите протоколи за безопасност и редовно провежда обучения на персонала. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
       date: new Date(Date.now() - 432000000).toISOString(),
       category: "Безопасност",
       source: "AI Analysis",

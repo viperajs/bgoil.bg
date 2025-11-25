@@ -3,14 +3,25 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Fuel, Save, RefreshCw, CheckCircle2, AlertCircle, Sparkles } from "lucide-react"
+import { Fuel as FuelIcon, Save, RefreshCw, CheckCircle2, AlertCircle, Sparkles } from "lucide-react"
+import type { Fuel as FuelType } from '@/lib/types'
 
 const BGN_PER_EUR = 1.95583
-const DISCOUNT_BGN = 0.10
+const DEFAULT_DISCOUNT_BGN = 0.10
 const fx2 = (n: number) => n.toFixed(2)
 
-type Fuel = { name: string; price: number; unit: string; memberPrice?: number }
-type Row  = { name: string; priceStr: string }
+type Row = { name: string; priceStr: string; discountStr: string }
+type RowComputed = Row & {
+  valid: boolean
+  priceBGN: number
+  discountBGN: number
+  memberBGN: number
+  priceEUR: number
+  memberEUR: number
+  discountEUR: number
+  priceValid: boolean
+  discountValid: boolean
+}
 
 export default function AdminPricesPage() {
   const [rows, setRows] = useState<Row[]>([])
@@ -25,8 +36,23 @@ export default function AdminPricesPage() {
     try {
       const res = await fetch('/api/fuel', { cache: 'no-store' })
       if (!res.ok) throw new Error(`GET /api/fuel -> ${res.status}`)
-      const data = (await res.json()) as Fuel[]
-      setRows(data.map(f => ({ name: f.name, priceStr: String(f.price) })))
+      const data = (await res.json()) as FuelType[]
+      const normalized = data.map(f => {
+        const resolvedDiscount = Math.max(
+          0,
+          typeof f.discount === 'number'
+            ? f.discount
+            : f.price - (typeof f.memberPrice === 'number' ? f.memberPrice : f.price)
+        )
+        return {
+          name: f.name,
+          priceStr: Number.isFinite(f.price) ? String(f.price) : '',
+          discountStr: Number.isFinite(resolvedDiscount)
+            ? String(resolvedDiscount)
+            : String(DEFAULT_DISCOUNT_BGN),
+        }
+      })
+      setRows(normalized)
       setMsg(null)
     } catch (e) {
       console.error(e)
@@ -36,21 +62,31 @@ export default function AdminPricesPage() {
     }
   }
 
-  const computed = useMemo(() => rows.map(r => {
-    const priceBGN = Number(r.priceStr)
-    const valid = r.name.trim().length > 0 && Number.isFinite(priceBGN) && priceBGN >= 0
-    const memberBGN = valid ? Math.max(0, priceBGN - DISCOUNT_BGN) : 0
-    const priceEUR  = valid ? priceBGN / BGN_PER_EUR : 0
+  const computed = useMemo<RowComputed[]>(() => rows.map(r => {
+    const nameValid = r.name.trim().length > 0
+    const priceInput = r.priceStr.trim()
+    const discountInput = r.discountStr.trim()
+    const priceBGN = Number(priceInput)
+    const discountBGN = Number(discountInput)
+    const priceValid = priceInput.length > 0 && Number.isFinite(priceBGN) && priceBGN >= 0
+    const discountValid = discountInput.length > 0 && Number.isFinite(discountBGN) && discountBGN >= 0
+    const valid = nameValid && priceValid && discountValid
+    const memberBGN = priceValid && discountValid ? Math.max(0, priceBGN - discountBGN) : 0
+    const priceEUR  = priceValid ? priceBGN / BGN_PER_EUR : 0
+    const discountEUR = discountValid ? discountBGN / BGN_PER_EUR : 0
     const memberEUR = valid ? memberBGN / BGN_PER_EUR : 0
-    return { ...r, valid, priceBGN, memberBGN, priceEUR, memberEUR }
+    return { ...r, valid, priceBGN, discountBGN, memberBGN, priceEUR, memberEUR, discountEUR, priceValid, discountValid }
   }), [rows])
 
   async function saveAll() {
     setSaving(true); setMsg(null)
     try {
-      const items = computed.filter(r => r.valid).map(r => ({ name: r.name.trim(), price: r.priceBGN }))
+      const items = computed
+        .filter(r => r.valid)
+        .map(r => ({ name: r.name.trim(), price: r.priceBGN, discount: r.discountBGN }))
+
       if (items.length === 0) {
-        setMsg({ type: 'error', text: 'Няма валидни цени за записване ❌' })
+        setMsg({ type: 'error', text: 'Няма валидни записи за запазване ❌' })
         return
       }
 
@@ -94,12 +130,12 @@ export default function AdminPricesPage() {
             <div>
               <div className="flex items-center space-x-3 mb-2">
                 <div className="w-12 h-12 rounded-xl bg-gradient-primary/10 flex items-center justify-center">
-                  <Fuel className="w-6 h-6 text-primary" />
+                  <FuelIcon className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h1 className="text-3xl md:text-4xl font-black text-gradient-primary">Админ – Цени</h1>
                   <p className="text-sm text-muted-foreground">
-                    Отстъпката ({fx2(DISCOUNT_BGN)} лв/л) се смята автоматично.
+                    Задайте индивидуални отстъпки за всяко гориво.
                   </p>
                 </div>
               </div>
@@ -197,7 +233,7 @@ export default function AdminPricesPage() {
                         return n
                       })}
                       className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-lg transition-colors ${
-                        it.valid
+                        it.priceValid
                           ? 'border-border focus:border-primary focus:ring-2 focus:ring-primary/20'
                           : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                       }`}
@@ -206,6 +242,36 @@ export default function AdminPricesPage() {
                     <span className="mx-1 text-muted-foreground">/</span>
                     <span className="text-right font-bold text-primary min-w-[60px]">
                       {fx2(it.priceEUR)} €
+                    </span>
+                  </div>
+                </div>
+
+                {/* Discount Input */}
+                <div className="p-4 rounded-xl bg-muted/40 border border-border">
+                  <label className="text-sm font-medium text-muted-foreground mb-2 block">
+                    Отстъпка за картови клиенти:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={it.discountStr}
+                      onChange={(e) => setRows(prev => {
+                        const n = [...prev]
+                        n[idx] = { ...n[idx], discountStr: e.target.value }
+                        return n
+                      })}
+                      className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-lg transition-colors ${
+                        it.discountValid
+                          ? 'border-border focus:border-primary focus:ring-2 focus:ring-primary/20'
+                          : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
+                      }`}
+                    />
+                    <span className="text-sm font-semibold text-muted-foreground">лв</span>
+                    <span className="mx-1 text-muted-foreground">/</span>
+                    <span className="text-right font-bold text-primary min-w-[60px]">
+                      {fx2(it.discountEUR)} €
                     </span>
                   </div>
                 </div>
@@ -221,7 +287,7 @@ export default function AdminPricesPage() {
                       {fx2(it.memberBGN)} лв / {fx2(it.memberEUR)} €
                     </div>
                     <div className="text-xs font-bold text-green-600">
-                      спестяване {fx2(DISCOUNT_BGN)} лв/л / {fx2(DISCOUNT_BGN / BGN_PER_EUR)} €/л
+                      спестяване {fx2(it.discountBGN)} лв/л / {fx2(it.discountEUR)} €/л
                     </div>
                   </div>
                 </div>
@@ -230,7 +296,7 @@ export default function AdminPricesPage() {
                 {!it.valid && (
                   <div className="p-3 rounded-lg bg-red-100 border border-red-300">
                     <p className="text-xs font-medium text-red-800 text-center">
-                      Моля, въведете валидна цена
+                      Моля, проверете цената и отстъпката
                     </p>
                   </div>
                 )}
@@ -251,7 +317,7 @@ export default function AdminPricesPage() {
         <Card className="mt-8 border-primary/20 bg-gradient-primary/5">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Fuel className="w-5 h-5 text-primary" />
+              <FuelIcon className="w-5 h-5 text-primary" />
               <span>Информация</span>
             </CardTitle>
           </CardHeader>
@@ -263,7 +329,7 @@ export default function AdminPricesPage() {
               </li>
               <li className="flex items-start space-x-2">
                 <span className="text-primary font-bold">•</span>
-                <span>Отстъпката от {fx2(DISCOUNT_BGN)} лв/л се прилага автоматично за картови клиенти</span>
+                <span>Отстъпката може да е различна за всяко гориво – следете да не е отрицателна</span>
               </li>
               <li className="flex items-start space-x-2">
                 <span className="text-primary font-bold">•</span>

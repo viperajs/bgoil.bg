@@ -8,12 +8,16 @@ interface FuelCardProps {
 }
 
 const BGN_PER_EUR = 1.95583
-const DISCOUNT_BGN = 0.10
 
 export default function FuelCard({ fuel }: FuelCardProps) {
   const priceBGN = fuel.price
-  const memberPriceBGN = Math.max(0, priceBGN - DISCOUNT_BGN)
-  const savingsBGN = DISCOUNT_BGN
+  const fallbackMember = typeof fuel.memberPrice === 'number' ? fuel.memberPrice : priceBGN
+  const discountBGN =
+    typeof fuel.discount === 'number'
+      ? fuel.discount
+      : Math.max(0, priceBGN - fallbackMember)
+  const memberPriceBGN = Math.max(0, priceBGN - discountBGN)
+  const savingsBGN = discountBGN
 
   const priceEUR = priceBGN / BGN_PER_EUR
   const memberPriceEUR = memberPriceBGN / BGN_PER_EUR

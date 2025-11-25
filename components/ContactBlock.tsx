@@ -3,7 +3,7 @@
 import { contacts } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Phone, Mail, MapPin, Navigation, Copy, Check, CreditCard, Wrench } from "lucide-react"
+import { Phone, Mail, MapPin, Navigation, Copy, Check, CreditCard } from "lucide-react"
 import { useState } from "react"
 
 export default function ContactBlock() {
@@ -77,24 +77,6 @@ export default function ContactBlock() {
                   <a href={`tel:${contacts.hotelPhone}`} className="text-lg font-bold text-primary hover:underline transition-colors">
                     {contacts.hotelPhone}
                   </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-300">
-                <div className="w-12 h-12 rounded-lg bg-gradient-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Wrench className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-card-foreground mb-1">Авточасти и сервиз:</p>
-                  <a href={`tel:${contacts.servicePhone}`} className="text-lg font-bold text-primary hover:underline transition-colors block">
-                    {contacts.servicePhone}
-                  </a>
-                  <p className="text-xs text-muted-foreground">
-                    Имейл:{" "}
-                    <a href={`mailto:${contacts.serviceEmail}`} className="hover:underline">
-                      {contacts.serviceEmail}
-                    </a>
-                  </p>
                 </div>
               </div>
 

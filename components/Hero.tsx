@@ -97,7 +97,7 @@ export default function Hero() {
               <div className="text-sm font-semibold text-white/90">Качество</div>
             </div>
             <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">15+</div>
+              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">21+</div>
               <div className="text-sm font-semibold text-white/90">Години опит</div>
             </div>
           </div>

@@ -3,6 +3,7 @@ export interface Fuel {
   price: number
   memberPrice: number
   unit: string
+  discount?: number
 }
 
 export interface HotelRoom {
@@ -20,9 +21,7 @@ export interface Contacts {
   address: string
   phoneMain: string
   hotelPhone: string
-  servicePhone: string
   email: string
-  serviceEmail: string
   mapsLink: string
   workingHours: string
 }

@@ -1,6 +1,6 @@
 // app/(site)/components/FuelCards.tsx  (Server Component)
 import type { Fuel } from '@/lib/types'
-import { BGN_PER_EUR, DISCOUNT_BGN } from '@/lib/config'
+import { BGN_PER_EUR } from '@/lib/config'
 
 const fx2 = (n: number) => n.toFixed(2)
 
@@ -18,6 +18,11 @@ export default async function FuelCards() {
       {fuels.map(f => {
         const priceEUR = f.price / BGN_PER_EUR
         const memberEUR = f.memberPrice / BGN_PER_EUR
+        const discount =
+          typeof f.discount === 'number'
+            ? f.discount
+            : Math.max(0, f.price - f.memberPrice)
+        const discountEUR = discount / BGN_PER_EUR
         return (
           <div key={f.name} className="rounded-xl border bg-accent/10 p-5">
             <div className="mb-3 flex items-center justify-between">
@@ -38,7 +43,7 @@ export default async function FuelCards() {
                     {fx2(f.memberPrice)} лв / {fx2(memberEUR)} €
                   </div>
                   <div className="text-xs text-primary font-medium">
-                    спестяване {fx2(DISCOUNT_BGN)} лв/л / {fx2(DISCOUNT_BGN / BGN_PER_EUR)} €/л
+                    спестяване {fx2(discount)} лв/л / {fx2(discountEUR)} €/л
                   </div>
                 </div>
               </div>

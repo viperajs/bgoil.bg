@@ -1,7 +1,7 @@
 export const metadata = {
   title: "Контакти",
   description:
-    "Свържете се с BG OIL ВРАЦА - адрес, телефони, имейл и работно време. Намерете ни на бул. Мито Орозов 34.",
+    "Свържете се с BG OIL  - адрес, телефони, имейл и работно време. Намерете ни на бул. Мито Орозов 34.",
 }
 
 import Header from "@/components/Header"
@@ -62,10 +62,6 @@ export default function ContactPage() {
                   <p className="text-sm text-muted-foreground">Хотел резервации:</p>
                   <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
                     <a href={`tel:${contacts.hotelPhone}`}>{contacts.hotelPhone}</a>
-                  </Button>
-                  <p className="text-sm text-muted-foreground">Авточасти и сервиз:</p>
-                  <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
-                    <a href={`tel:${contacts.servicePhone}`}>{contacts.servicePhone}</a>
                   </Button>
                 </CardContent>
               </Card>
