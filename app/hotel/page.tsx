@@ -1,14 +1,51 @@
 import { generateHotelSchema } from "@/lib/schema"
+import type { Metadata } from "next"
+import { companyInfo, contacts } from "@/lib/config"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Хотел",
-  description: "Комфортни стаи и апартаменти в хотела на BG OIL. Резервации на телефон 0889 15 55 12.",
+  description: "Комфортни стаи и апартаменти в хотела на BG OIL Враца. Единични, двойни стаи и луксозни апартаменти с WiFi, паркинг и 24/7 рецепция. Резервации: 0889 15 55 12.",
+  keywords: [
+    "хотел Враца",
+    "стаи Враца",
+    "настаняване Враца",
+    "хотел BG OIL",
+    "резервация хотел Враца",
+    "апартаменти Враца",
+    "хотелски стаи Враца",
+    "нощувка Враца",
+    "хотел с паркинг Враца",
+    "хотел 24/7 Враца",
+  ],
+  openGraph: {
+    title: `Хотел ${companyInfo.name} - Комфортни стаи и апартаменти във Враца`,
+    description: "Комфортни стаи и апартаменти в хотела на BG OIL Враца. WiFi, паркинг, 24/7 рецепция. Резервации: 0889 15 55 12.",
+    url: "https://bgoil.bg/hotel",
+    type: "website",
+    images: [
+      {
+        url: "https://bgoil.bg/modern-hotel-room-with-comfortable-bed.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Хотел BG OIL Враца - Комфортни стаи",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Хотел ${companyInfo.name} - Комфортни стаи във Враца`,
+    description: "Комфортни стаи и апартаменти с WiFi, паркинг и 24/7 рецепция. Резервации: 0889 15 55 12.",
+    images: ["https://bgoil.bg/modern-hotel-room-with-comfortable-bed.jpg"],
+  },
+  alternates: {
+    canonical: "https://bgoil.bg/hotel",
+  },
 }
 
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import HotelTable from "@/components/HotelTable"
-import { hotelRooms, contacts } from "@/lib/config"
+import { hotelRooms } from "@/lib/config"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"

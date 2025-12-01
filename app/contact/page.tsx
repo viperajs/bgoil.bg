@@ -1,13 +1,50 @@
-export const metadata = {
+import type { Metadata } from "next"
+import { companyInfo, contacts } from "@/lib/config"
+
+export const metadata: Metadata = {
   title: "Контакти",
   description:
-    "Свържете се с BG OIL  - адрес, телефони, имейл и работно време. Намерете ни на бул. Мито Орозов 34.",
+    `Свържете се с ${companyInfo.name} - адрес: ${contacts.address}, телефони: ${contacts.phoneMain} (основен), ${contacts.hotelPhone} (хотел), ${contacts.servicePhone} (автосервиз). Работно време: 24/7.`,
+  keywords: [
+    "BG OIL контакти",
+    "бензиностанция Враца адрес",
+    "BG OIL телефон",
+    "BG OIL Враца адрес",
+    "бензиностанция Враца телефон",
+    "хотел Враца резервации",
+    "автосервиз Враца телефон",
+    "бул. Мито Орозов 34",
+    "BG OIL имейл",
+    "работи 24/7 Враца",
+  ],
+  openGraph: {
+    title: `Контакти - ${companyInfo.name}`,
+    description: `Свържете се с ${companyInfo.name}. Адрес: ${contacts.address}. Телефони: ${contacts.phoneMain}, ${contacts.hotelPhone}. Работно време: 24/7.`,
+    url: "https://bgoil.bg/contact",
+    type: "website",
+    images: [
+      {
+        url: "https://bgoil.bg/background.png",
+        width: 1200,
+        height: 630,
+        alt: `${companyInfo.name} - Контакти и местоположение`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Контакти - ${companyInfo.name}`,
+    description: `Адрес: ${contacts.address}. Телефони: ${contacts.phoneMain}, ${contacts.hotelPhone}. Работно време: 24/7.`,
+    images: ["https://bgoil.bg/background.png"],
+  },
+  alternates: {
+    canonical: "https://bgoil.bg/contact",
+  },
 }
 
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ContactBlock from "@/components/ContactBlock"
-import { contacts } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Mail, Clock, Navigation } from "lucide-react"

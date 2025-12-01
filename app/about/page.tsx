@@ -1,4 +1,5 @@
 import { generateLocalBusinessSchema } from "@/lib/schema"
+import type { Metadata } from "next"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { services, companyInfo } from "@/lib/config"
@@ -7,9 +8,44 @@ import { Badge } from "@/components/ui/badge"
 import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, BedDouble, Wrench } from "lucide-react"
 import Image from "next/image"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "За нас",
-  description: "Научете повече за BG OIL - нашите услуги, история и ангажимент към качеството.",
+  description: `Научете повече за ${companyInfo.name} - нашата история, услуги и ангажимент към качеството. Модерна бензиностанция с хотел, автосервиз и 24/7 магазин във Враца. ${companyInfo.slogan}.`,
+  keywords: [
+    "BG OIL история",
+    "BG OIL Враца",
+    "бензиностанция Враца",
+    "качество горива",
+    "BG OIL услуги",
+    "бензиностанция с хотел",
+    "автосервиз Враца",
+    "24/7 магазин Враца",
+    "качеството над всичко",
+    "BG OIL за нас",
+  ],
+  openGraph: {
+    title: `За нас - ${companyInfo.name}`,
+    description: `${companyInfo.slogan}. Научете повече за нашата история, услуги и ангажимент към качеството. Модерна бензиностанция с хотел, автосервиз и 24/7 магазин във Враца.`,
+    url: "https://bgoil.bg/about",
+    type: "website",
+    images: [
+      {
+        url: "https://bgoil.bg/background.png",
+        width: 1200,
+        height: 630,
+        alt: `${companyInfo.name} - За нас`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `За нас - ${companyInfo.name}`,
+    description: `${companyInfo.slogan}. Нашата история, услуги и ангажимент към качеството във Враца.`,
+    images: ["https://bgoil.bg/background.png"],
+  },
+  alternates: {
+    canonical: "https://bgoil.bg/about",
+  },
 }
 
 export default function AboutPage() {

@@ -1,10 +1,49 @@
 // app/products/page.tsx
+import type { Metadata } from "next"
+import { companyInfo } from "@/lib/config"
+
 export const revalidate = 0; // без кеширане на страницата (или export const dynamic = 'force-dynamic')
 
-export const metadata = {
-  title: "Продукти",
+export const metadata: Metadata = {
+  title: "Продукти и цени",
   description:
-    "Актуални цени на горива в BG OIL - дизел, бензин А95, А98 и AdBlue с отстъпки за картови клиенти.",
+    "Актуални цени на горива в BG OIL Враца - бензин А95, дизел, ГПБ и AdBlue. Специални отстъпки за картови клиенти. Качествени горива на конкурентни цени.",
+  keywords: [
+    "горива Враца",
+    "бензин Враца",
+    "дизел Враца",
+    "AdBlue Враца",
+    "цени горива Враца",
+    "бензин А95 Враца",
+    "BG OIL цени",
+    "карта BG OIL",
+    "отстъпки горива",
+    "качествени горива Враца",
+    "горива 24/7",
+  ],
+  openGraph: {
+    title: `Продукти и цени - ${companyInfo.name}`,
+    description: "Актуални цени на горива - бензин А95, дизел, ГПБ и AdBlue с отстъпки за картови клиенти. Качествени горива във Враца.",
+    url: "https://bgoil.bg/products",
+    type: "website",
+    images: [
+      {
+        url: "https://bgoil.bg/background.png",
+        width: 1200,
+        height: 630,
+        alt: "BG OIL Враца - Горива и цени",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Продукти и цени - ${companyInfo.name}`,
+    description: "Актуални цени на горива с отстъпки за картови клиенти. Бензин, дизел, AdBlue във Враца.",
+    images: ["https://bgoil.bg/background.png"],
+  },
+  alternates: {
+    canonical: "https://bgoil.bg/products",
+  },
 }
 
 import Header from "@/components/Header"
