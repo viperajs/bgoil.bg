@@ -87,7 +87,10 @@ export default function Hero() {
           </div>
 
           {/* Stats - по-видими */}
-          <div className="grid grid-cols-3 gap-6 mt-20 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          <div
+            className="grid grid-cols-3 gap-6 max-[768px]:gap-4 max-[427px]:grid-cols-1 mt-20 max-w-3xl w-full mx-auto animate-fade-in-up"
+            style={{ animationDelay: "0.4s" }}
+          >
             <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
               <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">24/7</div>
               <div className="text-sm font-semibold text-white/90">Работно време</div>

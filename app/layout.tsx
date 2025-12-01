@@ -50,7 +50,9 @@ export const metadata: Metadata = {
     description: companyInfo.description,
     images: [
       {
-        url: "/background.png",
+        url: "https://bgoil.bg/background.png",
+        width: 1200,
+        height: 630,
         type: "image/png",
         alt: companyInfo.name,
       },
@@ -60,8 +62,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: companyInfo.name,
     description: companyInfo.description,
-    images: ["/background.png"],
-  },
+    images: ["https://bgoil.bg/background.png"],
+  },  
   icons: {
     icon: [
       {
