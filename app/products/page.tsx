@@ -4,7 +4,7 @@ export const revalidate = 0; // без кеширане на страницат�
 export const metadata = {
   title: "Продукти",
   description:
-    "Актуални цени на горива в BG OIL ВРАЦА - дизел, бензин А95, А98 и AdBlue с отстъпки за картови клиенти.",
+    "Актуални цени на горива в BG OIL - дизел, бензин А95, А98 и AdBlue с отстъпки за картови клиенти.",
 }
 
 import Header from "@/components/Header"

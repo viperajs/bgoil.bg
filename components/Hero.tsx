@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/modern-fuel-station-with-blue-and-red-branding.jpg"
-          alt="BG OIL Враца бензиностанция"
+          alt="BG OIL бензиностанция"
           fill
           className="object-cover"
           priority

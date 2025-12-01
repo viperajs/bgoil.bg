@@ -3,24 +3,16 @@ import type { Fuel, HotelRoom, Service, Contacts, CompanyInfo } from '@/lib/type
 export const BGN_PER_EUR = 1.95583
 export const DISCOUNT_BGN = 0.10
 
-const withDiscount = (name: string, price: number, unit = 'лв/л', discount = DISCOUNT_BGN): Fuel => ({
-  name,
-  price,
-  unit,
-  discount,
-  memberPrice: Math.max(0, price - discount),
-})
-
 export const fuels: Fuel[] = [
-  withDiscount('Дизел', 2.29),
-  withDiscount('Бензин А95', 2.29),
-  withDiscount('Г П Б', 1.05),
-  withDiscount('AdBlue', 1.19),
+  { name: 'Бензин А95', price: 2.29, memberPrice: 2.29 - DISCOUNT_BGN, unit: 'лв/л' },
+  { name: 'Дизел',      price: 2.29, memberPrice: 2.29 - DISCOUNT_BGN, unit: 'лв/л' },
+  { name: 'Г П Б',      price: 1.05, memberPrice: 1.05 - DISCOUNT_BGN, unit: 'лв/л' },
+  { name: 'AdBlue',     price: 1.19, memberPrice: 1.19 - DISCOUNT_BGN, unit: 'лв/л' },
 ]
 
 // (по желание) останалите секции може да си оставиш както са при теб:
 export const companyInfo: CompanyInfo = {
-  name: 'BG OIL',
+  name: 'BG OIL ВРАЦА',
   slogan: 'Качеството над всичко',
   description: 'Модерна бензиностанция с 24/7 магазин, хотел, автосервиз и пълен спектър от услуги във Враца.',
 }
@@ -42,7 +34,9 @@ export const contacts: Contacts = {
   address: 'гр. Враца 3000, бул. Мито Орозов 34',
   phoneMain: '+359 878 618 640',
   hotelPhone: '0889 15 55 12',
+  servicePhone: '+359 87 714 1742',
   email: 'bgoil_3000@abv.bg',
+  serviceEmail: 'autoservice_1313@abv.bg',
   mapsLink: 'https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8',
   workingHours: 'Работно време: 24/7',
 }

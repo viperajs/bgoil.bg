@@ -7,7 +7,7 @@ import { companyInfo } from "@/lib/config"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bgoil.com"),
+  metadataBase: new URL("https://bgoil.bg"),
   title: {
     default: companyInfo.name,
     template: `%s | ${companyInfo.name}`,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   creator: companyInfo.name,
   publisher: companyInfo.name,
   alternates: {
-    canonical: "https://bgoil.com",
+    canonical: "https://bgoil.bg",
   },
   formatDetection: {
     email: false,
@@ -44,15 +44,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "bg_BG",
-    url: "https://bgoil.com",
+    url: "https://bgoil.bg",
     siteName: companyInfo.name,
     title: companyInfo.name,
     description: companyInfo.description,
     images: [
       {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: "/background.png",
+        type: "image/png",
         alt: companyInfo.name,
       },
     ],
@@ -61,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: companyInfo.name,
     description: companyInfo.description,
-    images: ["/og-image.jpg"],
+    images: ["/background.png"],
   },
   icons: {
     icon: [

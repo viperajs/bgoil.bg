@@ -54,7 +54,7 @@ export async function GET(request: Request) {
       summary_bg: string
     }>
     
-    const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://bgoil.com'
+    const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://bgoil.bg'
     const now = new Date().toUTCString()
     
     // Форматиране на дата за RSS (RFC 822)
@@ -70,7 +70,7 @@ export async function GET(request: Request) {
     const header = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Новини за горива — BG OIL </title>
+    <title>Новини за горива — BG OIL</title>
     <link>${BASE_URL}/news-feed</link>
     <description>Актуални новини за горива, бензин, дизел, LPG и суров петрол. Резюмета на български.</description>
     <language>bg</language>
