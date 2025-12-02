@@ -42,9 +42,6 @@ export default function Hero() {
               <span className="block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] mb-3">
                 BG OIL
               </span>
-              <span className="block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-                ВРАЦА
-              </span>
             </h1>
             
             <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] mb-4">

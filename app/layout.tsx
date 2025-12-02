@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
-import { generateLocalBusinessSchema, generateOrganizationSchema } from "@/lib/schema"
+import { generateLocalBusinessSchema, generateOrganizationSchema, generateFAQPageSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
 
 import "./globals.css"
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: companyInfo.name,
     template: `%s | ${companyInfo.name}`,
   },
-  description: "BG OIL - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка. Качествени горива (бензин, дизел, AdBlue), комфортни стаи за настаняване и пълен спектър от услуги. Работим 24/7 за вашето удобство.",
+  description: "BG OIL ВРАЦА - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка във Враца. Качествени горива (бензин, дизел, AdBlue), комфортни стаи за настаняване и пълен спектър от услуги. Работим 24/7 за вашето удобство.",
   keywords: [
     "бензиностанция Враца",
     "горива Враца",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     url: "https://bgoil.bg",
     siteName: companyInfo.name,
     title: `${companyInfo.name} - ${companyInfo.slogan}`,
-    description: "BG OIL - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка. Качествени горива, комфортни стаи и пълен спектър от услуги във Враца. Работим 24/7.",
+    description: "BG OIL ВРАЦА - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка във Враца. Качествени горива, комфортни стаи и пълен спектър от услуги. Работим 24/7.",
     images: [
       {
         url: "https://bgoil.bg/background.png",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `${companyInfo.name} - ${companyInfo.slogan}`,
-    description: "BG OIL - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка. Качествени горива и услуги във Враца.",
+    description: "BG OIL ВРАЦА - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка във Враца. Качествени горива и услуги.",
     images: ["https://bgoil.bg/background.png"],
     creator: "@bgoil",
   },  
@@ -133,6 +133,7 @@ export default function RootLayout({
 }>) {
   const localBusinessSchema = generateLocalBusinessSchema()
   const organizationSchema = generateOrganizationSchema()
+  const faqSchema = generateFAQPageSchema()
 
   return (
     <html lang="bg">
@@ -147,6 +148,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
           }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

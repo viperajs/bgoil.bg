@@ -280,7 +280,7 @@ export default function AdminPricesPage() {
                 <div className="p-4 rounded-xl bg-gradient-primary/10 border-2 border-primary/20">
                   <div className="flex items-center space-x-2 mb-3">
                     <Sparkles className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-bold text-primary">С карта BG OIL:</span>
+                    <span className="text-sm font-bold text-primary">С карта:</span>
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-black text-primary mb-1">

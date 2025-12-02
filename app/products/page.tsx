@@ -7,7 +7,7 @@ export const revalidate = 0; // без кеширане на страницат�
 export const metadata: Metadata = {
   title: "Продукти и цени",
   description:
-    "Актуални цени на горива в BG OIL Враца - бензин А95, дизел, ГПБ и AdBlue. Специални отстъпки за картови клиенти. Качествени горива на конкурентни цени.",
+    "Актуални цени на горива в BG OIL - бензин А95, дизел, ГПБ и AdBlue. Специални отстъпки за картови клиенти. Качествени горива на конкурентни цени.",
   keywords: [
     "горива Враца",
     "бензин Враца",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: "https://bgoil.bg/background.png",
         width: 1200,
         height: 630,
-        alt: "BG OIL Враца - Горива и цени",
+        alt: "BG OIL ВРАЦА - Горива и цени",
       },
     ],
   },
@@ -108,7 +108,7 @@ export default async function ProductsPage() {
                 <div className="flex flex-col gap-2">
                   <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
                     <CreditCard className="h-4 w-4 text-primary" />
-                    BG OIL CARD
+                    Карта за лоялност
                   </div>
                   <CardTitle className="text-3xl font-bold text-white">
                     Предимства на картата BG OIL
