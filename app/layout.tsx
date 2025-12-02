@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
-import { generateLocalBusinessSchema, generateOrganizationSchema, generateFAQPageSchema } from "@/lib/schema"
+import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
 
 import "./globals.css"
@@ -14,26 +14,59 @@ export const metadata: Metadata = {
   },
   description: "BG OIL ВРАЦА - модерна бензиностанция с 24/7 магазин, хотел, автосервиз и автомивка във Враца. Качествени горива (бензин, дизел, AdBlue), комфортни стаи за настаняване и пълен спектър от услуги. Работим 24/7 за вашето удобство.",
   keywords: [
-    "бензиностанция Враца",
-    "горива Враца",
-    "хотел Враца",
-    "BG OIL",
-    "автосервиз",
-    "автомивка",
-    "бензин",
-    "дизел",
-    "AdBlue",
-    "настаняване",
-    "стаи",
-    "резервация хотел Враца",
-    "24/7 бензиностанция",
-    "качествени горива",
-    "бензиностанция с хотел",
-    "автосервиз и автомивка",
-    "горива на конкурентни цени",
-    "хотелски стаи Враца",
-    "бензиностанция 24 часа",
-  ],
+  "бензиностанция Враца",
+  "горива Враца",
+  "хотел Враца",
+  "BG OIL",
+  "BG OIL Враца",
+  "BG Oil Враца",
+  "Bg Oil Враца",
+  "бензиностанция BG OIL",
+  "bg oil враца горива",
+  "бензиностанция до Враца",
+  
+  "автосервиз Враца",
+  "автомивка Враца",
+  "център за услуги автомобили",
+  "24/7 бензиностанция Враца",
+  "денонощна бензиностанция Враца",
+
+  "бензин Враца",
+  "дизел Враца",
+  "качествен бензин",
+  "качествен дизел",
+  "AdBlue Враца",
+  "горива на конкурентни цени",
+  "евтини горива Враца",
+  "premium горива",
+
+  "хотелски стаи Враца",
+  "стаи под наем Враца",
+  "настаняване Враца",
+  "нощувки Враца",
+  "резервация хотел Враца",
+  "хотел до бензиностанция",
+
+  "бензиностанция с хотел",
+  "бензиностанция с автомивка",
+  "бензиностанция с автосервиз",
+  "автосервиз и автомивка Враца",
+
+  "удобна локация Враца",
+  "спиране за почивка Враца",
+  "комплекс услуги за шофьори",
+  "пътна отбивка Враца",
+  "транспорт и логистика Враца",
+
+  "масла и автоаксесоари Враца",
+  "поддръжка на автомобили Враца",
+  "бърз автосервиз Враца",
+
+  "бензиностанция 24 часа",
+  "денонощни горива",
+  "горива за камиони и автомобили"
+]
+,
   authors: [{ name: companyInfo.name }],
   creator: companyInfo.name,
   publisher: companyInfo.name,
@@ -131,9 +164,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const localBusinessSchema = generateLocalBusinessSchema()
-  const organizationSchema = generateOrganizationSchema()
-  const faqSchema = generateFAQPageSchema()
+  const combinedSchema = generateCombinedSchema()
 
   return (
     <html lang="bg">
@@ -141,19 +172,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqSchema),
+            __html: JSON.stringify(combinedSchema),
           }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
