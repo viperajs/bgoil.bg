@@ -17,6 +17,7 @@ export interface Service {
   icon: string
 }
 
+
 export interface Contacts {
   address: string
   phoneMain: string
