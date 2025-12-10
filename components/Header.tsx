@@ -67,7 +67,7 @@ export default function Header() {
             >
               <Image
                 src="/bg-oil-logo.webp"
-                alt="BG OIL Logo"
+                alt="BG OIL"
                 width={140}
                 height={50}
                 className="h-12 w-auto transition-transform duration-300 group-hover:scale-110"
@@ -162,7 +162,7 @@ export default function Header() {
             >
               <Image
                 src="/bg-oil-logo.webp"
-                alt="BG OIL Logo"
+                alt="BG OIL"
                 width={120}
                 height={40}
                 className="h-10 w-auto"
