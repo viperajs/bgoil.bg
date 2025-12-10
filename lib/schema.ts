@@ -128,7 +128,11 @@ export function generateCombinedSchema() {
       "@type": "Organization",
       name: companyInfo.name,
       url: "https://bgoil.bg",
-      logo: "https://bgoil.bg/bg-oil-logo.webp",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://bgoil.bg/bg-oil-logo.webp",
+        name: companyInfo.name,
+      },
       description: companyInfo.description,
       address: {
         "@type": "PostalAddress",

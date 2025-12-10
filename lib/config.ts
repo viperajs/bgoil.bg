@@ -12,7 +12,7 @@ export const fuels: Fuel[] = [
 
 // (по желание) останалите секции може да си оставиш както са при теб:
 export const companyInfo: CompanyInfo = {
-  name: 'BG OIL ВРАЦА',
+  name: 'BG OIL',
   slogan: 'Качеството над всичко',
   description: 'Модерна бензиностанция с 24/7 магазин, хотел, автосервиз и пълен спектър от услуги във Враца.',
 }
