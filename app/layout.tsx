@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
+import ChristmasDecorations from "@/components/ChristmasDecorations"
 
 import "./globals.css"
 
@@ -182,6 +183,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="font-sans">
+        <ChristmasDecorations />
         {children}
         <Analytics />
       </body>

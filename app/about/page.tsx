@@ -4,7 +4,7 @@ import Footer from "@/components/Footer"
 import { services, companyInfo } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, BedDouble, Wrench } from "lucide-react"
+import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, BedDouble, Wrench, CreditCard } from "lucide-react"
 import Image from "next/image"
 
 export const metadata: Metadata = {
@@ -282,7 +282,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
               <Card className="border-primary/30 bg-background/80 shadow-lg hover-lift">
                 <CardHeader className="space-y-4">
                   <div className="flex items-center space-x-4">
@@ -359,6 +359,47 @@ export default function AboutPage() {
                     <li className="flex items-start space-x-3">
                       <span className="text-secondary font-bold mt-1">•</span>
                       <span>Автомивка на самообслужване за финалното полиране преди път</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-accent/30 bg-background/80 shadow-lg hover-lift">
+                <CardHeader className="space-y-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center">
+                      <CreditCard className="w-7 h-7 text-accent" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl font-bold text-card-foreground">EasyPay каса</CardTitle>
+                      <p className="text-sm text-muted-foreground">Бързо и удобно плащане на сметки</p>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    На разположение е EasyPay каса за бързо и удобно плащане на различни сметки и услуги без излишно губене на време.
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm text-muted-foreground">
+                    <li className="flex items-start space-x-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Плащане на сметки за ток, вода, телефон и интернет</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Плащане на данъци и такси</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Попълване на мобилни кредити</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Плащане на застраховки</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Доступно 24/7 за вашето удобство</span>
                     </li>
                   </ul>
                 </CardContent>

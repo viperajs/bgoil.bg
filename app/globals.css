@@ -1,11 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 /* Тъмна вариация с клас .dark на <html> или <body> */
 @custom-variant dark (&:is(.dark *));
-
-/* Зареждане на шрифтове от Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap");
 
 /* Глобални стилове */
 html {
@@ -610,4 +608,164 @@ p {
   100% {
     transform: translate(50px, 50px);
   }
+}
+
+/* ====== CHRISTMAS DECORATIONS ====== */
+/* Enhanced falling snow with glow */
+@keyframes snow-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.christmas-snowflake {
+  animation: snow-fall linear infinite;
+  will-change: transform, opacity;
+}
+
+/* Glowing lights animation */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+    filter: brightness(1) blur(2px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+    filter: brightness(1.8) blur(3px);
+  }
+}
+
+.christmas-glow-light {
+  animation: glow-pulse 2s ease-in-out infinite;
+  will-change: opacity, transform, filter;
+}
+
+/* Twinkling stars animation */
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.6));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.9));
+  }
+}
+
+.christmas-star {
+  animation: star-twinkle 3s ease-in-out infinite;
+  will-change: opacity, transform, filter;
+}
+
+/* Twinkling lights animation */
+@keyframes light-twinkle {
+  0%, 100% {
+    opacity: 0.5;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.8);
+  }
+}
+
+.christmas-light {
+  animation: light-twinkle 1.5s ease-in-out infinite;
+  will-change: opacity, filter;
+}
+
+/* Floating decoration animation */
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(8deg);
+  }
+}
+
+.christmas-float {
+  animation: float-gentle 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Side ornaments animation */
+@keyframes ornament-sway {
+  0%, 100% {
+    transform: translateX(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(8px) rotate(5deg);
+  }
+}
+
+.christmas-ornament {
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+  animation: ornament-sway 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.christmas-ornament-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Holiday gradient overlay utility */
+.christmas-gradient-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(220, 38, 38, 0.08) 0%,
+    rgba(34, 197, 94, 0.08) 50%,
+    rgba(220, 38, 38, 0.08) 100%
+  );
+  mix-blend-mode: overlay;
+}
+
+/* Glowing effect for Christmas scene elements */
+@keyframes scene-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.9));
+  }
+}
+
+.christmas-scene-glow {
+  animation: scene-glow 2.5s ease-in-out infinite;
+  will-change: filter;
+}
+
+/* Gift box animation */
+@keyframes gift-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+.christmas-gift {
+  animation: gift-bounce 3s ease-in-out infinite;
+  will-change: transform;
 }

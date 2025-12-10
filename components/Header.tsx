@@ -40,8 +40,26 @@ export default function Header() {
             : "bg-[#04060f]/80 backdrop-blur-lg border-b border-white/10"
         }`}
       >
+        {/* Christmas Header Accents - Lights and Stars */}
+        <div className="absolute top-0 left-0 right-0 h-full pointer-events-none overflow-hidden" aria-hidden="true">
+          <div className="absolute top-2 left-[5%] christmas-light text-red-500/60" style={{ fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[15%] christmas-light text-green-500/60" style={{ animationDelay: "0.3s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[25%] christmas-light text-red-500/60" style={{ animationDelay: "0.6s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[35%] christmas-light text-yellow-500/60" style={{ animationDelay: "0.2s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[45%] christmas-light text-red-500/60" style={{ animationDelay: "0.5s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[55%] christmas-light text-green-500/60" style={{ animationDelay: "0.4s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[65%] christmas-light text-yellow-500/60" style={{ animationDelay: "0.7s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[75%] christmas-light text-red-500/60" style={{ animationDelay: "0.1s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[85%] christmas-light text-green-500/60" style={{ animationDelay: "0.8s", fontSize: "8px" }}>●</div>
+          <div className="absolute top-2 left-[95%] christmas-light text-yellow-500/60" style={{ animationDelay: "0.5s", fontSize: "8px" }}>●</div>
+          
+          {/* Small stars */}
+          <div className="absolute top-4 right-[8%] christmas-star text-yellow-300/40" style={{ fontSize: "10px" }}>✦</div>
+          <div className="absolute top-4 right-[12%] christmas-star text-yellow-300/30" style={{ animationDelay: "1s", fontSize: "8px" }}>✦</div>
+        </div>
+        
         <div className="container mx-auto px-4">
-          <div className="flex items-center h-20 gap-6">
+          <div className="flex items-center h-20 gap-6 relative z-10">
             {/* Logo */}
             <Link 
               href="/" 
@@ -125,8 +143,17 @@ export default function Header() {
             : "bg-[#04060f]/85 backdrop-blur-lg border-b border-white/10"
         }`}
       >
+        {/* Christmas Mobile Header Accents */}
+        <div className="absolute top-0 left-0 right-0 h-full pointer-events-none overflow-hidden" aria-hidden="true">
+          <div className="absolute top-1 left-[10%] christmas-light text-red-500/50" style={{ fontSize: "6px" }}>●</div>
+          <div className="absolute top-1 left-[30%] christmas-light text-green-500/50" style={{ animationDelay: "0.3s", fontSize: "6px" }}>●</div>
+          <div className="absolute top-1 left-[50%] christmas-light text-yellow-500/50" style={{ animationDelay: "0.6s", fontSize: "6px" }}>●</div>
+          <div className="absolute top-1 left-[70%] christmas-light text-red-500/50" style={{ animationDelay: "0.2s", fontSize: "6px" }}>●</div>
+          <div className="absolute top-1 left-[90%] christmas-light text-green-500/50" style={{ animationDelay: "0.5s", fontSize: "6px" }}>●</div>
+        </div>
+        
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 relative z-10">
             {/* Logo */}
             <Link 
               href="/" 
