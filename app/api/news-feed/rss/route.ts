@@ -70,7 +70,7 @@ export async function GET(request: Request) {
     const header = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Новини за горива — BG OIL ВРАЦА</title>
+    <title>Новини за горива — BG OIL , ВРАЦА</title>
     <link>${BASE_URL}/news-feed</link>
     <description>Актуални новини за горива, бензин, дизел, LPG и суров петрол. Резюмета на български.</description>
     <language>bg</language>
