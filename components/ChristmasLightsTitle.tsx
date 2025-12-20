@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 
 /**
  * ChristmasLightsTitle Component
@@ -49,6 +49,36 @@ export default function ChristmasLightsTitle({
   glowIntensity = "medium",
   animationSpeed = "normal",
 }: ChristmasLightsTitleProps) {
+  const [isRevealed, setIsRevealed] = useState(false) // Start hidden for animation
+  const [isAnimating, setIsAnimating] = useState(true)
+  const [animationKey, setAnimationKey] = useState(0)
+  
+  // Convert children to string for letter-by-letter animation
+  const textContent = typeof children === 'string' ? children : String(children)
+  const letters = textContent.split('')
+
+  // Auto-trigger animation on mount and when component remounts (reload)
+  useEffect(() => {
+    setIsAnimating(true)
+    setIsRevealed(false)
+    setAnimationKey(prev => prev + 1)
+    
+    // Small delay before starting animation
+    const startTimer = setTimeout(() => {
+      setIsRevealed(true)
+    }, 100)
+    
+    // Reset animation state after completion
+    const endTimer = setTimeout(() => {
+      setIsAnimating(false)
+    }, letters.length * 80 + 700)
+    
+    return () => {
+      clearTimeout(startTimer)
+      clearTimeout(endTimer)
+    }
+  }, []) // Empty dependency array - runs on mount/reload
+
   if (!enabled) {
     return <>{children}</>
   }
@@ -134,8 +164,11 @@ export default function ChristmasLightsTitle({
   ]
 
   return (
-    <span className="relative inline-block">
-      {/* Text with multi-layered glow shadow */}
+    <span 
+      className="relative inline-block select-none"
+      style={{ userSelect: 'none' }}
+    >
+      {/* Text with multi-layered glow shadow - letter by letter reveal */}
       <span
         className="relative z-10 inline-block"
         style={{
@@ -143,7 +176,34 @@ export default function ChristmasLightsTitle({
           filter: "drop-shadow(0 0 2px rgba(255, 255, 255, 0.3))",
         }}
       >
-        {children}
+        {letters.map((letter, index) => {
+          const isSpace = letter === ' '
+          // Only apply delay during animation (when clicked), not on initial load
+          const delay = isAnimating && !isRevealed ? 0 : (isRevealed && isAnimating ? index * 0.08 : 0)
+          const colorIndex = index % LIGHT_COLORS.length
+          
+          return (
+            <span
+              key={`${animationKey}-${index}`}
+              className={`inline-block transition-all duration-700 ease-out ${
+                isRevealed 
+                  ? 'opacity-100 translate-y-0 scale-100' 
+                  : 'opacity-0 translate-y-4 scale-75'
+              }`}
+              style={{
+                transitionDelay: isAnimating ? `${delay}s` : '0s',
+                transform: isRevealed 
+                  ? 'translateY(0) scale(1) rotateY(0deg)' 
+                  : 'translateY(1rem) scale(0.75) rotateY(90deg)',
+                textShadow: isRevealed && isAnimating
+                  ? `0 0 25px ${LIGHT_COLORS[colorIndex].pulse}, 0 0 50px ${LIGHT_COLORS[colorIndex].glow}, ${config.shadows.join(", ")}`
+                  : config.shadows.join(", "),
+              }}
+            >
+              {isSpace ? '\u00A0' : letter}
+            </span>
+          )
+        })}
       </span>
 
       {/* Subtle particles positioned around text outline */}

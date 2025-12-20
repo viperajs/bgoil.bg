@@ -34,66 +34,75 @@ export default function Header() {
     <>
       {/* Desktop Navigation */}
       <header
-        className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-[#050910]/95 backdrop-blur-xl shadow-2xl border-b border-primary/40"
-            : "bg-[#04060f]/80 backdrop-blur-lg border-b border-white/10"
+            ? "bg-[#050910]/98 backdrop-blur-xl shadow-2xl"
+            : "bg-[#04060f]/60 backdrop-blur-md"
         }`}
+        style={{
+          borderBottom: isScrolled 
+            ? '1px solid transparent'
+            : '1px solid transparent',
+          backgroundImage: isScrolled
+            ? 'linear-gradient(to bottom, rgba(255, 59, 59, 0.15), transparent), linear-gradient(to bottom, rgba(255, 59, 59, 0.05), transparent)'
+            : 'linear-gradient(to bottom, rgba(255, 255, 255, 0.03), transparent)',
+          backgroundClip: 'padding-box, border-box',
+        }}
       >
-        {/* Christmas Header Accents - Lights and Stars */}
-        <div className="absolute top-0 left-0 right-0 h-full pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute top-2 left-[5%] christmas-light text-red-500/60" style={{ fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[15%] christmas-light text-green-500/60" style={{ animationDelay: "0.3s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[25%] christmas-light text-red-500/60" style={{ animationDelay: "0.6s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[35%] christmas-light text-yellow-500/60" style={{ animationDelay: "0.2s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[45%] christmas-light text-red-500/60" style={{ animationDelay: "0.5s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[55%] christmas-light text-green-500/60" style={{ animationDelay: "0.4s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[65%] christmas-light text-yellow-500/60" style={{ animationDelay: "0.7s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[75%] christmas-light text-red-500/60" style={{ animationDelay: "0.1s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[85%] christmas-light text-green-500/60" style={{ animationDelay: "0.8s", fontSize: "8px" }}>●</div>
-          <div className="absolute top-2 left-[95%] christmas-light text-yellow-500/60" style={{ animationDelay: "0.5s", fontSize: "8px" }}>●</div>
-          
-          {/* Small stars */}
-          <div className="absolute top-4 right-[8%] christmas-star text-yellow-300/40" style={{ fontSize: "10px" }}>✦</div>
-          <div className="absolute top-4 right-[12%] christmas-star text-yellow-300/30" style={{ animationDelay: "1s", fontSize: "8px" }}>✦</div>
-        </div>
-        
         <div className="container mx-auto px-4">
           <div className="flex items-center h-20 gap-6 relative z-10">
             {/* Logo */}
             <Link 
               href="/" 
-              className="flex items-center group hover-scale transition-transform duration-300"
+              className="flex items-center group transition-all duration-300 hover:scale-105"
             >
-              <Image
-                src="/bg-oil-logo.webp"
-                alt="BG OIL"
-                width={140}
-                height={50}
-                className="h-12 w-auto transition-transform duration-300 group-hover:scale-110"
-                priority
-              />
+              <div className="relative">
+                <Image
+                  src="/bg-oil-logo.webp"
+                  alt="BG OIL"
+                  width={140}
+                  height={50}
+                  className="h-12 w-auto transition-all duration-300"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+              </div>
             </Link>
 
             {/* Desktop Navigation & CTA cluster */}
             <div className="flex-1 flex justify-end">
-              <div className="flex items-center gap-4 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.45)] flex-nowrap">
-                <nav className="flex items-center gap-3 pr-4 border-r border-white/10">
+              <div 
+                className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-white/5 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+                style={{
+                  border: '1px solid transparent',
+                  backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)), linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                  backgroundClip: 'padding-box, border-box',
+                }}
+              >
+                <nav 
+                  className="flex items-center gap-1.5 pr-2"
+                  style={{
+                    borderRight: '1px solid transparent',
+                    backgroundImage: 'linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                    backgroundClip: 'padding-box',
+                  }}
+                >
                   {navigation.map((item) => {
                     const isActive = pathname === item.href
                     return (
                       <Link
                         key={item.name}
                         href={item.href}
-                        className={`inline-flex flex-col items-center gap-2 px-4 py-1.5 text-sm font-semibold tracking-wide transition-all duration-300 rounded-lg ${
+                        className={`relative px-4 py-2 text-sm font-semibold tracking-wide rounded-full transition-all duration-300 ${
                           isActive
-                            ? "text-white bg-primary/30 shadow-lg shadow-primary/25 ring-1 ring-primary/40"
-                            : "text-white/70 hover:text-white hover:bg-white/10"
+                            ? "text-white bg-gradient-to-r from-[#ff3b3b] to-[#ff6a2c] shadow-lg shadow-[#ff3b3b]/40"
+                            : "text-white/80 hover:text-white hover:bg-white/10"
                         }`}
+                        aria-current={isActive ? "page" : undefined}
                       >
-                        <span>{item.name}</span>
+                        {item.name}
                         {isActive && (
-                          <span className="block w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_12px_rgba(255,59,59,0.8)]"></span>
+                          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
                         )}
                       </Link>
                     )
@@ -101,14 +110,14 @@ export default function Header() {
                 </nav>
 
                 {/* CTA Buttons */}
-                <div className="flex items-center gap-2 pl-4 ml-2 border-l border-white/10">
+                <div className="flex items-center gap-1.5 pl-2">
                   <Button 
                     variant="outline" 
                     size="sm" 
                     asChild
-                    className="hover-lift border border-white/30 bg-white/5 text-white hover:border-primary/60 hover:bg-white/10 transition-all duration-300 backdrop-blur flex-shrink-0"
+                    className="hover-lift border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 rounded-full"
                   >
-                    <a href={`tel:${contacts.phoneMain}`} className="flex items-center space-x-2">
+                    <a href={`tel:${contacts.phoneMain}`} className="flex items-center space-x-2 px-4 py-2">
                       <Phone className="w-4 h-4" />
                       <span>Обади се</span>
                     </a>
@@ -116,13 +125,13 @@ export default function Header() {
                   <Button 
                     size="sm" 
                     asChild
-                    className="bg-gradient-primary hover:opacity-90 text-white border-0 hover-lift shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0"
+                    className="bg-gradient-to-r from-[#ff6a2c] via-[#ff3b3b] to-[#ff3b3b] hover:from-[#ff7a3c] hover:via-[#ff4b4b] hover:to-[#ff4b4b] text-white border-0 hover-lift shadow-lg shadow-[#ff3b3b]/30 hover:shadow-[#ff3b3b]/50 transition-all duration-300 rounded-full"
                   >
                     <a
                       href={contacts.mapsLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2"
+                      className="flex items-center space-x-2 px-4 py-2"
                     >
                       <MapPin className="w-4 h-4" />
                       <span>Навигация</span>
@@ -139,19 +148,17 @@ export default function Header() {
       <header
         className={`lg:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-[#050910]/95 backdrop-blur-xl shadow-2xl border-b border-primary/40"
-            : "bg-[#04060f]/85 backdrop-blur-lg border-b border-white/10"
+            ? "bg-[#050910]/95 backdrop-blur-xl shadow-2xl"
+            : "bg-[#04060f]/85 backdrop-blur-lg"
         }`}
+        style={{
+          borderBottom: '1px solid transparent',
+          backgroundImage: isScrolled
+            ? 'linear-gradient(to bottom, rgba(255, 59, 59, 0.2), transparent), linear-gradient(to bottom, rgba(255, 59, 59, 0.1), transparent)'
+            : 'linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent)',
+          backgroundClip: 'padding-box, border-box',
+        }}
       >
-        {/* Christmas Mobile Header Accents */}
-        <div className="absolute top-0 left-0 right-0 h-full pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute top-1 left-[10%] christmas-light text-red-500/50" style={{ fontSize: "6px" }}>●</div>
-          <div className="absolute top-1 left-[30%] christmas-light text-green-500/50" style={{ animationDelay: "0.3s", fontSize: "6px" }}>●</div>
-          <div className="absolute top-1 left-[50%] christmas-light text-yellow-500/50" style={{ animationDelay: "0.6s", fontSize: "6px" }}>●</div>
-          <div className="absolute top-1 left-[70%] christmas-light text-red-500/50" style={{ animationDelay: "0.2s", fontSize: "6px" }}>●</div>
-          <div className="absolute top-1 left-[90%] christmas-light text-green-500/50" style={{ animationDelay: "0.5s", fontSize: "6px" }}>●</div>
-        </div>
-        
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 relative z-10">
             {/* Logo */}
@@ -172,48 +179,64 @@ export default function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="p-2 transition-colors rounded-lg text-white/80 hover:text-white hover:bg-white/10"
+              className="p-2.5 rounded-lg transition-all duration-300 text-white/80 hover:text-white hover:bg-white/10 hover:scale-110 active:scale-95"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 transition-transform duration-300 rotate-90" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-6 h-6 transition-transform duration-300" />
               )}
             </button>
           </div>
 
           {/* Mobile Menu */}
           <div
-            className={`overflow-hidden transition-all duration-300 ${
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
               isMobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
             }`}
           >
-            <nav className="py-4 space-y-2 border-t border-white/10">
+            <nav 
+              className="py-4 space-y-2"
+              style={{
+                borderTop: '1px solid transparent',
+                backgroundImage: 'linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                backgroundClip: 'padding-box',
+              }}
+            >
               {navigation.map((item) => {
                 const isActive = pathname === item.href
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`block px-4 py-3 rounded-lg transition-all duration-200 font-semibold ${
+                    className={`block px-4 py-3 mx-2 rounded-lg transition-all duration-200 font-semibold ${
                       isActive
-                        ? "text-white bg-primary/30 shadow-lg shadow-primary/25"
+                        ? "text-white bg-gradient-to-r from-[#ff3b3b] to-[#ff6a2c] shadow-lg shadow-[#ff3b3b]/40"
                         : "text-white/70 hover:text-white hover:bg-white/10"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     {item.name}
                   </Link>
                 )
               })}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
+              <div 
+                className="flex flex-col gap-2 pt-2 px-2"
+                style={{
+                  borderTop: '1px solid transparent',
+                  backgroundImage: 'linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                  backgroundClip: 'padding-box',
+                }}
+              >
                 <Button 
                   variant="outline" 
                   size="sm" 
                   asChild
-                  className="mx-4 hover-lift border border-white/30 bg-white/5 text-white hover:border-primary/60 hover:bg-white/10"
+                  className="hover-lift border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 rounded-lg"
                 >
                   <a href={`tel:${contacts.phoneMain}`} className="flex items-center justify-center space-x-2">
                     <Phone className="w-4 h-4" />
@@ -223,7 +246,7 @@ export default function Header() {
                 <Button 
                   size="sm" 
                   asChild
-                  className="mx-4 bg-gradient-primary text-white border-0 hover-lift shadow-lg shadow-primary/50"
+                  className="bg-gradient-to-r from-[#ff6a2c] via-[#ff3b3b] to-[#ff3b3b] hover:from-[#ff7a3c] hover:via-[#ff4b4b] hover:to-[#ff4b4b] text-white border-0 hover-lift shadow-lg shadow-[#ff3b3b]/30 hover:shadow-[#ff3b3b]/50 transition-all duration-300 rounded-lg"
                 >
                   <a
                     href={contacts.mapsLink}
