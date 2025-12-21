@@ -32,6 +32,16 @@ export function middleware(req: NextRequest) {
   const u = i >= 0 ? decoded.slice(0, i) : ''
   const p = i >= 0 ? decoded.slice(i + 1) : ''
 
-  if (safeEqual(u, user) && safeEqual(p, pass)) return NextResponse.next()
+  if (safeEqual(u, user) && safeEqual(p, pass)) {
+    // Set admin session cookie for API authentication
+    const response = NextResponse.next()
+    response.cookies.set('admin_session', 'authenticated', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 // 24 hours
+    })
+    return response
+  }
   return new NextResponse('Forbidden', { status: 403 })
 }

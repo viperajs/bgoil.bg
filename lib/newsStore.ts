@@ -86,6 +86,52 @@ export async function addNewsArticle(article: Omit<NewsArticle, 'id' | 'date'>):
   return trimmed
 }
 
+// ---- обновяване на новина ----
+export async function updateNewsArticle(id: string, article: Omit<NewsArticle, 'id' | 'date'>): Promise<NewsArticle[]> {
+  const existing = await getNewsArticles()
+  const index = existing.findIndex(a => a.id === id)
+  
+  if (index === -1) {
+    throw new Error(`Article with id ${id} not found`)
+  }
+
+  // Запазваме оригиналната дата
+  const updatedArticle: NewsArticle = {
+    ...article,
+    id: existing[index].id,
+    date: existing[index].date,
+  }
+
+  const updated = [...existing]
+  updated[index] = updatedArticle
+
+  if (redis) {
+    try {
+      await redis.set(KEY, JSON.stringify(updated))
+    } catch (e) {
+      console.error('newsStore: redis.set failed:', (e as Error).message)
+    }
+  }
+
+  return updated
+}
+
+// ---- изтриване на новина ----
+export async function deleteNewsArticle(id: string): Promise<NewsArticle[]> {
+  const existing = await getNewsArticles()
+  const filtered = existing.filter(a => a.id !== id)
+
+  if (redis) {
+    try {
+      await redis.set(KEY, JSON.stringify(filtered))
+    } catch (e) {
+      console.error('newsStore: redis.set failed:', (e as Error).message)
+    }
+  }
+
+  return filtered
+}
+
 // ---- запис на новини ----
 async function setNewsArticles(articles: NewsArticle[]): Promise<void> {
   if (!redis) return

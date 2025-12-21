@@ -57,17 +57,15 @@ export default function Header() {
               className="flex items-center group transition-all duration-300 hover:scale-105 relative z-20 min-w-[140px]"
             >
               <div className="relative isolate">
-                <div className="bg-white p-1 rounded">
-                  <Image
-                    src="/bg-oil-logo.webp"
-                    alt="BG OIL"
-                    width={140}
-                    height={50}
-                    className="h-12 w-auto transition-all duration-300 relative z-10 block"
-                    priority
-                    unoptimized
-                  />
-                </div>
+                <Image
+                  src="/bg-oil-logo.webp"
+                  alt="BG OIL"
+                  width={140}
+                  height={50}
+                  className="h-12 w-auto transition-all duration-300 relative z-10 block"
+                  priority
+                  unoptimized
+                />
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl z-0 pointer-events-none"></div>
               </div>
             </Link>
@@ -171,17 +169,15 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <div className="relative isolate">
-                <div className="bg-white p-1 rounded">
-                  <Image
-                    src="/bg-oil-logo.webp"
-                    alt="BG OIL"
-                    width={120}
-                    height={40}
-                    className="h-10 w-auto relative z-10 block"
-                    priority
-                    unoptimized
-                  />
-                </div>
+                <Image
+                  src="/bg-oil-logo.webp"
+                  alt="BG OIL"
+                  width={120}
+                  height={40}
+                  className="h-10 w-auto relative z-10 block"
+                  priority
+                  unoptimized
+                />
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl z-0 pointer-events-none"></div>
               </div>
             </Link>

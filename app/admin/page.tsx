@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Fuel, Settings, BarChart3, Users, ShoppingCart, ArrowRight, Shield } from "lucide-react"
+import { Fuel, ArrowRight, Shield } from "lucide-react"
 
 export default function AdminPage() {
   const adminLinks = [
@@ -12,38 +12,6 @@ export default function AdminPage() {
       icon: Fuel,
       color: "text-primary",
       bgColor: "bg-primary/10",
-    },
-    {
-      title: "Статистика",
-      description: "Преглед на статистики и анализи",
-      href: "#",
-      icon: BarChart3,
-      color: "text-blue-600",
-      bgColor: "bg-blue-100",
-    },
-    {
-      title: "Потребители",
-      description: "Управление на потребители и достъпи",
-      href: "#",
-      icon: Users,
-      color: "text-green-600",
-      bgColor: "bg-green-100",
-    },
-    {
-      title: "Поръчки",
-      description: "Преглед и управление на поръчки",
-      href: "#",
-      icon: ShoppingCart,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100",
-    },
-    {
-      title: "Настройки",
-      description: "Конфигурация на системата",
-      href: "#",
-      icon: Settings,
-      color: "text-gray-600",
-      bgColor: "bg-gray-100",
     },
   ]
 
