@@ -101,7 +101,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
         {/* Store Discount Info */}
         <div className="p-3 rounded-lg border border-green-500/30 bg-green-500/10">
           <p className="text-xs font-medium text-center text-green-700 dark:text-green-400">
-            💳 С картата на BG OIL има 10% отстъпка в магазина на BG OIL
+            💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията
           </p>
         </div>
       </CardContent>

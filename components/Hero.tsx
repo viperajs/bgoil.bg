@@ -106,7 +106,7 @@ export default function Hero() {
             <div className="inline-flex items-center space-x-3 px-6 py-4 bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 rounded-2xl border-2 border-green-400/40 backdrop-blur-md shadow-2xl shadow-green-500/20 hover-lift transition-all duration-300">
               <Sparkles className="w-5 h-5 text-green-300 animate-pulse" />
               <span className="text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                💳 С картата на BG OIL има 10% отстъпка в магазина на BG OIL
+                💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията!
               </span>
               <Sparkles className="w-5 h-5 text-green-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
             </div>

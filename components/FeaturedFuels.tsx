@@ -58,7 +58,7 @@ export default async function FeaturedFuels() {
           <div className="flex items-center justify-center space-x-3">
             <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
             <p className="text-base md:text-lg font-bold text-foreground text-center">
-              💳 С картата на BG OIL има 10% отстъпка в магазина на BG OIL
+              💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията
             </p>
             <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
           </div>
