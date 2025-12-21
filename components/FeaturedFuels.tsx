@@ -53,7 +53,18 @@ export default async function FeaturedFuels() {
           </Button>
         </div>
 
-        <div className="mt-12 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border-2 border-primary/20 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+        {/* Store Discount Banner */}
+        <div className="mt-8 p-6 bg-gradient-to-r from-green-500/15 via-green-400/15 to-green-500/15 border-2 border-green-400/30 rounded-2xl animate-fade-in-up shadow-lg" style={{ animationDelay: '0.45s' }}>
+          <div className="flex items-center justify-center space-x-3">
+            <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <p className="text-base md:text-lg font-bold text-foreground text-center">
+              💳 С картата на BG OIL има 10% отстъпка в магазина на BG OIL
+            </p>
+            <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
+          </div>
+        </div>
+
+        <div className="mt-8 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border-2 border-primary/20 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
           <div className="flex items-center justify-center space-x-3">
             <Sparkles className="w-6 h-6 text-primary" />
             <p className="text-sm font-bold text-foreground text-center">

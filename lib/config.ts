@@ -25,7 +25,7 @@ export const hotelRooms: HotelRoom[] = [
 ]
 
 export const services: Service[] = [
-  { name: '24/7 Магазин',  description: 'Непрекъснато работещ магазин с всичко необходимо', icon: '🏪' },
+  { name: '24/7 Магазин',  description: 'Непрекъснато работещ магазин с всичко необходимо. С картата на BG OIL има 10% отстъпка!', icon: '🏪' },
   { name: 'Паркинг',       description: 'Безплатен и охраняван паркинг за клиенти',         icon: '🚗' },
   { name: 'Хотел',         description: 'Комфортни стаи и апартаменти за нощувка',         icon: '🏨' },
 ]

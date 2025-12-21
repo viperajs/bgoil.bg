@@ -101,6 +101,17 @@ export default function Hero() {
             </Button>
           </div>
 
+          {/* Discount Banner */}
+          <div className="mt-8 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+            <div className="inline-flex items-center space-x-3 px-6 py-4 bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 rounded-2xl border-2 border-green-400/40 backdrop-blur-md shadow-2xl shadow-green-500/20 hover-lift transition-all duration-300">
+              <Sparkles className="w-5 h-5 text-green-300 animate-pulse" />
+              <span className="text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                💳 С картата на BG OIL има 10% отстъпка в магазина на BG OIL
+              </span>
+              <Sparkles className="w-5 h-5 text-green-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
+            </div>
+          </div>
+
           {/* Stats - по-видими */}
           <div
             className="grid grid-cols-3 gap-6 max-[768px]:gap-4 max-[427px]:grid-cols-1 mt-20 max-w-3xl w-full mx-auto animate-fade-in-up"
