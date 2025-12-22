@@ -11,6 +11,8 @@ type FuelOverrides = Record<string, FuelOverrideValue>
 const KEY = 'fuels:prices:v3'
 
 // ---- Redis клиент ----
+let redisAuthFailed = false // Flag to track auth failures and avoid repeated errors
+
 function getRedis() {
   const url = process.env.UPSTASH_REDIS_KV_REST_API_URL
   const token = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN
@@ -24,7 +26,7 @@ const redis = getRedis()
 
 // ---- безопасно четене от KV (приема string ИЛИ object) ----
 async function safeGetOverrides(): Promise<FuelOverrides | null> {
-  if (!redis) return null
+  if (!redis || redisAuthFailed) return null
   try {
     const val = (await redis.get(KEY as any)) as unknown
     if (val == null) return null
@@ -38,19 +40,46 @@ async function safeGetOverrides(): Promise<FuelOverrides | null> {
     }
     return null
   } catch (e) {
-    console.error('fuelStore: redis.get failed:', (e as Error).message)
+    const error = e as Error
+    const isAuthError = error.message.includes('WRONGPASS') || 
+                       error.message.includes('invalid or missing auth token') ||
+                       error.message.includes('unauthorized')
+    
+    if (isAuthError) {
+      if (!redisAuthFailed) {
+        console.warn('fuelStore: Redis authentication failed. Falling back to default fuel prices. Please check UPSTASH_REDIS_KV_REST_API_TOKEN environment variable.')
+        redisAuthFailed = true
+      }
+    } else {
+      console.error('fuelStore: redis.get failed:', error.message)
+    }
     return null
   }
 }
 
 // ---- безопасен запис в KV (пишем директно обект) ----
 async function safeSetOverrides(value: FuelOverrides): Promise<void> {
-  if (!redis) { console.warn('fuelStore: no redis env; skip set'); return }
+  if (!redis || redisAuthFailed) { 
+    console.warn('fuelStore: Redis not available; skip set'); 
+    return 
+  }
   try {
     await redis.set(KEY, value as any)
     console.log('fuelStore: saved overrides', value)
   } catch (e) {
-    console.error('fuelStore: redis.set failed:', (e as Error).message)
+    const error = e as Error
+    const isAuthError = error.message.includes('WRONGPASS') || 
+                       error.message.includes('invalid or missing auth token') ||
+                       error.message.includes('unauthorized')
+    
+    if (isAuthError) {
+      if (!redisAuthFailed) {
+        console.warn('fuelStore: Redis authentication failed. Cannot save fuel prices. Please check UPSTASH_REDIS_KV_REST_API_TOKEN environment variable.')
+        redisAuthFailed = true
+      }
+    } else {
+      console.error('fuelStore: redis.set failed:', error.message)
+    }
   }
 }
 

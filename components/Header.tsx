@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Phone, MapPin, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import PromoBar from "@/components/PromoBar"
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -32,6 +33,9 @@ export default function Header() {
 
   return (
     <>
+      {/* Promo Bar - Top Banner */}
+      <PromoBar />
+      
       {/* Desktop Navigation */}
       <header
         className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${

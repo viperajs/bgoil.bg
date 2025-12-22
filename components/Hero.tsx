@@ -4,8 +4,13 @@ import { Button } from "@/components/ui/button"
 import { companyInfo } from "@/lib/config"
 import { Fuel, Hotel, Phone, ArrowRight, Sparkles } from "lucide-react"
 import ChristmasLightsTitle from "@/components/ChristmasLightsTitle"
+import PromoCard from "@/components/PromoCard"
+import { getActiveDiscountBannerMessage } from "@/lib/discountBannerStore"
+import StatsCounter from "@/components/StatsCounter"
 
-export default function Hero() {
+export default async function Hero() {
+  const discountBannerMessage = await getActiveDiscountBannerMessage()
+  
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-[#03060f]">
       {/* Animated Background */}
@@ -101,35 +106,32 @@ export default function Hero() {
             </Button>
           </div>
 
-          {/* Discount Banner */}
-          <div className="mt-8 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-            <div className="inline-flex items-center space-x-3 px-6 py-4 bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 rounded-2xl border-2 border-green-400/40 backdrop-blur-md shadow-2xl shadow-green-500/20 hover-lift transition-all duration-300">
-              <Sparkles className="w-5 h-5 text-green-300 animate-pulse" />
-              <span className="text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията!
-              </span>
-              <Sparkles className="w-5 h-5 text-green-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
-            </div>
+          {/* Promo Card - Hero Section */}
+          <div className="animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+            <PromoCard />
           </div>
 
+          {/* Discount Banner */}
+          {discountBannerMessage && (
+            <div className="mt-8 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+              <div className="inline-flex items-center space-x-3 px-6 py-4 bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 rounded-2xl border-2 border-green-400/40 backdrop-blur-md shadow-2xl shadow-green-500/20 hover-lift transition-all duration-300">
+                <Sparkles className="w-5 h-5 text-green-300 animate-pulse" />
+                <span className="text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                  {discountBannerMessage}
+                </span>
+                <Sparkles className="w-5 h-5 text-green-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
+              </div>
+            </div>
+          )}
+
           {/* Stats - по-видими */}
-          <div
-            className="grid grid-cols-3 gap-6 max-[768px]:gap-4 max-[427px]:grid-cols-1 mt-20 max-w-3xl w-full mx-auto animate-fade-in-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">24/7</div>
-              <div className="text-sm font-semibold text-white/90">Работно време</div>
-            </div>
-            <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">100%</div>
-              <div className="text-sm font-semibold text-white/90">Качество</div>
-            </div>
-            <div className="rounded-2xl p-6 border border-white/10 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">21+</div>
-              <div className="text-sm font-semibold text-white/90">Години опит</div>
-            </div>
-          </div>
+          <StatsCounter
+            items={[
+              { value: 24, suffix: '/7', label: 'Работно време', isStatic: true, staticText: '24/7' },
+              { value: 100, suffix: '%', label: 'Качество' },
+              { value: 21, suffix: '+', label: 'Години опит' },
+            ]}
+          />
         </div>
       </div>
 

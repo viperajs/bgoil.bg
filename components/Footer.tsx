@@ -109,7 +109,6 @@ export default function Footer() {
             <div className="space-y-3">
               {[
                 { name: "Цени на горива", href: "/products" },
-                { name: "Новини за горивата", href: "/news" },
                 { name: "Нашите услуги", href: "/about" },
                 { name: "Как да ни намерите", href: "/contact" },
               ].map((link) => (

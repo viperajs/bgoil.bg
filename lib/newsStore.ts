@@ -1,5 +1,7 @@
 import 'server-only'
 import { Redis } from '@upstash/redis'
+import { promises as fs } from 'fs'
+import path from 'path'
 
 type NewsArticle = {
   id: string
@@ -11,8 +13,15 @@ type NewsArticle = {
   link?: string
 }
 
+interface NewsConfig {
+  enabled: boolean
+}
+
 const KEY = 'news:articles:v1'
+const NEWS_CONFIG_KEY = 'news:config:v1'
 const MAX_ARTICLES = 6
+const DATA_DIR = path.join(process.cwd(), 'data')
+const NEWS_CONFIG_FILE = path.join(DATA_DIR, 'news-config.json')
 
 // ---- Redis клиент ----
 function getRedis() {
@@ -25,6 +34,73 @@ function getRedis() {
   return new Redis({ url, token })
 }
 const redis = getRedis()
+
+// Ensure data directory exists
+async function ensureDataDir() {
+  try {
+    await fs.access(DATA_DIR)
+  } catch {
+    await fs.mkdir(DATA_DIR, { recursive: true })
+  }
+}
+
+// Get news config (enabled/disabled)
+export async function getNewsConfig(): Promise<NewsConfig> {
+  // Try Redis first
+  if (redis) {
+    try {
+      const val = (await redis.get(NEWS_CONFIG_KEY as any)) as unknown
+      if (val != null) {
+        if (typeof val === 'string') {
+          try {
+            return JSON.parse(val) as NewsConfig
+          } catch {
+            // fall through to file
+          }
+        }
+        if (typeof val === 'object') {
+          return val as NewsConfig
+        }
+      }
+    } catch (e) {
+      console.error('newsStore: redis.get config failed:', (e as Error).message)
+    }
+  }
+
+  // Fallback to file
+  try {
+    await ensureDataDir()
+    const content = await fs.readFile(NEWS_CONFIG_FILE, 'utf-8')
+    return JSON.parse(content) as NewsConfig
+  } catch {
+    // Return default
+    const defaultConfig: NewsConfig = {
+      enabled: true,
+    }
+    await saveNewsConfig(defaultConfig)
+    return defaultConfig
+  }
+}
+
+// Save news config
+export async function saveNewsConfig(config: NewsConfig): Promise<void> {
+  // Save to Redis if available
+  if (redis) {
+    try {
+      await redis.set(NEWS_CONFIG_KEY, config as any)
+    } catch (e) {
+      console.error('newsStore: redis.set config failed:', (e as Error).message)
+    }
+  }
+
+  // Also save to file as backup
+  try {
+    await ensureDataDir()
+    await fs.writeFile(NEWS_CONFIG_FILE, JSON.stringify(config, null, 2), 'utf-8')
+  } catch (e) {
+    console.error('newsStore: file save config failed:', (e as Error).message)
+  }
+}
 
 // ---- безопасно четене от KV ----
 export async function getNewsArticles(): Promise<NewsArticle[]> {
@@ -179,7 +255,7 @@ function getDefaultArticles(): NewsArticle[] {
       date: new Date(Date.now() - 259200000).toISOString(),
       category: "Индустрия",
       source: "AI Analysis",
-      link: "/news"
+      link: "/news-feed"
     },
     {
       id: "5",

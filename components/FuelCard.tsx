@@ -2,6 +2,7 @@ import type { Fuel } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CreditCard, TrendingDown, Sparkles } from "lucide-react"
+import DiscountBanner from "@/components/DiscountBanner"
 
 interface FuelCardProps {
   fuel: Fuel
@@ -99,11 +100,12 @@ export default function FuelCard({ fuel }: FuelCardProps) {
         </div>
 
         {/* Store Discount Info */}
-        <div className="p-3 rounded-lg border border-green-500/30 bg-green-500/10">
-          <p className="text-xs font-medium text-center text-green-700 dark:text-green-400">
-            💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията
-          </p>
-        </div>
+        <DiscountBanner
+          className="text-xs font-medium text-center text-green-700 dark:text-green-400 block"
+          fallback="💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията"
+          wrapperClassName="p-3 rounded-lg border border-green-500/30 bg-green-500/10"
+          renderWrapper={true}
+        />
       </CardContent>
 
       {/* Shine Effect */}
