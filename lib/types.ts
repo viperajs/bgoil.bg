@@ -6,11 +6,6 @@ export interface Fuel {
   discount?: number
 }
 
-export interface HotelRoom {
-  type: string
-  price: number
-}
-
 export interface Service {
   name: string
   description: string
@@ -21,7 +16,6 @@ export interface Service {
 export interface Contacts {
   address: string
   phoneMain: string
-  hotelPhone: string
   servicePhone: string
   email: string
   serviceEmail: string

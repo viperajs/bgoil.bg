@@ -4,7 +4,7 @@ import { companyInfo, contacts } from "@/lib/config"
 export const metadata: Metadata = {
   title: "Контакти",
   description:
-    `Свържете се с ${companyInfo.name} - адрес: ${contacts.address}, телефони: ${contacts.phoneMain} (основен), ${contacts.hotelPhone} (хотел), ${contacts.servicePhone} (автосервиз). Работно време: 24/7.`,
+    `Свържете се с ${companyInfo.name} - адрес: ${contacts.address}, телефони: ${contacts.phoneMain} (основен), ${contacts.servicePhone} (автосервиз). Работно време: 24/7.`,
   keywords: [
     "BG OIL ВРАЦА контакти",
     "BG OIL контакти",
@@ -13,7 +13,6 @@ export const metadata: Metadata = {
     "BG OIL адрес",
     "BG OIL Враца телефон",
     "бензиностанция Враца телефон",
-    "хотел Враца резервации",
     "автосервиз Враца телефон",
     "бул. Мито Орозов 34",
     "BG OIL имейл",
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: `Контакти - ${companyInfo.name}`,
-    description: `Свържете се с ${companyInfo.name}. Адрес: ${contacts.address}. Телефони: ${contacts.phoneMain}, ${contacts.hotelPhone}. Работно време: 24/7.`,
+    description: `Свържете се с ${companyInfo.name}. Адрес: ${contacts.address}. Телефон: ${contacts.phoneMain}. Работно време: 24/7.`,
     url: "https://bgoil.bg/contact",
     type: "website",
     images: [
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `Контакти - ${companyInfo.name}`,
-    description: `Адрес: ${contacts.address}. Телефони: ${contacts.phoneMain}, ${contacts.hotelPhone}. Работно време: 24/7.`,
+    description: `Адрес: ${contacts.address}. Телефон: ${contacts.phoneMain}. Работно време: 24/7.`,
     images: ["https://bgoil.bg/background.png"],
   },
   alternates: {
@@ -62,7 +61,6 @@ export default function ContactPage() {
     { service: "Бензиностанция", hours: "Работно време: 24/7" },
     { service: "Магазин", hours: "Работно време: 24/7" },
     { service: "EasyPay каса", hours: "Работно време: 24/7" },
-    { service: "Хотел рецепция", hours: "Работно време: 24/7" },
     { service: "Автосервиз", hours: "Пон-Пет: 08:00-18:00, Съб: 08:00-14:00" },
     { service: "Автомивка", hours: "Работно време: 24/7" },
   ]
@@ -103,10 +101,6 @@ export default function ContactPage() {
                   <p className="text-sm text-muted-foreground">Основен телефон:</p>
                   <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
                     <a href={`tel:${contacts.phoneMain}`}>{contacts.phoneMain}</a>
-                  </Button>
-                  <p className="text-sm text-muted-foreground">Хотел резервации:</p>
-                  <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
-                    <a href={`tel:${contacts.hotelPhone}`}>{contacts.hotelPhone}</a>
                   </Button>
                 </CardContent>
               </Card>

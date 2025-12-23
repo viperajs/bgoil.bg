@@ -70,18 +70,6 @@ export default function ContactBlock() {
 
               <div className="flex items-center space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-300">
                 <div className="w-12 h-12 rounded-lg bg-gradient-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-card-foreground mb-1">Хотел резервации:</p>
-                  <a href={`tel:${contacts.hotelPhone}`} className="text-lg font-bold text-primary hover:underline transition-colors">
-                    {contacts.hotelPhone}
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-300">
-                <div className="w-12 h-12 rounded-lg bg-gradient-primary/10 flex items-center justify-center flex-shrink-0">
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div>

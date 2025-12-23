@@ -1,27 +1,4 @@
-import { companyInfo, contacts, hotelRooms } from "./config"
-
-export function generateHotelSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Hotel",
-    name: `${companyInfo.name} - Хотел`,
-    description: "Комфортен хотел с различни типове стаи във Враца",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: contacts.address,
-      addressLocality: "Враца",
-      postalCode: "3000",
-      addressCountry: "BG",
-    },
-    telephone: contacts.hotelPhone,
-    email: contacts.email,
-    priceRange: `${Math.min(...hotelRooms.map((r) => r.price))}-${Math.max(...hotelRooms.map((r) => r.price))} лв`,
-    amenityFeature: [
-      { "@type": "LocationFeatureSpecification", name: "Free Parking" },
-      { "@type": "LocationFeatureSpecification", name: "24/7 Reception" },
-    ],
-  }
-}
+import { companyInfo, contacts } from "./config"
 
 export function generateProductSchema() {
   return {
@@ -117,7 +94,6 @@ export function generateCombinedSchema() {
         { "@type": "LocationFeatureSpecification", name: "24/7 Store", value: true },
         { "@type": "LocationFeatureSpecification", name: "Car Wash", value: true },
         { "@type": "LocationFeatureSpecification", name: "Auto Service", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Hotel", value: true },
         { "@type": "LocationFeatureSpecification", name: "WiFi", value: true },
       ],
       servesCuisine: [],
@@ -148,12 +124,6 @@ export function generateCombinedSchema() {
           contactType: "customer service",
           availableLanguage: "Bulgarian",
           areaServed: "BG",
-        },
-        {
-          "@type": "ContactPoint",
-          telephone: contacts.hotelPhone,
-          contactType: "reservations",
-          availableLanguage: "Bulgarian",
         },
         {
           "@type": "ContactPoint",
@@ -193,14 +163,6 @@ export function generateCombinedSchema() {
         },
         {
           "@type": "Question",
-          name: "Работи ли хотелът на BG OIL ВРАЦА 24/7?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Да, рецепцията на хотела работи 24/7. Можете да резервирате стая на телефон: 0889 15 55 12.",
-          },
-        },
-        {
-          "@type": "Question",
           name: "Има ли отстъпки за горива в BG OIL ВРАЦА?",
           acceptedAnswer: {
             "@type": "Answer",
@@ -212,7 +174,7 @@ export function generateCombinedSchema() {
           name: "Какви услуги предлага BG OIL ВРАЦА?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "BG OIL ВРАЦА предлага пълен спектър от услуги: 24/7 магазин, хотел с комфортни стаи, автосервиз, автомивка, EasyPay каса и качествени горива.",
+            text: "BG OIL ВРАЦА предлага пълен спектър от услуги: 24/7 магазин, автосервиз, автомивка, EasyPay каса и качествени горива.",
           },
         },
       ],
