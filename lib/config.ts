@@ -20,6 +20,7 @@ export const companyInfo: CompanyInfo = {
 export const services: Service[] = [
   { name: '24/7 Магазин',  description: 'Непрекъснато работещ магазин с всичко необходимо.', icon: '🏪' },
   { name: 'Паркинг',       description: 'Безплатен и охраняван паркинг за клиенти',         icon: '🚗' },
+  { name: 'Хотел',         description: 'Комфортни стаи с климатизация и черни аут блокиращи завеси. Идеално за професионални шофьори и семейства.', icon: '🛏️' },
 ]
 
 export const contacts: Contacts = {
