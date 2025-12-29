@@ -1,76 +1,14 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
 /**
  * Festive Christmas decorations component
- * - Enhanced falling snow with glow
  * - Glowing lights throughout
  * - Decorative ornaments on the sides
  * - Optimized and responsive
  */
 export default function ChristmasDecorations() {
-  const [snowflakes, setSnowflakes] = useState<Array<{
-    id: number
-    left: number
-    delay: number
-    duration: number
-    size: number
-  }>>([])
-
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-
-    // Generate snowflakes with random properties
-    const generateSnowflakes = () => {
-      const count = isMobile ? 40 : 70
-      const flakes = Array.from({ length: count }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 8,
-        duration: 8 + Math.random() * 12,
-        size: 2 + Math.random() * 4,
-      }))
-      setSnowflakes(flakes)
-    }
-
-    generateSnowflakes()
-    
-    // Regenerate on resize
-    const handleResize = () => {
-      checkMobile()
-      generateSnowflakes()
-    }
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [isMobile])
-
   return (
     <>
-      {/* Enhanced Falling Snow with Glow */}
-      <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden" aria-hidden="true">
-        {snowflakes.map((flake) => (
-          <div
-            key={flake.id}
-            className="absolute top-0 christmas-snowflake"
-            style={{
-              left: `${flake.left}%`,
-              animationDelay: `${flake.delay}s`,
-              animationDuration: `${flake.duration}s`,
-              width: `${flake.size}px`,
-              height: `${flake.size}px`,
-            }}
-          >
-            <div className="w-full h-full bg-white rounded-full opacity-70 blur-[0.5px] shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
-          </div>
-        ))}
-      </div>
-
       {/* Glowing Lights Throughout Page */}
       <div className="fixed inset-0 pointer-events-none z-35 overflow-hidden" aria-hidden="true">
         {/* Top lights */}
