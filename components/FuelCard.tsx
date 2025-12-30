@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CreditCard, TrendingDown, Sparkles } from "lucide-react"
 import DiscountBanner from "@/components/DiscountBanner"
+import { shouldShowOnlyEUR } from "@/lib/utils"
 
 interface FuelCardProps {
   fuel: Fuel
@@ -25,6 +26,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
   const savingsEUR = savingsBGN / BGN_PER_EUR
 
   const fx2 = (n: number) => n.toFixed(2)
+  const showOnlyEUR = shouldShowOnlyEUR()
 
   return (
     <Card className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl">
@@ -59,10 +61,18 @@ export default function FuelCard({ fuel }: FuelCardProps) {
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Стандартна цена:</span>
             <span className="text-right">
-              <span className="text-2xl font-black text-foreground">
-                {fx2(priceBGN)} лв
-              </span>
-              <span className="text-sm text-muted-foreground ml-2">/ {fx2(priceEUR)} €</span>
+              {showOnlyEUR ? (
+                <span className="text-2xl font-black text-foreground">
+                  {fx2(priceEUR)} €
+                </span>
+              ) : (
+                <>
+                  <span className="text-2xl font-black text-foreground">
+                    {fx2(priceBGN)} лв
+                  </span>
+                  <span className="text-sm text-muted-foreground ml-2">/ {fx2(priceEUR)} €</span>
+                </>
+              )}
             </span>
           </div>
         </div>
@@ -79,13 +89,26 @@ export default function FuelCard({ fuel }: FuelCardProps) {
               <span className="text-xs font-medium text-green-600">Спестяване</span>
             </div>
             <div className="text-right">
-              <span className="text-3xl font-black text-primary">
-                {fx2(memberPriceBGN)} лв
-              </span>
-              <span className="text-sm text-primary/70 ml-2">/ {fx2(memberPriceEUR)} €</span>
-              <div className="text-xs font-bold text-green-600 mt-1">
-                -{fx2(savingsBGN)} лв/л
-              </div>
+              {showOnlyEUR ? (
+                <>
+                  <span className="text-3xl font-black text-primary">
+                    {fx2(memberPriceEUR)} €
+                  </span>
+                  <div className="text-xs font-bold text-green-600 mt-1">
+                    -{fx2(savingsEUR)} €/л
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className="text-3xl font-black text-primary">
+                    {fx2(memberPriceBGN)} лв
+                  </span>
+                  <span className="text-sm text-primary/70 ml-2">/ {fx2(memberPriceEUR)} €</span>
+                  <div className="text-xs font-bold text-green-600 mt-1">
+                    -{fx2(savingsBGN)} лв/л
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

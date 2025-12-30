@@ -5,35 +5,6 @@ import { Phone, Mail, MapPin, Clock, Facebook, Instagram, ArrowRight } from "luc
 export default function Footer() {
   return (
     <footer className="relative bg-gradient-to-br from-[#04060f] via-[#080f1f] to-[#04060f] text-white overflow-hidden">
-      {/* Christmas Footer Accents - Lights, Trees, Stars */}
-      <div className="absolute top-0 left-0 right-0 h-20 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Decorative lights */}
-        <div className="absolute top-2 left-[3%] christmas-light text-red-500/50" style={{ fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[10%] christmas-light text-green-500/50" style={{ animationDelay: "0.2s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[18%] christmas-light text-yellow-500/50" style={{ animationDelay: "0.4s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[26%] christmas-light text-red-500/50" style={{ animationDelay: "0.6s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[34%] christmas-light text-green-500/50" style={{ animationDelay: "0.1s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[42%] christmas-light text-yellow-500/50" style={{ animationDelay: "0.3s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[50%] christmas-light text-red-500/50" style={{ animationDelay: "0.5s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[58%] christmas-light text-green-500/50" style={{ animationDelay: "0.7s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[66%] christmas-light text-yellow-500/50" style={{ animationDelay: "0.2s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[74%] christmas-light text-red-500/50" style={{ animationDelay: "0.4s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[82%] christmas-light text-green-500/50" style={{ animationDelay: "0.6s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[90%] christmas-light text-yellow-500/50" style={{ animationDelay: "0.1s", fontSize: "8px" }}>●</div>
-        <div className="absolute top-2 left-[97%] christmas-light text-red-500/50" style={{ animationDelay: "0.3s", fontSize: "8px" }}>●</div>
-        
-        {/* Small tree decorations */}
-        <div className="absolute top-1 left-[7%] christmas-float text-green-500/40" style={{ fontSize: "12px" }}>🎄</div>
-        <div className="absolute top-1 right-[8%] christmas-float text-green-500/40" style={{ animationDelay: "1s", fontSize: "12px" }}>🎄</div>
-        <div className="absolute top-1 left-[50%] christmas-float text-green-500/35" style={{ animationDelay: "2s", fontSize: "10px" }}>🎄</div>
-        
-        {/* Stars */}
-        <div className="absolute top-4 left-[15%] christmas-star text-yellow-300/40" style={{ fontSize: "10px" }}>✦</div>
-        <div className="absolute top-4 left-[38%] christmas-star text-yellow-300/35" style={{ animationDelay: "0.5s", fontSize: "9px" }}>✦</div>
-        <div className="absolute top-4 left-[62%] christmas-star text-yellow-300/40" style={{ animationDelay: "1s", fontSize: "10px" }}>✦</div>
-        <div className="absolute top-4 left-[85%] christmas-star text-yellow-300/35" style={{ animationDelay: "1.5s", fontSize: "9px" }}>✦</div>
-      </div>
-      
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}

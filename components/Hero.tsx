@@ -3,10 +3,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { companyInfo } from "@/lib/config"
 import { Fuel, Phone, ArrowRight, Sparkles } from "lucide-react"
-import ChristmasLightsTitle from "@/components/ChristmasLightsTitle"
 import PromoCard from "@/components/PromoCard"
 import { getActiveDiscountBannerMessage } from "@/lib/discountBannerStore"
 import StatsCounter from "@/components/StatsCounter"
+import NewYearCountdown from "@/components/NewYearCountdown"
 
 export default async function Hero() {
   const discountBannerMessage = await getActiveDiscountBannerMessage()
@@ -46,25 +46,13 @@ export default async function Hero() {
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-balance leading-tight">
               <span className="block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] mb-3">
-                {/* 
-                  Christmas Lights Decoration
-                  To enable/disable: Set enabled prop to true/false
-                  To adjust glow: Use glowIntensity prop ('subtle' | 'medium' | 'strong')
-                  To adjust animation speed: Use animationSpeed prop ('slow' | 'normal' | 'fast')
-                */}
-                <ChristmasLightsTitle enabled={true} glowIntensity="medium" animationSpeed="normal">
-                  BG OIL
-                </ChristmasLightsTitle>
+                BG OIL
               </span>
             </h1>
             
-            {/* Christmas Greeting */}
-            <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-500/20 via-yellow-400/20 to-red-500/20 rounded-full border border-yellow-300/40 backdrop-blur-sm animate-fade-in-down shadow-lg" style={{ animationDelay: "0.1s" }}>
-              <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
-              <span className="text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                Весели Празници
-              </span>
-              <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
+            {/* New Year Countdown Timer */}
+            <div className="animate-fade-in-down" style={{ animationDelay: "0.1s" }}>
+              <NewYearCountdown />
             </div>
             
             <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] mb-4">

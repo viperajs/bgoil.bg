@@ -1,6 +1,7 @@
 // app/(site)/components/FuelCards.tsx  (Server Component)
 import type { Fuel } from '@/lib/types'
 import { BGN_PER_EUR } from '@/lib/config'
+import { shouldShowOnlyEUR } from '@/lib/utils'
 
 const fx2 = (n: number) => n.toFixed(2)
 
@@ -13,6 +14,7 @@ async function fetchFuels(): Promise<Fuel[]> {
 
 export default async function FuelCards() {
   const fuels = await fetchFuels()
+  const showOnlyEUR = shouldShowOnlyEUR()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
       {fuels.map(f => {
@@ -27,23 +29,37 @@ export default async function FuelCards() {
           <div key={f.name} className="rounded-xl border bg-accent/10 p-5">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-lg font-semibold">{f.name}</h3>
-              <span className="text-xs rounded-full bg-secondary px-3 py-1 text-secondary-foreground">лв/л • €/л</span>
+              <span className="text-xs rounded-full bg-secondary px-3 py-1 text-secondary-foreground">
+                {showOnlyEUR ? '€/л' : 'лв/л • €/л'}
+              </span>
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Стандартна цена:</span>
                 <div className="text-right font-bold">
-                  {fx2(f.price)} лв / {fx2(priceEUR)} €
+                  {showOnlyEUR ? (
+                    <>{fx2(priceEUR)} €</>
+                  ) : (
+                    <>{fx2(f.price)} лв / {fx2(priceEUR)} €</>
+                  )}
                 </div>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">С карта BG OIL:</span>
                 <div className="text-right">
                   <div className="text-lg font-bold text-primary">
-                    {fx2(f.memberPrice)} лв / {fx2(memberEUR)} €
+                    {showOnlyEUR ? (
+                      <>{fx2(memberEUR)} €</>
+                    ) : (
+                      <>{fx2(f.memberPrice)} лв / {fx2(memberEUR)} €</>
+                    )}
                   </div>
                   <div className="text-xs text-primary font-medium">
-                    спестяване {fx2(discount)} лв/л / {fx2(discountEUR)} €/л
+                    {showOnlyEUR ? (
+                      <>спестяване {fx2(discountEUR)} €/л</>
+                    ) : (
+                      <>спестяване {fx2(discount)} лв/л / {fx2(discountEUR)} €/л</>
+                    )}
                   </div>
                 </div>
               </div>

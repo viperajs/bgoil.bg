@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Fuel as FuelIcon, Save, RefreshCw, CheckCircle2, AlertCircle, Sparkles } from "lucide-react"
 import type { Fuel as FuelType } from '@/lib/types'
+import { shouldShowOnlyEUR } from '@/lib/utils'
 
 const BGN_PER_EUR = 1.95583
 const DEFAULT_DISCOUNT_BGN = 0.10
@@ -28,6 +29,7 @@ export default function AdminPricesPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  const showOnlyEUR = shouldShowOnlyEUR()
 
   useEffect(() => { loadData() }, [])
 
@@ -210,7 +212,7 @@ export default function AdminPricesPage() {
                 <div className="flex items-center justify-between mb-3">
                   <CardTitle className="text-xl font-bold">{it.name}</CardTitle>
                   <span className="text-xs rounded-full bg-gradient-secondary px-3 py-1 text-white font-semibold">
-                    лв/л • €/л
+                    {showOnlyEUR ? '€/л' : 'лв/л • €/л'}
                   </span>
                 </div>
               </CardHeader>
@@ -238,9 +240,13 @@ export default function AdminPricesPage() {
                           : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                       }`}
                     />
-                    <span className="text-sm font-semibold text-muted-foreground">лв</span>
-                    <span className="mx-1 text-muted-foreground">/</span>
-                    <span className="text-right font-bold text-primary min-w-[60px]">
+                    {!showOnlyEUR && (
+                      <>
+                        <span className="text-sm font-semibold text-muted-foreground">лв</span>
+                        <span className="mx-1 text-muted-foreground">/</span>
+                      </>
+                    )}
+                    <span className={`text-right font-bold min-w-[60px] ${showOnlyEUR ? 'text-primary text-lg' : 'text-primary'}`}>
                       {fx2(it.priceEUR)} €
                     </span>
                   </div>
@@ -268,9 +274,13 @@ export default function AdminPricesPage() {
                           : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                       }`}
                     />
-                    <span className="text-sm font-semibold text-muted-foreground">лв</span>
-                    <span className="mx-1 text-muted-foreground">/</span>
-                    <span className="text-right font-bold text-primary min-w-[60px]">
+                    {!showOnlyEUR && (
+                      <>
+                        <span className="text-sm font-semibold text-muted-foreground">лв</span>
+                        <span className="mx-1 text-muted-foreground">/</span>
+                      </>
+                    )}
+                    <span className={`text-right font-bold min-w-[60px] ${showOnlyEUR ? 'text-primary text-lg' : 'text-primary'}`}>
                       {fx2(it.discountEUR)} €
                     </span>
                   </div>
@@ -284,10 +294,18 @@ export default function AdminPricesPage() {
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-black text-primary mb-1">
-                      {fx2(it.memberBGN)} лв / {fx2(it.memberEUR)} €
+                      {showOnlyEUR ? (
+                        <>{fx2(it.memberEUR)} €</>
+                      ) : (
+                        <>{fx2(it.memberBGN)} лв / {fx2(it.memberEUR)} €</>
+                      )}
                     </div>
                     <div className="text-xs font-bold text-green-600">
-                      спестяване {fx2(it.discountBGN)} лв/л / {fx2(it.discountEUR)} €/л
+                      {showOnlyEUR ? (
+                        <>спестяване {fx2(it.discountEUR)} €/л</>
+                      ) : (
+                        <>спестяване {fx2(it.discountBGN)} лв/л / {fx2(it.discountEUR)} €/л</>
+                      )}
                     </div>
                   </div>
                 </div>
