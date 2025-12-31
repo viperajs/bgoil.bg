@@ -18,7 +18,9 @@ export async function POST(req: NextRequest) {
         from: 'onboarding@resend.dev',
         to: email,
         subject: 'Код за достъп: ' + generatedCode,
-        html: `<h1>Вашият код е: ${generatedCode}</h1>`
+        html: `<h1>Вашият код е: ${generatedCode}
+         <p> Ако сте доволни от услугата, дайте някое евро че трудни време идват 😆</p>
+        </h1>`
       });
 
       const response = NextResponse.json({ success: true });
