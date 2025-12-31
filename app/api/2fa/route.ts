@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 const resend = new Resend('re_bi4yjZMr_ChWbYwDLQMsYiVmKDULda66K');
-const ALLOWED_EMAILS = ['balakchiev09@gmail.com', 'втори-имейл@gmail.com'];
+const ALLOWED_EMAILS = ['balakchiev09@gmail.com', 'bgoil_3000@abv.bg'];
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     
     try {
       await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: 'bgoil.dev.Vipera!@gmail.com ',
         to: email,
         subject: 'Код за достъп: ' + generatedCode,
         html: `<h1>Вашият код е: ${generatedCode}
