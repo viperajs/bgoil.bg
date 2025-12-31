@@ -190,7 +190,7 @@ export default function NewYearCountdown() {
   // Показване на таймер
   if (timeLeft) {
     return (
-      <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 rounded-full border border-primary/40 backdrop-blur-sm animate-fade-in-down shadow-lg">
+      <div className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 rounded-full border border-primary/40 backdrop-blur-sm shadow-lg animate-fade-in-down">
         <Sparkles className="w-5 h-5 text-primary animate-pulse" />
         <div className="flex items-center space-x-3 text-white">
           {timeLeft.days > 0 && (
