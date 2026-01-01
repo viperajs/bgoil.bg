@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     
     try {
       await resend.emails.send({
-        from: 'bgoil.dev.Vipera!@gmail.com ',
+        from: 'moqgmail@gmail.com ',
         to: email,
         subject: 'Код за достъп: ' + generatedCode,
         html: `<h1>Вашият код е: ${generatedCode}

@@ -1,24 +1,10 @@
 'use client'
-import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Fuel, ArrowRight, Shield, Sparkles } from "lucide-react"
 
 export default function AdminPage() {
-  const [authorized, setAuthorized] = useState(false)
-  const router = useRouter()
-
-  useEffect(() => {
-    // Проверка за бисквитката. Ако липсва, пращаме към 2FA страницата
-    if (!document.cookie.includes('admin_2fa_verified=true')) {
-      router.push('/admin/2fa')
-    } else {
-      setAuthorized(true)
-    }
-  }, [router])
-
   const adminLinks = [
     {
       title: "Управление на цени",
@@ -38,8 +24,6 @@ export default function AdminPage() {
     },
   ]
 
-  if (!authorized) return null // Или малък Loading спинър
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-12">
@@ -50,7 +34,7 @@ export default function AdminPage() {
             </div>
             <div className="text-left">
               <h1 className="text-4xl font-black text-gradient-primary">Админ Панел</h1>
-              <p className="text-green-600 font-bold">✓ 2FA Идентификация успешна</p>
+              <p className="text-green-600 font-bold">✓ Автентикация успешна</p>
             </div>
           </div>
         </div>
@@ -81,4 +65,5 @@ export default function AdminPage() {
         </div>
       </div>
     </div>
-  )}
+  )
+}

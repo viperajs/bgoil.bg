@@ -2,22 +2,57 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(req: NextRequest) {
-  // 1. Първо: Вашата съществуваща Basic Auth логика тук...
-  // (Ако паролата е грешна -> връщате 401)
-
   const { pathname } = req.nextUrl;
   
-  // Избягваме безкраен цикъл: ако сме на 2FA страницата или API-то, не пренасочваме
-  if (pathname.startsWith('/admin/2fa') || pathname.startsWith('/api/2fa')) {
+  // Избягваме безкраен цикъл: ако сме на login страницата или API-то, не пренасочваме
+  if (pathname.startsWith('/admin/login') || pathname.startsWith('/api/admin/login')) {
     return NextResponse.next();
   }
 
-  // 2. Проверка за финалната 2FA бисквитка
-  const is2faDone = req.cookies.get('admin_2fa_verified');
+  // Проверка за admin session cookie
+  const adminSession = req.cookies.get('admin_session');
+  
+  if (adminSession?.value === 'authenticated') {
+    return NextResponse.next();
+  }
 
-  if (!is2faDone) {
-    // Пренасочваме към страницата за въвеждане на имейл и код
-    return NextResponse.redirect(new URL('/admin/2fa', req.url));
+  // Fallback към Basic Auth
+  const authHeader = req.headers.get('authorization');
+  
+  if (authHeader) {
+    const [type, blob] = authHeader.split(' ');
+    if (type === 'Basic' && blob) {
+      try {
+        const creds = Buffer.from(blob, 'base64').toString('utf8');
+        const [username, password] = creds.split(':');
+        
+        if (username === process.env.ADMIN_USER && password === process.env.ADMIN_PASS) {
+          const response = NextResponse.next();
+          // Задаваме admin session cookie
+          response.cookies.set('admin_session', 'authenticated', {
+            maxAge: 86400, // 24 часа
+            httpOnly: true,
+            path: '/',
+            sameSite: 'lax'
+          });
+          // Също задаваме isAdmin cookie за обратна съвместимост
+          response.cookies.set('isAdmin', 'true', {
+            maxAge: 86400,
+            httpOnly: false,
+            path: '/',
+            sameSite: 'lax'
+          });
+          return response;
+        }
+      } catch {
+        // Invalid auth
+      }
+    }
+  }
+
+  // Ако няма валидна автентикация, пренасочваме към login страницата
+  if (pathname.startsWith('/admin') || pathname.startsWith('/admin-prices') || pathname.startsWith('/admin-promo')) {
+    return NextResponse.redirect(new URL('/admin/login', req.url));
   }
 
   return NextResponse.next();
