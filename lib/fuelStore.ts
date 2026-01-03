@@ -3,12 +3,15 @@ import 'server-only'
 import { Redis } from '@upstash/redis'
 import { fuels as defaultFuels, DISCOUNT_BGN } from '@/lib/config'
 import type { Fuel } from '@/lib/types'
+import fs from 'fs/promises'
+import path from 'path'
 
 type FuelOverrideValue = number | { price?: number; discount?: number }
 type FuelOverrides = Record<string, FuelOverrideValue>
 
 // ↑ вдигаме версията, за да заобиколим стари, развалени данни
 const KEY = 'fuels:prices:v3'
+const LOCAL_FILE = path.join(process.cwd(), '.data', 'fuel-overrides.json')
 
 // ---- Redis клиент ----
 let redisAuthFailed = false // Flag to track auth failures and avoid repeated errors
@@ -24,9 +27,44 @@ function getRedis() {
 }
 const redis = getRedis()
 
+// ---- четене от локален файл ----
+async function readLocalOverrides(): Promise<FuelOverrides | null> {
+  try {
+    const data = await fs.readFile(LOCAL_FILE, 'utf-8')
+    return JSON.parse(data) as FuelOverrides
+  } catch (e) {
+    // Файлът не съществува или е невалиден
+    return null
+  }
+}
+
+// ---- запис в локален файл ----
+async function writeLocalOverrides(value: FuelOverrides): Promise<void> {
+  try {
+    // Създаваме директорията ако не съществува
+    await fs.mkdir(path.dirname(LOCAL_FILE), { recursive: true })
+    await fs.writeFile(LOCAL_FILE, JSON.stringify(value, null, 2), 'utf-8')
+    console.log('fuelStore: saved to local file', LOCAL_FILE)
+  } catch (e) {
+    console.error('fuelStore: failed to write local file:', e)
+  }
+}
+
 // ---- безопасно четене от KV (приема string ИЛИ object) ----
 async function safeGetOverrides(): Promise<FuelOverrides | null> {
-  if (!redis || redisAuthFailed) return null
+  // Първо опитваме локалния файл
+  const localData = await readLocalOverrides()
+  if (localData !== null) {
+    console.log('fuelStore: loaded from local file')
+    return localData
+  }
+
+  // Ако няма локални данни, опитваме Redis
+  if (!redis || redisAuthFailed) {
+    console.log('fuelStore: no Redis, no local file - using defaults')
+    return null
+  }
+
   try {
     const val = (await redis.get(KEY as any)) as unknown
     if (val == null) return null
@@ -41,13 +79,13 @@ async function safeGetOverrides(): Promise<FuelOverrides | null> {
     return null
   } catch (e) {
     const error = e as Error
-    const isAuthError = error.message.includes('WRONGPASS') || 
+    const isAuthError = error.message.includes('WRONGPASS') ||
                        error.message.includes('invalid or missing auth token') ||
                        error.message.includes('unauthorized')
-    
+
     if (isAuthError) {
       if (!redisAuthFailed) {
-        console.warn('fuelStore: Redis authentication failed. Falling back to default fuel prices. Please check UPSTASH_REDIS_KV_REST_API_TOKEN environment variable.')
+        console.warn('fuelStore: Redis authentication failed. Using local file storage.')
         redisAuthFailed = true
       }
     } else {
@@ -59,26 +97,31 @@ async function safeGetOverrides(): Promise<FuelOverrides | null> {
 
 // ---- безопасен запис в KV (пишем директно обект) ----
 async function safeSetOverrides(value: FuelOverrides): Promise<void> {
-  if (!redis || redisAuthFailed) { 
-    console.warn('fuelStore: Redis not available; skip set'); 
-    return 
+  // ВИНАГИ записваме в локалния файл
+  await writeLocalOverrides(value)
+
+  // Опитваме се да запишем и в Redis (ако е наличен)
+  if (!redis || redisAuthFailed) {
+    console.log('fuelStore: saved to local file only (Redis not available)')
+    return
   }
+
   try {
     await redis.set(KEY, value as any)
-    console.log('fuelStore: saved overrides', value)
+    console.log('fuelStore: saved to both Redis and local file')
   } catch (e) {
     const error = e as Error
-    const isAuthError = error.message.includes('WRONGPASS') || 
+    const isAuthError = error.message.includes('WRONGPASS') ||
                        error.message.includes('invalid or missing auth token') ||
                        error.message.includes('unauthorized')
-    
+
     if (isAuthError) {
       if (!redisAuthFailed) {
-        console.warn('fuelStore: Redis authentication failed. Cannot save fuel prices. Please check UPSTASH_REDIS_KV_REST_API_TOKEN environment variable.')
+        console.warn('fuelStore: Redis authentication failed. Saved to local file only.')
         redisAuthFailed = true
       }
     } else {
-      console.error('fuelStore: redis.set failed:', error.message)
+      console.error('fuelStore: redis.set failed, but saved to local file:', error.message)
     }
   }
 }

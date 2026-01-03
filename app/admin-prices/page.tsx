@@ -8,18 +8,18 @@ import type { Fuel as FuelType } from '@/lib/types'
 import { shouldShowOnlyEUR } from '@/lib/utils'
 
 const BGN_PER_EUR = 1.95583
-const DEFAULT_DISCOUNT_BGN = 0.10
+const DEFAULT_DISCOUNT_EUR = 0.05
 const fx2 = (n: number) => n.toFixed(2)
 
 type Row = { name: string; priceStr: string; discountStr: string }
 type RowComputed = Row & {
   valid: boolean
-  priceBGN: number
-  discountBGN: number
-  memberBGN: number
   priceEUR: number
-  memberEUR: number
   discountEUR: number
+  memberEUR: number
+  priceBGN: number
+  memberBGN: number
+  discountBGN: number
   priceValid: boolean
   discountValid: boolean
 }
@@ -40,18 +40,20 @@ export default function AdminPricesPage() {
       if (!res.ok) throw new Error(`GET /api/fuel -> ${res.status}`)
       const data = (await res.json()) as FuelType[]
       const normalized = data.map(f => {
-        const resolvedDiscount = Math.max(
+        const resolvedDiscountBGN = Math.max(
           0,
           typeof f.discount === 'number'
             ? f.discount
             : f.price - (typeof f.memberPrice === 'number' ? f.memberPrice : f.price)
         )
+        const priceEUR = f.price / BGN_PER_EUR
+        const discountEUR = resolvedDiscountBGN / BGN_PER_EUR
         return {
           name: f.name,
-          priceStr: Number.isFinite(f.price) ? String(f.price) : '',
-          discountStr: Number.isFinite(resolvedDiscount)
-            ? String(resolvedDiscount)
-            : String(DEFAULT_DISCOUNT_BGN),
+          priceStr: Number.isFinite(priceEUR) ? String(fx2(priceEUR)) : '',
+          discountStr: Number.isFinite(discountEUR)
+            ? String(fx2(discountEUR))
+            : String(DEFAULT_DISCOUNT_EUR),
         }
       })
       setRows(normalized)
@@ -68,16 +70,16 @@ export default function AdminPricesPage() {
     const nameValid = r.name.trim().length > 0
     const priceInput = r.priceStr.trim()
     const discountInput = r.discountStr.trim()
-    const priceBGN = Number(priceInput)
-    const discountBGN = Number(discountInput)
-    const priceValid = priceInput.length > 0 && Number.isFinite(priceBGN) && priceBGN >= 0
-    const discountValid = discountInput.length > 0 && Number.isFinite(discountBGN) && discountBGN >= 0
+    const priceEUR = Number(priceInput)
+    const discountEUR = Number(discountInput)
+    const priceValid = priceInput.length > 0 && Number.isFinite(priceEUR) && priceEUR >= 0
+    const discountValid = discountInput.length > 0 && Number.isFinite(discountEUR) && discountEUR >= 0
     const valid = nameValid && priceValid && discountValid
-    const memberBGN = priceValid && discountValid ? Math.max(0, priceBGN - discountBGN) : 0
-    const priceEUR  = priceValid ? priceBGN / BGN_PER_EUR : 0
-    const discountEUR = discountValid ? discountBGN / BGN_PER_EUR : 0
-    const memberEUR = valid ? memberBGN / BGN_PER_EUR : 0
-    return { ...r, valid, priceBGN, discountBGN, memberBGN, priceEUR, memberEUR, discountEUR, priceValid, discountValid }
+    const memberEUR = priceValid && discountValid ? Math.max(0, priceEUR - discountEUR) : 0
+    const priceBGN = priceValid ? priceEUR * BGN_PER_EUR : 0
+    const discountBGN = discountValid ? discountEUR * BGN_PER_EUR : 0
+    const memberBGN = valid ? memberEUR * BGN_PER_EUR : 0
+    return { ...r, valid, priceEUR, discountEUR, memberEUR, priceBGN, discountBGN, memberBGN, priceValid, discountValid }
   }), [rows])
 
   async function saveAll() {
@@ -85,26 +87,50 @@ export default function AdminPricesPage() {
     try {
       const items = computed
         .filter(r => r.valid)
-        .map(r => ({ name: r.name.trim(), price: r.priceBGN, discount: r.discountBGN }))
+        .map(r => ({
+          name: r.name.trim(),
+          price: r.priceBGN,  // API очаква BGN
+          discount: r.discountBGN  // API очаква BGN
+        }))
 
       if (items.length === 0) {
         setMsg({ type: 'error', text: 'Няма валидни записи за запазване ❌' })
         return
       }
 
+      console.log('Saving fuel prices:', items)
+
       const res = await fetch('/api/fuel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items }),
       })
-      if (!res.ok) throw new Error(`POST /api/fuel -> ${res.status}`)
+
+      const responseData = await res.json()
+      console.log('Save response:', responseData)
+
+      if (!res.ok) {
+        throw new Error(`POST /api/fuel -> ${res.status}: ${JSON.stringify(responseData)}`)
+      }
+
+      if (!responseData.ok) {
+        setMsg({ type: 'error', text: `Грешка: ${responseData.reason || responseData.error || 'Промените не бяха запазени'} ❌` })
+        return
+      }
 
       await loadData()
-      setMsg({ type: 'success', text: 'Записано успешно ✅' })
+
+      if (responseData.changed && responseData.changed.length > 0) {
+        setMsg({ type: 'success', text: `✅ Записано успешно! Променени ${responseData.changed.length} горива.` })
+      } else {
+        setMsg({ type: 'success', text: '✅ Няма промени за запазване (цените са същите)' })
+      }
+
       setTimeout(() => setMsg(null), 5000)
     } catch (e) {
-      console.error(e)
-      setMsg({ type: 'error', text: 'Грешка при запис ❌' })
+      console.error('Save error:', e)
+      const errorMsg = e instanceof Error ? e.message : 'Неизвестна грешка'
+      setMsg({ type: 'error', text: `Грешка при запис: ${errorMsg} ❌` })
     } finally {
       setSaving(false)
     }
@@ -212,7 +238,7 @@ export default function AdminPricesPage() {
                 <div className="flex items-center justify-between mb-3">
                   <CardTitle className="text-xl font-bold">{it.name}</CardTitle>
                   <span className="text-xs rounded-full bg-gradient-secondary px-3 py-1 text-white font-semibold">
-                    {showOnlyEUR ? '€/л' : 'лв/л • €/л'}
+                    €/л
                   </span>
                 </div>
               </CardHeader>
@@ -221,7 +247,7 @@ export default function AdminPricesPage() {
                 {/* Standard Price Input */}
                 <div className="p-4 rounded-xl bg-muted/50 border border-border">
                   <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                    Стандартна цена:
+                    Стандартна цена (€):
                   </label>
                   <div className="flex items-center gap-2">
                     <input
@@ -234,28 +260,21 @@ export default function AdminPricesPage() {
                         n[idx] = { ...n[idx], priceStr: e.target.value }
                         return n
                       })}
-                      className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-lg transition-colors ${
+                      className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-xl transition-colors ${
                         it.priceValid
                           ? 'border-border focus:border-primary focus:ring-2 focus:ring-primary/20'
                           : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                       }`}
+                      placeholder="0.00"
                     />
-                    {!showOnlyEUR && (
-                      <>
-                        <span className="text-sm font-semibold text-muted-foreground">лв</span>
-                        <span className="mx-1 text-muted-foreground">/</span>
-                      </>
-                    )}
-                    <span className={`text-right font-bold min-w-[60px] ${showOnlyEUR ? 'text-primary text-lg' : 'text-primary'}`}>
-                      {fx2(it.priceEUR)} €
-                    </span>
+                    <span className="text-lg font-bold text-primary">€</span>
                   </div>
                 </div>
 
                 {/* Discount Input */}
                 <div className="p-4 rounded-xl bg-muted/40 border border-border">
                   <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                    Отстъпка за картови клиенти:
+                    Отстъпка за картови клиенти (€):
                   </label>
                   <div className="flex items-center gap-2">
                     <input
@@ -268,21 +287,14 @@ export default function AdminPricesPage() {
                         n[idx] = { ...n[idx], discountStr: e.target.value }
                         return n
                       })}
-                      className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-lg transition-colors ${
+                      className={`flex-1 rounded-lg border-2 px-4 py-2 text-right font-bold text-xl transition-colors ${
                         it.discountValid
                           ? 'border-border focus:border-primary focus:ring-2 focus:ring-primary/20'
                           : 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                       }`}
+                      placeholder="0.00"
                     />
-                    {!showOnlyEUR && (
-                      <>
-                        <span className="text-sm font-semibold text-muted-foreground">лв</span>
-                        <span className="mx-1 text-muted-foreground">/</span>
-                      </>
-                    )}
-                    <span className={`text-right font-bold min-w-[60px] ${showOnlyEUR ? 'text-primary text-lg' : 'text-primary'}`}>
-                      {fx2(it.discountEUR)} €
-                    </span>
+                    <span className="text-lg font-bold text-primary">€</span>
                   </div>
                 </div>
 
@@ -293,19 +305,11 @@ export default function AdminPricesPage() {
                     <span className="text-sm font-bold text-primary">С карта:</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-black text-primary mb-1">
-                      {showOnlyEUR ? (
-                        <>{fx2(it.memberEUR)} €</>
-                      ) : (
-                        <>{fx2(it.memberBGN)} лв / {fx2(it.memberEUR)} €</>
-                      )}
+                    <div className="text-3xl font-black text-primary mb-1">
+                      {fx2(it.memberEUR)} €
                     </div>
                     <div className="text-xs font-bold text-green-600">
-                      {showOnlyEUR ? (
-                        <>спестяване {fx2(it.discountEUR)} €/л</>
-                      ) : (
-                        <>спестяване {fx2(it.discountBGN)} лв/л / {fx2(it.discountEUR)} €/л</>
-                      )}
+                      спестяване {fx2(it.discountEUR)} €/л
                     </div>
                   </div>
                 </div>

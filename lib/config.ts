@@ -3,6 +3,8 @@ import type { Fuel, Service, Contacts, CompanyInfo } from '@/lib/types'
 export const BGN_PER_EUR = 1.95583
 export const DISCOUNT_BGN = 0.10
 
+// Попълни цените на горивата според твоите предпочитания
+
 export const fuels: Fuel[] = [
   { name: 'Бензин А95', price: 2.29, memberPrice: 2.29 - DISCOUNT_BGN, unit: 'лв/л' },
   { name: 'Дизел',      price: 2.29, memberPrice: 2.29 - DISCOUNT_BGN, unit: 'лв/л' },

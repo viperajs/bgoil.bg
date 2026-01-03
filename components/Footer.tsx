@@ -41,14 +41,7 @@ export default function Footer() {
                 <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0 mt-0.5">
                   <MapPin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                 </div>
-                <a
-                  href={contacts.mapsLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/95 hover:text-white transition-colors duration-300 font-semibold text-base pt-1.5"
-                >
-                  {contacts.address}
-                </a>
+                <span className="text-white/95 text-sm leading-relaxed pt-1.5 font-medium">{contacts.address}</span>
               </div>
               <div className="flex items-center space-x-3 group">
                 <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
@@ -87,6 +80,7 @@ export default function Footer() {
             <div className="space-y-3">
               {[
                 { name: "Цени на горива", href: "/products" },
+                { name: "Новини за горивата", href: "/news" },
                 { name: "Нашите услуги", href: "/about" },
                 { name: "Как да ни намерите", href: "/contact" },
               ].map((link) => (

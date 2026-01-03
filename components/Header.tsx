@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Phone, MapPin, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import PromoBar from "@/components/PromoBar"
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -33,9 +32,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Promo Bar - Top Banner */}
-      <PromoBar />
-      
       {/* Desktop Navigation */}
       <header
         className={`hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -58,19 +54,18 @@ export default function Header() {
             {/* Logo */}
             <Link 
               href="/" 
-              className="flex items-center group transition-all duration-300 hover:scale-105 relative z-20 min-w-[140px]"
+              className="flex items-center group transition-all duration-300 hover:scale-105"
             >
-              <div className="relative isolate">
+              <div className="relative">
                 <Image
                   src="/bg-oil-logo.webp"
                   alt="BG OIL"
                   width={140}
                   height={50}
-                  className="h-12 w-auto transition-all duration-300 relative z-10 block"
+                  className="h-12 w-auto transition-all duration-300"
                   priority
-                  unoptimized
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl z-0 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
               </div>
             </Link>
 
@@ -169,21 +164,17 @@ export default function Header() {
             {/* Logo */}
             <Link 
               href="/" 
-              className="flex items-center group relative z-20 min-w-[120px]"
+              className="flex items-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <div className="relative isolate">
-                <Image
-                  src="/bg-oil-logo.webp"
-                  alt="BG OIL"
-                  width={120}
-                  height={40}
-                  className="h-10 w-auto relative z-10 block"
-                  priority
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl z-0 pointer-events-none"></div>
-              </div>
+              <Image
+                src="/bg-oil-logo.webp"
+                alt="BG OIL"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
 
             {/* Mobile Menu Button */}

@@ -1,24 +1,8 @@
 import { services } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Sparkles, ArrowRight } from "lucide-react"
-import { getActiveDiscountBannerMessage } from "@/lib/discountBannerStore"
 
-export default async function ServicesSection() {
-  const discountBannerMessage = await getActiveDiscountBannerMessage()
-  
-  // Update service descriptions with discount banner message if available
-  const updatedServices = services.map(service => {
-    if (service.name === '24/7 Магазин' && discountBannerMessage) {
-      // Replace the discount message in the description if it exists
-      const baseDescription = 'Непрекъснато работещ магазин с всичко необходимо.'
-      return {
-        ...service,
-        description: `${baseDescription} ${discountBannerMessage}`
-      }
-    }
-    return service
-  })
-  
+export default function ServicesSection() {
   return (
     <section className="py-24 bg-gradient-to-b from-background via-muted/30 to-background">
       <div className="container mx-auto px-4">
@@ -36,7 +20,7 @@ export default async function ServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {updatedServices.map((service, index) => (
+          {services.map((service, index) => (
             <Card 
               key={index} 
               className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl"
