@@ -113,7 +113,7 @@ export default function NewsFeedPage() {
               </h1>
 
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
-                Събираме новините за бензин, дизел, LPG и суров петрол. Резюмета на български.
+                Събираме новините за бензин, дизел, LPG и суров петрол от международни източници.
               </p>
 
               <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">

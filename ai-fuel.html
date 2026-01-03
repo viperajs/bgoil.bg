@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Асистент за Горива</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f4f4f4; }
+        .chat-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        input { width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 25%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #response { margin-top: 20px; white-space: pre-wrap; color: #333; line-height: 1.5; }
+        .loading { color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-box">
+        <h2>⛽ AI Експерт Горива</h2>
+        <p>Попитай ме за цените, прогнози или видовете горива.</p>
+        
+        <div style="display: flex; justify-content: space-between;">
+            <input type="text" id="userInput" placeholder="Напр: Защо бензинът поскъпва?">
+            <button onclick="askAI()">Питай</button>
+        </div>
+
+        <div id="response"></div>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { GoogleGenerativeAI } from "@google/generative-ai";
+
+      // 👇👇👇 ТУК СЛОЖИ ТВОЯ КЛЮЧ 👇👇👇
+      const API_KEY = "AIzaSyDxZclwiPbZl-WDrQA2RRmuJLhWaWmBr0s"; 
+      
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      // Правим функцията глобална, за да може бутонът да я вижда
+      window.askAI = async function() {
+          const inputField = document.getElementById('userInput');
+          const responseDiv = document.getElementById('response');
+          const question = inputField.value;
+
+          if (!question) return;
+
+          responseDiv.innerHTML = '<span class="loading">Анализирам пазара...</span>';
+
+          // Тук казваме на AI какъв да бъде (SYSTEM PROMPT)
+          const prompt = `
+            Ти си експерт по горивата в България. 
+            Отговаряй кратко, точно и на български език. 
+            Ако те питат за валута, знаеш че 1 Евро е 1.95583 лева.
+            Въпрос на потребителя: ${question}
+          `;
+
+          try {
+              const result = await model.generateContent(prompt);
+              const response = await result.response;
+              responseDiv.innerText = response.text();
+          } catch (error) {
+              responseDiv.innerText = "Грешка! Провери дали ключът е правилен.";
+              console.error(error);
+          }
+      }
+    </script>
+
+</body>
+</html>

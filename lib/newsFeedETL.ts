@@ -246,74 +246,91 @@ export function extractKeywords(title: string, content: string): string[] {
   return [...new Set(keywords)].slice(0, 10) // Максимум 10 ключови думи
 }
 
-// ---- AI резюме с OpenAI API ----
+// ---- AI резюме с Google Gemini API ----
+// ВАЖНО: Gemini Free tier има лимит от 15 RPM (requests per minute)
+// За да спазваме този лимит, в processNewsFeed() има 5 секунди пауза между заявки
 export async function generateAISummary(
   title: string,
   content: string,
   language: 'bg' | 'en'
 ): Promise<string> {
-  const apiKey = process.env.OPENAI_API_KEY
-  
+  const apiKey = process.env.OPENAI_API_KEY // Използваме същата променлива за Gemini ключа
+
   // Ако няма API ключ, използваме fallback метод
   if (!apiKey) {
-    console.warn('OpenAI API key not found, using fallback summary')
+    console.warn('Gemini API key not found, using fallback summary')
     return generateFallbackSummary(title, content, language)
   }
-  
+
   try {
     // Ограничаваме дължината на текста за API заявката
     const textToSummarize = (content || title).substring(0, 8000)
-    
-    // Подготвяме промпта
-    const systemPrompt = language === 'bg'
-      ? `Ти си експерт по енергийни пазари и горива. Създаваш кратко резюме на български език от статии за горива, бензин, дизел, LPG, нефт и енергийни пазари. Резюмето трябва да бъде:
+
+    // Подготвяме промпта за Gemini
+    const prompt = language === 'bg'
+      ? `Ти си експерт по енергийни пазари и горива. Създай кратко резюме на български език от следната статия.
+
+Резюмето трябва да бъде:
 - 3-4 изречения, фактологично и неутрално
 - Запазвай числа, дати и конкретни данни
 - Без маркетингови суперлативи
 - На български език, дори ако оригиналът е на друг език
-- Фокус върху ключовата информация за пазара на горива`
-      : `You are an expert in energy markets and fuels. Create a brief summary in Bulgarian from articles about fuels, gasoline, diesel, LPG, oil and energy markets. The summary should be:
+- Фокус върху ключовата информация за пазара на горива
+
+Заглавие: ${title}
+
+Съдържание:
+${textToSummarize}
+
+Създай кратко резюме на български език (3-4 изречения):`
+      : `You are an expert in energy markets and fuels. Create a brief summary in Bulgarian from the following article.
+
+The summary should be:
 - 3-4 sentences, factual and neutral
 - Preserve numbers, dates and specific data
 - No marketing superlatives
 - In Bulgarian language, even if the original is in another language
-- Focus on key information about fuel markets`
-    
-    const userPrompt = language === 'bg'
-      ? `Заглавие: ${title}\n\nСъдържание:\n${textToSummarize}\n\nСъздай кратко резюме на български език (3-4 изречения):`
-      : `Title: ${title}\n\nContent:\n${textToSummarize}\n\nCreate a brief summary in Bulgarian (3-4 sentences):`
-    
-    // Извикваме OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+- Focus on key information about fuel markets
+
+Title: ${title}
+
+Content:
+${textToSummarize}
+
+Create a brief summary in Bulgarian (3-4 sentences):`
+
+    // Извикваме Google Gemini API
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini', // Използваме по-евтиния модел за резюмета
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature: 0.3, // По-ниска температура за по-фактологични резюмета
-        max_tokens: 300, // Ограничаваме дължината на резюмето
+        contents: [{
+          parts: [{
+            text: prompt
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 300,
+        }
       }),
     })
-    
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('OpenAI API error:', response.status, errorData)
+      console.error('Gemini API error:', response.status, errorData)
       return generateFallbackSummary(title, content, language)
     }
-    
+
     const data = await response.json()
-    const summary = data.choices?.[0]?.message?.content?.trim()
-    
+    const summary = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim()
+
     if (summary && summary.length > 20) {
       return summary.substring(0, 500)
     }
-    
+
     // Fallback ако отговорът е невалиден
     return generateFallbackSummary(title, content, language)
   } catch (error) {
@@ -330,24 +347,29 @@ function generateFallbackSummary(
 ): string {
   const text = content || title
   const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20)
-  
+
   if (sentences.length === 0) {
-    return language === 'bg' 
+    return language === 'bg'
       ? 'Статия за горива и енергийни пазари.'
       : 'Article about fuels and energy markets.'
   }
-  
+
   // Вземаме първите 3-4 изречения и ги форматираме
   const summary = sentences.slice(0, 4)
     .map(s => s.trim())
     .filter(s => s.length > 0)
     .join('. ')
     .trim()
-  
+
   // Добавяме точка в края ако няма
   const finalSummary = summary.endsWith('.') ? summary : summary + '.'
-  
+
   return finalSummary.substring(0, 500)
+}
+
+// ---- Функция за забавяне (throttling) ----
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 // ---- Основен ETL процес за един източник ----
@@ -376,8 +398,9 @@ export async function processNewsFeed(
     result.errors.push(...errors)
     result.found = articles.length
     
-    // Обработка на всяка статия
-    for (const article of articles) {
+    // Обработка на всяка статия със забавяне за спазване на rate limits
+    for (let i = 0; i < articles.length; i++) {
+      const article = articles[i]
       try {
         // Проверка за дата (не по-стари от maxAgeDays)
         const publishedDate = new Date(article.publishedAt)
@@ -386,37 +409,37 @@ export async function processNewsFeed(
           result.filtered_out++
           continue
         }
-        
+
         // Проверка за дубликати
         if (await articleExists(article.url)) {
           result.filtered_out++
           continue
         }
-        
+
         // Генериране на резюме
         const summary = await generateAISummary(
           article.title,
           article.content,
           article.language
         )
-        
+
         if (!summary || summary.length < 20) {
           result.filtered_out++
           result.errors.push(`Failed to generate summary for ${article.url}`)
           continue
         }
-        
+
         result.summarized++
-        
+
         // Извличане на ключови думи
         const keywords = extractKeywords(article.title, article.content)
-        
+
         // Определяне на категория (базова логика)
         const category = determineCategory(article.title, article.content)
-        
+
         // Проверка за важна новина
         const important = isImportant(article.title, article.content)
-        
+
         // Запис в базата със статус PUBLISHED
         const savedArticle = await saveNewsArticle({
           url: article.url,
@@ -431,12 +454,21 @@ export async function processNewsFeed(
           category,
           isImportant: important,
         })
-        
+
         if (important) {
           await markAsImportant(savedArticle.id)
         }
-        
+
         result.published++
+
+        // Забавяне след всяка AI заявка за спазване на rate limit
+        // Gemini Free tier: 15 RPM (requests per minute)
+        // 60000ms / 15 = 4000ms между заявки
+        // Използваме 5000ms (5 секунди) за безопасност
+        if (i < articles.length - 1) {
+          console.log(`[processNewsFeed] Processed ${i + 1}/${articles.length}, waiting 5s before next...`)
+          await sleep(5000)
+        }
       } catch (e) {
         result.errors.push(`Failed to process article ${article.url}: ${(e as Error).message}`)
         result.filtered_out++
