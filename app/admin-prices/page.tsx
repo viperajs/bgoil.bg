@@ -348,7 +348,7 @@ export default function AdminPricesPage() {
               <li className="flex items-start space-x-2">
                 <span className="text-primary font-bold">•</span>
                 <span>Промените се запазват веднага след натискане на "Запази всички"</span>
-              </li>
+              </li>т
               <li className="flex items-start space-x-2">
                 <span className="text-primary font-bold">•</span>
                 <span>Отстъпката може да е различна за всяко гориво – следете да не е отрицателна</span>
