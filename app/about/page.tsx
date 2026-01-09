@@ -4,7 +4,7 @@ import Footer from "@/components/Footer"
 import { services, companyInfo } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, BedDouble, Wrench, CreditCard } from "lucide-react"
+import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, Wrench, CreditCard } from "lucide-react"
 import Image from "next/image"
 
 export const metadata: Metadata = {
@@ -271,57 +271,17 @@ export default function AboutPage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <Badge variant="outline" className="w-fit px-4 py-2 text-sm font-semibold mx-auto mb-6">
-                Допълнителни удобства
+                Допълнителни услуги
               </Badge>
               <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-balance">
-                Хотел и автосервиз на една крачка
+                Автосервиз и EasyPay на едно място
               </h2>
               <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
-                На място ще намерите както уютен хотел, така и пълноценен автосервиз, за да продължите пътя си отпочинали,
-                с обслужен автомобил и без излишно губене на време.
+                На място ще намерите пълноценен автосервиз и EasyPay каса, за да продължите пътя си с обслужен автомобил и без излишно губене на време.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-              <Card className="border-primary/30 bg-background/80 shadow-lg hover-lift">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <BedDouble className="w-7 h-7 text-primary" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-2xl font-bold text-card-foreground">Хотел BG OIL</CardTitle>
-                      <p className="text-sm text-muted-foreground">Тихи стаи, свеж въздух и гъвкаво настаняване</p>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Хотелската част е идеална за професионални шофьори и семейства. Стаите са с черни аут блокиращи завеси,
-                    удобни матраци и климатизация, а рецепцията ни е на разположение 24/7 за късни настанявания.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-center justify-between border-b border-border/50 pb-2 last:border-b-0">
-                      <span className="font-medium text-card-foreground">Единична стая</span>
-                      <span>40 лв / нощ</span>
-                    </li>
-                    <li className="flex items-center justify-between border-b border-border/50 pb-2 last:border-b-0">
-                      <span className="font-medium text-card-foreground">Двойна стая</span>
-                      <span>50 лв / нощ</span>
-                    </li>
-                    <li className="flex items-center justify-between border-b border-border/50 pb-2 last:border-b-0">
-                      <span className="font-medium text-card-foreground">Тройна стая</span>
-                      <span>60 лв / нощ</span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span className="font-medium text-card-foreground">Апартамент</span>
-                      <span>70 лв / нощ</span>
-                    </li>
-                  </ul>
-                
-                </CardContent>
-              </Card>
-
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               <Card className="border-secondary/30 bg-background/80 shadow-lg hover-lift">
                 <CardHeader className="space-y-4">
                   <div className="flex items-center space-x-4">
