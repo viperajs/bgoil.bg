@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Fuel, ArrowRight, Shield, Sparkles } from "lucide-react"
+import { Fuel, ArrowRight, Shield, Sparkles, Hotel } from "lucide-react"
 
 export default function AdminPage() {
   const adminLinks = [
@@ -13,6 +13,14 @@ export default function AdminPage() {
       icon: Fuel,
       color: "text-primary",
       bgColor: "bg-primary/10",
+    },
+    {
+      title: "Управление на хотел",
+      description: "Редактиране на цените и информация за хотела",
+      href: "/admin-hotel",
+      icon: Hotel,
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
     },
     {
       title: "Промоции/Новини",

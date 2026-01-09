@@ -28,3 +28,14 @@ export interface CompanyInfo {
   slogan: string
   description: string
 }
+
+export interface HotelRoom {
+  name: string
+  price: number
+  unit: string
+}
+
+export interface HotelInfo {
+  checkIn: string
+  checkOut: string
+}

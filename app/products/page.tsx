@@ -5,7 +5,7 @@ import { companyInfo } from "@/lib/config"
 export const revalidate = 0; // без кеширане на страницата (или export const dynamic = 'force-dynamic')
 
 export const metadata: Metadata = {
-  title: "Продукти и цени",
+  title: "Горива и цени",
   description:
     "Актуални цени на горива в BG OIL - бензин А95, дизел, ГПБ и AdBlue. Специални отстъпки за картови клиенти. Качествени горива на конкурентни цени.",
   keywords: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "горива 24/7",
   ],
   openGraph: {
-    title: `Продукти и цени - ${companyInfo.name}`,
+    title: `Горива и цени - ${companyInfo.name}`,
     description: "Актуални цени на горива - бензин А95, дизел, ГПБ и AdBlue с отстъпки за картови клиенти. Качествени горива във Враца.",
     url: "https://bgoil.bg/products",
     type: "website",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `Продукти и цени - ${companyInfo.name}`,
+    title: `Горива и цени - ${companyInfo.name}`,
     description: "Актуални цени на горива с отстъпки за картови клиенти. Бензин, дизел, AdBlue във Враца.",
     images: ["https://bgoil.bg/background.png"],
   },
@@ -84,7 +84,7 @@ export default async function ProductsPage() {
                 </div>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-                Продукти и цени
+                Горива и цени
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground text-pretty">
                 Качествени горива на конкурентни цени с допълнителни отстъпки за картови клиенти

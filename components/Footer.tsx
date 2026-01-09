@@ -125,7 +125,7 @@ export default function Footer() {
                 Контакти
               </Link>
               <Link href="/products" className="text-white/90 hover:text-white transition-colors duration-300 font-semibold">
-                Продукти
+                Горива
               </Link>
             </div>
           </div>

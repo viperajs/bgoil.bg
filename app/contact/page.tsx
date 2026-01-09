@@ -104,10 +104,6 @@ export default function ContactPage() {
                   <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
                     <a href={`tel:${contacts.phoneMain}`}>{contacts.phoneMain}</a>
                   </Button>
-                  <p className="text-sm text-muted-foreground">Хотел резервации:</p>
-                  <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
-                    <a href={`tel:${contacts.hotelPhone}`}>{contacts.hotelPhone}</a>
-                  </Button>
                 </CardContent>
               </Card>
 

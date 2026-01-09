@@ -23,7 +23,8 @@ export default function Header() {
   const navigation = [
     { name: "Начало", href: "/" },
     { name: "За нас", href: "/about" },
-    { name: "Продукти", href: "/products" },
+    { name: "Горива", href: "/products" },
+    { name: "Хотел", href: "/hotel" },
     { name: "Новини", href: "/news-feed" },
     { name: "Контакти", href: "/contact" },
   ]
