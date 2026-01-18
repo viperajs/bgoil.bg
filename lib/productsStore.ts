@@ -1,5 +1,6 @@
-import fs from 'fs/promises'
-import path from 'path'
+// lib/productsStore.ts
+import 'server-only'
+import { Redis } from '@upstash/redis'
 
 export interface Product {
   id: number
@@ -12,15 +13,14 @@ export interface Product {
   image: string
 }
 
-const dataDir = path.join(process.cwd(), 'data')
-const productsFile = path.join(dataDir, 'products.json')
+const PRODUCTS_KEY = 'products:v1'
 
-// Default products
+// Default products - ще се използват само ако няма данни в Redis
 const defaultProducts: Product[] = [
   {
     id: 1,
     name: 'Cooltech Антифриз G11 -30°C 5л',
-    description: 'Висококачествен син антифриз G11 за защита до -30°C. Готов за употреба. Осигурява надеждна защита на двигателя през цялата година.',
+    description: 'Висококачествен син антифриз G11 за защита до -30°C. Готов за употреба.',
     price: 9.15,
     cardPrice: 8.24,
     stock: 20,
@@ -59,32 +59,102 @@ const defaultProducts: Product[] = [
   },
 ]
 
-// Ensure data directory exists
-async function ensureDataDir() {
+// ---- Redis клиент ----
+let redisAuthFailed = false
+
+function getRedis() {
+  const url = process.env.UPSTASH_REDIS_KV_REST_API_URL
+  const token = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN
+  if (!url || !token) return null
+  return new Redis({ url, token })
+}
+
+const redis = getRedis()
+
+// ---- безопасно четене от Redis ----
+async function safeGetProducts(): Promise<Product[] | null> {
+  if (!redis || redisAuthFailed) {
+    console.log('productsStore: Redis not available, using defaults')
+    return null
+  }
+
   try {
-    await fs.mkdir(dataDir, { recursive: true })
-  } catch (error) {
-    console.error('Error creating data directory:', error)
+    const val = await redis.get(PRODUCTS_KEY) as unknown
+    if (val == null) return null
+
+    if (typeof val === 'string') {
+      try {
+        return JSON.parse(val) as Product[]
+      } catch (e) {
+        console.error('productsStore: parse failed (string)', e)
+        return null
+      }
+    }
+    if (Array.isArray(val)) {
+      return val as Product[]
+    }
+    return null
+  } catch (e) {
+    const error = e as Error
+    const isAuthError = error.message.includes('WRONGPASS') ||
+                       error.message.includes('invalid or missing auth token') ||
+                       error.message.includes('unauthorized')
+
+    if (isAuthError) {
+      if (!redisAuthFailed) {
+        console.warn('productsStore: Redis authentication failed.')
+        redisAuthFailed = true
+      }
+    } else {
+      console.error('productsStore: redis.get failed:', error.message)
+    }
+    return null
+  }
+}
+
+// ---- безопасен запис в Redis ----
+async function safeSetProducts(products: Product[]): Promise<boolean> {
+  if (!redis || redisAuthFailed) {
+    console.log('productsStore: Redis not available, cannot save')
+    return false
+  }
+
+  try {
+    await redis.set(PRODUCTS_KEY, products as any)
+    console.log('productsStore: saved to Redis')
+    return true
+  } catch (e) {
+    const error = e as Error
+    const isAuthError = error.message.includes('WRONGPASS') ||
+                       error.message.includes('invalid or missing auth token') ||
+                       error.message.includes('unauthorized')
+
+    if (isAuthError) {
+      if (!redisAuthFailed) {
+        console.warn('productsStore: Redis authentication failed.')
+        redisAuthFailed = true
+      }
+    } else {
+      console.error('productsStore: redis.set failed:', error.message)
+    }
+    return false
   }
 }
 
 // Get all products
 export async function getProducts(): Promise<Product[]> {
-  try {
-    await ensureDataDir()
-    const data = await fs.readFile(productsFile, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    // If file doesn't exist, create it with default products
-    await saveProducts(defaultProducts)
-    return defaultProducts
+  const products = await safeGetProducts()
+  if (products !== null && products.length > 0) {
+    return products
   }
+  // Ако няма данни в Redis, записваме default-ите и ги връщаме
+  await safeSetProducts(defaultProducts)
+  return defaultProducts
 }
 
 // Save all products
 export async function saveProducts(products: Product[]): Promise<void> {
-  await ensureDataDir()
-  await fs.writeFile(productsFile, JSON.stringify(products, null, 2), 'utf-8')
+  await safeSetProducts(products)
 }
 
 // Get a single product by ID
