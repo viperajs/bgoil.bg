@@ -91,7 +91,7 @@ export default async function HotelPage() {
                 return (
                   <Card
                     key={index}
-                    className="relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-300 hover-lift bg-gradient-card shadow-lg"
+                    className="relative overflow-hidden transition-all duration-300 hover-lift bg-gradient-card shadow-lg hover:shadow-xl hover:shadow-primary/10"
                   >
                     <CardHeader className="text-center pb-4">
                       <div className="inline-flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-primary/10">
@@ -118,7 +118,7 @@ export default async function HotelPage() {
             </div>
 
             {/* Check-in/Check-out Info */}
-            <Card className="mb-10 rounded-3xl border border-white/10 bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
+            <Card className="mb-10 rounded-3xl bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
               <CardHeader className="pb-0">
                 <div className="flex flex-col gap-2">
                   <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
@@ -203,7 +203,7 @@ export default async function HotelPage() {
             </Card>
 
             {/* Reservation Section */}
-            <Card className="mb-10 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 px-6 py-6 shadow-lg">
+            <Card className="mb-10 rounded-2xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 px-6 py-6 shadow-lg">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Calendar className="h-4 w-4 text-primary" />
@@ -221,7 +221,7 @@ export default async function HotelPage() {
                     
                     <div className="space-y-3">
                       {/* Phone */}
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 border-2 border-border hover:border-primary/50 transition-all shadow-sm">
+                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all shadow-sm">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <Phone className="w-5 h-5 text-primary" />
                         </div>
@@ -243,7 +243,7 @@ export default async function HotelPage() {
                       </div>
 
                       {/* Email */}
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 border-2 border-border hover:border-primary/50 transition-all shadow-sm">
+                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all shadow-sm">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <Mail className="w-5 h-5 text-primary" />
                         </div>
@@ -265,7 +265,7 @@ export default async function HotelPage() {
                       </div>
 
                       {/* Location */}
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 border-2 border-border hover:border-primary/50 transition-all shadow-sm">
+                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all shadow-sm">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <MapPin className="w-5 h-5 text-primary" />
                         </div>
@@ -291,7 +291,7 @@ export default async function HotelPage() {
                     
                     <div className="space-y-3">
                       {/* Steps */}
-                      <div className="p-4 rounded-xl bg-gradient-primary/10 border-2 border-primary/20">
+                      <div className="p-4 rounded-xl bg-gradient-primary/10">
                         <div className="space-y-3">
                           <div className="flex items-start gap-3">
                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">1</span>
@@ -313,7 +313,7 @@ export default async function HotelPage() {
                       </div>
                       
                       {/* Additional Info */}
-                      <div className="p-4 rounded-xl bg-gradient-primary/10 border-2 border-primary/20">
+                      <div className="p-4 rounded-xl bg-gradient-primary/10">
                         <p className="text-xs leading-relaxed text-muted-foreground">
                           <span className="font-semibold text-foreground">Резервации 24/7</span> • Предварителна резервация препоръчителна • Плащане на място • Климатизация и черни аут завеси • Безплатен паркинг
                         </p>
@@ -325,7 +325,7 @@ export default async function HotelPage() {
             </Card>
 
             {/* Price Disclaimer */}
-            <div className="mt-10 rounded-2xl border border-[#ff5b5b]/40 bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
+            <div className="mt-10 rounded-2xl bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
                 <div className="flex items-center gap-3 text-[#ffb3b3]">
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ff4d4d]/15 text-[#ffb3b3]">

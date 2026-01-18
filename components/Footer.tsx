@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Clock, Facebook, Instagram, ArrowRight } from "luc
 
 export default function Footer() {
   return (
-    <footer className="relative bg-gradient-to-br from-[#04060f] via-[#080f1f] to-[#04060f] text-white overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-[#0a0a0f] via-[#111827] to-[#0a0a0f] text-white overflow-hidden">
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
@@ -22,9 +22,9 @@ export default function Footer() {
             
             {/* Social Media */}
             <div className="flex items-center space-x-3 pt-2">
-              <a 
-                href="https://www.facebook.com/share/1ZaL36Ykbk/?mibextid=wwXIfr" 
-                className="w-11 h-11 rounded-full bg-white/15 hover:bg-primary border border-white/30 flex items-center justify-center transition-all duration-300 hover-lift hover:border-primary hover:shadow-lg"
+              <a
+                href="https://www.facebook.com/share/1ZaL36Ykbk/?mibextid=wwXIfr"
+                className="w-11 h-11 rounded-xl bg-white/15 hover:bg-primary flex items-center justify-center transition-all duration-300 hover-lift hover:shadow-lg"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5 text-white" />
@@ -37,14 +37,19 @@ export default function Footer() {
           <div className="space-y-5">
             <h3 className="font-bold text-xl text-white mb-2">Контакти</h3>
             <div className="space-y-4">
-              <div className="flex items-start space-x-3 group">
-                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0 mt-0.5">
+              <a
+                href={contacts.mapsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start space-x-3 group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/30 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0 mt-0.5">
                   <MapPin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                 </div>
-                <span className="text-white/95 text-sm leading-relaxed pt-1.5 font-medium">{contacts.address}</span>
-              </div>
+                <span className="text-white/95 text-sm leading-relaxed pt-1.5 font-medium hover:text-white transition-colors duration-300">{contacts.address}</span>
+              </a>
               <div className="flex items-center space-x-3 group">
-                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
                   <Phone className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                 </div>
                 <a
@@ -55,7 +60,7 @@ export default function Footer() {
                 </a>
               </div>
               <div className="flex items-center space-x-3 group">
-                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
                   <Mail className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                 </div>
                 <a
@@ -66,7 +71,7 @@ export default function Footer() {
                 </a>
               </div>
               <div className="flex items-center space-x-3 group">
-                <div className="w-10 h-10 rounded-lg bg-primary/30 border border-primary/50 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-primary/30 flex items-center justify-center group-hover:bg-primary transition-colors duration-300 flex-shrink-0">
                   <Clock className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                 </div>
                 <span className="text-white/95 text-sm font-semibold">{contacts.workingHours}</span>
@@ -96,23 +101,29 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Newsletter/CTA */}
+          {/* Customer Benefits */}
           <div className="space-y-5">
-            <h3 className="font-bold text-xl text-white mb-2">Следвайте ни</h3>
+            <h3 className="font-bold text-xl text-white mb-2">За клиенти</h3>
             <p className="text-white/95 text-sm leading-relaxed font-medium">
-              Получавайте актуални новини и специални оферти
+              Предимства и удобства на едно място
             </p>
-            <div className="p-4 rounded-xl bg-gradient-primary/25 border-2 border-primary/40 shadow-lg">
+            <div className="p-4 rounded-xl bg-gradient-primary/25 shadow-lg">
               <p className="text-white font-bold text-sm mb-2">24/7 Обслужване</p>
               <p className="text-white/95 text-xs leading-relaxed">
                 Винаги на ваше разположение за вашия комфорт
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-white/10">
+              <p className="text-white font-bold text-sm mb-2">Безплатен паркинг</p>
+              <p className="text-white/95 text-xs leading-relaxed">
+                Удобно паркиране за всички клиенти
               </p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/20 mt-12 pt-8">
+        <div className="pt-12">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-white/90 text-sm text-center md:text-left font-semibold">
               © {new Date().getFullYear()} {companyInfo.name}. Всички права запазени.

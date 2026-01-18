@@ -26,7 +26,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
   const fx2 = (n: number) => n.toFixed(2)
 
   return (
-    <Card className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl">
+    <Card className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
       
@@ -54,7 +54,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
 
       <CardContent className="space-y-6 relative z-10">
         {/* Standard Price */}
-        <div className="space-y-2 p-4 rounded-xl bg-muted/50 border border-border group-hover:border-primary/30 transition-colors duration-300">
+        <div className="space-y-2 p-4 rounded-xl bg-muted/50 group-hover:bg-muted/70 transition-colors duration-300">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Стандартна цена:</span>
             <span className="text-right">
@@ -66,7 +66,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
         </div>
 
         {/* Member Price - Highlighted */}
-        <div className="relative p-5 rounded-xl bg-gradient-primary/10 border-2 border-primary/20 group-hover:border-primary/40 transition-all duration-300">
+        <div className="relative p-5 rounded-xl bg-gradient-primary/10 group-hover:bg-gradient-primary/15 transition-all duration-300">
           <div className="flex items-center space-x-2 mb-3">
             <CreditCard className="w-5 h-5 text-primary" />
             <span className="text-sm font-bold text-primary">С карта BG OIL:</span>
@@ -88,7 +88,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
         </div>
 
         {/* CTA Banner */}
-        <div className="p-4 rounded-xl border border-primary/40 bg-gradient-to-r from-primary/15 via-secondary/15 to-primary/15 shadow-lg group-hover:shadow-primary/40 transition-all duration-300">
+        <div className="p-4 rounded-xl bg-gradient-to-r from-primary/15 via-secondary/15 to-primary/15 shadow-lg group-hover:shadow-primary/40 transition-all duration-300">
           <p className="text-sm font-semibold text-center flex items-center justify-center space-x-2 text-foreground">
             <Sparkles className="w-4 h-4 text-accent animate-pulse" />
             <span>Получете карта BG OIL и спестете!</span>

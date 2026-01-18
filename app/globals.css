@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -18,25 +17,36 @@ body {
   overflow-x: hidden;
 }
 
+/* Скрий скролбара но запази функционалността */
+.card-nav-content {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.card-nav-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 body {
   font-size: 16px;
   color: var(--foreground);
-  background-color: #02030a;
-  background-image: radial-gradient(
-      circle at 15% 20%,
-      rgba(255, 59, 59, 0.35),
+  background-color: #0a0a0f;
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(239, 68, 68, 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(251, 113, 133, 0.12),
       transparent 45%
     ),
-    radial-gradient(circle at 85% 0%, rgba(31, 77, 242, 0.25), transparent 40%),
-    radial-gradient(circle at 0% 100%, rgba(245, 158, 11, 0.18), transparent 35%),
-    repeating-linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0.04) 0px,
-      rgba(255, 255, 255, 0.04) 2px,
-      transparent 2px,
-      transparent 60px
-    ),
-    linear-gradient(145deg, #02030a 0%, #070c18 55%, #0d172b 100%);
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(220, 38, 38, 0.15),
+      transparent 40%
+    );
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
@@ -62,97 +72,97 @@ p {
 
 /* ====== УНИКАЛНА ЦВЕТОВА ПАЛИТРА ====== */
 :root {
-  /* Основни цветове - Модерна палитра с червено и синьо */
-  --background: #04060f;
-  --foreground: #f5f7ff;
+  /* Основни цветове - Модерна червена палитра 2025/2026 */
+  --background: #0a0a0f;
+  --foreground: #fef2f2;
 
-  /* Primary - Ярко червено с градиент */
-  --primary: #ff3b3b;
+  /* Primary - Модерно червено с розов/корал нюанси */
+  --primary: #ef4444;
   --primary-foreground: #ffffff;
-  --primary-light: #ff6666;
-  --primary-dark: #c81818;
+  --primary-light: #f87171;
+  --primary-dark: #dc2626;
 
-  /* Secondary - Синьо */
-  --secondary: #1f4df2;
+  /* Secondary - Розово/Корал за баланс */
+  --secondary: #f43f5e;
   --secondary-foreground: #ffffff;
-  --secondary-light: #4f7dff;
-  --secondary-dark: #0f2fcf;
+  --secondary-light: #fb7185;
+  --secondary-dark: #e11d48;
 
-  /* Accent - Оранжево/Златисто */
-  --accent: #fbbf24;
-  --accent-foreground: #0b1120;
+  /* Accent - Оранжево/Персиково за топлина */
+  --accent: #f97316;
+  --accent-foreground: #ffffff;
 
   /* Card */
-  --card: #0b1120;
-  --card-foreground: #f4f7ff;
+  --card: #111827;
+  --card-foreground: #fef2f2;
 
   /* Muted */
-  --muted: #101a2b;
-  --muted-foreground: #9fb2d4;
+  --muted: #1f2937;
+  --muted-foreground: #d1d5db;
 
   /* Border */
-  --border: #1c2740;
-  --input: #141c2f;
-  --ring: #ff5c5c;
+  --border: #374151;
+  --input: #1f2937;
+  --ring: #ef4444;
 
   /* Radius */
   --radius: 1rem;
 
-  /* Градиенти */
-  --gradient-primary: linear-gradient(135deg, #ff3b3b 0%, #ff6a2c 45%, #fbbf24 100%);
+  /* Градиенти - Модерни червени градиенти */
+  --gradient-primary: linear-gradient(135deg, #ef4444 0%, #f43f5e 45%, #f97316 100%);
   --gradient-secondary: linear-gradient(
     135deg,
-    #1f4df2 0%,
-    #3b82f6 50%,
-    #60a5fa 100%
-  );
-  --gradient-hero: linear-gradient(
-    135deg,
-    rgba(255, 59, 59, 0.95) 0%,
-    rgba(31, 77, 242, 0.95) 100%
-  );
-  --gradient-card: linear-gradient(
-    145deg,
-    rgba(9, 15, 29, 0.95) 0%,
-    rgba(3, 7, 18, 0.92) 100%
-  );
-  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-}
-
-.dark {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --primary: #ef4444;
-  --primary-light: #f87171;
-  --primary-dark: #dc2626;
-  --secondary: #3b82f6;
-  --secondary-light: #60a5fa;
-  --secondary-dark: #2563eb;
-  --accent: #fbbf24;
-  --card: #1a1a1a;
-  --card-foreground: #fafafa;
-  --muted: #262626;
-  --muted-foreground: #a3a3a3;
-  --border: #404040;
-  --input: #262626;
-  --gradient-primary: linear-gradient(
-    135deg,
-    #ef4444 0%,
-    #f87171 50%,
-    #fbbf24 100%
-  );
-  --gradient-secondary: linear-gradient(
-    135deg,
-    #3b82f6 0%,
-    #60a5fa 50%,
-    #93c5fd 100%
+    #f43f5e 0%,
+    #fb7185 50%,
+    #fda4af 100%
   );
   --gradient-hero: linear-gradient(
     135deg,
     rgba(239, 68, 68, 0.95) 0%,
-    rgba(59, 130, 246, 0.95) 100%
+    rgba(244, 63, 94, 0.95) 100%
   );
-  --gradient-card: linear-gradient(135deg, #1a1a1a 0%, #262626 100%);
+  --gradient-card: linear-gradient(
+    145deg,
+    rgba(17, 24, 39, 0.95) 0%,
+    rgba(10, 10, 15, 0.92) 100%
+  );
+  --gradient-accent: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+}
+
+.dark {
+  --background: #0a0a0f;
+  --foreground: #fef2f2;
+  --primary: #ef4444;
+  --primary-light: #f87171;
+  --primary-dark: #dc2626;
+  --secondary: #f43f5e;
+  --secondary-light: #fb7185;
+  --secondary-dark: #e11d48;
+  --accent: #f97316;
+  --card: #111827;
+  --card-foreground: #fef2f2;
+  --muted: #1f2937;
+  --muted-foreground: #d1d5db;
+  --border: #374151;
+  --input: #1f2937;
+  --gradient-primary: linear-gradient(
+    135deg,
+    #ef4444 0%,
+    #f43f5e 50%,
+    #f97316 100%
+  );
+  --gradient-secondary: linear-gradient(
+    135deg,
+    #f43f5e 0%,
+    #fb7185 50%,
+    #fda4af 100%
+  );
+  --gradient-hero: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.95) 0%,
+    rgba(244, 63, 94, 0.95) 100%
+  );
+  --gradient-card: linear-gradient(135deg, #111827 0%, #1f2937 100%);
 }
 
 /* ====== Tailwind Theme Bridge ====== */
@@ -247,13 +257,13 @@ p {
 
   /* Глас ефект */
   .text-glow {
-    text-shadow: 0 0 10px rgba(220, 38, 38, 0.5),
-      0 0 20px rgba(220, 38, 38, 0.3), 0 0 30px rgba(220, 38, 38, 0.2);
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.5),
+      0 0 20px rgba(239, 68, 68, 0.3), 0 0 30px rgba(239, 68, 68, 0.2);
   }
 
   .text-glow-blue {
-    text-shadow: 0 0 10px rgba(37, 99, 235, 0.5),
-      0 0 20px rgba(37, 99, 235, 0.3), 0 0 30px rgba(37, 99, 235, 0.2);
+    text-shadow: 0 0 10px rgba(244, 63, 94, 0.5),
+      0 0 20px rgba(244, 63, 94, 0.3), 0 0 30px rgba(244, 63, 94, 0.2);
   }
 
   /* Градиентен фон */
@@ -336,11 +346,11 @@ p {
     0%,
     100% {
       opacity: 1;
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
     }
     50% {
       opacity: 0.8;
-      box-shadow: 0 0 40px rgba(220, 38, 38, 0.6);
+      box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
     }
   }
 
@@ -608,7 +618,7 @@ p {
   height: 200%;
   background: radial-gradient(
     circle,
-    rgba(220, 38, 38, 0.1) 1px,
+    rgba(239, 68, 68, 0.1) 1px,
     transparent 1px
   );
   background-size: 50px 50px;

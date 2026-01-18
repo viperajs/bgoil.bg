@@ -238,6 +238,7 @@ export function extractKeywords(title: string, content: string): string[] {
   // Добавяне на намерените ключови думи
   for (const kw of [...STRONG_KEYWORDS, ...RELATED_KEYWORDS]) {
     if (text.includes(kw.toLowerCase())) {
+    
       keywords.push(kw)
     }
   }

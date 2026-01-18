@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           "bg-gradient-primary text-white shadow-lg hover:opacity-90 hover:shadow-xl hover:scale-105 active:scale-95",
         destructive:
-          "bg-red-600 text-white shadow-lg hover:bg-red-700 hover:shadow-xl hover:scale-105 active:scale-95",
+          "bg-primary text-white shadow-lg hover:bg-primary-dark hover:shadow-xl hover:scale-105 active:scale-95",
         outline:
           "border-2 border-border bg-background shadow-sm hover:bg-muted hover:border-primary hover:shadow-md hover:scale-105 active:scale-95",
         secondary:

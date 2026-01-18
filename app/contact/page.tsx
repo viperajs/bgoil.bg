@@ -163,11 +163,11 @@ export default function ContactPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {workingHours.map((item, index) => (
                       <div
                         key={index}
-                        className="flex justify-between items-center py-2 border-b border-border/50 last:border-b-0"
+                        className="flex justify-between items-center py-3 px-4 rounded-xl bg-muted/20 hover:bg-muted/40 transition-colors"
                       >
                         <span className="font-medium text-card-foreground">{item.service}</span>
                         <span className="text-sm text-muted-foreground">{item.hours}</span>

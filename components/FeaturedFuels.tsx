@@ -7,10 +7,12 @@ import FuelCard from "./FuelCard"
 import { ArrowRight, Fuel, Sparkles } from "lucide-react"
 
 import { getEffectiveFuels } from "@/lib/fuelStore"
+import { getActiveDiscountBannerMessage } from "@/lib/discountBannerStore"
 
 export default async function FeaturedFuels() {
   const allFuels = await getEffectiveFuels()
   const featuredFuels = allFuels.slice(0, 3)
+  const discountMessage = await getActiveDiscountBannerMessage()
 
   return (
     <section className="py-24 bg-gradient-to-b from-background to-muted/20">
@@ -54,17 +56,19 @@ export default async function FeaturedFuels() {
         </div>
 
         {/* Store Discount Banner */}
-        <div className="mt-8 p-6 bg-gradient-to-r from-green-500/15 via-green-400/15 to-green-500/15 border-2 border-green-400/30 rounded-2xl animate-fade-in-up shadow-lg" style={{ animationDelay: '0.45s' }}>
-          <div className="flex items-center justify-center space-x-3">
-            <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
-            <p className="text-base md:text-lg font-bold text-foreground text-center">
-              💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията
-            </p>
-            <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
+        {discountMessage && (
+          <div className="mt-8 p-6 bg-gradient-to-r from-green-500/15 via-green-400/15 to-green-500/15 rounded-2xl animate-fade-in-up shadow-lg" style={{ animationDelay: '0.45s' }}>
+            <div className="flex items-center justify-center space-x-3">
+              <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <p className="text-base md:text-lg font-bold text-foreground text-center">
+                {discountMessage}
+              </p>
+              <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="mt-8 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border-2 border-primary/20 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+        <div className="mt-8 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-2xl animate-fade-in-up shadow-lg" style={{ animationDelay: '0.5s' }}>
           <div className="flex items-center justify-center space-x-3">
             <Sparkles className="w-6 h-6 text-primary" />
             <p className="text-sm font-bold text-foreground text-center">

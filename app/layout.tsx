@@ -1,10 +1,19 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
+import { Inter } from "next/font/google"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
 
 import "./globals.css"
+
+// Оптимизирано зареждане на Inter шрифт
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-inter",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bgoil.bg"),
@@ -170,7 +179,7 @@ export default function RootLayout({
   const combinedSchema = generateCombinedSchema()
 
   return (
-    <html lang="bg">
+    <html lang="bg" className={inter.variable}>
       <head>
         <script
           type="application/ld+json"
@@ -178,10 +187,8 @@ export default function RootLayout({
             __html: JSON.stringify(combinedSchema),
           }}
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="font-sans">
+      <body className={`${inter.className} antialiased`}>
         {children}
         <Analytics />
       </body>

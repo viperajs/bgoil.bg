@@ -22,7 +22,7 @@ export default function ContactBlock() {
   return (
     <div className="space-y-6">
       {/* Google Maps Embed - Compact */}
-      <Card className="border-2 border-border hover:border-primary/50 transition-all duration-300 overflow-hidden">
+      <Card className="transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl hover:shadow-primary/10">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-lg">
             <MapPin className="w-5 h-5 text-primary" />
@@ -89,7 +89,7 @@ export default function ContactBlock() {
               <Button 
                 variant="outline" 
                 asChild
-                className="border-2 hover:border-primary hover-lift h-11 text-sm"
+                className="hover-lift h-11 text-sm"
               >
                 <a
                   href={`tel:${contacts.phoneMain}`}
@@ -105,7 +105,7 @@ export default function ContactBlock() {
       </Card>
 
       {/* Additional Info - Compact */}
-      <Card className="border-2 border-border hover:border-primary/50 transition-all duration-300">
+      <Card className="transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/10">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg font-bold text-gradient-primary">Допълнителна информация</CardTitle>
         </CardHeader>

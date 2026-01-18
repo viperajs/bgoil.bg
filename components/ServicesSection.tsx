@@ -23,7 +23,7 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <Card 
               key={index} 
-              className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl"
+              className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Gradient Background on Hover */}

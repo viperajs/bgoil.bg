@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, Wrench, CreditCard } from "lucide-react"
 import Image from "next/image"
+import ElectricBorder from "@/components/ElectricBorder"
 
 export const metadata: Metadata = {
   title: "За нас",
@@ -91,7 +92,7 @@ export default function AboutPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen">
+      <main className="min-h-screen pt-20">
         {/* Hero Section */}
         <section className="relative py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 overflow-hidden">
           {/* Background Decoration */}
@@ -137,7 +138,7 @@ export default function AboutPage() {
                     отговарят на нуждите на нашите клиенти.
                   </p>
                 </div>
-                <div className="space-y-4 p-6 rounded-2xl bg-gradient-primary/5 border border-primary/20">
+                <div className="space-y-4 p-6 rounded-2xl bg-gradient-primary/5">
                   <div className="flex items-center space-x-3 mb-4">
                     <Zap className="w-6 h-6 text-primary" />
                     <h3 className="text-2xl font-bold text-foreground">Нашата мисия</h3>
@@ -150,15 +151,23 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="relative animate-fade-in-right">
-                <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 hover-lift">
-                  <Image
-                    src="/fuel-station-reference.png"
-                    alt="BG OIL бензиностанция"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                </div>
+                <ElectricBorder
+                  color="#ef4444"
+                  speed={1}
+                  chaos={0.12}
+                  borderRadius={24}
+                  className="aspect-square"
+                >
+                  <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl hover-lift">
+                    <Image
+                      src="/fuel-station-reference.png"
+                      alt="BG OIL бензиностанция"
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  </div>
+                </ElectricBorder>
                 {/* Decorative Element */}
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-primary rounded-full blur-3xl opacity-30 -z-10"></div>
               </div>
@@ -194,7 +203,7 @@ export default function AboutPage() {
               {values.map((value, index) => (
                 <Card
                   key={index}
-                  className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl"
+                  className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
@@ -240,7 +249,7 @@ export default function AboutPage() {
               {services.map((service, index) => (
                 <Card
                   key={index}
-                  className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl"
+                  className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
@@ -282,7 +291,7 @@ export default function AboutPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <Card className="border-secondary/30 bg-background/80 shadow-lg hover-lift">
+              <Card className="bg-background/80 shadow-lg hover-lift hover:shadow-secondary/10">
                 <CardHeader className="space-y-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center">
@@ -324,7 +333,7 @@ export default function AboutPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-accent/30 bg-background/80 shadow-lg hover-lift">
+              <Card className="bg-background/80 shadow-lg hover-lift hover:shadow-accent/10">
                 <CardHeader className="space-y-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center">
@@ -377,7 +386,7 @@ export default function AboutPage() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-5xl mx-auto">
-              <Card className="border-2 border-primary/20 bg-gradient-card shadow-2xl hover-lift">
+              <Card className="bg-gradient-card shadow-2xl hover-lift hover:shadow-primary/20">
                 <CardHeader className="text-center pb-8">
                   <CardTitle className="text-3xl md:text-4xl lg:text-5xl font-black text-gradient-primary mb-4">
                     Защо да изберете BG OIL?

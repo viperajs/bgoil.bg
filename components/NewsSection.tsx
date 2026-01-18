@@ -140,7 +140,7 @@ export default function NewsSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12 animate-fade-in-up">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6 backdrop-blur-sm border border-primary/20">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6 backdrop-blur-sm">
             <Sparkles className="w-5 h-5 text-primary" />
             <span className="text-sm font-semibold text-primary">Актуални новини</span>
           </div>
@@ -159,7 +159,7 @@ export default function NewsSection() {
           </div>
         ) : error ? (
           <div className="text-center py-10">
-            <p className="text-red-500 mb-4">{error}</p>
+            <p className="text-primary mb-4">{error}</p>
             <button
               onClick={fetchNews}
               className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 flex items-center gap-2 mx-auto"
@@ -170,7 +170,7 @@ export default function NewsSection() {
           </div>
         ) : articles.length === 0 ? (
           <div className="text-center py-10">
-            <Card className="max-w-md mx-auto border-2 border-muted">
+            <Card className="max-w-md mx-auto shadow-lg">
               <CardContent className="p-8">
                 <p className="text-muted-foreground text-lg mb-2">
                   Няма налични новини в момента
@@ -193,7 +193,7 @@ export default function NewsSection() {
               {/* Навигационни бутони */}
               <button
                 onClick={goToPrevious}
-                className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-primary rounded-full p-3 md:p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 border-2 border-primary/20 hover:border-primary/40"
+                className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-primary rounded-full p-3 md:p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110"
                 aria-label="Предишна новина"
               >
                 <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
@@ -201,7 +201,7 @@ export default function NewsSection() {
               
               <button
                 onClick={goToNext}
-                className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-primary rounded-full p-3 md:p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 border-2 border-primary/20 hover:border-primary/40"
+                className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-primary rounded-full p-3 md:p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110"
                 aria-label="Следваща новина"
               >
                 <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
@@ -220,7 +220,7 @@ export default function NewsSection() {
                         className="w-full flex-shrink-0 px-2"
                       >
                         <Card
-                          className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 hover-lift border-2 border-border hover:border-primary/50 bg-gradient-card"
+                          className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-primary/10"
                         >
                           {/* Decorative gradient overlay on hover */}
                           <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
@@ -242,7 +242,7 @@ export default function NewsSection() {
                                   </Badge>
                                 )}
                                 {article.is_important && (
-                                  <Badge className="bg-red-500 text-white text-xs border-0 shadow-sm">
+                                  <Badge className="bg-primary text-white text-xs border-0 shadow-sm">
                                     Важно
                                   </Badge>
                                 )}
@@ -317,21 +317,21 @@ export default function NewsSection() {
             {/* Stats Section */}
             <div className="mt-16 mb-12 relative z-10">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <Card className="bg-gradient-card border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover-lift">
+                <Card className="bg-gradient-card transition-all duration-300 hover-lift shadow-lg hover:shadow-xl hover:shadow-primary/10">
                   <CardContent className="p-6 text-center">
                     <h3 className="text-3xl md:text-4xl font-black text-foreground mb-2">{articles.length}+</h3>
                     <p className="text-sm md:text-base text-muted-foreground font-medium">Актуални новини</p>
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-card border-2 border-border/50 hover:border-secondary/50 transition-all duration-300 hover-lift">
+                <Card className="bg-gradient-card transition-all duration-300 hover-lift shadow-lg hover:shadow-xl hover:shadow-secondary/10">
                   <CardContent className="p-6 text-center">
                     <h3 className="text-3xl md:text-4xl font-black text-foreground mb-2">24/7</h3>
                     <p className="text-sm md:text-base text-muted-foreground font-medium">Обновяване</p>
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-card border-2 border-border/50 hover:border-accent/50 transition-all duration-300 hover-lift">
+                <Card className="bg-gradient-card transition-all duration-300 hover-lift shadow-lg hover:shadow-xl hover:shadow-accent/10">
                   <CardContent className="p-6 text-center">
                     <h3 className="text-3xl md:text-4xl font-black text-foreground mb-2">100%</h3>
                     <p className="text-sm md:text-base text-muted-foreground font-medium">Актуални данни</p>
@@ -355,7 +355,7 @@ export default function NewsSection() {
             {/* Decorative bottom section */}
             <div className="relative z-10">
               <div className="max-w-4xl mx-auto">
-                <div className="bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-8 border border-border/30 backdrop-blur-sm">
+                <div className="bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-8 backdrop-blur-sm shadow-lg">
                   <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 bg-primary rounded-full animate-pulse shadow-lg"></div>

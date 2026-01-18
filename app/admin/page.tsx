@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Fuel, ArrowRight, Shield, Sparkles, Hotel } from "lucide-react"
+import { Fuel, ArrowRight, Shield, Sparkles, ShoppingBag } from "lucide-react"
 
 export default function AdminPage() {
   const adminLinks = [
@@ -15,20 +15,20 @@ export default function AdminPage() {
       bgColor: "bg-primary/10",
     },
     {
-      title: "Управление на хотел",
-      description: "Редактиране на цените и информация за хотела",
-      href: "/admin-hotel",
-      icon: Hotel,
-      color: "text-blue-600",
-      bgColor: "bg-blue-100",
-    },
-    {
       title: "Промоции/Новини",
       description: "Управление на промоции и новини за сайта",
       href: "/admin-promo",
       icon: Sparkles,
       color: "text-purple-600",
       bgColor: "bg-purple-100",
+    },
+    {
+      title: "Управление на продукти",
+      description: "Редактиране на цени и наличност в магазина",
+      href: "/admin-shop",
+      icon: ShoppingBag,
+      color: "text-green-600",
+      bgColor: "bg-green-100",
     },
   ]
 
@@ -51,7 +51,7 @@ export default function AdminPage() {
           {adminLinks.map((link, index) => {
             const Icon = link.icon
             return (
-              <Card key={index} className="group relative overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-500 hover-lift bg-gradient-card shadow-lg">
+              <Card key={index} className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-xl hover:shadow-primary/10">
                 <CardHeader className="pb-4">
                   <div className={`w-14 h-14 ${link.bgColor} rounded-xl flex items-center justify-center mb-4`}>
                     <Icon className={`w-7 h-7 ${link.color}`} />

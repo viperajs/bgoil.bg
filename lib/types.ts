@@ -39,3 +39,18 @@ export interface HotelInfo {
   checkIn: string
   checkOut: string
 }
+
+export interface Reservation {
+  id: string
+  name: string
+  email: string
+  phone: string
+  roomType: string
+  checkInDate: string
+  checkOutDate: string
+  guests: number
+  specialRequests?: string
+  status: 'pending' | 'confirmed' | 'cancelled'
+  createdAt: string
+  totalPrice: number
+}

@@ -103,7 +103,7 @@ export default async function ProductsPage() {
             </div>
 
             {/* Member Benefits Card */}
-            <Card className="mb-10 rounded-3xl border border-white/10 bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
+            <Card className="mb-10 rounded-3xl bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
               <CardHeader className="pb-0">
                 <div className="flex flex-col gap-2">
                   <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
@@ -189,7 +189,7 @@ export default async function ProductsPage() {
             </Card>
 
             {/* Price Disclaimer */}
-            <div className="mt-10 rounded-2xl border border-[#ff5b5b]/40 bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
+            <div className="mt-10 rounded-2xl bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
                 <div className="flex items-center gap-3 text-[#ffb3b3]">
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ff4d4d]/15 text-[#ffb3b3]">
