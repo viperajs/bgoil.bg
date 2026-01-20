@@ -57,7 +57,7 @@ export default function HomePage() {
         <Hero />
         <ServicesSection />
         <Suspense fallback={null}>
-          {/* @ts-expect-error Async Server Component */}
+          {}
           <FeaturedFuels />
         </Suspense>
       </main>
