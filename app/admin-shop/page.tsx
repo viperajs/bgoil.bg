@@ -328,12 +328,12 @@ export default function AdminShopPage() {
                       <input
                         id="new-image-upload"
                         type="file"
-                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        accept="image/jpeg,image/png,image/webp,image/gif,image/bmp"
                         onChange={(e) => handleFileSelect(e, false)}
                         className="hidden"
                         disabled={uploading}
                       />
-                      <p className="text-xs text-muted-foreground mt-1">JPG, PNG, WebP или GIF. Макс. 5MB</p>
+                      <p className="text-xs text-muted-foreground mt-1">JPG, PNG, WebP, GIF или BMP. Макс. 5MB</p>
                     </div>
 
                     {/* Image Preview */}
@@ -534,7 +534,7 @@ export default function AdminShopPage() {
                       <input
                         id={`edit-image-upload-${product.id}`}
                         type="file"
-                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        accept="image/jpeg,image/png,image/webp,image/gif,image/bmp"
                         onChange={(e) => handleFileSelect(e, true)}
                         className="hidden"
                         disabled={uploadingEdit}

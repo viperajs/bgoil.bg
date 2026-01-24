@@ -49,10 +49,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/x-ms-bmp', 'image/x-bmp']
+    console.log('Upload - file type:', file.type, 'file name:', file.name)
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { ok: false, error: 'Invalid file type. Allowed: JPG, PNG, WebP, GIF' },
+        { ok: false, error: `Invalid file type: ${file.type}. Allowed: JPG, PNG, WebP, GIF, BMP` },
         { status: 400 }
       )
     }
