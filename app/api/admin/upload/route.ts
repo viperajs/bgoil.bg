@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import { put } from '@vercel/blob'
 
 /**
  * Check for admin authentication
@@ -71,26 +70,20 @@ export async function POST(req: NextRequest) {
     const ext = file.name.split('.').pop() || 'png'
     const timestamp = Date.now()
     const randomStr = Math.random().toString(36).substring(2, 8)
-    const filename = `product-${timestamp}-${randomStr}.${ext}`
+    const filename = `products/product-${timestamp}-${randomStr}.${ext}`
 
-    // Ensure products directory exists
-    const productsDir = path.join(process.cwd(), 'public', 'products')
-    await mkdir(productsDir, { recursive: true })
+    // Upload to Vercel Blob
+    const blob = await put(filename, file, {
+      access: 'public',
+    })
 
-    // Write file
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    const filepath = path.join(productsDir, filename)
-    await writeFile(filepath, buffer)
+    console.log('Upload successful:', blob.url)
 
-    // Return the public URL path
-    const imageUrl = `/products/${filename}`
-
-    return NextResponse.json({ ok: true, url: imageUrl })
+    return NextResponse.json({ ok: true, url: blob.url })
   } catch (error) {
     console.error('Upload failed:', error)
     return NextResponse.json(
-      { ok: false, error: 'Upload failed' },
+      { ok: false, error: 'Upload failed: ' + (error instanceof Error ? error.message : 'Unknown error') },
       { status: 500 }
     )
   }

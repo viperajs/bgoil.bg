@@ -13,6 +13,16 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.blob.vercel-storage.com',
+      },
+    ],
   },
 
   // Компресиране на изхода
