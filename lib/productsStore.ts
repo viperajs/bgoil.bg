@@ -61,18 +61,26 @@ const defaultProducts: Product[] = [
 
 // ---- Redis клиент ----
 let redisAuthFailed = false
+let redisClient: Redis | null = null
 
-function getRedis() {
+function getRedis(): Redis | null {
+  if (redisClient) return redisClient
+
   const url = process.env.UPSTASH_REDIS_KV_REST_API_URL
   const token = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN
-  if (!url || !token) return null
-  return new Redis({ url, token })
-}
 
-const redis = getRedis()
+  console.log('productsStore: checking Redis config - URL:', url ? 'set' : 'missing', 'TOKEN:', token ? 'set' : 'missing')
+
+  if (!url || !token) return null
+
+  redisClient = new Redis({ url, token })
+  console.log('productsStore: Redis client created successfully')
+  return redisClient
+}
 
 // ---- безопасно четене от Redis ----
 async function safeGetProducts(): Promise<Product[] | null> {
+  const redis = getRedis()
   if (!redis || redisAuthFailed) {
     console.log('productsStore: Redis not available, using defaults')
     return null
@@ -114,6 +122,7 @@ async function safeGetProducts(): Promise<Product[] | null> {
 
 // ---- безопасен запис в Redis ----
 async function safeSetProducts(products: Product[]): Promise<boolean> {
+  const redis = getRedis()
   if (!redis || redisAuthFailed) {
     console.log('productsStore: Redis not available, cannot save')
     return false
@@ -173,7 +182,10 @@ export async function updateProduct(id: number, updates: Partial<Product>): Prom
   }
 
   products[index] = { ...products[index], ...updates, id } // Keep the same ID
-  await saveProducts(products)
+  const saved = await safeSetProducts(products)
+  if (!saved) {
+    throw new Error('Failed to save to Redis')
+  }
   return products[index]
 }
 
@@ -183,7 +195,10 @@ export async function addProduct(product: Omit<Product, 'id'>): Promise<Product>
   const newId = products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1
   const newProduct = { ...product, id: newId }
   products.push(newProduct)
-  await saveProducts(products)
+  const saved = await safeSetProducts(products)
+  if (!saved) {
+    throw new Error('Failed to save to Redis')
+  }
   return newProduct
 }
 
@@ -196,6 +211,9 @@ export async function deleteProduct(id: number): Promise<boolean> {
     return false // Product not found
   }
 
-  await saveProducts(filtered)
+  const saved = await safeSetProducts(filtered)
+  if (!saved) {
+    throw new Error('Failed to save to Redis')
+  }
   return true
 }

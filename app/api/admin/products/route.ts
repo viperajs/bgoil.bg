@@ -6,14 +6,20 @@ import { getProducts, updateProduct, addProduct, deleteProduct } from '@/lib/pro
  */
 function requireAdminAuth(request: Request): boolean {
   const cookieHeader = request.headers.get('cookie') || ''
+  console.log('Auth check - cookies:', cookieHeader)
   const cookies = cookieHeader.split(';').map(c => c.trim())
   const adminSessionCookie = cookies.find(c => c.startsWith('admin_session='))
+  console.log('Auth check - admin_session cookie:', adminSessionCookie)
   if (adminSessionCookie && adminSessionCookie.includes('authenticated')) {
+    console.log('Auth check - authenticated via cookie')
     return true
   }
 
   const authHeader = request.headers.get('authorization') || ''
-  if (!authHeader) return false
+  if (!authHeader) {
+    console.log('Auth check - no auth header, returning false')
+    return false
+  }
 
   const [type, blob] = authHeader.split(' ')
   if (type !== 'Basic' || !blob) return false
@@ -53,16 +59,35 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json()
-    const { name, description, price, stock, category, image } = body
+    console.log('POST /api/admin/products - received body:', JSON.stringify(body))
+    const { name, description, price, cardPrice, stock, category, image } = body
 
-    if (!name || !description || price === undefined || stock === undefined || !category || !image) {
+    // Check which fields are missing
+    const missingFields = []
+    if (!name) missingFields.push('name')
+    if (!description) missingFields.push('description')
+    if (price === undefined) missingFields.push('price')
+    if (stock === undefined) missingFields.push('stock')
+    if (!category) missingFields.push('category')
+    if (!image) missingFields.push('image')
+
+    if (missingFields.length > 0) {
+      console.log('POST /api/admin/products - missing fields:', missingFields)
       return NextResponse.json(
-        { ok: false, error: 'Missing required fields' },
+        { ok: false, error: `Missing required fields: ${missingFields.join(', ')}` },
         { status: 400 }
       )
     }
 
-    const newProduct = await addProduct({ name, description, price, stock, category, image })
+    const newProduct = await addProduct({
+      name,
+      description,
+      price,
+      cardPrice: cardPrice ?? price, // Default to regular price if not provided
+      stock,
+      category,
+      image
+    })
     return NextResponse.json({ ok: true, product: newProduct })
   } catch (error) {
     console.error('POST /api/admin/products failed:', error)
