@@ -256,28 +256,40 @@ export default function AdminShopPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Name */}
                 <div className="md:col-span-2">
-                  <Label htmlFor="new-name" className="text-sm font-medium">
-                    Име на продукта <span className="text-destructive">*</span>
-                  </Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="new-name" className="text-sm font-medium">
+                      Име на продукта <span className="text-destructive">*</span>
+                    </Label>
+                    <span className={`text-xs ${newProduct.name.length > 90 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                      {newProduct.name.length}/100
+                    </span>
+                  </div>
                   <Input
                     id="new-name"
                     value={newProduct.name}
-                    onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                    onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value.slice(0, 100) })}
                     placeholder="напр. Антифриз G11 -30°C 5л"
+                    maxLength={100}
                     className="mt-1"
                   />
                 </div>
 
                 {/* Description */}
                 <div className="md:col-span-2">
-                  <Label htmlFor="new-description" className="text-sm font-medium">
-                    Описание <span className="text-destructive">*</span>
-                  </Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="new-description" className="text-sm font-medium">
+                      Описание <span className="text-destructive">*</span>
+                    </Label>
+                    <span className={`text-xs ${newProduct.description.length > 180 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                      {newProduct.description.length}/200
+                    </span>
+                  </div>
                   <Textarea
                     id="new-description"
                     value={newProduct.description}
-                    onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                    onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value.slice(0, 200) })}
                     placeholder="Кратко описание на продукта..."
+                    maxLength={200}
                     rows={3}
                     className="mt-1"
                   />
@@ -285,14 +297,20 @@ export default function AdminShopPage() {
 
                 {/* Category */}
                 <div>
-                  <Label htmlFor="new-category" className="text-sm font-medium">
-                    Категория <span className="text-destructive">*</span>
-                  </Label>
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor="new-category" className="text-sm font-medium">
+                      Категория <span className="text-destructive">*</span>
+                    </Label>
+                    <span className={`text-xs ${newProduct.category.length > 45 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                      {newProduct.category.length}/50
+                    </span>
+                  </div>
                   <Input
                     id="new-category"
                     value={newProduct.category}
-                    onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                    onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value.slice(0, 50) })}
                     placeholder="напр. Антифриз"
+                    maxLength={50}
                     className="mt-1"
                   />
                 </div>
@@ -462,26 +480,38 @@ export default function AdminShopPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       {isEditing ? (
-                        <Input
-                          value={form.name}
-                          onChange={(e) =>
-                            setEditForm({ ...form, name: e.target.value })
-                          }
-                          className="text-lg font-bold mb-2"
-                          placeholder="Име на продукт"
-                        />
+                        <div>
+                          <Input
+                            value={form.name}
+                            onChange={(e) =>
+                              setEditForm({ ...form, name: e.target.value.slice(0, 100) })
+                            }
+                            maxLength={100}
+                            className="text-lg font-bold mb-1"
+                            placeholder="Име на продукт"
+                          />
+                          <span className={`text-xs ${form.name.length > 90 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                            {form.name.length}/100
+                          </span>
+                        </div>
                       ) : (
                         <CardTitle className="text-lg font-bold">{product.name}</CardTitle>
                       )}
                       {isEditing ? (
-                        <Input
-                          value={form.category}
-                          onChange={(e) =>
-                            setEditForm({ ...form, category: e.target.value })
-                          }
-                          className="text-xs mt-2"
-                          placeholder="Категория"
-                        />
+                        <div className="mt-2">
+                          <Input
+                            value={form.category}
+                            onChange={(e) =>
+                              setEditForm({ ...form, category: e.target.value.slice(0, 50) })
+                            }
+                            maxLength={50}
+                            className="text-xs"
+                            placeholder="Категория"
+                          />
+                          <span className={`text-xs ${form.category.length > 45 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                            {form.category.length}/50
+                          </span>
+                        </div>
                       ) : (
                         <div className="inline-block bg-primary/10 text-primary text-xs font-semibold px-2 py-1 rounded mt-2">
                           {product.category}
@@ -544,13 +574,21 @@ export default function AdminShopPage() {
 
                   {/* Description */}
                   <div>
-                    <Label className="text-xs text-muted-foreground">Описание</Label>
+                    <div className="flex justify-between items-center">
+                      <Label className="text-xs text-muted-foreground">Описание</Label>
+                      {isEditing && (
+                        <span className={`text-xs ${form.description.length > 180 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                          {form.description.length}/200
+                        </span>
+                      )}
+                    </div>
                     {isEditing ? (
                       <Textarea
                         value={form.description}
                         onChange={(e) =>
-                          setEditForm({ ...form, description: e.target.value })
+                          setEditForm({ ...form, description: e.target.value.slice(0, 200) })
                         }
+                        maxLength={200}
                         className="mt-1 text-sm"
                         rows={3}
                         placeholder="Описание на продукт"

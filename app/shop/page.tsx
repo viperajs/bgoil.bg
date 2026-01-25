@@ -5,8 +5,8 @@ import Footer from "@/components/Footer"
 import { contacts } from "@/lib/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingBag, Package, Clock, CreditCard, MapPin, Sparkles, Filter } from "lucide-react"
-import { useState, useEffect } from "react"
+import { ShoppingBag, Package, Clock, CreditCard, MapPin, Sparkles, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
 
 // Product interface
 interface Product {
@@ -18,6 +18,350 @@ interface Product {
   stock: number
   category: string
   image: string
+}
+
+// Product Card Component with expand functionality
+function ProductCard({ product, index }: { product: Product; index: number }) {
+  const [expanded, setExpanded] = useState(false)
+  const isOutOfStock = product.stock === 0
+
+  return (
+    <div className="group relative bg-card rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 lg:hover:-translate-y-1 flex flex-col overflow-hidden shadow-lg h-full">
+      {/* Product Image */}
+      <div className="relative w-full aspect-square bg-muted/50 overflow-hidden flex-shrink-0">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+        />
+        {isOutOfStock && (
+          <div className="absolute top-3 right-3 bg-destructive text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+            Изчерпан
+          </div>
+        )}
+        <Badge
+          variant="secondary"
+          className="absolute top-3 left-3 bg-primary/90 text-white border-0 text-xs"
+        >
+          {product.category}
+        </Badge>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-4 min-w-0">
+        {/* Name */}
+        <h3 className="font-bold text-lg lg:text-base text-foreground group-hover:text-primary transition-colors mb-2 line-clamp-2">
+          {product.name}
+        </h3>
+
+        {/* Description - expandable on both mobile and desktop */}
+        <div className="mb-3">
+          <p className={`text-sm text-muted-foreground ${expanded ? '' : 'line-clamp-2'}`}>
+            {product.description}
+          </p>
+          {product.description.length > 50 && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 mt-2 font-medium"
+            >
+              {expanded ? (
+                <>
+                  <ChevronUp className="w-4 h-4" />
+                  Скрий
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4" />
+                  Виж повече
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
+        {/* Mobile: Full price display like desktop */}
+        <div className="lg:hidden mt-auto space-y-3">
+          {/* Regular Price */}
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Редовна цена:</span>
+            <span className="text-lg font-bold text-foreground">
+              €{product.price.toFixed(2)}
+            </span>
+          </div>
+
+          {/* Card Price */}
+          <div className="flex items-center justify-between bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg px-3 py-2">
+            <span className="text-sm font-semibold text-primary">С карта BG OIL:</span>
+            <span className="text-xl font-black text-primary">
+              €{product.cardPrice.toFixed(2)}
+            </span>
+          </div>
+
+          {/* Savings */}
+          <p className="text-sm text-center text-green-500 font-semibold">
+            Спестявате €{(product.price - product.cardPrice).toFixed(2)}!
+          </p>
+
+          {/* Stock Status */}
+          <div className="flex items-center justify-center py-1">
+            {isOutOfStock ? (
+              <div className="flex items-center text-destructive">
+                <span className="w-2 h-2 rounded-full bg-destructive mr-2 animate-pulse"></span>
+                <span className="text-sm font-semibold">Няма наличност</span>
+              </div>
+            ) : (
+              <div className="flex items-center text-green-500">
+                <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                <span className="text-sm font-semibold">В наличност</span>
+              </div>
+            )}
+          </div>
+
+          {/* Action Button */}
+          <a
+            href={isOutOfStock ? undefined : contacts.mapsLink}
+            target={isOutOfStock ? undefined : '_blank'}
+            rel={isOutOfStock ? undefined : 'noopener noreferrer'}
+            className={`w-full block text-center py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+              isOutOfStock
+                ? 'bg-muted text-muted-foreground cursor-not-allowed pointer-events-none'
+                : 'bg-gradient-to-r from-primary to-primary/80 text-white shadow-md'
+            }`}
+          >
+            {isOutOfStock ? 'Временно Недостъпен' : 'Купи на Станцията'}
+          </a>
+        </div>
+
+        {/* Desktop: Full price display */}
+        <div className="hidden lg:block mt-auto space-y-2">
+          {/* Regular Price */}
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Редовна цена:</span>
+            <span className="text-lg font-bold text-foreground">
+              €{product.price.toFixed(2)}
+            </span>
+          </div>
+
+          {/* Card Price */}
+          <div className="flex items-center justify-between bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg px-3 py-2">
+            <span className="text-sm font-semibold text-primary">С карта BG OIL:</span>
+            <span className="text-xl font-black text-primary">
+              €{product.cardPrice.toFixed(2)}
+            </span>
+          </div>
+
+          {/* Savings */}
+          <p className="text-xs text-center text-green-500 font-semibold">
+            Спестявате €{(product.price - product.cardPrice).toFixed(2)}!
+          </p>
+
+          {/* Stock Status */}
+          <div className="flex items-center justify-center py-1">
+            {isOutOfStock ? (
+              <div className="flex items-center text-destructive">
+                <span className="w-2 h-2 rounded-full bg-destructive mr-2 animate-pulse"></span>
+                <span className="text-sm font-semibold">Няма наличност</span>
+              </div>
+            ) : (
+              <div className="flex items-center text-green-500">
+                <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                <span className="text-sm font-semibold">В наличност</span>
+              </div>
+            )}
+          </div>
+
+          {/* Action Button */}
+          <a
+            href={isOutOfStock ? undefined : contacts.mapsLink}
+            target={isOutOfStock ? undefined : '_blank'}
+            rel={isOutOfStock ? undefined : 'noopener noreferrer'}
+            className={`w-full block text-center py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+              isOutOfStock
+                ? 'bg-muted text-muted-foreground cursor-not-allowed pointer-events-none'
+                : 'bg-gradient-to-r from-primary to-primary/80 text-white shadow-md hover:shadow-lg hover:shadow-primary/30 hover:brightness-110'
+            }`}
+          >
+            {isOutOfStock ? 'Временно Недостъпен' : 'Купи на Станцията'}
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Product Carousel Component - Works on both mobile and desktop
+function ProductCarousel({ products }: { products: Product[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    setCurrentIndex(0)
+  }, [products])
+
+  const itemsPerView = isMobile ? 1 : 4
+  const maxIndex = Math.max(0, products.length - itemsPerView)
+
+  const goNext = () => {
+    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex))
+  }
+
+  const goPrev = () => {
+    setCurrentIndex((prev) => Math.max(prev - 1, 0))
+  }
+
+  if (products.length === 0) return null
+
+  // Mobile: Carousel with 1 item per view - BIG cards
+  if (isMobile) {
+    return (
+      <div className="relative">
+        {/* Carousel Container */}
+        <div className="relative px-12">
+          {/* Navigation Arrows */}
+          {products.length > 1 && (
+            <>
+              <button
+                onClick={goPrev}
+                disabled={currentIndex === 0}
+                className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card shadow-lg border border-border flex items-center justify-center transition-all duration-300 ${
+                  currentIndex === 0
+                    ? 'opacity-30 cursor-not-allowed'
+                    : 'active:bg-primary active:text-white active:border-primary'
+                }`}
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={goNext}
+                disabled={currentIndex >= maxIndex}
+                className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card shadow-lg border border-border flex items-center justify-center transition-all duration-300 ${
+                  currentIndex >= maxIndex
+                    ? 'opacity-30 cursor-not-allowed'
+                    : 'active:bg-primary active:text-white active:border-primary'
+                }`}
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </>
+          )}
+
+          {/* Products Container */}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentIndex * 100}%)`,
+              }}
+            >
+              {products.map((product, index) => (
+                <div
+                  key={product.id}
+                  className="w-full flex-shrink-0 px-2"
+                >
+                  <ProductCard key={`mobile-${product.id}-${currentIndex}`} product={product} index={index} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Dots Indicator */}
+        {products.length > 1 && (
+          <div className="flex justify-center gap-2 mt-6">
+            {products.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  idx === currentIndex
+                    ? 'bg-primary w-8'
+                    : 'bg-muted-foreground/30 w-2.5'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Desktop: Carousel with arrows
+  return (
+    <div className="relative px-14">
+      {/* Navigation Arrows */}
+      {products.length > itemsPerView && (
+        <>
+          <button
+            onClick={goPrev}
+            disabled={currentIndex === 0}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-card shadow-lg border border-border flex items-center justify-center transition-all duration-300 ${
+              currentIndex === 0
+                ? 'opacity-40 cursor-not-allowed'
+                : 'hover:bg-primary hover:text-white hover:border-primary hover:scale-110'
+            }`}
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={goNext}
+            disabled={currentIndex >= maxIndex}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-card shadow-lg border border-border flex items-center justify-center transition-all duration-300 ${
+              currentIndex >= maxIndex
+                ? 'opacity-40 cursor-not-allowed'
+                : 'hover:bg-primary hover:text-white hover:border-primary hover:scale-110'
+            }`}
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </>
+      )}
+
+      {/* Products Container */}
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-500 ease-in-out"
+          style={{
+            transform: `translateX(-${currentIndex * 25}%)`,
+          }}
+        >
+          {products.map((product, index) => (
+            <div
+              key={product.id}
+              className="w-1/4 flex-shrink-0 px-3"
+            >
+              <ProductCard product={product} index={index} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dots Indicator */}
+      {products.length > itemsPerView && (
+        <div className="flex justify-center gap-2 mt-8">
+          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-3 rounded-full transition-all duration-300 ${
+                idx === currentIndex
+                  ? 'bg-primary w-8'
+                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50 w-3'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function ShopPage() {
@@ -169,106 +513,8 @@ export default function ShopPage() {
               </p>
             </div>
 
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {filteredProducts.map((product, index) => {
-                const isOutOfStock = product.stock === 0
-
-                return (
-                  <div
-                    key={product.id}
-                    className="group relative bg-card rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 flex flex-col overflow-hidden shadow-lg"
-                    style={{ animationDelay: `${index * 0.05}s` }}
-                  >
-                    {/* Product Image */}
-                    <div className="relative aspect-square bg-muted/50 overflow-hidden">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-                      />
-                      {isOutOfStock && (
-                        <div className="absolute top-3 right-3 bg-destructive text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                          Изчерпан
-                        </div>
-                      )}
-                      <Badge
-                        variant="secondary"
-                        className="absolute top-3 left-3 bg-primary/90 text-white border-0 text-xs"
-                      >
-                        {product.category}
-                      </Badge>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex flex-col flex-1 p-4">
-                      {/* Name */}
-                      <h3 className="font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
-                        {product.name}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-4 min-h-[2.5rem]">
-                        {product.description}
-                      </p>
-
-                      {/* Prices - pushed to bottom */}
-                      <div className="mt-auto space-y-2">
-                        {/* Regular Price */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-muted-foreground">Редовна цена:</span>
-                          <span className="text-lg font-bold text-foreground">
-                            €{product.price.toFixed(2)}
-                          </span>
-                        </div>
-
-                        {/* Card Price */}
-                        <div className="flex items-center justify-between bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg px-3 py-2">
-                          <span className="text-sm font-semibold text-primary">С карта BG OIL:</span>
-                          <span className="text-xl font-black text-primary">
-                            €{product.cardPrice.toFixed(2)}
-                          </span>
-                        </div>
-
-                        {/* Savings */}
-                        <p className="text-xs text-center text-green-500 font-semibold">
-                          Спестявате €{(product.price - product.cardPrice).toFixed(2)}!
-                        </p>
-
-                        {/* Stock Status */}
-                        <div className="flex items-center justify-center py-1">
-                          {isOutOfStock ? (
-                            <div className="flex items-center text-destructive">
-                              <span className="w-2 h-2 rounded-full bg-destructive mr-2 animate-pulse"></span>
-                              <span className="text-sm font-semibold">Няма наличност</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center text-green-500">
-                              <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
-                              <span className="text-sm font-semibold">В наличност</span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Action Button */}
-                        <a
-                          href={isOutOfStock ? undefined : contacts.mapsLink}
-                          target={isOutOfStock ? undefined : '_blank'}
-                          rel={isOutOfStock ? undefined : 'noopener noreferrer'}
-                          className={`w-full block text-center py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
-                            isOutOfStock
-                              ? 'bg-muted text-muted-foreground cursor-not-allowed pointer-events-none'
-                              : 'bg-gradient-to-r from-primary to-primary/80 text-white shadow-md hover:shadow-lg hover:shadow-primary/30 hover:brightness-110'
-                          }`}
-                        >
-                          {isOutOfStock ? 'Временно Недостъпен' : 'Купи на Станцията'}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+            {/* Products Carousel */}
+            <ProductCarousel products={filteredProducts} />
 
             {/* No Products Message */}
             {filteredProducts.length === 0 && (
