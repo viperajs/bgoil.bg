@@ -72,6 +72,15 @@ export function ValentineDecoration() {
                     </motion.div>
                 ))}
             </AnimatePresence>
+
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 1 }}
+                className="absolute bottom-4 right-4 z-[101] bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-pink-500/30 text-pink-500 font-bold text-sm md:text-base shadow-lg cursor-default hover:scale-105 transition-transform"
+            >
+                Честит Свети Валентин на всички влюбени! ❤️
+            </motion.div>
         </div>
     )
 }
