@@ -1,58 +1,14 @@
 import type { Metadata } from "next"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { services, companyInfo } from "@/lib/config"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Building2, Users, Award, Clock, Shield, Heart, Sparkles, Target, Zap, Wrench, CreditCard } from "lucide-react"
+import { companyInfo } from "@/lib/config"
+import { Users, Award, Clock, Shield, Heart, Sparkles, Zap, Wrench, CreditCard } from "lucide-react"
 import Image from "next/image"
-import ElectricBorder from "@/components/ElectricBorder"
+import * as motion from "motion/react-client"
 
 export const metadata: Metadata = {
   title: "За нас",
-  description: `Научете повече за ${companyInfo.name} - нашата история, услуги и ангажимент към качеството. Модерна бензиностанция с хотел, автосервиз и 24/7 магазин във Враца. ${companyInfo.slogan}.`,
-  keywords: [
-    "BG OIL ВРАЦА",
-    "BG OIL Враца история",
-    "BG OIL история",
-    "BG OIL",
-    "бензиностанция Враца",
-    "качество горива Враца",
-    "BG OIL услуги Враца",
-    "бензиностанция с хотел Враца",
-    "автосервиз Враца",
-    "24/7 магазин Враца",
-    "качеството над всичко",
-    "BG OIL за нас",
-    "бензиностанция Враца за нас",
-    "история BG OIL Враца",
-    "мисия BG OIL",
-    "цени BG OIL Враца",
-    "ангажимент качество",
-  ],
-  openGraph: {
-    title: `За нас - ${companyInfo.name}`,
-    description: `${companyInfo.slogan}. Научете повече за нашата история, услуги и ангажимент към качеството. Модерна бензиностанция с хотел, автосервиз и 24/7 магазин във Враца.`,
-    url: "https://bgoil.bg/about",
-    type: "website",
-    images: [
-      {
-        url: "https://bgoil.bg/background.png",
-        width: 1200,
-        height: 630,
-        alt: `${companyInfo.name} - За нас`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `За нас - ${companyInfo.name}`,
-    description: `${companyInfo.slogan}. Нашата история, услуги и ангажимент към качеството във Враца.`,
-    images: ["https://bgoil.bg/background.png"],
-  },
-  alternates: {
-    canonical: "https://bgoil.bg/about",
-  },
+  description: `Научете повече за ${companyInfo.name}.`,
 }
 
 export default function AboutPage() {
@@ -83,378 +39,242 @@ export default function AboutPage() {
       description: "Грижим се за нашите клиенти, общността и околната среда",
     },
     {
-      icon: Building2,
+      icon: Zap,
       title: "Иновации",
       description: "Постоянно инвестираме в нови технологии и подобрения",
     },
   ]
 
+  const additionalServices = [
+    {
+      title: "Автосервиз и автокозметика",
+      description: "Работим с доверени майстори, а аз лично следя сервизът да остава практичен, честен и винаги с налични части за спешни ремонти.",
+      icon: Wrench,
+      iconColor: "text-blue-400",
+      bgGradient: "from-blue-500/20 to-cyan-500/20",
+      borderColor: "border-blue-500/20",
+      largeIcon: Wrench,
+      list: [
+        "Авточасти и сервиз с бърза диагностика и монтаж на оригинални и алтернативни компоненти",
+        "Автобои и консумативи за локални ремонти или цялостно възстановяване на автомобила",
+        "Гуми и машинно изправяне на джанти с модерна баланс машина и гаранция за праволинейност",
+        "Камера за боядисване под наем за професионалисти, които искат контрол върху резултата",
+        "Автомивка на самообслужване за финалното полиране преди път"
+      ],
+      dotColor: "bg-blue-400",
+      dotBg: "bg-blue-500/10"
+    },
+    {
+      title: "EasyPay каса",
+      description: "На разположение е EasyPay каса за бързо и удобно плащане на различни сметки и услуги без излишно губене на време.",
+      icon: CreditCard,
+      iconColor: "text-orange-400",
+      bgGradient: "from-orange-500/20 to-red-500/20",
+      borderColor: "border-orange-500/20",
+      largeIcon: CreditCard,
+      list: [
+        "Плащане на сметки за ток, вода, телефон и интернет",
+        "Плащане на данъци и такси",
+        "Попълване на мобилни кредити",
+        "Плащане на застраховки",
+        "Достaпно 24/7 за вашето удобство"
+      ],
+      dotColor: "bg-orange-400",
+      dotBg: "bg-orange-500/10"
+    }
+  ]
+
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20">
-        {/* Hero Section */}
-        <section className="relative py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 overflow-hidden">
-          {/* Background Decoration */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-          </div>
-          {/* Fade into main background */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-background/80 to-background"></div>
+      <main className="min-h-screen bg-[#0a0a0f] text-white overflow-x-hidden">
 
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center max-w-4xl mx-auto animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <span className="text-sm font-semibold text-primary">За нас</span>
-              </div>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-6">
-                <span className="text-gradient-primary">BG OIL</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Научете повече за нашата история, мисия и ангажимент към качеството
-              </p>
-            </div>
+        {/* Cinematic Hero */}
+        <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/fuel-station-reference.png"
+              alt="Background"
+              fill
+              className="object-cover opacity-30"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f]/90 via-[#0a0a0f]/80 to-[#0a0a0f]"></div>
+          </div>
+
+          <div className="container relative z-10 px-4 text-center mt-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
+            >
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white/50">Нашата история</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-5xl md:text-8xl font-black mb-6 tracking-tight"
+            >
+              Повече от <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">Бензиностанция</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-xl text-white/60 max-w-2xl mx-auto leading-relaxed font-light"
+            >
+              История за качество, доверие и стремеж към съвършенство в сърцето на Враца.
+            </motion.p>
           </div>
         </section>
 
-        {/* Company Story */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
+        {/* Mission Section */}
+        <section className="py-24 relative">
+          <div className="container px-4 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8 animate-fade-in-left">
-                <div className="space-y-6">
-                  <Badge variant="outline" className="w-fit px-4 py-2 text-sm font-semibold">
-                    <Target className="w-4 h-4 mr-2 inline" />
-                    Нашата история
-                  </Badge>
-                  <h2 className="text-4xl md:text-5xl font-black text-foreground text-balance">
-                    <span className="text-gradient-primary">{companyInfo.slogan}</span>
-                  </h2>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    BG OIL е модерна бензиностанция, която служи на общността във Враца с най-високо качество на
-                    горива и услуги. Нашата мисия е да предоставяме надеждни, качествени продукти и услуги, които
-                    отговарят на нуждите на нашите клиенти.
-                  </p>
-                </div>
-                <div className="space-y-4 p-6 rounded-2xl bg-gradient-primary/5">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Zap className="w-6 h-6 text-primary" />
-                    <h3 className="text-2xl font-bold text-foreground">Нашата мисия</h3>
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="space-y-8"
+              >
+                <h2 className="text-4xl font-bold leading-tight">
+                  Мисията на <span className="text-primary">BG OIL</span>
+                </h2>
+                <p className="text-lg text-white/60 leading-relaxed border-l-2 border-primary/30 pl-6">
+                  В свят на компромиси, ние избираме качеството. Нашата цел не е просто да напълним резервоара ви, а да осигурим спокойствие на пътя. От създаването си, BG OIL се гради върху честност, иновации и уважение към всеки клиент.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, rotate: -2 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                whileHover={{ rotate: 0, scale: 1.02 }}
+                className="relative aspect-square rounded-3xl overflow-hidden glass-card p-2 transition-transform duration-500"
+              >
+                <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white/5">
+                  <Image
+                    src="/fuel-station-reference.png"
+                    alt="Mission Background"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-8">
+                    <p className="text-white font-bold text-xl italic leading-relaxed">"Качеството е нашата визитна картичка."</p>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Да бъдем водещата бензиностанция във Враца, предлагайки не само качествени горива, но и цялостно
-                    обслужване - от комфортен хотел до професионални автомобилни услуги. Стремим се да създадем място,
-                    където клиентите се чувстват добре дошли и получават повече от очакваното.
-                  </p>
                 </div>
-              </div>
-              <div className="relative animate-fade-in-right">
-                <ElectricBorder
-                  color="#ef4444"
-                  speed={1}
-                  chaos={0.12}
-                  borderRadius={24}
-                  className="aspect-square"
-                >
-                  <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl hover-lift">
-                    <Image
-                      src="/fuel-station-reference.png"
-                      alt="BG OIL бензиностанция"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                  </div>
-                </ElectricBorder>
-                {/* Decorative Element */}
-                <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-primary rounded-full blur-3xl opacity-30 -z-10"></div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* Our Values */}
-        <section className="py-24 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-          </div>
-          {/* Blend with surrounding sections */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background via-background/85 to-transparent"></div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent via-background/70 to-background"></div>
+        {/* Values Grid */}
+        <section className="py-32 relative bg-white/[0.02]">
+          <div className="container px-4 mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-20"
+            >
+              <h2 className="text-3xl md:text-5xl font-black mb-6">Нашите Ценности</h2>
+              <p className="text-white/40">Принципите, които ни водят напред</p>
+            </motion.div>
 
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-16 animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <span className="text-sm font-semibold text-primary">Нашите ценности</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6">
-                Принципите, които ръководят работата ни
-              </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Ценности, които ни водят всеки ден към по-добро обслужване
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {values.map((value, index) => (
-                <Card
-                  key={index}
-                  className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {values.map((val, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ y: -10, transition: { duration: 0.3 } }}
+                  className="glass-card p-8 group hover:bg-white/5 transition-colors border border-white/5 hover:border-primary/30"
                 >
-                  <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
-                  
-                  <CardHeader className="text-center pb-4 relative z-10">
-                    <div className="inline-flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-primary/10 group-hover:bg-gradient-primary transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
-                      <value.icon className="w-8 h-8 text-primary group-hover:text-white transition-colors duration-300" />
-                    </div>
-                    <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors duration-300">
-                      {value.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="relative z-10">
-                    <p className="text-muted-foreground text-center leading-relaxed group-hover:text-foreground transition-colors duration-300">
-                      {value.description}
-                    </p>
-                  </CardContent>
-                  
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 shine opacity-20"></div>
-                </Card>
+                  <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                    <val.icon className="w-6 h-6 text-white group-hover:text-primary transition-colors" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{val.title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{val.description}</p>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Our Services */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16 animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <span className="text-sm font-semibold text-primary">Нашите услуги</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6">
-                <span className="text-gradient-primary">Пълен спектър</span> от услуги
-              </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Предлагаме всичко необходимо за вашето удобство и комфорт
-              </p>
-            </div>
+        {/* Detailed Services Section */}
+        <section className="py-24 relative overflow-hidden">
+          {/* Glows for section separation */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <Card
-                  key={index}
-                  className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
-                  
-                  <CardHeader className="text-center pb-4 relative z-10">
-                    <div className="inline-flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-primary/10 group-hover:bg-gradient-primary transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
-                      <span className="text-5xl group-hover:scale-110 transition-transform duration-500">{service.icon}</span>
-                    </div>
-                    <CardTitle className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
-                      {service.name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="relative z-10">
-                    <p className="text-muted-foreground text-center leading-relaxed group-hover:text-foreground transition-colors duration-300">
-                      {service.description}
-                    </p>
-                  </CardContent>
-                  
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 shine opacity-20"></div>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Hospitality & Workshop */}
-        <section className="py-24 bg-muted/20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <Badge variant="outline" className="w-fit px-4 py-2 text-sm font-semibold mx-auto mb-6">
-                Допълнителни услуги
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-balance">
-                Автосервиз и EasyPay на едно място
-              </h2>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
+          <div className="container px-4 mx-auto relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-5xl font-black mb-6">Допълнителни Услуги</h2>
+              <p className="text-white/40 max-w-2xl mx-auto">
                 На място ще намерите пълноценен автосервиз и EasyPay каса, за да продължите пътя си с обслужен автомобил и без излишно губене на време.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <Card className="bg-background/80 shadow-lg hover-lift hover:shadow-secondary/10">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center">
-                      <Wrench className="w-7 h-7 text-secondary" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-2xl font-bold text-card-foreground">Автосервиз и автокозметика</CardTitle>
-                      <p className="text-sm text-muted-foreground">Всичко нужно за автомобила на едно място</p>
-                    </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {additionalServices.map((service, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2 * idx }}
+                  whileHover={{ scale: 1.02 }}
+                  className="glass-card p-8 md:p-10 group relative overflow-hidden border border-white/5 hover:border-white/20"
+                >
+                  <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-700 pointer-events-none">
+                    <service.largeIcon className="w-40 h-40" />
                   </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Работим с доверени майстори, а аз лично следя сервизът да остава практичен, честен и винаги с налични
-                    части за спешни ремонти.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-start space-x-3">
-                      <span className="text-secondary font-bold mt-1">•</span>
-                      <span>Авточасти и сервиз с бърза диагностика и монтаж на оригинални и алтернативни компоненти</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-secondary font-bold mt-1">•</span>
-                      <span>Автобои и консумативи за локални ремонти или цялостно възстановяване на автомобила</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-secondary font-bold mt-1">•</span>
-                      <span>Гуми и машинно изправяне на джанти с модерна баланс машина и гаранция за праволинейност</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-secondary font-bold mt-1">•</span>
-                      <span>Камера за боядисване под наем за професионалисти, които искат контрол върху резултата</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-secondary font-bold mt-1">•</span>
-                      <span>Автомивка на самообслужване за финалното полиране преди път</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
 
-              <Card className="bg-background/80 shadow-lg hover-lift hover:shadow-accent/10">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center">
-                      <CreditCard className="w-7 h-7 text-accent" />
+                  <div className="relative z-10">
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.bgGradient} flex items-center justify-center mb-8 border ${service.borderColor}`}>
+                      <service.icon className={`w-7 h-7 ${service.iconColor}`} />
                     </div>
-                    <div>
-                      <CardTitle className="text-2xl font-bold text-card-foreground">EasyPay каса</CardTitle>
-                      <p className="text-sm text-muted-foreground">Бързо и удобно плащане на сметки</p>
-                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{service.title}</h3>
+                    <p className="text-white/50 mb-8 leading-relaxed">
+                      {service.description}
+                    </p>
+
+                    <ul className="space-y-4">
+                      {service.list.map((item, i) => (
+                        <li key={i} className="flex items-start gap-4">
+                          <div className={`mt-1 w-5 h-5 rounded-full ${service.dotBg} flex items-center justify-center shrink-0`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${service.dotColor}`}></div>
+                          </div>
+                          <span className="text-white/80 text-sm font-medium">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    На разположение е EasyPay каса за бързо и удобно плащане на различни сметки и услуги без излишно губене на време.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-start space-x-3">
-                      <span className="text-accent font-bold mt-1">•</span>
-                      <span>Плащане на сметки за ток, вода, телефон и интернет</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-accent font-bold mt-1">•</span>
-                      <span>Плащане на данъци и такси</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-accent font-bold mt-1">•</span>
-                      <span>Попълване на мобилни кредити</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-accent font-bold mt-1">•</span>
-                      <span>Плащане на застраховки</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <span className="text-accent font-bold mt-1">•</span>
-                      <span>Доступно 24/7 за вашето удобство</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Why Choose Us */}
-        <section className="py-24 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-5xl mx-auto">
-              <Card className="bg-gradient-card shadow-2xl hover-lift hover:shadow-primary/20">
-                <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-3xl md:text-4xl lg:text-5xl font-black text-gradient-primary mb-4">
-                    Защо да изберете BG OIL?
-                  </CardTitle>
-                  <p className="text-lg text-muted-foreground">
-                    Вашият надежден партньор за качествени горива и услуги
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="space-y-6">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-primary/10 flex items-center justify-center">
-                          <Award className="w-6 h-6 text-primary" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-card-foreground">Качество и надеждност</h3>
-                      </div>
-                      <ul className="space-y-3 text-muted-foreground">
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Сертифицирани горива от водещи производители</span>
-                        </li>
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Редовни проверки за качество и безопасност</span>
-                        </li>
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Модерно оборудване и технологии</span>
-                        </li>
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Професионален и обучен персонал</span>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-primary/10 flex items-center justify-center">
-                          <Clock className="w-6 h-6 text-primary" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-card-foreground">Удобство и комфорт</h3>
-                      </div>
-                      <ul className="space-y-3 text-muted-foreground">
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>24/7 работно време за максимално удобство</span>
-                        </li>
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Безплатен паркинг</span>
-                        </li>
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Множество начини за плащане</span>
-                        </li>
-                        <li className="flex items-start space-x-3">
-                          <span className="text-primary font-bold mt-1">•</span>
-                          <span>Лоялни програми и отстъпки</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>

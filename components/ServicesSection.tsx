@@ -1,70 +1,85 @@
 import { services } from "@/lib/config"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Sparkles, ArrowRight } from "lucide-react"
+import * as motion from "motion/react-client"
 
 export default function ServicesSection() {
   return (
-    <section className="py-24 bg-gradient-to-b from-background via-muted/30 to-background">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-            <Sparkles className="w-5 h-5 text-primary" />
-            <span className="text-sm font-semibold text-primary">Нашите услуги</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6">
-            <span className="text-gradient-primary">Пълен спектър</span> от услуги
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Предлагаме всичко необходимо за вашето удобство и комфорт на едно място
-          </p>
-        </div>
+    <section className="relative py-32 bg-[#0a0a0f] overflow-hidden">
+      {/* Background Glows */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-[10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-1/4 -right-[10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]"></div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="container relative mx-auto px-4 z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-widest text-white/50">Нашите услуги</span>
+          </div>
+
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
+            Пълен <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">Спектър</span>
+          </h2>
+          <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
+            Всичко необходимо за вашето удобство и комфорт на едно място.
+            Проектирано с мисъл за вас.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <Card 
-              key={index} 
-              className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-2xl hover:shadow-primary/10"
-              style={{ animationDelay: `${index * 0.1}s` }}
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="glass-card group relative overflow-hidden p-8 flex flex-col items-center text-center"
             >
-              {/* Gradient Background on Hover */}
-              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
-              
-              {/* Decorative Corner */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-primary opacity-0 group-hover:opacity-10 rounded-bl-full transition-opacity duration-500"></div>
-              
-              <CardHeader className="text-center pb-4 relative z-10">
-                <div className="inline-flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-primary/10 group-hover:bg-gradient-primary transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <span className="text-5xl group-hover:scale-110 transition-transform duration-500">{service.icon}</span>
-                </div>
-                <CardTitle className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                  {service.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="relative z-10">
-                <p className="text-muted-foreground text-center leading-relaxed mb-4 group-hover:text-foreground transition-colors duration-300">
-                  {service.description}
-                </p>
-                <div className="flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
-                </div>
-              </CardContent>
-              
-              {/* Shine Effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 shine"></div>
-            </Card>
+              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative z-10 w-20 h-20 mb-8 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:scale-110 group-hover:border-primary/30 transition-all duration-500">
+                <span className="text-4xl drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">{service.icon}</span>
+              </div>
+
+              <h3 className="relative z-10 text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+                {service.name}
+              </h3>
+
+              <p className="relative z-10 text-sm text-white/40 leading-relaxed mb-6 group-hover:text-white/60 transition-colors">
+                {service.description}
+              </p>
+
+              <div className="mt-auto relative z-10 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                <ArrowRight className="w-5 h-5 text-primary" />
+              </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <div className="inline-block p-1 bg-gradient-primary rounded-2xl">
-            <div className="bg-background rounded-xl px-8 py-4">
-              <p className="text-lg font-semibold text-foreground">
-                Работим <span className="text-gradient-primary font-bold">24/7</span> за вашето удобство
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-20"
+        >
+          <div className="inline-block p-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-full">
+            <div className="px-8 py-3 bg-[#0a0a0f] rounded-full border border-white/5 backdrop-blur-md">
+              <p className="text-sm font-medium text-white/60">
+                Работим <span className="text-primary font-bold">24/7</span> за вашето удобство
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

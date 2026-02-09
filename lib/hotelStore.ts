@@ -259,3 +259,4 @@ export async function setHotelInfo(info: HotelInfo) {
   await safeSetInfo(info)
 }
 
+

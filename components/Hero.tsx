@@ -4,7 +4,7 @@ import Link from "next/link"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { companyInfo } from "@/lib/config"
-import { Fuel, Phone, ArrowRight, Sparkles } from "lucide-react"
+import { Fuel, Phone, ArrowRight, Sparkles, ChevronRight } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 
 // Динамично зареждане на LightPillar (THREE.js ~600KB) само когато е видим
@@ -23,6 +23,9 @@ export default function Hero() {
 
   // Lazy load LightPillar след кратко забавяне за по-бързо първоначално зареждане
   useEffect(() => {
+    // Check if we are on mobile
+    if (window.innerWidth < 768) return
+
     const timer = setTimeout(() => {
       setShowLightPillar(true)
     }, 100) // Зареждаме Three.js 100ms след първоначалното рендериране
@@ -65,7 +68,7 @@ export default function Hero() {
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     )
 
     if (statsRef.current) {
@@ -76,7 +79,7 @@ export default function Hero() {
   }, [hasAnimated])
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-[#0a0a0f]">
-      {/* Animated Background */}
+      {/* Animated Background - PRESERVED AS REQUESTED */}
       <div className="absolute inset-0 z-0">
         <div style={{ width: '100%', height: '100%', position: 'absolute' }}>
           {showLightPillar && (
@@ -93,107 +96,90 @@ export default function Hero() {
             />
           )}
         </div>
-        {/* Gradient Overlay - добавя тъмен overlay за по-добра четимост */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f]/60 via-[#111827]/40 to-transparent"></div>
-        {/* Soft fade into body background */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-[#0a0a0f]/80 to-[#0a0a0f]"></div>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f]/80 via-[#0a0a0f]/50 to-[#0a0a0f]"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center text-white">
-        <div className="max-w-5xl mx-auto space-y-8 animate-fade-in-up">
+        <div className="max-w-5xl mx-auto space-y-10 animate-fade-in-up">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white/20 rounded-full mb-6 animate-fade-in-down shadow-lg">
-            <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
-            <span className="text-sm font-semibold text-white">24/7 Обслужване</span>
+          <div className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-bold uppercase tracking-widest text-white/70">24/7 Отворено</span>
           </div>
 
           <div className="space-y-6">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-balance leading-tight">
-              <span className="block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] mb-3">
-                BG OIL
-              </span>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter leading-none drop-shadow-2xl">
+              BG OIL
             </h1>
-            
-            <p className="text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] mb-4">
+
+            <p className="text-2xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/50">
               {companyInfo.slogan}
             </p>
-            
-            <p className="text-lg md:text-xl lg:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] px-4">
+
+            <p className="text-lg text-white/50 max-w-2xl mx-auto leading-relaxed">
               {companyInfo.description}
             </p>
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-10 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-            <Button 
-              size="lg" 
-              asChild 
-              className="w-full sm:w-auto bg-gradient-primary hover:opacity-90 text-white border-0 text-lg px-8 py-7 hover-lift shadow-2xl hover:shadow-primary/50 transition-all duration-300 group font-bold"
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
+            <Button
+              size="lg"
+              asChild
+              className="w-full sm:w-auto rounded-full bg-primary text-white hover:bg-primary/90 hover:scale-105 transition-all duration-300 font-bold px-10 py-7 text-lg shadow-[0_0_40px_-5px_var(--primary)]"
             >
-              <Link href="/products" className="flex items-center space-x-3">
-                <Fuel className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
+              <Link href="/products" className="flex items-center gap-3">
                 <span>Горива</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <Fuel className="w-5 h-5" />
               </Link>
             </Button>
 
-            
-
             <Button
               size="lg"
-              variant="outline"
               asChild
-              className="w-full sm:w-auto bg-white text-primary hover:bg-white/95 hover:text-primary-dark text-lg px-8 py-7 hover-lift shadow-xl transition-all duration-300 group font-bold"
+              className="w-full sm:w-auto rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 backdrop-blur-md font-bold px-10 py-7 text-lg hover:border-white/20 transition-all duration-300"
             >
-              <Link href="/contact" className="flex items-center space-x-3">
-                <Phone className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+              <Link href="/contact" className="flex items-center gap-3">
                 <span>Контакти</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <ChevronRight className="w-5 h-5" />
               </Link>
             </Button>
           </div>
 
           {/* Discount Banner */}
           {discountBanner.active && discountBanner.message && (
-            <div className="mt-8 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-              <div className="inline-flex items-center space-x-3 px-6 py-4 bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 rounded-2xl backdrop-blur-md shadow-2xl shadow-green-500/20 hover-lift transition-all duration-300">
-                <Sparkles className="w-5 h-5 text-green-300 animate-pulse" />
-                <span className="text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                  {discountBanner.message}
-                </span>
-                <Sparkles className="w-5 h-5 text-green-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
+            <div className="mt-8 animate-fade-in-up delay-300">
+              <div className="inline-block px-6 py-3 bg-green-500/10 border border-green-500/20 rounded-xl backdrop-blur-md">
+                <p className="text-green-400 font-medium flex items-center gap-2 text-sm">
+                  <Sparkles className="w-4 h-4" /> {discountBanner.message}
+                </p>
               </div>
             </div>
           )}
 
-          {/* Stats - по-видими */}
+          {/* Stats */}
           <div
             ref={statsRef}
-            className="grid grid-cols-3 gap-6 max-[768px]:gap-4 max-[427px]:grid-cols-1 mt-20 max-w-3xl w-full mx-auto animate-fade-in-up"
-            style={{ animationDelay: "0.4s" }}
+            className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-24 max-w-4xl mx-auto"
           >
-            <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">24/7</div>
-              <div className="text-sm font-semibold text-white/90">Работно време</div>
-            </div>
-            <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40 transform transition-all duration-500 hover:scale-105">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg transition-all duration-300">
-                <span className="inline-block animate-pulse-scale">{qualityCount}</span>%
+            {[
+              { val: "24/7", label: "Работно време" },
+              { val: `${qualityCount}%`, label: "Качество" },
+              { val: `${yearsCount}+`, label: "Години опит" }
+            ].map((stat, i) => (
+              <div key={i} className="glass-card p-6 flex flex-col items-center justify-center">
+                <span className="text-3xl md:text-5xl font-black text-white mb-1">{stat.val}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-white/30">{stat.label}</span>
               </div>
-              <div className="text-sm font-semibold text-white/90">Качество</div>
-            </div>
-            <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-lg hover-lift shadow-xl shadow-black/40 transform transition-all duration-500 hover:scale-105">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg transition-all duration-300">
-                <span className="inline-block animate-pulse-scale">{yearsCount}</span>+
-              </div>
-              <div className="text-sm font-semibold text-white/90">Години опит</div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
-
-      
     </section>
   )
 }

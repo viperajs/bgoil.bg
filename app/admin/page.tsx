@@ -1,75 +1,114 @@
-'use client'
 import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Fuel, ArrowRight, Shield, Sparkles, ShoppingBag } from "lucide-react"
+import {
+  Hotel,
+  CalendarDays,
+  ShoppingBag,
+  Percent,
+  CreditCard,
+  ChevronRight,
+  LayoutDashboard
+} from "lucide-react"
 
-export default function AdminPage() {
-  const adminLinks = [
+export default function AdminDashboard() {
+  const modules = [
     {
-      title: "Управление на цени",
-      description: "Редактиране на цените на горива",
-      href: "/admin-prices",
-      icon: Fuel,
-      color: "text-primary",
-      bgColor: "bg-primary/10",
+      title: "Резервации",
+      description: "Управление на резервации и заявки за настаняване",
+      href: "/admin-bookings",
+      icon: CalendarDays,
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+      border: "hover:border-blue-500/50"
     },
     {
-      title: "Промоции/Новини",
-      description: "Управление на промоции и новини за сайта",
-      href: "/admin-promo",
-      icon: Sparkles,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100",
+      title: "Хотел & Стаи",
+      description: "Управление на стаи, наличности и информация",
+      href: "/admin-hotel",
+      icon: Hotel,
+      color: "text-indigo-500",
+      bg: "bg-indigo-500/10",
+      border: "hover:border-indigo-500/50"
     },
     {
-      title: "Управление на продукти",
-      description: "Редактиране на цени и наличност в магазина",
+      title: "Магазин",
+      description: "Продукти, категории и наличности",
       href: "/admin-shop",
       icon: ShoppingBag,
-      color: "text-green-600",
-      bgColor: "bg-green-100",
+      color: "text-emerald-500",
+      bg: "bg-emerald-500/10",
+      border: "hover:border-emerald-500/50"
     },
+    {
+      title: "Промоции",
+      description: "Активни промо кампании и отстъпки",
+      href: "/admin-promo",
+      icon: Percent,
+      color: "text-rose-500",
+      bg: "bg-rose-500/10",
+      border: "hover:border-rose-500/50"
+    },
+    {
+      title: "Цени горива",
+      description: "Актуализация на цените на горивата",
+      href: "/admin-prices",
+      icon: CreditCard,
+      color: "text-cyan-500",
+      bg: "bg-cyan-500/10",
+      border: "hover:border-cyan-500/50"
+    }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="container mx-auto px-4 py-12">
-        <div className="mb-12 text-center">
-          <div className="inline-flex items-center space-x-3 mb-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg">
-              <Shield className="w-8 h-8 text-white" />
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-3 bg-gradient-primary rounded-xl shadow-lg shadow-primary/20 border border-white/10">
+              <LayoutDashboard className="w-8 h-8 text-white" />
             </div>
-            <div className="text-left">
-              <h1 className="text-4xl font-black text-gradient-primary">Админ Панел</h1>
-              <p className="text-green-600 font-bold">✓ Автентикация успешна</p>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Административен Панел</h1>
+              <p className="text-muted-foreground">Добре дошли в системата за управление на BG OIL</p>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {adminLinks.map((link, index) => {
-            const Icon = link.icon
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {modules.map((item, idx) => {
+            const Icon = item.icon
             return (
-              <Card key={index} className="group relative overflow-hidden transition-all duration-500 hover-lift bg-gradient-card shadow-lg hover:shadow-xl hover:shadow-primary/10">
-                <CardHeader className="pb-4">
-                  <div className={`w-14 h-14 ${link.bgColor} rounded-xl flex items-center justify-center mb-4`}>
-                    <Icon className={`w-7 h-7 ${link.color}`} />
+              <Link
+                key={idx}
+                href={item.href}
+                className={`group relative bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-card ${item.border}`}
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`p-3 rounded-xl ${item.bg}`}>
+                    <Icon className={`w-8 h-8 ${item.color}`} />
                   </div>
-                  <CardTitle className="text-xl font-bold">{link.title}</CardTitle>
-                  <CardDescription className="text-sm">{link.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild variant="outline" className="w-full group-hover:bg-primary group-hover:text-white transition-colors">
-                    <Link href={link.href} className="flex items-center justify-center space-x-2">
-                      <span>Отвори</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
+                  <div className="p-2 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </Link>
             )
           })}
+        </div>
+
+        {/* Quick Stats or Footer */}
+        <div className="mt-16 pt-8 border-t border-border">
+          <p className="text-center text-sm text-muted-foreground">
+            BG OIL Admin System v2.0 • Secured Area
+          </p>
         </div>
       </div>
     </div>

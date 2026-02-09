@@ -1,10 +1,10 @@
-// components/FeaturedFuels.tsx
 export const revalidate = 0
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import FuelCard from "./FuelCard"
 import { ArrowRight, Fuel, Sparkles } from "lucide-react"
+import * as motion from "motion/react-client"
 
 import { getEffectiveFuels } from "@/lib/fuelStore"
 import { getActiveDiscountBannerMessage } from "@/lib/discountBannerStore"
@@ -15,68 +15,81 @@ export default async function FeaturedFuels() {
   const discountMessage = await getActiveDiscountBannerMessage()
 
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-            <Fuel className="w-5 h-5 text-primary" />
-            <span className="text-sm font-semibold text-primary">Актуални цени</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6">
-            <span className="text-gradient-primary">Цени на горива</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Качествени горива на конкурентни цени с допълнителни отстъпки за картови клиенти
-          </p>
-        </div>
+    <section className="relative py-32 bg-[#0a0a0f]">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px]"></div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      <div className="container relative mx-auto px-4 z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
+            <Fuel className="w-4 h-4 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-widest text-white/50">Актуални цени</span>
+          </div>
+
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">Горива</span> & Цени
+          </h2>
+          <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
+            Най-високо качество горива на конкурентни цени.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {featuredFuels.map((fuel, index) => (
-            <div 
-              key={index} 
-              className="animate-fade-in-up"
-              style={{ animationDelay: `${index * 0.15}s` }}
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
             >
               <FuelCard fuel={fuel} />
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <Button 
-            asChild 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center"
+        >
+          <Button
+            asChild
             size="lg"
-            className="bg-gradient-primary hover:opacity-90 text-white border-0 text-lg px-8 py-6 hover-lift shadow-xl hover:shadow-2xl transition-all duration-300 group"
+            className="rounded-full bg-white text-black font-bold hover:bg-white/90 px-10 py-7 text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
             <Link href="/products" className="flex items-center space-x-3">
-              <span>Виж всички цени</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
+              <span>Виж всички</span>
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </Button>
-        </div>
+        </motion.div>
 
-        {/* Store Discount Banner */}
-        {discountMessage && (
-          <div className="mt-8 p-6 bg-gradient-to-r from-green-500/15 via-green-400/15 to-green-500/15 rounded-2xl animate-fade-in-up shadow-lg" style={{ animationDelay: '0.45s' }}>
-            <div className="flex items-center justify-center space-x-3">
-              <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
-              <p className="text-base md:text-lg font-bold text-foreground text-center">
-                {discountMessage}
+        {/* Messages */}
+        <div className="mt-12 max-w-2xl mx-auto space-y-4">
+          {discountMessage && (
+            <div className="p-4 rounded-xl border border-green-500/20 bg-green-500/5 backdrop-blur-sm text-center">
+              <p className="text-green-400 font-medium flex items-center justify-center gap-2">
+                <Sparkles className="w-4 h-4" /> {discountMessage}
               </p>
-              <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="mt-8 p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-2xl animate-fade-in-up shadow-lg" style={{ animationDelay: '0.5s' }}>
-          <div className="flex items-center justify-center space-x-3">
-            <Sparkles className="w-6 h-6 text-primary" />
-            <p className="text-sm font-bold text-foreground text-center">
-              ⚠️ Цените са ориентировъчни. Моля, потвърдете актуалните цени на място.
-            </p>
-            <Sparkles className="w-6 h-6 text-primary" />
-          </div>
+          <p className="text-xs text-center text-white/20 uppercase tracking-widest">
+            * Цените са ориентировъчни и подлежат на промяна
+          </p>
         </div>
+
       </div>
     </section>
   )

@@ -1,214 +1,182 @@
-// app/products/page.tsx
 import type { Metadata } from "next"
 import { companyInfo } from "@/lib/config"
-
-export const revalidate = 0; // без кеширане на страницата (или export const dynamic = 'force-dynamic')
-
-export const metadata: Metadata = {
-  title: "Горива и цени",
-  description:
-    "Актуални цени на горива в BG OIL - бензин А95, дизел, ГПБ и AdBlue. Специални отстъпки за картови клиенти. Качествени горива на конкурентни цени.",
-  keywords: [
-    "горива Враца",
-    "бензин Враца",
-    "дизел Враца",
-    "AdBlue Враца",
-    "цени горива Враца",
-    "бензин А95 Враца",
-    "BG OIL цени",
-    "карта BG OIL",
-    "отстъпки горива",
-    "качествени горива Враца",
-    "горива 24/7",
-  ],
-  openGraph: {
-    title: `Горива и цени - ${companyInfo.name}`,
-    description: "Актуални цени на горива - бензин А95, дизел, ГПБ и AdBlue с отстъпки за картови клиенти. Качествени горива във Враца.",
-    url: "https://bgoil.bg/products",
-    type: "website",
-    images: [
-      {
-        url: "https://bgoil.bg/background.png",
-        width: 1200,
-        height: 630,
-        alt: "BG OIL ВРАЦА - Горива и цени",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `Горива и цени - ${companyInfo.name}`,
-    description: "Актуални цени на горива с отстъпки за картови клиенти. Бензин, дизел, AdBlue във Враца.",
-    images: ["https://bgoil.bg/background.png"],
-  },
-  alternates: {
-    canonical: "https://bgoil.bg/products",
-  },
-}
-
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import FuelCard from "@/components/FuelCard"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Fuel as FuelIcon, CreditCard, Info } from "lucide-react"
-
-// 🔑 вече четем динамичните цени
+import { Fuel as FuelIcon, CreditCard, Info, Sparkles, Check, ChevronRight } from "lucide-react"
 import { getEffectiveFuels } from "@/lib/fuelStore"
+import * as motion from "motion/react-client"
 
-const CARD_STEPS = [
-  "Посетете нашата бензиностанция",
-  "Попълнете заявление за карта",
-  "Получете картата си веднага",
-]
+export const revalidate = 0;
 
-const EXTRA_BENEFITS = [
-  "Отстъпки при всяко зареждане",
-  "Специални промоции за членове",
-  "Бонус точки за лоялност",
-]
+export const metadata: Metadata = {
+  title: "Горива и цени",
+  description: "Актуални цени на горива в BG OIL.",
+}
 
 export default async function ProductsPage() {
-  const fuels = await getEffectiveFuels() // актуални цени от store
+  const fuels = await getEffectiveFuels()
+
+  const benefits = [
+    "Отстъпки при всяко зареждане",
+    "Специални промоции за членове",
+    "Бонус точки за лоялност",
+    "Бързо обслужване с приоритет"
+  ]
 
   return (
     <>
       <Header />
-      <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 to-accent/5 pt-28 md:pt-32 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center max-w-4xl mx-auto">
-              <div className="flex items-center justify-center mb-6">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <FuelIcon className="w-8 h-8 text-primary" />
-                </div>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-                Горива и цени
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground text-pretty">
-                Качествени горива на конкурентни цени с допълнителни отстъпки за картови клиенти
-              </p>
-            </div>
+      <main className="min-h-screen bg-[#0a0a0f] text-white overflow-x-hidden">
+
+        {/* Hero */}
+        <section className="relative pt-32 pb-20 overflow-hidden">
+          {/* Glows */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[500px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+          <div className="container relative z-10 px-4 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
+            >
+              <FuelIcon className="w-4 h-4 text-primary" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white/50">Ценова Листа</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-5xl md:text-7xl font-black mb-6 tracking-tight"
+            >
+              Горива и <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">Цени</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-xl text-white/50 max-w-2xl mx-auto font-light"
+            >
+              Винаги актуални цени за най-качествените горива във Враца.
+            </motion.p>
           </div>
         </section>
 
-        {/* Fuel Prices Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+        {/* Prices Grid */}
+        <section className="pb-24">
+          <div className="container px-4 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
               {fuels.map((fuel, index) => (
-                <FuelCard key={index} fuel={fuel} />
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="h-full"
+                >
+                  <FuelCard fuel={fuel} />
+                </motion.div>
               ))}
             </div>
 
-            {/* Member Benefits Card */}
-            <Card className="mb-10 rounded-3xl bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
-              <CardHeader className="pb-0">
-                <div className="flex flex-col gap-2">
-                  <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
-                    <CreditCard className="h-4 w-4 text-primary" />
-                    Карта за лоялност
+            {/* Loyalty Card Section */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative rounded-[2.5rem] overflow-hidden glass-card border-none bg-gradient-to-br from-[#121212] to-[#0a0a0f] p-8 md:p-12 lg:p-16"
+            >
+              {/* Decorative Background */}
+              <div className="absolute top-0 right-0 w-full h-full overflow-hidden opacity-30 pointer-events-none">
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3"></div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+                <div className="space-y-8">
+                  <div>
+                    <div className="inline-flex items-center gap-2 text-primary font-bold mb-4">
+                      <CreditCard className="w-5 h-5" />
+                      <span className="uppercase tracking-widest text-sm">BG OIL CLUB</span>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
+                      Спестете с <br /> всяко зареждане
+                    </h2>
+                    <p className="text-lg text-white/50 max-w-md">
+                      Присъединете се към нашата лоялна програма и се възползвайте от ексклузивни отстъпки и предимства.
+                    </p>
                   </div>
-                  <CardTitle className="text-3xl font-bold text-white">
-                    Предимства на картата BG OIL
-                  </CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="grid gap-10 pt-8 md:grid-cols-2">
-                <div className="space-y-6">
-                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/50">
-                    Как да получите карта
-                  </p>
-                  <ol className="space-y-4">
-                    {CARD_STEPS.map((step, index) => (
-                      <li key={step} className="flex items-center gap-4">
-                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-lg font-bold text-white">
-                          {index + 1}
-                        </span>
-                        <p className="text-base font-medium text-white/90">{step}</p>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-                <div className="space-y-4">
-                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/50">
-                    Допълнителни предимства
-                  </p>
+
                   <ul className="space-y-4">
-                    {EXTRA_BENEFITS.map(benefit => (
-                      <li
-                        key={benefit}
-                        className="flex items-center gap-4 rounded-full bg-gradient-to-r from-[#ff3b3b] via-[#ff5a3a] to-[#ff8c3c] px-6 py-4 text-white shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+                    {benefits.map((b, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.4 + (i * 0.1) }}
+                        className="flex items-center gap-4 group"
                       >
-                        <span className="h-3 w-3 rounded-full bg-white/85 shadow-md shadow-white/40"></span>
-                        <span className="text-base font-semibold">{benefit}</span>
-                      </li>
+                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <Check className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="font-medium text-white/80">{b}</span>
+                      </motion.li>
                     ))}
                   </ul>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* Additional Services */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Допълнителни услуги</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="text-center space-y-2">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-2xl">🚿</span>
-                    </div>
-                    <h3 className="font-semibold">Автомивка</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Професионално почистване на автомобили
-                    </p>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-2xl">🔧</span>
-                    </div>
-                    <h3 className="font-semibold">Автосервиз</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Техническо обслужване и ремонти
-                    </p>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-2xl">🏪</span>
-                    </div>
-                    <h3 className="font-semibold">24/7 Магазин</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Непрекъснато работещ магазин
-                    </p>
-                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-primary hover:text-white transition-all shadow-xl shadow-white/5"
+                  >
+                    Заявете карта на място
+                  </motion.button>
                 </div>
-              </CardContent>
-            </Card>
 
-            {/* Price Disclaimer */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
-                <div className="flex items-center gap-3 text-[#ffb3b3]">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ff4d4d]/15 text-[#ffb3b3]">
-                    <Info className="h-6 w-6" />
-                  </span>
-                  <p className="text-base font-bold uppercase tracking-[0.2em] text-[#ff8f72]">
-                    Важна информация за цените
-                  </p>
+                <div className="flex justify-center lg:justify-end">
+                  {/* Abstract Card Visualization */}
+                  <motion.div
+                    initial={{ rotate: 10, y: 50, opacity: 0 }}
+                    whileInView={{ rotate: 3, y: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    whileHover={{ rotate: 0, scale: 1.05 }}
+                    className="relative w-80 h-52 lg:w-96 lg:h-60 rounded-3xl bg-gradient-to-br from-zinc-800 to-black border border-white/10 shadow-2xl transition-all duration-500"
+                  >
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                    <div className="absolute top-6 left-6">
+                      <span className="font-black text-2xl tracking-tighter text-white">BG OIL</span>
+                    </div>
+                    <div className="absolute bottom-6 left-6">
+                      <span className="font-mono text-white/50 tracking-widest">8823 **** **** 9281</span>
+                    </div>
+                    <div className="absolute bottom-6 right-6">
+                      <CreditCard className="w-8 h-8 text-primary" />
+                    </div>
+                    {/* Chip */}
+                    <div className="absolute top-1/2 left-6 -translate-y-1/2 w-10 h-8 rounded bg-gradient-to-r from-yellow-200 to-yellow-500 shadow-inner opacity-80"></div>
+                  </motion.div>
                 </div>
-                <p className="text-base text-[#ffe0e0] md:flex-1">
-                  Цените са ориентировъчни и подлежат на промяна. За потвърждение
-                  на актуалните стойности, моля, обърнете се към персонала на място.
-                </p>
+              </div>
+            </motion.div>
+
+            {/* Disclaimer */}
+            <div className="mt-12 flex justify-center">
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/5 text-sm text-white/40">
+                <Info className="w-4 h-4" />
+                Цените подлежат на промяна. Попитайте на касата за актуални стойности.
               </div>
             </div>
           </div>
         </section>
+
       </main>
       <Footer />
     </>
-  ) 
+  )
 }
