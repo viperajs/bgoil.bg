@@ -4,7 +4,7 @@ import Link from "next/link"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { companyInfo } from "@/lib/config"
-import { Fuel, Phone, ArrowRight, Sparkles, ChevronRight } from "lucide-react"
+import { Fuel, Sparkles, ChevronRight } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 
 // Динамично зареждане на LightPillar (THREE.js ~600KB) само когато е видим

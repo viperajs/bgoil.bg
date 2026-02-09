@@ -32,7 +32,7 @@ export default function Header() {
     },
     {
       name: "Хотел",
-      link: "/booking",
+      link: "/hotel",
     },
   ];
 
