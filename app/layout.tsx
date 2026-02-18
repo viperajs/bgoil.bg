@@ -5,7 +5,7 @@ import { Inter } from "next/font/google"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
-import { ValentineDecoration } from "@/components/ValentineDecoration"
+
 
 import "./globals.css"
 
@@ -192,7 +192,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased`}>
         {children}
-        <ValentineDecoration />
+
         <Analytics />
       </body>
     </html>
