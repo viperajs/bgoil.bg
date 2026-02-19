@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { companyInfo, contacts } from "@/lib/config"
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, ArrowRight } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Facebook, ArrowRight } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -10,16 +10,13 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-5">
             <div className="flex items-center space-x-3">
-              <div className="w-14 h-14 bg-gradient-primary rounded-full flex items-center justify-center shadow-xl">
-                <span className="text-white font-black text-xl">BG</span>
-              </div>
               <span className="font-black text-2xl text-white">{companyInfo.name}</span>
             </div>
             <p className="text-white/95 leading-relaxed text-sm font-medium">
               {companyInfo.description}
             </p>
             <p className="text-primary font-bold text-base">{companyInfo.slogan}</p>
-            
+
             {/* Social Media */}
             <div className="flex items-center space-x-3 pt-2">
               <a
@@ -29,7 +26,7 @@ export default function Footer() {
               >
                 <Facebook className="w-5 h-5 text-white" />
               </a>
-            
+
             </div>
           </div>
 
