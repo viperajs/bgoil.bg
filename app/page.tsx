@@ -4,6 +4,7 @@ import Footer from "@/components/Footer"
 import Hero from "@/components/Hero"
 import ServicesSection from "@/components/ServicesSection"
 import FeaturedFuels from "@/components/FeaturedFuels"
+import MarchThirdDecoration from "@/components/MarchThirdDecoration"
 import { Suspense } from "react"
 import { companyInfo } from "@/lib/config"
 
@@ -61,6 +62,7 @@ export default function HomePage() {
         </Suspense>
       </main>
       <Footer />
+      <MarchThirdDecoration />
     </>
   )
 }
