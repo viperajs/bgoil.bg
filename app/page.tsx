@@ -57,7 +57,6 @@ export default function HomePage() {
         <Hero />
         <ServicesSection />
         <Suspense fallback={null}>
-          {}
           <FeaturedFuels />
         </Suspense>
       </main>

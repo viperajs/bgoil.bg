@@ -1,6 +1,6 @@
 import type { Fuel } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
-import { CreditCard, TrendingDown, Sparkles, Droplets, Flame, Zap } from "lucide-react"
+import { CreditCard, TrendingDown, Droplets, Flame, Zap } from "lucide-react"
 
 interface FuelCardProps {
   fuel: Fuel
@@ -23,83 +23,87 @@ export default function FuelCard({ fuel }: FuelCardProps) {
 
   const fx2 = (n: number) => n.toFixed(2)
 
-  // Determine Icon & Color
-  const isDiesel = fuel.name.toLowerCase().includes('diesel') || fuel.name.toLowerCase().includes('дизел')
-  const isGas = fuel.name.toLowerCase().includes('gas') || fuel.name.toLowerCase().includes('lpg') || fuel.name.toLowerCase().includes('газ')
-  const isPremium = fuel.name.toLowerCase().includes('plus') || fuel.name.toLowerCase().includes('max')
+  const nameLower = fuel.name.toLowerCase()
+  const isDiesel = nameLower.includes('diesel') || nameLower.includes('дизел')
+  const isGas = nameLower.includes('gas') || nameLower.includes('lpg') || nameLower.includes('газ')
+  const isPremium = nameLower.includes('plus') || nameLower.includes('max')
 
   const Icon = isGas ? Flame : isDiesel ? Droplets : Zap
-  const colorClass = isGas ? 'text-blue-400' : isDiesel ? 'text-yellow-400' : 'text-primary'
-  const gradientClass = isGas ? 'from-blue-500/20 to-blue-600/5' : isDiesel ? 'from-yellow-500/20 to-yellow-600/5' : 'from-primary/20 to-primary/5'
+  const accentColor = isGas ? 'blue' : isDiesel ? 'amber' : 'red'
+
+  const colorMap = {
+    blue: { text: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/[0.08]', glow: 'rgba(59,130,246,0.15)' },
+    amber: { text: 'text-amber-400', border: 'border-amber-500/20', bg: 'bg-amber-500/[0.08]', glow: 'rgba(245,158,11,0.15)' },
+    red: { text: 'text-red-400', border: 'border-red-500/20', bg: 'bg-red-500/[0.08]', glow: 'rgba(239,68,68,0.15)' },
+  }
+  const colors = colorMap[accentColor]
 
   return (
     <div className="group relative h-full">
-      {/* Background Blur & Border */}
-      <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 group-hover:border-primary/50 transition-all duration-500"></div>
+      {/* Card background */}
+      <div className="absolute inset-0 rounded-2xl bg-white/[0.02] border border-white/[0.05] group-hover:border-white/[0.12] transition-all duration-500 backdrop-blur-sm"></div>
 
-      {/* Dynamic Glow */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass} opacity-0 group-hover:opacity-100 rounded-[2rem] transition-opacity duration-700 blur-xl`}></div>
+      {/* Hover glow */}
+      <div
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl -z-10"
+        style={{ background: `radial-gradient(ellipse at center, ${colors.glow}, transparent 70%)` }}
+      ></div>
 
       {/* Content */}
       <div className="relative z-10 p-6 flex flex-col h-full">
-
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:scale-110 transition-transform duration-500 ${colorClass}`}>
-              <Icon className="w-6 h-6" />
+          <div className="flex items-center gap-3">
+            <div className={`w-11 h-11 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
+              <Icon className={`w-5 h-5 ${colors.text}`} />
             </div>
             <div>
-              <h3 className="text-xl font-black text-white leading-tight uppercase tracking-wide">
+              <h3 className="text-lg font-bold text-white leading-tight uppercase tracking-wide">
                 {fuel.name.replace('Diesel', 'Дизел').replace('Gasoline', 'Бензин')}
               </h3>
               {isPremium && (
-                <Badge variant="outline" className="mt-1 border-primary/50 text-primary text-[10px] uppercase tracking-wider bg-primary/10">Premium Class</Badge>
+                <Badge variant="outline" className="mt-1 border-primary/30 text-primary text-[10px] uppercase tracking-wider bg-primary/[0.06]">
+                  Premium
+                </Badge>
               )}
             </div>
           </div>
         </div>
 
-        {/* Pricing Block */}
-        <div className="mt-auto space-y-6">
-
-          {/* Main Price */}
-          <div className="flex items-end justify-between pb-6 border-b border-white/5">
-            <span className="text-sm font-medium text-white/40 mb-1">Редовна цена</span>
-            <div className="text-right">
-              <span className="block text-3xl font-black text-white tracking-tight">
-                €{fx2(priceEUR)}
-              </span>
-            </div>
+        {/* Pricing */}
+        <div className="mt-auto space-y-5">
+          {/* Regular Price */}
+          <div className="flex items-end justify-between pb-5 border-b border-white/[0.04]">
+            <span className="text-xs font-medium text-white/30">Редовна цена</span>
+            <span className="text-2xl font-black text-white/70 tracking-tight">
+              €{fx2(priceEUR)}
+            </span>
           </div>
 
-          {/* Member Price (Highlighted) */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/20 to-primary/5 p-4 border border-primary/20 group-hover:border-primary/40 transition-colors">
-            <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary/20 rounded-full blur-2xl"></div>
+          {/* Member Price */}
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/[0.12] to-primary/[0.04] p-4 border border-primary/[0.12] group-hover:border-primary/25 transition-colors">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl"></div>
 
             <div className="relative z-10 flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider mb-0.5">
-                  <CreditCard className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-1.5 text-primary text-[10px] font-bold uppercase tracking-[0.15em] mb-1">
+                  <CreditCard className="w-3 h-3" />
                   BG OIL CLUB
                 </div>
-                <div className="text-4xl font-black text-white tabular-nums tracking-tighter">
+                <div className="text-3xl font-black text-white tabular-nums tracking-tighter">
                   €{fx2(memberPriceEUR)}
                 </div>
               </div>
 
               <div className="text-right">
-                <div className="inline-flex flex-col items-end">
-                  <span className="text-green-400 font-bold text-sm flex items-center gap-1">
-                    <TrendingDown className="w-3 h-3" />
-                    -{fx2(savingsEUR)}
-                  </span>
-                  <span className="text-[10px] text-white/30 uppercase">Спестяване / л</span>
-                </div>
+                <span className="text-green-400 font-bold text-sm flex items-center gap-1">
+                  <TrendingDown className="w-3 h-3" />
+                  -{fx2(savingsEUR)}
+                </span>
+                <span className="text-[10px] text-white/20 uppercase tracking-wider">Спестяване / л</span>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

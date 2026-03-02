@@ -1,54 +1,36 @@
-// app/hotel/page.tsx
 import type { Metadata } from "next"
 import { companyInfo } from "@/lib/config"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Hotel as HotelIcon, Clock, Bed, Users, Home, Info, Phone, MapPin, Mail, Calendar } from "lucide-react"
+import { Hotel as HotelIcon, Clock, Bed, Users, Home, Info, Phone, MapPin, Mail, Calendar, Sparkles } from "lucide-react"
 import { getEffectiveRooms, getHotelInfo } from "@/lib/hotelStore"
 import { contacts } from "@/lib/config"
+import * as motion from "motion/react-client"
 
-export const revalidate = 0
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: "Хотел",
-  description:
-    "Комфортни стаи за настаняване в BG OIL - единични, двойни, тройни стаи и апартаменти. Идеално за професионални шофьори и семейства. Настаняване от 12:00, напускане до 11:00.",
-  keywords: [
-    "хотел Враца",
-    "настаняване Враца",
-    "стаи Враца",
-    "BG OIL хотел",
-    "комфортни стаи Враца",
-    "апартаменти Враца",
-  ],
+  description: "Комфортни стаи за настаняване в BG OIL - единични, двойни, тройни стаи и апартаменти.",
+  keywords: ["хотел Враца", "настаняване Враца", "стаи Враца", "BG OIL хотел"],
   openGraph: {
     title: `Хотел - ${companyInfo.name}`,
-    description: "Комфортни стаи за настаняване с климатизация и черни аут блокиращи завеси. Идеално за професионални шофьори и семейства.",
+    description: "Комфортни стаи за настаняване с климатизация и черни аут блокиращи завеси.",
     url: "https://bgoil.bg/hotel",
     type: "website",
-    images: [
-      {
-        url: "https://bgoil.bg/background.png",
-        width: 1200,
-        height: 630,
-        alt: "BG OIL ВРАЦА - Хотел",
-      },
-    ],
+    images: [{ url: "https://bgoil.bg/background.png", width: 1200, height: 630, alt: "BG OIL ВРАЦА - Хотел" }],
   },
   twitter: {
     card: "summary_large_image",
     title: `Хотел - ${companyInfo.name}`,
-    description: "Комфортни стаи за настаняване с климатизация. Идеално за професионални шофьори и семейства.",
+    description: "Комфортни стаи за настаняване с климатизация.",
     images: ["https://bgoil.bg/background.png"],
   },
-  alternates: {
-    canonical: "https://bgoil.bg/hotel",
-  },
+  alternates: { canonical: "https://bgoil.bg/hotel" },
 }
 
-const ROOM_ICONS: Record<string, any> = {
+const ROOM_ICONS: Record<string, typeof HotelIcon> = {
   'Единична стая': Users,
   'Двойна стая': Bed,
   'Тройна стая': Users,
@@ -59,284 +41,228 @@ export default async function HotelPage() {
   const rooms = await getEffectiveRooms()
   const info = await getHotelInfo()
 
+  const amenities = [
+    { emoji: "❄️", title: "Климатизация", description: "Пълна климатизация във всички стаи" },
+    { emoji: "🌙", title: "Черни аут завеси", description: "Блокиращи светлина за спокоен сън" },
+    { emoji: "🚗", title: "Паркинг", description: "Безплатен паркинг за гости" },
+  ]
+
   return (
     <>
       <Header />
-      <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 to-accent/5 pt-28 md:pt-32 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center max-w-4xl mx-auto">
-              <div className="flex items-center justify-center mb-6">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <HotelIcon className="w-8 h-8 text-primary" />
-                </div>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-                Хотел BG OIL
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground text-pretty">
-                Комфортни стаи с климатизация и черни аут блокиращи завеси. Идеално за професионални шофьори и семейства.
-              </p>
-            </div>
+      <main className="min-h-screen text-white overflow-x-hidden">
+
+        {/* Hero */}
+        <section className="relative pt-32 pb-20 overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/[0.04] rounded-full blur-[150px] pointer-events-none"></div>
+
+          <div className="container relative z-10 px-4 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] mb-8 backdrop-blur-xl"
+            >
+              <HotelIcon className="w-3.5 h-3.5 text-primary" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">Настаняване</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-5xl md:text-7xl font-black mb-6 tracking-tight"
+            >
+              Хотел <span className="text-gradient-primary">BG OIL</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-lg text-white/35 max-w-2xl mx-auto"
+            >
+              Комфортни стаи с климатизация и черни аут блокиращи завеси. Идеално за професионални шофьори и семейства.
+            </motion.p>
           </div>
         </section>
 
-        {/* Rooms Section */}
-        <section className="py-16">
+        {/* Rooms */}
+        <section className="pb-16">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
               {rooms.map((room, index) => {
                 const Icon = ROOM_ICONS[room.name] || HotelIcon
                 return (
-                  <Card
+                  <motion.div
                     key={index}
-                    className="relative overflow-hidden transition-all duration-300 hover-lift bg-gradient-card shadow-lg hover:shadow-xl hover:shadow-primary/10"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.08 }}
+                    className="group p-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] text-center hover:border-primary/20 hover:bg-white/[0.04] transition-all duration-500 relative overflow-hidden"
                   >
-                    <CardHeader className="text-center pb-4">
-                      <div className="inline-flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-primary/10">
-                        <Icon className="w-8 h-8 text-primary" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <div className="relative z-10">
+                      <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-white/[0.04] border border-white/[0.05] flex items-center justify-center group-hover:bg-primary/[0.1] group-hover:border-primary/20 transition-all duration-300">
+                        <Icon className="w-6 h-6 text-white/50 group-hover:text-primary transition-colors duration-300" />
                       </div>
-                      <CardTitle className="text-xl font-bold text-foreground">
-                        {room.name}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-center">
-                      <div className="mb-4">
-                        <div className="text-3xl font-black text-primary mb-1">
-                          {room.price.toFixed(0)} €
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {room.unit}
-                        </div>
-                      </div>
-                    </CardContent>
-                    <div className="absolute inset-0 -translate-x-full hover:translate-x-full transition-transform duration-1000 shine opacity-20 pointer-events-none"></div>
-                  </Card>
+                      <h3 className="text-lg font-bold text-white mb-4">{room.name}</h3>
+                      <div className="text-3xl font-black text-primary mb-1">{room.price.toFixed(0)} €</div>
+                      <div className="text-xs text-white/25">{room.unit}</div>
+                    </div>
+                  </motion.div>
                 )
               })}
             </div>
 
-            {/* Check-in/Check-out Info */}
-            <Card className="mb-10 rounded-3xl bg-[#120814]/95 px-8 py-10 text-white shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
-              <CardHeader className="pb-0">
-                <div className="flex flex-col gap-2">
-                  <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
-                    <Clock className="h-4 w-4 text-primary" />
-                    Час на настаняване
+            {/* Check-in/out */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-8 md:p-10 mb-8"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Clock className="h-4 w-4 text-primary" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">Часове</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-8">Информация за настаняване</h3>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <div className="flex items-center gap-4 p-5 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                  <div className="w-11 h-11 rounded-full bg-primary/[0.08] flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-primary" />
                   </div>
-                  <CardTitle className="text-3xl font-bold text-white">
-                    Информация за настаняване
-                  </CardTitle>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-1">Настаняване</p>
+                    <p className="text-xl font-bold text-white">от {info.checkIn}</p>
+                  </div>
                 </div>
-              </CardHeader>
-              <CardContent className="grid gap-6 pt-8 md:grid-cols-2">
+                <div className="flex items-center gap-4 p-5 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                  <div className="w-11 h-11 rounded-full bg-primary/[0.08] flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-1">Напускане</p>
+                    <p className="text-xl font-bold text-white">до {info.checkOut}</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Amenities */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-8 mb-8"
+            >
+              <h3 className="text-xl font-bold mb-8">Удобства</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {amenities.map((a, i) => (
+                  <div key={i} className="text-center space-y-3 group">
+                    <div className="w-12 h-12 bg-white/[0.04] border border-white/[0.05] rounded-xl flex items-center justify-center mx-auto group-hover:bg-primary/[0.08] transition-colors duration-300">
+                      <span className="text-xl">{a.emoji}</span>
+                    </div>
+                    <h4 className="font-bold text-white text-sm">{a.title}</h4>
+                    <p className="text-xs text-white/30">{a.description}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Reservation */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-8 md:p-10 mb-8"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Calendar className="h-4 w-4 text-primary" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Резервация</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-8">Как да резервирате стая?</h3>
+
+              <div className="grid gap-8 md:grid-cols-2">
+                {/* Contact Methods */}
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/10">
-                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-primary" />
+                  <h4 className="text-base font-bold text-white mb-4">Свържете се с нас</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.04] hover:border-white/[0.08] transition-colors">
+                      <div className="w-9 h-9 rounded-full bg-primary/[0.08] flex items-center justify-center flex-shrink-0">
+                        <Phone className="w-4 h-4 text-primary" />
+                      </div>
+                      <a href={`tel:${contacts.phoneMain}`} className="text-sm font-bold text-white hover:text-primary transition-colors flex-1">
+                        {contacts.phoneMain}
+                      </a>
+                      <Button asChild size="sm" className="bg-primary hover:bg-primary-light text-white px-4 py-2 flex-shrink-0 text-xs">
+                        <a href={`tel:${contacts.phoneMain}`}>Обади се</a>
+                      </Button>
                     </div>
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/50">
-                        Настаняване
-                      </p>
-                      <p className="text-2xl font-bold text-white">
-                        от {info.checkIn}
-                      </p>
+
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.04] hover:border-white/[0.08] transition-colors">
+                      <div className="w-9 h-9 rounded-full bg-primary/[0.08] flex items-center justify-center flex-shrink-0">
+                        <Mail className="w-4 h-4 text-primary" />
+                      </div>
+                      <a href={`mailto:${contacts.email}?subject=Резервация на стая`} className="text-sm font-bold text-white hover:text-primary transition-colors flex-1 break-all">
+                        {contacts.email}
+                      </a>
+                      <Button asChild size="sm" className="bg-primary hover:bg-primary-light text-white px-4 py-2 flex-shrink-0 text-xs">
+                        <a href={`mailto:${contacts.email}?subject=Резервация на стая`}>Изпрати</a>
+                      </Button>
+                    </div>
+
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.04] hover:border-white/[0.08] transition-colors">
+                      <div className="w-9 h-9 rounded-full bg-primary/[0.08] flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-4 h-4 text-primary" />
+                      </div>
+                      <p className="text-sm font-bold text-white flex-1">{contacts.address}</p>
+                      <Button asChild size="sm" className="bg-primary hover:bg-primary-light text-white px-4 py-2 flex-shrink-0 text-xs">
+                        <a href={contacts.mapsLink} target="_blank" rel="noopener noreferrer">Карта</a>
+                      </Button>
                     </div>
                   </div>
                 </div>
+
+                {/* Steps */}
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-white/10">
-                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/50">
-                        Напускане
-                      </p>
-                      <p className="text-2xl font-bold text-white">
-                        до {info.checkOut}
-                      </p>
+                  <h4 className="text-base font-bold text-white mb-4">Информация за резервация</h4>
+                  <div className="p-5 rounded-xl bg-primary/[0.04] border border-primary/10">
+                    <div className="space-y-4">
+                      {["Изберете тип стая", "Свържете се с нас", "Потвърждение", "Настаняване"].map((step, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">{i + 1}</span>
+                          <p className="text-sm text-white/60">{step}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Features */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Удобства</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="text-center space-y-2">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-2xl">❄️</span>
-                    </div>
-                    <h3 className="font-semibold">Климатизация</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Пълна климатизация във всички стаи
-                    </p>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-2xl">🌙</span>
-                    </div>
-                    <h3 className="font-semibold">Черни аут завеси</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Блокиращи светлина за спокоен сън
-                    </p>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <span className="text-2xl">🚗</span>
-                    </div>
-                    <h3 className="font-semibold">Паркинг</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Безплатен паркинг за гости
+                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                    <p className="text-xs leading-relaxed text-white/30">
+                      <span className="font-bold text-white/50">Резервации 24/7</span> • Предварителна резервация препоръчителна • Плащане на място
                     </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </motion.div>
 
-            {/* Reservation Section */}
-            <Card className="mb-10 rounded-2xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 px-6 py-6 shadow-lg">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-semibold uppercase tracking-wide text-primary">Резервация</span>
-                </div>
-                <CardTitle className="text-2xl font-bold text-foreground">
-                  Как да резервирате стая?
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr]">
-                  {/* Contact Methods */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-bold text-foreground">Свържете се с нас</h3>
-                    
-                    <div className="space-y-3">
-                      {/* Phone */}
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all shadow-sm">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Phone className="w-5 h-5 text-primary" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <a 
-                            href={`tel:${contacts.phoneMain}`}
-                            className="text-lg font-bold text-foreground hover:text-primary transition-colors block"
-                          >
-                            {contacts.phoneMain}
-                          </a>
-                        </div>
-                        <Button 
-                          asChild
-                          size="sm"
-                          className="bg-gradient-primary hover:opacity-90 text-white px-4 py-2 flex-shrink-0"
-                        >
-                          <a href={`tel:${contacts.phoneMain}`}>Обади се</a>
-                        </Button>
-                      </div>
-
-                      {/* Email */}
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all shadow-sm">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Mail className="w-5 h-5 text-primary" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <a 
-                            href={`mailto:${contacts.email}?subject=Резервация на стая`}
-                            className="text-base font-bold text-foreground hover:text-primary transition-colors break-all block"
-                          >
-                            {contacts.email}
-                          </a>
-                        </div>
-                        <Button 
-                          asChild
-                          size="sm"
-                          className="bg-gradient-primary hover:opacity-90 text-white px-4 py-2 flex-shrink-0"
-                        >
-                          <a href={`mailto:${contacts.email}?subject=Резервация на стая`}>Изпрати</a>
-                        </Button>
-                      </div>
-
-                      {/* Location */}
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all shadow-sm">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <MapPin className="w-5 h-5 text-primary" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-base font-bold text-foreground">
-                            {contacts.address}
-                          </p>
-                        </div>
-                        <Button 
-                          asChild
-                          size="sm"
-                          className="bg-gradient-primary hover:opacity-90 text-white px-4 py-2 flex-shrink-0"
-                        >
-                          <a href={contacts.mapsLink} target="_blank" rel="noopener noreferrer">Карта</a>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Reservation Steps */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-bold text-foreground">Информация за резервация</h3>
-                    
-                    <div className="space-y-3">
-                      {/* Steps */}
-                      <div className="p-4 rounded-xl bg-gradient-primary/10">
-                        <div className="space-y-3">
-                          <div className="flex items-start gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">1</span>
-                            <p className="text-sm font-semibold text-foreground pt-0.5">Изберете тип стая</p>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">2</span>
-                            <p className="text-sm font-semibold text-foreground pt-0.5">Свържете се с нас</p>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">3</span>
-                            <p className="text-sm font-semibold text-foreground pt-0.5">Потвърждение</p>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">4</span>
-                            <p className="text-sm font-semibold text-foreground pt-0.5">Настаняване</p>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Additional Info */}
-                      <div className="p-4 rounded-xl bg-gradient-primary/10">
-                        <p className="text-xs leading-relaxed text-muted-foreground">
-                          <span className="font-semibold text-foreground">Резервации 24/7</span> • Предварителна резервация препоръчителна • Плащане на място • Климатизация и черни аут завеси • Безплатен паркинг
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Price Disclaimer */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-r from-[#1c0b11] via-[#0c0c18] to-[#080a12] p-6 text-white shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
+            {/* Disclaimer */}
+            <div className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-6">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
-                <div className="flex items-center gap-3 text-[#ffb3b3]">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ff4d4d]/15 text-[#ffb3b3]">
-                    <Info className="h-6 w-6" />
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/[0.08]">
+                    <Info className="h-5 w-5 text-primary" />
                   </span>
-                  <p className="text-base font-bold uppercase tracking-[0.2em] text-[#ff8f72]">
-                    Важна информация
-                  </p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Важна информация</p>
                 </div>
-                <p className="text-base text-[#ffe0e0] md:flex-1">
-                  Цените са ориентировъчни и подлежат на промяна. За резервация и потвърждение на актуалните стойности, моля, обърнете се към персонала на място или по телефон <strong>{contacts.phoneMain}</strong>.
+                <p className="text-sm text-white/35 md:flex-1">
+                  Цените са ориентировъчни и подлежат на промяна. За резервация и потвърждение на актуалните стойности, моля, обърнете се към персонала на място или по телефон <strong className="text-white/50">{contacts.phoneMain}</strong>.
                 </p>
               </div>
             </div>
@@ -347,4 +273,3 @@ export default async function HotelPage() {
     </>
   )
 }
-
