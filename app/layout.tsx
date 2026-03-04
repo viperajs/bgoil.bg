@@ -7,7 +7,6 @@ import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
 
 
-import { ChatWidget } from "@/components/chat"
 import "./globals.css"
 
 // Оптимизирано зареждане на Inter шрифт
@@ -193,7 +192,6 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased`}>
         {children}
-        <ChatWidget />
 
         <Analytics />
         <SpeedInsights />
