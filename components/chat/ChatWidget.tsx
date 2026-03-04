@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 const WELCOME_MESSAGE: Message = {
   id: "welcome",
   role: "assistant",
-  content: "Здравейте! Аз съм BG OIL Expert - вашият виртуален асистент. Мога да ви помогна с информация за горивата, услугите ни, цени, работно време и всякакви въпроси свързани с автомобилите. Как мога да ви помогна днес?",
+  content: "Здравейте! Аз съм bgoil.ai - вашият виртуален асистент. Мога да ви помогна с информация за горивата, услугите ни, цени, работно време и всякакви въпроси свързани с автомобилите. Как мога да ви помогна днес?",
   timestamp: new Date(),
 }
 
@@ -125,8 +125,9 @@ export function ChatWidget() {
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-white text-sm">BG OIL Expert</h3>
+              <h3 className="font-semibold text-white text-sm">bgoil.ai</h3>
               <p className="text-xs text-white/80">Онлайн | Отговаряме веднага</p>
+              <p className="text-[9px] text-white/50 leading-tight">AI е в бета — възможни са неточности</p>
             </div>
           </div>
           <button
