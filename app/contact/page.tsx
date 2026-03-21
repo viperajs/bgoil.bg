@@ -26,6 +26,7 @@ export default function ContactPage() {
       icon: Phone,
       title: "Обадете се",
       value: contacts.phoneMain,
+      value2: contacts.phoneOwner2,
       link: `tel:${contacts.phoneMain}`,
       subtext: "Основна линия"
     },
@@ -107,10 +108,18 @@ export default function ContactPage() {
                     href={method.link}
                     target={method.target}
                     rel={method.target ? "noopener noreferrer" : undefined}
-                    className="text-primary hover:text-primary-light transition-colors text-base font-medium block mb-2"
+                    className="text-primary hover:text-primary-light transition-colors text-base font-medium block mb-1"
                   >
                     {method.value}
                   </a>
+                  {'value2' in method && method.value2 && (
+                    <a
+                      href={`tel:${method.value2}`}
+                      className="text-primary/70 hover:text-primary transition-colors text-sm font-medium block mb-2"
+                    >
+                      {method.value2}
+                    </a>
+                  )}
                   <p className="text-[10px] text-white/20 uppercase tracking-[0.2em]">{method.subtext}</p>
                 </motion.div>
               ))}

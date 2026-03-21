@@ -130,7 +130,8 @@ export default async function ProductsPage() {
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-primary hover:text-white transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.08)]"
+                    className="px-8 py-4 font-bold rounded-xl transition-all duration-300 neon-glow shimmer-btn cursor-pointer"
+                    style={{ background: 'linear-gradient(135deg, #ef4444, #dc2626)', color: '#fff' }}
                   >
                     Заявете карта на място
                   </motion.button>

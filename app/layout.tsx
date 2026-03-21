@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
-import { Inter } from "next/font/google"
+import { Oswald, DM_Sans, JetBrains_Mono } from "next/font/google"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
@@ -9,12 +9,25 @@ import { companyInfo } from "@/lib/config"
 
 import "./globals.css"
 
-// Оптимизирано зареждане на Inter шрифт
-const inter = Inter({
+const oswald = Oswald({
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-display",
+})
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-sans",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
@@ -181,7 +194,7 @@ export default function RootLayout({
   const combinedSchema = generateCombinedSchema()
 
   return (
-    <html lang="bg" className={inter.variable}>
+    <html lang="bg" className={`${oswald.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -190,7 +203,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${dmSans.className} antialiased`}>
         {children}
 
         <Analytics />

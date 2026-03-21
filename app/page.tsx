@@ -55,6 +55,19 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+
+        {/* Marquee Strip */}
+        <div className="relative overflow-hidden py-4" style={{ borderTop: '1px solid rgba(239,68,68,0.08)', borderBottom: '1px solid rgba(239,68,68,0.08)', background: 'rgba(239,68,68,0.02)' }}>
+          <div className="flex animate-marquee whitespace-nowrap">
+            {['БЕНЗИН А95', 'ДИЗЕЛ', 'ADBLUE', 'МАГАЗИН 24/7', 'ХОТЕЛ', 'EASYPAY 24/7', 'БЕЗПЛАТЕН ПАРКИНГ', 'КАЧЕСТВО №1', 'БЕНЗИН А95', 'ДИЗЕЛ', 'ADBLUE', 'МАГАЗИН 24/7', 'ХОТЕЛ', 'EASYPAY 24/7', 'БЕЗПЛАТЕН ПАРКИНГ', 'КАЧЕСТВО №1'].map((item, i) => (
+              <span key={i} className="mx-8 text-xs font-bold uppercase tracking-[0.2em] text-white/35 inline-flex items-center gap-3" style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.2em' }}>
+                <span className="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0" style={{ background: 'rgba(239,68,68,0.7)' }}></span>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
         <ServicesSection />
         <Suspense fallback={null}>
           <FeaturedFuels />

@@ -1,5 +1,4 @@
 import type { Fuel } from "@/lib/types"
-import { Badge } from "@/components/ui/badge"
 import { CreditCard, TrendingDown, Droplets, Flame, Zap } from "lucide-react"
 
 interface FuelCardProps {
@@ -25,82 +24,121 @@ export default function FuelCard({ fuel }: FuelCardProps) {
 
   const nameLower = fuel.name.toLowerCase()
   const isDiesel = nameLower.includes('diesel') || nameLower.includes('дизел')
-  const isGas = nameLower.includes('gas') || nameLower.includes('lpg') || nameLower.includes('газ')
-  const isPremium = nameLower.includes('plus') || nameLower.includes('max')
+  const isGas = nameLower.includes('gas') || nameLower.includes('lpg') || nameLower.includes('газ') || nameLower.includes('гпб')
+  const isAdBlue = nameLower.includes('adblue')
 
-  const Icon = isGas ? Flame : isDiesel ? Droplets : Zap
-  const accentColor = isGas ? 'blue' : isDiesel ? 'amber' : 'red'
+  const Icon = isGas ? Flame : isDiesel ? Droplets : isAdBlue ? Zap : Zap
+  const accentColor = isGas ? 'blue' : isDiesel ? 'amber' : 'orange'
 
   const colorMap = {
-    blue: { text: 'text-blue-400', border: 'border-blue-500/20', bg: 'bg-blue-500/[0.08]', glow: 'rgba(59,130,246,0.15)' },
-    amber: { text: 'text-amber-400', border: 'border-amber-500/20', bg: 'bg-amber-500/[0.08]', glow: 'rgba(245,158,11,0.15)' },
-    red: { text: 'text-red-400', border: 'border-red-500/20', bg: 'bg-red-500/[0.08]', glow: 'rgba(239,68,68,0.15)' },
+    blue: {
+      text: '#60A5FA',
+      border: 'rgba(96,165,250,0.2)',
+      bg: 'rgba(96,165,250,0.07)',
+      glow: 'rgba(59,130,246,0.12)',
+    },
+    amber: {
+      text: '#ef4444',
+      border: 'rgba(239,68,68,0.2)',
+      bg: 'rgba(239,68,68,0.07)',
+      glow: 'rgba(239,68,68,0.12)',
+    },
+    orange: {
+      text: '#f97316',
+      border: 'rgba(249,115,22,0.2)',
+      bg: 'rgba(249,115,22,0.07)',
+      glow: 'rgba(249,115,22,0.12)',
+    },
   }
   const colors = colorMap[accentColor]
 
   return (
     <div className="group relative h-full">
       {/* Card background */}
-      <div className="absolute inset-0 rounded-2xl bg-white/[0.02] border border-white/[0.05] group-hover:border-white/[0.12] transition-all duration-500 backdrop-blur-sm"></div>
+      <div
+        className="absolute inset-0 rounded-2xl transition-all duration-500"
+        style={{
+          background: 'rgba(255,255,255,0.025)',
+          border: '1px solid rgba(255,255,255,0.07)',
+        }}
+      />
+      <div
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500"
+        style={{ border: `1px solid ${colors.border}` }}
+      />
 
       {/* Hover glow */}
       <div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl -z-10"
         style={{ background: `radial-gradient(ellipse at center, ${colors.glow}, transparent 70%)` }}
-      ></div>
+      />
 
       {/* Content */}
       <div className="relative z-10 p-6 flex flex-col h-full">
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className={`w-11 h-11 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
-              <Icon className={`w-5 h-5 ${colors.text}`} />
+            <div
+              className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-110"
+              style={{ background: colors.bg, border: `1px solid ${colors.border}` }}
+            >
+              <Icon style={{ width: '20px', height: '20px', color: colors.text }} strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white leading-tight uppercase tracking-wide">
+              <h3 className="text-lg font-bold text-white leading-tight tracking-wider">
                 {fuel.name.replace('Diesel', 'Дизел').replace('Gasoline', 'Бензин')}
               </h3>
-              {isPremium && (
-                <Badge variant="outline" className="mt-1 border-primary/30 text-primary text-[10px] uppercase tracking-wider bg-primary/[0.06]">
-                  Premium
-                </Badge>
-              )}
             </div>
           </div>
         </div>
 
         {/* Pricing */}
-        <div className="mt-auto space-y-5">
+        <div className="mt-auto space-y-4">
           {/* Regular Price */}
-          <div className="flex items-end justify-between pb-5 border-b border-white/[0.04]">
-            <span className="text-xs font-medium text-white/30">Редовна цена</span>
-            <span className="text-2xl font-black text-white/70 tracking-tight">
+          <div className="flex items-end justify-between pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+            <span className="text-xs font-medium text-white/45">Редовна цена</span>
+            <span
+              className="text-2xl font-black text-white/85"
+              style={{ fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}
+            >
               €{fx2(priceEUR)}
             </span>
           </div>
 
           {/* Member Price */}
-          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/[0.12] to-primary/[0.04] p-4 border border-primary/[0.12] group-hover:border-primary/25 transition-colors">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl"></div>
+          <div
+            className="relative overflow-hidden rounded-xl p-4 transition-colors duration-500"
+            style={{
+              background: `linear-gradient(135deg, rgba(239,68,68,0.1), rgba(249,115,22,0.04))`,
+              border: `1px solid rgba(239,68,68,0.12)`,
+            }}
+          >
+            <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full blur-2xl pointer-events-none"
+              style={{ background: 'rgba(239,68,68,0.12)' }} />
 
             <div className="relative z-10 flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-1.5 text-primary text-[10px] font-bold uppercase tracking-[0.15em] mb-1">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] mb-1.5"
+                  style={{ color: '#ef4444' }}>
                   <CreditCard className="w-3 h-3" />
                   BG OIL CLUB
                 </div>
-                <div className="text-3xl font-black text-white tabular-nums tracking-tighter">
+                <div
+                  className="text-3xl font-black text-white"
+                  style={{ fontFamily: 'var(--font-mono)', letterSpacing: '-0.03em' }}
+                >
                   €{fx2(memberPriceEUR)}
                 </div>
               </div>
 
               <div className="text-right">
-                <span className="text-green-400 font-bold text-sm flex items-center gap-1">
+                <span className="text-green-400 font-bold text-sm flex items-center gap-1 justify-end">
                   <TrendingDown className="w-3 h-3" />
                   -{fx2(savingsEUR)}
                 </span>
-                <span className="text-[10px] text-white/20 uppercase tracking-wider">Спестяване / л</span>
+                <span className="text-[10px] text-white/35 uppercase tracking-wider" style={{ fontFamily: 'var(--font-mono)' }}>
+                  Спестяване / л
+                </span>
               </div>
             </div>
           </div>

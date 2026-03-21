@@ -42,9 +42,9 @@ export default async function HotelPage() {
   const info = await getHotelInfo()
 
   const amenities = [
-    { emoji: "❄️", title: "Климатизация", description: "Пълна климатизация във всички стаи" },
-    { emoji: "🌙", title: "Черни аут завеси", description: "Блокиращи светлина за спокоен сън" },
-    { emoji: "🚗", title: "Паркинг", description: "Безплатен паркинг за гости" },
+    { title: "Климатизация", description: "Пълна климатизация във всички стаи" },
+    { title: "Черни аут завеси", description: "Блокиращи светлина за спокоен сън" },
+    { title: "Безплатен паркинг", description: "Охраняван паркинг за гостите на хотела" },
   ]
 
   return (
@@ -165,11 +165,12 @@ export default async function HotelPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {amenities.map((a, i) => (
                   <div key={i} className="text-center space-y-3 group">
-                    <div className="w-12 h-12 bg-white/[0.04] border border-white/[0.05] rounded-xl flex items-center justify-center mx-auto group-hover:bg-primary/[0.08] transition-colors duration-300">
-                      <span className="text-xl">{a.emoji}</span>
+                    <div className="w-12 h-12 border rounded-xl flex items-center justify-center mx-auto transition-all duration-300 group-hover:scale-110"
+                      style={{ background: 'rgba(245,158,11,0.07)', borderColor: 'rgba(245,158,11,0.15)' }}>
+                      <Sparkles className="w-5 h-5" style={{ color: '#F59E0B' }} />
                     </div>
                     <h4 className="font-bold text-white text-sm">{a.title}</h4>
-                    <p className="text-xs text-white/30">{a.description}</p>
+                    <p className="text-xs text-white/40" style={{ fontFamily: 'var(--font-sans)', textTransform: 'none', letterSpacing: '0.01em' }}>{a.description}</p>
                   </div>
                 ))}
               </div>
@@ -198,11 +199,11 @@ export default async function HotelPage() {
                       <div className="w-9 h-9 rounded-full bg-primary/[0.08] flex items-center justify-center flex-shrink-0">
                         <Phone className="w-4 h-4 text-primary" />
                       </div>
-                      <a href={`tel:${contacts.phoneMain}`} className="text-sm font-bold text-white hover:text-primary transition-colors flex-1">
-                        {contacts.phoneMain}
+                      <a href={`tel:${contacts.hotelReservation}`} className="text-sm font-bold text-white hover:text-primary transition-colors flex-1">
+                        {contacts.hotelReservation}
                       </a>
                       <Button asChild size="sm" className="bg-primary hover:bg-primary-light text-white px-4 py-2 flex-shrink-0 text-xs">
-                        <a href={`tel:${contacts.phoneMain}`}>Обади се</a>
+                        <a href={`tel:${contacts.hotelReservation}`}>Обади се</a>
                       </Button>
                     </div>
 

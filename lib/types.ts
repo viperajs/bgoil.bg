@@ -16,6 +16,8 @@ export interface Service {
 export interface Contacts {
   address: string
   phoneMain: string
+  phoneOwner2: string
+  hotelReservation: string
   servicePhone: string
   email: string
   serviceEmail: string

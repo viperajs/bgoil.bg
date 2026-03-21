@@ -42,7 +42,7 @@ export default function Header() {
             <NavbarButton
               href="/contact"
               variant="gradient"
-              className="!bg-gradient-to-r !from-red-600 !to-red-500 !text-white hover:!from-red-500 hover:!to-red-400 !shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:!shadow-[0_0_30px_rgba(239,68,68,0.5)] !transition-all !duration-300"
+              className="!bg-gradient-to-r !from-red-600 !to-red-500 !text-white !font-bold hover:!from-red-500 hover:!to-red-400 !shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:!shadow-[0_0_30px_rgba(239,68,68,0.5)] !transition-all !duration-300"
             >
               Контакти
             </NavbarButton>
@@ -92,7 +92,7 @@ export default function Header() {
                 href="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="gradient"
-                className="w-full !bg-gradient-to-r !from-red-600 !to-red-500 !text-white !shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+                className="w-full !bg-gradient-to-r !from-red-600 !to-red-500 !text-white !font-bold !shadow-[0_0_15px_rgba(239,68,68,0.3)]"
               >
                 Контакти
               </NavbarButton>

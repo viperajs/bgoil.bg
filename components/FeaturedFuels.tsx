@@ -29,15 +29,15 @@ export default async function FeaturedFuels() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] mb-8 backdrop-blur-xl">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.10] mb-8 backdrop-blur-xl">
             <Fuel className="w-3.5 h-3.5 text-primary" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">Актуални цени</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/65">Актуални цени</span>
           </div>
 
           <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
             <span className="text-gradient-primary">Горива</span> & Цени
           </h2>
-          <p className="text-base md:text-lg text-white/30 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-white/55 max-w-2xl mx-auto leading-relaxed">
             Най-високо качество горива на конкурентни цени.
           </p>
         </motion.div>
@@ -66,10 +66,11 @@ export default async function FeaturedFuels() {
           <Button
             asChild
             size="lg"
-            className="rounded-full bg-white text-black font-bold hover:bg-white/90 px-10 py-7 text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+            className="rounded-full font-bold px-10 py-7 text-lg hover:scale-105 transition-all duration-300 neon-glow shimmer-btn cursor-pointer"
+            style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', color: '#fff', border: 'none' }}
           >
             <Link href="/products" className="flex items-center space-x-3">
-              <span>Виж всички</span>
+              <span>Виж всички цени</span>
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </Button>

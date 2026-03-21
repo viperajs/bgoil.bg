@@ -28,6 +28,8 @@ export const services: Service[] = [
 export const contacts: Contacts = {
   address: 'гр. Враца 3000, бул. Мито Орозов 34',
   phoneMain: '+359 878 618 640',
+  phoneOwner2: '+359 89 2995584',
+  hotelReservation: '087 8618625',
   servicePhone: '+359 87 714 1742',
   email: 'bgoil_3000@abv.bg',
   serviceEmail: 'autoservice_1313@abv.bg',

@@ -4,6 +4,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
+  transpilePackages: ['@react-three/fiber', '@react-three/drei', 'three'],
+
   // Оптимизация на изображения
   images: {
     formats: ['image/avif', 'image/webp'],

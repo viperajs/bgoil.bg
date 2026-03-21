@@ -6,7 +6,11 @@ export default function Footer() {
   return (
     <footer className="relative text-white overflow-hidden">
       {/* Gradient separator */}
-      <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.4), rgba(220,38,38,0.3), transparent)' }}></div>
+
+      {/* Ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at top, rgba(239,68,68,0.04), transparent 70%)' }} />
 
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
@@ -15,7 +19,7 @@ export default function Footer() {
             <div className="flex items-center space-x-3">
               <span className="font-black text-2xl text-white tracking-tight">{companyInfo.name}</span>
             </div>
-            <p className="text-white/40 leading-relaxed text-sm">
+            <p className="text-white/60 leading-relaxed text-sm">
               {companyInfo.description}
             </p>
             <p className="text-primary font-bold text-sm">{companyInfo.slogan}</p>
@@ -45,7 +49,7 @@ export default function Footer() {
                 <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0 mt-0.5">
                   <MapPin className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-white/40 text-sm leading-relaxed pt-1.5 group-hover:text-white/60 transition-colors duration-300">{contacts.address}</span>
+                <span className="text-white/60 text-sm leading-relaxed pt-1.5 group-hover:text-white/60 transition-colors duration-300">{contacts.address}</span>
               </a>
               <div className="flex items-center space-x-3 group">
                 <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0">
@@ -53,7 +57,7 @@ export default function Footer() {
                 </div>
                 <a
                   href={`tel:${contacts.phoneMain}`}
-                  className="text-white/40 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
+                  className="text-white/60 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
                 >
                   {contacts.phoneMain}
                 </a>
@@ -64,7 +68,7 @@ export default function Footer() {
                 </div>
                 <a
                   href={`mailto:${contacts.email}`}
-                  className="text-white/40 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
+                  className="text-white/60 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
                 >
                   {contacts.email}
                 </a>
@@ -73,7 +77,7 @@ export default function Footer() {
                 <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center flex-shrink-0">
                   <Clock className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-white/40 text-sm font-medium">{contacts.workingHours}</span>
+                <span className="text-white/60 text-sm font-medium">{contacts.workingHours}</span>
               </div>
             </div>
           </div>
@@ -91,7 +95,7 @@ export default function Footer() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="flex items-center space-x-2 text-white/40 hover:text-white/70 transition-all duration-300 group text-sm"
+                  className="flex items-center space-x-2 text-white/60 hover:text-white/70 transition-all duration-300 group text-sm"
                 >
                   <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-primary" />
                   <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
@@ -103,19 +107,19 @@ export default function Footer() {
           {/* Benefits */}
           <div className="space-y-5">
             <h3 className="font-bold text-lg text-white">За клиенти</h3>
-            <p className="text-white/40 text-sm leading-relaxed">
+            <p className="text-white/60 text-sm leading-relaxed">
               Предимства и удобства на едно място
             </p>
             <div className="space-y-3">
               <div className="p-4 rounded-xl bg-primary/[0.06] border border-primary/10">
                 <p className="text-white font-bold text-sm mb-1">24/7 Обслужване</p>
-                <p className="text-white/30 text-xs leading-relaxed">
+                <p className="text-white/50 text-xs leading-relaxed">
                   Винаги на ваше разположение
                 </p>
               </div>
               <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.05]">
                 <p className="text-white font-bold text-sm mb-1">Безплатен паркинг</p>
-                <p className="text-white/30 text-xs leading-relaxed">
+                <p className="text-white/50 text-xs leading-relaxed">
                   Удобно паркиране за всички клиенти
                 </p>
               </div>
@@ -126,17 +130,17 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-white/[0.04]">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-white/25 text-xs text-center md:text-left">
+            <p className="text-white/45 text-xs text-center md:text-left">
               © {new Date().getFullYear()} {companyInfo.name}. Всички права запазени.
             </p>
             <div className="flex items-center space-x-6 text-xs">
-              <Link href="/about" className="text-white/25 hover:text-white/50 transition-colors duration-300">
+              <Link href="/about" className="text-white/45 hover:text-white/50 transition-colors duration-300">
                 За нас
               </Link>
-              <Link href="/contact" className="text-white/25 hover:text-white/50 transition-colors duration-300">
+              <Link href="/contact" className="text-white/45 hover:text-white/50 transition-colors duration-300">
                 Контакти
               </Link>
-              <Link href="/products" className="text-white/25 hover:text-white/50 transition-colors duration-300">
+              <Link href="/products" className="text-white/45 hover:text-white/50 transition-colors duration-300">
                 Горива
               </Link>
             </div>
