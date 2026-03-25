@@ -59,15 +59,15 @@ function ProductCard({ product }: { product: Product }) {
         </h3>
 
         <div className="mb-4 relative">
-          <div className={`text-xs text-white/35 leading-relaxed transition-all duration-300 ${expanded ? 'h-20 overflow-y-auto pr-2' : 'h-[2.4em] line-clamp-2 overflow-hidden'}`}>
+          <div className={`text-xs text-white/35 leading-relaxed overflow-hidden transition-all duration-300 ${expanded ? 'max-h-48' : 'max-h-[2.4em]'}`}>
             {product.description}
           </div>
           {product.description.length > 50 && (
             <button
               onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-1 text-[10px] text-primary hover:text-white mt-1.5 font-medium transition-colors"
+              className="flex items-center gap-1 text-[11px] text-primary hover:text-white mt-1.5 font-semibold transition-colors"
             >
-              {expanded ? <><ChevronUp className="w-3 h-3" /> Скрий</> : <><ChevronDown className="w-3 h-3" /> Виж повече</>}
+              {expanded ? <><ChevronUp className="w-3.5 h-3.5" /> Скрий</> : <><ChevronDown className="w-3.5 h-3.5" /> Виж повече</>}
             </button>
           )}
         </div>
@@ -86,9 +86,9 @@ function ProductCard({ product }: { product: Product }) {
           </div>
 
           {/* Savings */}
-          <div className="w-full py-1.5 bg-green-500/[0.06] border border-green-500/15 rounded-lg flex items-center justify-center gap-1.5">
-            <Sparkles className="w-3 h-3 text-green-400" />
-            <p className="text-[10px] font-bold text-green-400">
+          <div className="w-full py-2.5 bg-green-500/[0.13] border border-green-500/40 rounded-lg flex items-center justify-center gap-2 shadow-[0_0_14px_rgba(34,197,94,0.1)]">
+            <Sparkles className="w-3.5 h-3.5 text-green-400" />
+            <p className="text-xs font-bold text-green-400 tracking-wide">
               Спестявате €{(product.price - product.cardPrice).toFixed(2)}
             </p>
           </div>
@@ -162,16 +162,16 @@ function ProductCarousel({ products }: { products: Product[] }) {
           <button
             onClick={scrollPrev}
             disabled={!canScrollPrev}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white transition-all border border-white/[0.06] -ml-2 md:-ml-5 ${!canScrollPrev ? 'opacity-0 pointer-events-none' : 'opacity-100 hover:bg-primary'}`}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center text-white hover:text-primary transition-colors -ml-2 md:-ml-5 lg:-ml-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] ${!canScrollPrev ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-8 h-8" />
           </button>
           <button
             onClick={scrollNext}
             disabled={!canScrollNext}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white transition-all border border-white/[0.06] -mr-2 md:-mr-5 ${!canScrollNext ? 'opacity-0 pointer-events-none' : 'opacity-100 hover:bg-primary'}`}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center text-white hover:text-primary transition-colors -mr-2 md:-mr-5 lg:-mr-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] ${!canScrollNext ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-8 h-8" />
           </button>
         </>
       )}

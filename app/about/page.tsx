@@ -76,7 +76,7 @@ export default function AboutPage() {
             <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/90 via-[#050508]/85 to-[#050508]"></div>
           </div>
 
-          <div className="container relative z-10 px-4 text-center mt-20">
+          <div className="container mx-auto relative z-10 px-4 text-center mt-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -108,9 +108,9 @@ export default function AboutPage() {
         </section>
 
         {/* Mission */}
-        <section className="py-24 relative">
-          <div className="container px-4 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section className="py-14 relative">
+          <div className="container px-4 mx-auto relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -137,6 +137,28 @@ export default function AboutPage() {
                     <div className="text-2xl font-black text-primary mb-1">100%</div>
                     <div className="text-xs text-white/30 uppercase tracking-wider">Качество</div>
                   </div>
+                  <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                    <div className="text-2xl font-black text-primary mb-1">5+</div>
+                    <div className="text-xs text-white/30 uppercase tracking-wider">Услуги</div>
+                  </div>
+                  <div className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                    <div className="text-2xl font-black text-primary mb-1">Враца</div>
+                    <div className="text-xs text-white/30 uppercase tracking-wider">Локация</div>
+                  </div>
+                </div>
+
+                <div className="pt-2 space-y-3">
+                  {[
+                    "Горива на европейско качество",
+                    "Хотел, автосервиз и автомивка",
+                    "EasyPay каса 24/7",
+                    "BG OIL CLUB карта с отстъпки",
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />
+                      <span className="text-sm text-white/35">{item}</span>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
 
@@ -145,19 +167,17 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="relative aspect-square rounded-3xl overflow-hidden border border-white/[0.05] bg-white/[0.02]"
+                className="relative min-h-[400px] lg:min-h-0 rounded-3xl overflow-hidden border border-white/[0.05]"
               >
-                <div className="relative w-full h-full rounded-2xl overflow-hidden m-2">
-                  <Image
-                    src="/fuel-station-reference.png"
-                    alt="Mission Background"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <p className="text-white font-bold text-lg italic leading-relaxed">&ldquo;Качеството е нашата визитна картичка.&rdquo;</p>
-                  </div>
+                <Image
+                  src="/fuel-station-reference.png"
+                  alt="Mission Background"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050508]/80 via-transparent to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <p className="text-white font-bold text-lg italic leading-relaxed">&ldquo;Качеството е нашата визитна картичка.&rdquo;</p>
                 </div>
               </motion.div>
             </div>
@@ -165,7 +185,7 @@ export default function AboutPage() {
         </section>
 
         {/* Values */}
-        <section className="py-28 relative bg-white/[0.01]">
+        <section className="py-20 relative bg-white/[0.01]">
           <div className="container px-4 mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
