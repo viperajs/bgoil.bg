@@ -5,7 +5,7 @@ import { Oswald, DM_Sans, JetBrains_Mono } from "next/font/google"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
-
+import TsvetnitsaDecoration from "@/components/TsvetnitsaDecoration"
 
 import "./globals.css"
 
@@ -205,7 +205,7 @@ export default function RootLayout({
       </head>
       <body className={`${dmSans.className} antialiased`}>
         {children}
-
+        <TsvetnitsaDecoration />
         <Analytics />
         <SpeedInsights />
       </body>
