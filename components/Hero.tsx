@@ -270,9 +270,10 @@ export default function Hero() {
             <h1
               className="font-black leading-[0.88] select-none relative"
               style={{
-                fontSize:      'clamp(6rem, 17vw, 13rem)',
+                fontSize:      'clamp(3rem, 14vw, 13rem)',
                 letterSpacing: '0.06em',
                 fontFamily:    'var(--font-display)',
+                whiteSpace:    'nowrap',
               }}
               aria-label="BG OIL"
             >
