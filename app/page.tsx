@@ -95,40 +95,53 @@ export default function HomePage() {
         </Suspense>
 
         {/* Location CTA */}
-        <section className="relative py-24 overflow-hidden">
-          {/* Background */}
+        <section className="relative py-28 overflow-hidden">
+          {/* Layered background */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-0 right-0 h-px"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.25), rgba(220,38,38,0.15), transparent)' }} />
+            <div className="absolute top-0 left-0 right-0 h-px section-divider" />
             <div className="absolute bottom-0 left-0 right-0 h-px"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.12), transparent)' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] rounded-full blur-[120px]"
-              style={{ background: 'radial-gradient(ellipse, rgba(239,68,68,0.05), transparent)' }} />
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.1), transparent)' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] rounded-full"
+              style={{ background: 'radial-gradient(ellipse, rgba(239,68,68,0.06), transparent)', filter: 'blur(100px)' }} />
+            <div className="absolute -bottom-20 left-1/4 w-[400px] h-[300px] rounded-full"
+              style={{ background: 'radial-gradient(ellipse, rgba(249,115,22,0.04), transparent)', filter: 'blur(80px)' }} />
+            {/* Dot grid */}
+            <div className="absolute inset-0 opacity-[0.012]"
+              style={{
+                backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)',
+                backgroundSize: '48px 48px',
+              }} />
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
-              {/* Card */}
+              {/* Card with animated gradient border */}
               <div
-                className="relative rounded-3xl overflow-hidden"
+                className="relative rounded-3xl overflow-hidden animated-gradient-border"
                 style={{
-                  background: 'rgba(255,255,255,0.02)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  backdropFilter: 'blur(20px)',
+                  background: 'linear-gradient(145deg, rgba(20,20,22,0.92), rgba(10,10,11,0.97))',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  backdropFilter: 'blur(32px)',
+                  boxShadow: '0 40px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
                 }}
               >
-                {/* Inner glow */}
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(239,68,68,0.07), transparent 60%)' }} />
-                {/* Top accent line */}
-                <div className="absolute top-0 left-12 right-12 h-px"
-                  style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.5), rgba(220,38,38,0.4), transparent)' }} />
+                {/* Multi-layer inner glow */}
+                <div className="absolute inset-0 pointer-events-none rounded-3xl overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-1/2"
+                    style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(239,68,68,0.09), transparent 60%)' }} />
+                  <div className="absolute -top-20 left-1/4 w-72 h-72 rounded-full"
+                    style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.06), transparent)', filter: 'blur(60px)' }} />
+                </div>
 
-                <div className="relative z-10 px-8 py-14 md:px-16">
+                {/* Top accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-px"
+                  style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(239,68,68,0.6) 30%, rgba(249,115,22,0.4) 50%, rgba(239,68,68,0.6) 70%, transparent 100%)' }} />
+
+                <div className="relative z-10 px-5 py-10 sm:px-8 sm:py-14 md:px-16">
                   {/* Header */}
                   <div className="text-center mb-12">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 backdrop-blur-xl"
-                      style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)' }}>
+                      style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.2)' }}>
                       <MapPin className="w-3.5 h-3.5 text-red-400" />
                       <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Намерете ни</span>
                     </div>
@@ -167,20 +180,22 @@ export default function HomePage() {
                       },
                     ].map(({ icon: Icon, label, value, href, external }, i) => {
                       const inner = (
-                        <div className="group flex flex-col items-center text-center p-6 rounded-2xl border border-white/[0.06] hover:border-red-500/25 bg-white/[0.02] hover:bg-red-500/[0.04] transition-all duration-300">
-                          <div className="w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-4 group-hover:bg-red-500/15 transition-colors duration-300">
+                        <div className="group flex flex-col items-center text-center p-6 rounded-2xl transition-all duration-400 neon-card-glow glass-depth cursor-pointer"
+                          style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                          <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-400 group-hover:scale-110"
+                            style={{ background: 'rgba(239,68,68,0.09)', border: '1px solid rgba(239,68,68,0.2)' }}>
                             <Icon className="w-5 h-5 text-red-400" />
                           </div>
                           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-2" style={{ fontFamily: 'var(--font-mono)' }}>
                             {label}
                           </span>
-                          <span className="text-white/65 text-sm leading-snug font-medium" style={{ fontFamily: 'var(--font-sans)', textTransform: 'none', letterSpacing: '0.01em' }}>
+                          <span className="text-white/65 text-sm leading-snug font-medium group-hover:text-white/80 transition-colors" style={{ fontFamily: 'var(--font-sans)', textTransform: 'none', letterSpacing: '0.01em' }}>
                             {value}
                           </span>
                         </div>
                       )
                       return href ? (
-                        <a key={i} href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="cursor-pointer">
+                        <a key={i} href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="cursor-pointer block">
                           {inner}
                         </a>
                       ) : (
@@ -195,20 +210,16 @@ export default function HomePage() {
                       href={contacts.mapsLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 cursor-pointer neon-glow shimmer-btn hover:scale-[1.02]"
+                      className="inline-flex items-center gap-2 px-6 sm:px-9 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 cursor-pointer neon-glow shimmer-btn hover:scale-[1.03] w-full sm:w-auto justify-center"
                       style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' }}
                     >
-                      <MapPin className="w-4 h-4" />
-                      Отвори в Google Maps
-                      <ArrowUpRight className="w-4 h-4 opacity-70" />
+                      <MapPin className="w-4 h-4 flex-shrink-0" />
+                      <span>Отвори в Google Maps</span>
+                      <ArrowUpRight className="w-4 h-4 opacity-70 flex-shrink-0" />
                     </a>
                     <a
                       href={`tel:${contacts.phoneMain}`}
-                      className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 cursor-pointer hover:bg-white/[0.07]"
-                      style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                      }}
+                      className="inline-flex items-center gap-2 px-6 sm:px-9 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 cursor-pointer hover:bg-white/[0.08] hover:scale-[1.02] glass-depth w-full sm:w-auto justify-center"
                     >
                       <Phone className="w-4 h-4" />
                       Обади се

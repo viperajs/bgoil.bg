@@ -33,23 +33,19 @@ const ELEMENTS = [
 ]
 
 const EGG_PALETTES = [
-  { body: "#b91c1c", band: "#fbbf24", dot: "#fde68a" }, // red / gold
-  { body: "#1d4ed8", band: "#93c5fd", dot: "#dbeafe" }, // blue / sky
-  { body: "#6d28d9", band: "#c4b5fd", dot: "#ede9fe" }, // purple / violet
-  { body: "#15803d", band: "#86efac", dot: "#dcfce7" }, // green / mint
+  { body: "#b91c1c", band: "#fbbf24", dot: "#fde68a" },
+  { body: "#1d4ed8", band: "#93c5fd", dot: "#dbeafe" },
+  { body: "#6d28d9", band: "#c4b5fd", dot: "#ede9fe" },
+  { body: "#15803d", band: "#86efac", dot: "#dcfce7" },
 ]
 const PETAL_COLORS = ["#fda4af", "#f9a8d4", "#fde68a", "#86efac", "#c4b5fd", "#fbcfe8"]
 
 function EasterEgg({ size, ci }: { size: number; ci: number }) {
   const p = EGG_PALETTES[ci % EGG_PALETTES.length]
-  const w = size * 0.72
-  const h = size
   return (
-    <svg width={w} height={h} viewBox="0 0 18 24" fill="none" aria-hidden="true">
+    <svg width={size * 0.72} height={size} viewBox="0 0 18 24" fill="none" aria-hidden="true">
       <ellipse cx="9" cy="12" rx="8" ry="11" fill={p.body} opacity="0.88" />
-      {/* horizontal band */}
       <path d="M1.5 12 Q9 10 16.5 12" stroke={p.band} strokeWidth="3" strokeLinecap="round" opacity="0.9" />
-      {/* dots */}
       <circle cx="5"  cy="8"  r="1.2" fill={p.dot} opacity="0.75" />
       <circle cx="13" cy="8"  r="1.2" fill={p.dot} opacity="0.75" />
       <circle cx="5"  cy="16" r="1.2" fill={p.dot} opacity="0.75" />
@@ -61,37 +57,33 @@ function EasterEgg({ size, ci }: { size: number; ci: number }) {
 
 function Petal({ size, ci }: { size: number; ci: number }) {
   return (
-    <div
-      style={{
-        width: size * 0.55,
-        height: size,
-        background: PETAL_COLORS[ci % PETAL_COLORS.length],
-        borderRadius: "50% 50% 0 50%",
-        opacity: 0.55,
-      }}
-    />
+    <div style={{
+      width: size * 0.55,
+      height: size,
+      background: PETAL_COLORS[ci % PETAL_COLORS.length],
+      borderRadius: "50% 50% 0 50%",
+      opacity: 0.55,
+    }} />
   )
 }
 
 function Sparkle({ size }: { size: number }) {
   return (
-    <div
-      style={{
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        background: "#fbbf24",
-        opacity: 0.8,
-        boxShadow: `0 0 ${size * 2}px #fbbf24, 0 0 ${size * 4}px rgba(251,191,36,0.4)`,
-      }}
-    />
+    <div style={{
+      width: size,
+      height: size,
+      borderRadius: "50%",
+      background: "#fbbf24",
+      opacity: 0.8,
+      boxShadow: `0 0 ${size * 2}px #fbbf24, 0 0 ${size * 4}px rgba(251,191,36,0.4)`,
+    }} />
   )
 }
 
-/* ─── Orthodox cross SVG ─── */
+/* ─── Orthodox cross SVG — sized entirely via CSS ─── */
 function OrthodoxCross() {
   return (
-    <svg width="72" height="90" viewBox="0 0 72 90" fill="none" aria-hidden="true">
+    <svg className="vk-cross-svg" viewBox="0 0 72 90" fill="none" aria-hidden="true">
       <defs>
         <linearGradient id="vk-gold" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#fde68a" />
@@ -103,15 +95,10 @@ function OrthodoxCross() {
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
-      {/* Vertical beam */}
-      <rect x="31" y="6" width="10" height="78" rx="4" fill="url(#vk-gold)" filter="url(#vk-glow)" />
-      {/* Top crossbeam (INRI plaque) */}
-      <rect x="16" y="14" width="40" height="8" rx="3" fill="url(#vk-gold)" filter="url(#vk-glow)" />
-      {/* Main crossbeam */}
+      <rect x="31" y="6"  width="10" height="78" rx="4" fill="url(#vk-gold)" filter="url(#vk-glow)" />
+      <rect x="16" y="14" width="40" height="8"  rx="3" fill="url(#vk-gold)" filter="url(#vk-glow)" />
       <rect x="6"  y="34" width="60" height="10" rx="4" fill="url(#vk-gold)" filter="url(#vk-glow)" />
-      {/* Lower angled beam (Orthodox style) */}
-      <rect
-        x="18" y="64" width="36" height="7" rx="3"
+      <rect x="18" y="64" width="36" height="7"  rx="3"
         fill="url(#vk-gold)" filter="url(#vk-glow)"
         transform="rotate(-18 36 67.5)"
       />
@@ -122,43 +109,38 @@ function OrthodoxCross() {
 /* ─── Three decorated Easter eggs for card interior ─── */
 function CardEggs() {
   const eggs = [
-    { body: "#b91c1c", band: "#fbbf24", dots: "#fde68a", angle: -8  },
-    { body: "#6d28d9", band: "#fbbf24", dots: "#fde68a", angle:  0  },
-    { body: "#15803d", band: "#fbbf24", dots: "#fde68a", angle:  8  },
+    { body: "#b91c1c", band: "#fbbf24", dots: "#fde68a", angle: -8 },
+    { body: "#6d28d9", band: "#fbbf24", dots: "#fde68a", angle:  0 },
+    { body: "#15803d", band: "#fbbf24", dots: "#fde68a", angle:  8 },
   ]
   return (
-    <div style={{ display: "flex", justifyContent: "center", gap: 18, alignItems: "flex-end" }}>
+    <div className="vk-card-eggs">
       {eggs.map((e, i) => (
         <svg
           key={i}
-          width="44" height="56"
+          className="vk-card-egg-svg"
           viewBox="0 0 44 56"
           fill="none"
           aria-hidden="true"
-          style={{ transform: `rotate(${e.angle}deg)`, filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.5))" }}
+          style={{ transform: `rotate(${e.angle}deg)` }}
         >
-          {/* Shadow */}
           <ellipse cx="22" cy="53" rx="12" ry="3" fill="rgba(0,0,0,0.3)" />
-          {/* Body */}
           <ellipse cx="22" cy="26" rx="18" ry="24" fill={e.body} />
-          {/* Gloss */}
-          <ellipse cx="16" cy="14" rx="6" ry="9" fill="rgba(255,255,255,0.12)" />
-          {/* Band */}
+          <ellipse cx="16" cy="14" rx="6"  ry="9"  fill="rgba(255,255,255,0.12)" />
           <path d="M4.5 26 Q22 22 39.5 26" stroke={e.band} strokeWidth="5" strokeLinecap="round" opacity="0.9" />
-          {/* Top dots */}
           <circle cx="12" cy="15" r="2.5" fill={e.dots} opacity="0.8" />
           <circle cx="32" cy="15" r="2.5" fill={e.dots} opacity="0.8" />
-          {/* Bottom dots */}
           <circle cx="12" cy="37" r="2.5" fill={e.dots} opacity="0.8" />
           <circle cx="32" cy="37" r="2.5" fill={e.dots} opacity="0.8" />
           <circle cx="22" cy="10" r="2"   fill={e.dots} opacity="0.6" />
-          {/* Border */}
           <ellipse cx="22" cy="26" rx="18" ry="24" fill="none" stroke={e.band} strokeWidth="0.8" opacity="0.3" />
         </svg>
       ))}
     </div>
   )
 }
+
+const CORNER_CLASSES = ["vk-corner-tl", "vk-corner-tr", "vk-corner-bl", "vk-corner-br"]
 
 /* ═══════════════════════ Main Component ═══════════════════════ */
 export default function VelikdenDecoration() {
@@ -167,8 +149,8 @@ export default function VelikdenDecoration() {
 
   useEffect(() => {
     const now   = new Date()
-    const start = new Date(2026, 3, 11)  // April 11 — show from today
-    const end   = new Date(2026, 3, 13) // April 13 — hide after this
+    const start = new Date(2026, 3, 12)
+    const end   = new Date(2026, 3, 13)
     if (now >= start && now < end) {
       if (!sessionStorage.getItem("velikden-2026")) {
         setDismissed(false)
@@ -190,6 +172,77 @@ export default function VelikdenDecoration() {
   return (
     <>
       <style>{`
+        /* ════════════════════════════════════════════════════════
+           DESIGN TOKENS — all values live here, nowhere else
+           ════════════════════════════════════════════════════════ */
+        :root {
+          /* ── Gold palette ── */
+          --vk-gold-deep:    #d97706;
+          --vk-gold-mid:     #fbbf24;
+          --vk-gold-light:   #fde68a;
+          --vk-card-bg:      rgba(10, 8, 6, 0.97);
+          --vk-gold-a06:     rgba(251,191,36,0.06);
+          --vk-gold-a08:     rgba(217,119,6,0.08);
+          --vk-gold-a12:     rgba(251,191,36,0.12);
+          --vk-gold-a14:     rgba(251,191,36,0.14);
+          --vk-gold-a16:     rgba(251,191,36,0.16);
+          --vk-gold-a18:     rgba(251,191,36,0.18);
+          --vk-gold-a40:     rgba(251,191,36,0.4);
+          --vk-gold-a60:     rgba(251,191,36,0.6);
+          --vk-gold-a65:     rgba(251,191,36,0.65);
+
+          /* ── Typography — every font-size uses clamp() ── */
+          --vk-fs-brand:     clamp(0.5rem,    1vw,   0.5625rem);
+          --vk-fs-label:     clamp(0.5625rem, 1.4vw, 0.625rem);
+          --vk-fs-btn:       clamp(0.625rem,  1.8vw, 0.75rem);
+          --vk-fs-body:      clamp(0.8125rem, 2.2vw, 0.875rem);
+          --vk-fs-sub:       clamp(1rem,      3vw,   1.35rem);
+          --vk-fs-heading:   clamp(1.9rem,    6vw,   2.9rem);
+
+          /* ── Letter spacing ── */
+          --vk-ls-wide:      0.22em;
+          --vk-ls-heading:   0.06em;
+          --vk-ls-sub:       0.08em;
+          --vk-ls-btn:       0.14em;
+          --vk-ls-body:      0.01em;
+
+          /* ── Spacing — every value uses clamp() ── */
+          --vk-backdrop-pad: clamp(0.75rem,  3vw,  1rem);
+          --vk-pad-t:        clamp(1.75rem,  5vw,  2.75rem);
+          --vk-pad-x:        clamp(1.25rem,  5vw,  2.5rem);
+          --vk-pad-b:        clamp(1.25rem,  4vw,  2.25rem);
+          --vk-pill-py:      clamp(0.25rem,  1vw,  0.3125rem);
+          --vk-pill-px:      clamp(0.625rem, 2vw,  1rem);
+          --vk-btn-py:       clamp(0.625rem, 2vw,  0.8125rem);
+          --vk-gap-sm:       clamp(0.375rem, 1.2vw,0.5rem);
+          --vk-gap-md:       clamp(0.5rem,   1.8vw,0.75rem);
+          --vk-gap-lg:       clamp(0.625rem, 2vw,  1rem);
+          --vk-mb-xs:        clamp(0.5rem,   1.8vw,0.625rem);
+          --vk-mb-sm:        clamp(0.75rem,  2.5vw,1.125rem);
+          --vk-mb-md:        clamp(1rem,     3vw,  1.25rem);
+          --vk-mb-lg:        clamp(1.25rem,  4vw,  1.75rem);
+          --vk-corner-off:   clamp(0.875rem, 2.5vw,1.25rem);
+
+          /* ── Sizing ── */
+          --vk-card-max-w:   clamp(18rem,   90vw,  33.75rem);
+          --vk-card-radius:  clamp(1.25rem,  4vw,  2rem);
+          --vk-btn-radius:   clamp(0.75rem,  2vw,  1rem);
+          --vk-close-size:   clamp(1.75rem,  5vw,  2.125rem);
+          --vk-pulse-d:      clamp(5.5rem,  15vw,  6.875rem);
+          --vk-pulse-top:    clamp(1.5rem,   4vw,  2rem);
+          --vk-cross-w:      clamp(3.5rem,  10vw,  4.5rem);
+          --vk-cross-h:      clamp(4.375rem,12vw,  5.625rem);
+          --vk-egg-w:        clamp(2.5rem,   7vw,  2.75rem);
+          --vk-sep-dot:      clamp(0.3rem,  0.8vw, 0.375rem);
+          --vk-body-max-w:   clamp(16rem,   80vw,  20rem);
+          --vk-sparkle-dot:  clamp(0.25rem, 0.8vw, 0.3125rem);
+          --vk-glow-top-h:   clamp(8rem,   25vw,  13.75rem);
+          --vk-glow-btm-h:   clamp(5rem,   15vw,   8.75rem);
+        }
+
+        /* ════════════════════════════════════════════════════════
+           KEYFRAMES
+           ════════════════════════════════════════════════════════ */
         @keyframes vk-fall {
           0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0;   }
           7%   { opacity: 1; }
@@ -197,12 +250,12 @@ export default function VelikdenDecoration() {
           100% { transform: translateY(106vh) rotate(580deg); opacity: 0;   }
         }
         @keyframes vk-sway {
-          0%,100% { transform: translateX(0px); }
-          30%     { transform: translateX(18px); }
+          0%,100% { transform: translateX(0px);   }
+          30%     { transform: translateX(18px);  }
           70%     { transform: translateX(-13px); }
         }
-        @keyframes vk-backdrop-in  { from { opacity:0 } to { opacity:1 } }
-        @keyframes vk-backdrop-out { from { opacity:1 } to { opacity:0 } }
+        @keyframes vk-backdrop-in  { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes vk-backdrop-out { from { opacity: 1 } to { opacity: 0 } }
         @keyframes vk-card-in {
           0%   { transform: scale(0.78) translateY(28px); opacity: 0; }
           100% { transform: scale(1)    translateY(0px);  opacity: 1; }
@@ -212,68 +265,336 @@ export default function VelikdenDecoration() {
           100% { transform: scale(0.86) translateY(14px); opacity: 0; }
         }
         @keyframes vk-float {
-          0%,100% { transform: translateY(0px)  rotate(0deg);  }
-          50%     { transform: translateY(-9px) rotate(2deg);  }
+          0%,100% { transform: translateY(0px)  rotate(0deg); }
+          50%     { transform: translateY(-9px) rotate(2deg); }
         }
         @keyframes vk-cross-glow {
-          0%,100% { filter: drop-shadow(0 0 8px rgba(251,191,36,0.5));  }
+          0%,100% { filter: drop-shadow(0 0 8px  rgba(251,191,36,0.5)); }
           50%     { filter: drop-shadow(0 0 20px rgba(251,191,36,0.9)); }
         }
         @keyframes vk-gold-shimmer {
           0%   { background-position: 0%   center; }
           100% { background-position: 300% center; }
         }
+        /* translateX(-50%) is baked into the keyframe so the animation
+           doesn't override the centering transform */
         @keyframes vk-pulse-ring {
-          0%   { transform: scale(0.95); opacity: 0.6; }
-          50%  { transform: scale(1.05); opacity: 1;   }
-          100% { transform: scale(0.95); opacity: 0.6; }
+          0%   { transform: translateX(-50%) scale(0.95); opacity: 0.6; }
+          50%  { transform: translateX(-50%) scale(1.05); opacity: 1;   }
+          100% { transform: translateX(-50%) scale(0.95); opacity: 0.6; }
         }
         @keyframes vk-sparkle-drift {
-          0%,100% { transform: translateY(0) scale(1);   opacity:0.8; }
-          50%     { transform: translateY(-4px) scale(1.3); opacity:1;   }
+          0%,100% { transform: translateY(0)    scale(1);   opacity: 0.8; }
+          50%     { transform: translateY(-4px) scale(1.3); opacity: 1;   }
         }
+
+        /* ════════════════════════════════════════════════════════
+           ANIMATION HELPERS
+           ════════════════════════════════════════════════════════ */
         .vk-backdrop-in  { animation: vk-backdrop-in  0.4s ease forwards; }
         .vk-backdrop-out { animation: vk-backdrop-out 0.4s ease forwards; }
         .vk-card-in  { animation: vk-card-in  0.55s cubic-bezier(0.34,1.56,0.64,1) forwards; }
         .vk-card-out { animation: vk-card-out 0.35s cubic-bezier(0.4,0,0.6,1) forwards; }
-        .vk-float    { animation: vk-float 3.5s ease-in-out infinite; }
+        .vk-float    { animation: vk-float     3.5s ease-in-out infinite; }
         .vk-cross    { animation: vk-cross-glow 2.8s ease-in-out infinite; }
-        .vk-gold-shimmer {
-          background: linear-gradient(90deg, #d97706, #fbbf24, #fde68a, #fbbf24, #d97706);
+        .vk-pulse    { animation: vk-pulse-ring 2.5s ease-in-out infinite; }
+        .vk-sparkle  { animation: vk-sparkle-drift 2s  ease-in-out infinite; }
+
+        /* ── Shimmer text ── */
+        .vk-gold-shimmer,
+        .vk-response-shimmer {
           background-size: 300% auto;
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+        .vk-gold-shimmer {
+          background-image: linear-gradient(90deg,
+            var(--vk-gold-deep), var(--vk-gold-mid), var(--vk-gold-light),
+            var(--vk-gold-mid), var(--vk-gold-deep));
           animation: vk-gold-shimmer 5s linear infinite;
         }
         .vk-response-shimmer {
-          background: linear-gradient(90deg, #fde68a, #fbbf24, #d97706, #fbbf24, #fde68a);
-          background-size: 300% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
+          background-image: linear-gradient(90deg,
+            var(--vk-gold-light), var(--vk-gold-mid), var(--vk-gold-deep),
+            var(--vk-gold-mid), var(--vk-gold-light));
           animation: vk-gold-shimmer 6s linear infinite reverse;
         }
-        .vk-pulse { animation: vk-pulse-ring 2.5s ease-in-out infinite; }
-        .vk-sparkle { animation: vk-sparkle-drift 2s ease-in-out infinite; }
+
+        /* ════════════════════════════════════════════════════════
+           LAYOUT
+           ════════════════════════════════════════════════════════ */
+        .vk-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 120;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0,0,0,0.82);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          cursor: pointer;
+          padding: var(--vk-backdrop-pad);
+        }
+
+        .vk-card {
+          position: relative;
+          width: 100%;
+          max-width: var(--vk-card-max-w);
+          border-radius: var(--vk-card-radius);
+          overflow: hidden;
+          background: var(--vk-card-bg);
+          border: 1px solid var(--vk-gold-a12);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          box-shadow:
+            0 60px 140px rgba(0,0,0,0.9),
+            0 0 0 1px rgba(251,191,36,0.07),
+            0 0 120px rgba(251,191,36,0.07);
+          cursor: default;
+        }
+
+        /* ── Decorative accents ── */
+        .vk-accent-top {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            var(--vk-gold-deep) 20%,
+            var(--vk-gold-mid) 50%,
+            var(--vk-gold-light) 65%,
+            var(--vk-gold-mid) 80%,
+            transparent 100%);
+        }
+        .vk-accent-btm {
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg,
+            transparent,
+            rgba(251,191,36,0.25),
+            transparent);
+        }
+        .vk-glow-top {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: var(--vk-glow-top-h);
+          pointer-events: none;
+          background: radial-gradient(ellipse at 50% -15%,
+            rgba(251,191,36,0.08) 0%, transparent 70%);
+        }
+        .vk-glow-btm {
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: var(--vk-glow-btm-h);
+          pointer-events: none;
+          background: radial-gradient(ellipse at 50% 120%,
+            rgba(185,28,28,0.07) 0%, transparent 70%);
+        }
+
+        /* ── Corner sparkles ── */
+        .vk-corner-sparkle {
+          position: absolute;
+          width: var(--vk-sparkle-dot);
+          height: var(--vk-sparkle-dot);
+          border-radius: 50%;
+          background: var(--vk-gold-mid);
+          box-shadow: 0 0 8px var(--vk-gold-mid), 0 0 20px rgba(251,191,36,0.5);
+          pointer-events: none;
+        }
+        .vk-corner-tl { top:    var(--vk-corner-off); left:  var(--vk-corner-off); }
+        .vk-corner-tr { top:    var(--vk-corner-off); right: var(--vk-corner-off); }
+        .vk-corner-bl { bottom: var(--vk-corner-off); left:  var(--vk-corner-off); }
+        .vk-corner-br { bottom: var(--vk-corner-off); right: var(--vk-corner-off); }
+
+        /* ── Close button ── */
+        .vk-close-btn {
+          position: absolute;
+          top: var(--vk-gap-lg);
+          right: var(--vk-gap-lg);
+          z-index: 20;
+          width: var(--vk-close-size);
+          height: var(--vk-close-size);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--vk-gold-a06);
+          border: 1px solid var(--vk-gold-a14);
+          color: var(--vk-gold-a40);
+          cursor: pointer;
+          transition: background 0.2s, color 0.2s;
+        }
+        .vk-close-btn:hover {
+          background: var(--vk-gold-a14);
+          color: rgba(251,191,36,0.9);
+        }
+
+        /* ── Content area ── */
+        .vk-content {
+          padding: var(--vk-pad-t) var(--vk-pad-x) var(--vk-pad-b);
+          text-align: center;
+          position: relative;
+          z-index: 5;
+        }
+
+        /* ── Cross ── */
+        .vk-cross-wrap {
+          display: flex;
+          justify-content: center;
+          margin-bottom: var(--vk-mb-md);
+        }
+        .vk-cross-svg {
+          width: var(--vk-cross-w);
+          height: var(--vk-cross-h);
+        }
+
+        /* ── Pulse ring ── */
+        .vk-pulse-ring {
+          position: absolute;
+          top: var(--vk-pulse-top);
+          left: 50%;
+          /* translateX(-50%) is also in the keyframe so they stay in sync */
+          width: var(--vk-pulse-d);
+          height: var(--vk-pulse-d);
+          border-radius: 50%;
+          border: 1px solid var(--vk-gold-a12);
+          pointer-events: none;
+        }
+
+        /* ── Date pill ── */
+        .vk-date-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--vk-gap-sm);
+          padding: var(--vk-pill-py) var(--vk-pill-px);
+          border-radius: 999px;
+          margin-bottom: var(--vk-mb-sm);
+          background: var(--vk-gold-a06);
+          border: 1px solid var(--vk-gold-a16);
+        }
+        .vk-date-label {
+          font-size: var(--vk-fs-label);
+          font-weight: 700;
+          letter-spacing: var(--vk-ls-wide);
+          text-transform: uppercase;
+          font-family: var(--font-mono);
+          color: var(--vk-gold-a60);
+        }
+
+        /* ── Headings ── */
+        .vk-heading {
+          font-family: var(--font-display);
+          font-size: var(--vk-fs-heading);
+          font-weight: 900;
+          letter-spacing: var(--vk-ls-heading);
+          line-height: 1.1;
+          margin-bottom: var(--vk-mb-xs);
+        }
+        .vk-response {
+          font-family: var(--font-display);
+          font-size: var(--vk-fs-sub);
+          font-weight: 700;
+          letter-spacing: var(--vk-ls-sub);
+          margin-bottom: var(--vk-mb-lg);
+        }
+
+        /* ── Separator ── */
+        .vk-separator {
+          display: flex;
+          align-items: center;
+          gap: var(--vk-gap-md);
+          margin-bottom: var(--vk-mb-lg);
+        }
+        .vk-sep-line       { flex: 1; height: 1px; }
+        .vk-sep-line-l     { background: linear-gradient(90deg, transparent, rgba(251,191,36,0.2)); }
+        .vk-sep-line-r     { background: linear-gradient(90deg, rgba(251,191,36,0.2), transparent); }
+        .vk-sep-dot {
+          width: var(--vk-sep-dot);
+          height: var(--vk-sep-dot);
+          border-radius: 50%;
+          background: var(--vk-gold-mid);
+          box-shadow: 0 0 10px var(--vk-gold-mid);
+        }
+
+        /* ── Card eggs ── */
+        .vk-card-eggs {
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          gap: var(--vk-gap-lg);
+          margin-bottom: var(--vk-mb-lg);
+        }
+        .vk-card-egg-svg {
+          /* 44:56 ≈ 0.786 — preserve aspect ratio via height */
+          width: var(--vk-egg-w);
+          height: calc(var(--vk-egg-w) * 1.272);
+          filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+        }
+
+        /* ── Body text ── */
+        .vk-body-text {
+          font-family: var(--font-sans);
+          font-size: var(--vk-fs-body);
+          font-weight: 400;
+          line-height: 1.75;
+          letter-spacing: var(--vk-ls-body);
+          color: rgba(255,255,255,0.4);
+          margin-bottom: var(--vk-mb-lg);
+          max-width: var(--vk-body-max-w);
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .vk-brand-accent {
+          color: var(--vk-gold-a65);
+          font-weight: 600;
+        }
+
+        /* ── Brand divider ── */
+        .vk-brand-divider {
+          display: flex;
+          align-items: center;
+          gap: var(--vk-gap-lg);
+          margin-bottom: var(--vk-mb-md);
+        }
+        .vk-brand-line { flex: 1; height: 1px; background: rgba(255,255,255,0.04); }
+        .vk-brand-label {
+          font-size: var(--vk-fs-brand);
+          font-weight: 700;
+          letter-spacing: var(--vk-ls-wide);
+          text-transform: uppercase;
+          font-family: var(--font-mono);
+          color: rgba(255,255,255,0.15);
+        }
+
+        /* ── Dismiss button ── */
+        .vk-dismiss-btn {
+          width: 100%;
+          padding: var(--vk-btn-py) 0;
+          border-radius: var(--vk-btn-radius);
+          font-family: var(--font-display);
+          font-size: var(--vk-fs-btn);
+          font-weight: 700;
+          letter-spacing: var(--vk-ls-btn);
+          text-transform: uppercase;
+          color: var(--vk-gold-a60);
+          background: linear-gradient(135deg, var(--vk-gold-a06), var(--vk-gold-a08));
+          border: 1px solid var(--vk-gold-a18);
+          cursor: pointer;
+          transition: color 0.25s, border-color 0.25s, background 0.25s;
+        }
+        .vk-dismiss-btn:hover {
+          color: rgba(251,191,36,0.95);
+          border-color: var(--vk-gold-a40);
+          background: linear-gradient(135deg, var(--vk-gold-a14), rgba(217,119,6,0.14));
+        }
       `}</style>
 
       {/* ── Backdrop ── */}
       <div
-        className={visible ? "vk-backdrop-in" : "vk-backdrop-out"}
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 120,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "rgba(0,0,0,0.82)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-          cursor: "pointer",
-          padding: "16px",
-        }}
+        className={`vk-backdrop ${visible ? "vk-backdrop-in" : "vk-backdrop-out"}`}
         onClick={dismiss}
       >
         {/* ── Falling elements ── */}
@@ -298,238 +619,82 @@ export default function VelikdenDecoration() {
 
         {/* ── Modal card ── */}
         <div
-          className={visible ? "vk-card-in" : "vk-card-out"}
-          style={{
-            position: "relative",
-            width: "100%",
-            maxWidth: 540,
-            borderRadius: 32,
-            overflow: "hidden",
-            background: "rgba(10, 8, 6, 0.97)",
-            border: "1px solid rgba(251,191,36,0.12)",
-            backdropFilter: "blur(40px)",
-            WebkitBackdropFilter: "blur(40px)",
-            boxShadow: [
-              "0 60px 140px rgba(0,0,0,0.9)",
-              "0 0 0 1px rgba(251,191,36,0.07)",
-              "0 0 120px rgba(251,191,36,0.07)",
-            ].join(", "),
-            cursor: "default",
-          }}
+          className={`vk-card ${visible ? "vk-card-in" : "vk-card-out"}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Gold top accent */}
-          <div style={{
-            position: "absolute", top: 0, left: 0, right: 0, height: 2,
-            background: "linear-gradient(90deg, transparent 0%, #d97706 20%, #fbbf24 50%, #fde68a 65%, #fbbf24 80%, transparent 100%)",
-          }} />
-
-          {/* Inner top glow */}
-          <div style={{
-            position: "absolute", top: 0, left: 0, right: 0, height: 220, pointerEvents: "none",
-            background: "radial-gradient(ellipse at 50% -15%, rgba(251,191,36,0.08) 0%, transparent 70%)",
-          }} />
-
-          {/* Bottom glow */}
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0, height: 140, pointerEvents: "none",
-            background: "radial-gradient(ellipse at 50% 120%, rgba(185,28,28,0.07) 0%, transparent 70%)",
-          }} />
+          <div className="vk-accent-top" />
+          <div className="vk-glow-top" />
+          <div className="vk-glow-btm" />
 
           {/* Corner sparkles */}
-          {[
-            { top: 20, left: 20 },
-            { top: 20, right: 20 },
-            { bottom: 20, left: 20 },
-            { bottom: 20, right: 20 },
-          ].map((pos, i) => (
+          {CORNER_CLASSES.map((cls, i) => (
             <div
               key={i}
-              className="vk-sparkle"
-              style={{
-                position: "absolute",
-                ...pos,
-                width: 5,
-                height: 5,
-                borderRadius: "50%",
-                background: "#fbbf24",
-                boxShadow: "0 0 8px #fbbf24, 0 0 20px rgba(251,191,36,0.5)",
-                animationDelay: `${i * 0.6}s`,
-                pointerEvents: "none",
-              }}
+              className={`vk-sparkle vk-corner-sparkle ${cls}`}
+              style={{ animationDelay: `${i * 0.6}s` }}
             />
           ))}
 
           {/* Close button */}
-          <button
-            onClick={dismiss}
-            aria-label="Затвори"
-            style={{
-              position: "absolute", top: 16, right: 16, zIndex: 20,
-              width: 34, height: 34, borderRadius: "50%",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              background: "rgba(251,191,36,0.06)",
-              border: "1px solid rgba(251,191,36,0.14)",
-              color: "rgba(251,191,36,0.4)",
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLButtonElement
-              el.style.background = "rgba(251,191,36,0.15)"
-              el.style.color = "rgba(251,191,36,0.9)"
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLButtonElement
-              el.style.background = "rgba(251,191,36,0.06)"
-              el.style.color = "rgba(251,191,36,0.4)"
-            }}
-          >
+          <button className="vk-close-btn" onClick={dismiss} aria-label="Затвори">
             <X size={14} />
           </button>
 
           {/* ── Content ── */}
-          <div style={{ padding: "44px 40px 36px", textAlign: "center", position: "relative", zIndex: 5 }}>
+          <div className="vk-content">
 
             {/* Orthodox Cross */}
-            <div className="vk-float" style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+            <div className="vk-float vk-cross-wrap">
               <div className="vk-cross">
                 <OrthodoxCross />
               </div>
             </div>
 
-            {/* Pulse ring around cross area */}
-            <div className="vk-pulse" style={{
-              position: "absolute", top: 32, left: "50%", transform: "translateX(-50%)",
-              width: 110, height: 110, borderRadius: "50%",
-              border: "1px solid rgba(251,191,36,0.12)",
-              pointerEvents: "none",
-            }} />
+            {/* Pulse ring */}
+            <div className="vk-pulse vk-pulse-ring" />
 
             {/* Date pill */}
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "5px 16px", borderRadius: 999, marginBottom: 18,
-              background: "rgba(251,191,36,0.06)",
-              border: "1px solid rgba(251,191,36,0.16)",
-            }}>
-              <span style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: "0.22em",
-                textTransform: "uppercase", fontFamily: "var(--font-mono)",
-                color: "rgba(251,191,36,0.6)",
-              }}>
-                ✦&nbsp;&nbsp;19 Април 2026&nbsp;&nbsp;✦
-              </span>
+            <div className="vk-date-pill">
+              <span className="vk-date-label">✦&nbsp;&nbsp;19 Април 2026&nbsp;&nbsp;✦</span>
             </div>
 
             {/* Main heading */}
-            <h2
-              className="vk-gold-shimmer"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.9rem, 6vw, 2.9rem)",
-                fontWeight: 900,
-                letterSpacing: "0.06em",
-                lineHeight: 1.1,
-                marginBottom: 10,
-              }}
-            >
-              ХРИСТОС ВОСКРЕСЕ!
-            </h2>
+            <h2 className="vk-heading vk-gold-shimmer">ХРИСТОС ВОСКРЕСЕ!</h2>
 
             {/* Orthodox response */}
-            <p
-              className="vk-response-shimmer"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1rem, 3vw, 1.35rem)",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                marginBottom: 28,
-              }}
-            >
-              ВОИСТИНУ ВОСКРЕСЕ!
-            </p>
+            <p className="vk-response vk-response-shimmer">ВОИСТИНУ ВОСКРЕСЕ!</p>
 
             {/* Separator */}
-            <div style={{
-              display: "flex", alignItems: "center", gap: 10, marginBottom: 28,
-            }}>
-              <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, rgba(251,191,36,0.2))" }} />
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fbbf24", boxShadow: "0 0 10px #fbbf24" }} />
-              <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(251,191,36,0.2), transparent)" }} />
+            <div className="vk-separator">
+              <div className="vk-sep-line vk-sep-line-l" />
+              <div className="vk-sep-dot" />
+              <div className="vk-sep-line vk-sep-line-r" />
             </div>
 
             {/* Decorated Easter eggs */}
-            <div style={{ marginBottom: 28 }}>
-              <CardEggs />
-            </div>
+            <CardEggs />
 
             {/* Greeting text */}
-            <p style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: 14, fontWeight: 400, lineHeight: 1.75,
-              letterSpacing: "0.01em", textTransform: "none",
-              color: "rgba(255,255,255,0.4)",
-              marginBottom: 28,
-              maxWidth: 320,
-              marginLeft: "auto", marginRight: "auto",
-            }}>
+            <p className="vk-body-text">
               Светли Великденски празници от целия екип на&nbsp;
-              <span style={{ color: "rgba(251,191,36,0.65)", fontWeight: 600 }}>BG OIL Враца</span>!
+              <span className="vk-brand-accent">BG OIL Враца</span>!
               Нека светлината на Великден озари вашите домове с мир и радост.
             </p>
 
             {/* Brand divider */}
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
-              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.04)" }} />
-              <span style={{
-                fontSize: 9, fontWeight: 700, letterSpacing: "0.22em",
-                textTransform: "uppercase", fontFamily: "var(--font-mono)",
-                color: "rgba(255,255,255,0.15)",
-              }}>
-                БГ ОЙЛ ВРАЦА
-              </span>
-              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.04)" }} />
+            <div className="vk-brand-divider">
+              <div className="vk-brand-line" />
+              <span className="vk-brand-label">БГ ОЙЛ ВРАЦА</span>
+              <div className="vk-brand-line" />
             </div>
 
             {/* Dismiss button */}
-            <button
-              onClick={dismiss}
-              style={{
-                width: "100%", padding: "13px 0",
-                borderRadius: 16,
-                fontFamily: "var(--font-display)",
-                fontSize: 12, fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                color: "rgba(251,191,36,0.6)",
-                background: "linear-gradient(135deg, rgba(251,191,36,0.08), rgba(217,119,6,0.08))",
-                border: "1px solid rgba(251,191,36,0.18)",
-                cursor: "pointer",
-                transition: "all 0.25s",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLButtonElement
-                el.style.color = "rgba(251,191,36,0.95)"
-                el.style.borderColor = "rgba(251,191,36,0.4)"
-                el.style.background = "linear-gradient(135deg, rgba(251,191,36,0.14), rgba(217,119,6,0.14))"
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLButtonElement
-                el.style.color = "rgba(251,191,36,0.6)"
-                el.style.borderColor = "rgba(251,191,36,0.18)"
-                el.style.background = "linear-gradient(135deg, rgba(251,191,36,0.08), rgba(217,119,6,0.08))"
-              }}
-            >
+            <button className="vk-dismiss-btn" onClick={dismiss}>
               Затвори
             </button>
           </div>
 
-          {/* Bottom gold accent */}
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0, height: 1,
-            background: "linear-gradient(90deg, transparent, rgba(251,191,36,0.25), transparent)",
-          }} />
+          <div className="vk-accent-btm" />
         </div>
       </div>
     </>
