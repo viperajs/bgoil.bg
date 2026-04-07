@@ -131,7 +131,7 @@ export default function TsvetnitsaDecoration() {
   useEffect(() => {
     const now = new Date()
     const start = new Date(2026, 3, 5)  // April 5 — show from today
-    const end = new Date(2026, 3, 15)   // April 15
+    const end = new Date(2026, 3, 7)    // April 7
     if (now >= start && now < end) {
       const isDismissed = sessionStorage.getItem("tsvetnitsa-2026")
       if (!isDismissed) {

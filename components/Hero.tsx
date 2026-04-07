@@ -124,8 +124,25 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
 
+      {/* ══ Background video ══ */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        src="/Gas_Station_Scene_A_white_sedan_drives_past_a_gas_station_at_night_uTdWARsS.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{ zIndex: 0, opacity: 0.35 }}
+      />
+
+      {/* ══ Video overlay ══ */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ zIndex: 1, background: 'linear-gradient(to bottom, rgba(10,10,11,0.7) 0%, rgba(10,10,11,0.45) 50%, rgba(10,10,11,0.75) 100%)' }}
+      />
+
       {/* ══ Single clean background glow ══ */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 2 }}>
         <div
           className="absolute"
           style={{
@@ -144,7 +161,7 @@ export default function Hero() {
       {/* ══ 3D Perspective Floor Grid (THE signature visual) ══ */}
       <div
         className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden"
-        style={{ height: '58vh' }}
+        style={{ height: '58vh', zIndex: 3 }}
       >
         {/* The 3D plane */}
         <div
@@ -219,7 +236,7 @@ export default function Hero() {
 {/* ══ Vignette corners ══ */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 110% 100% at 50% 40%, transparent 35%, rgba(10,10,11,0.65) 100%)' }}
+        style={{ zIndex: 4, background: 'radial-gradient(ellipse 110% 100% at 50% 40%, transparent 35%, rgba(10,10,11,0.65) 100%)' }}
       />
 
       {/* ════════════════ CONTENT ════════════════ */}

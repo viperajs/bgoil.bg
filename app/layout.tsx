@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
 import TsvetnitsaDecoration from "@/components/TsvetnitsaDecoration"
+import VelikdenDecoration from "@/components/VelikdenDecoration"
 
 import "./globals.css"
 
@@ -206,6 +207,7 @@ export default function RootLayout({
       <body className={`${dmSans.className} antialiased`}>
         {children}
         <TsvetnitsaDecoration />
+        <VelikdenDecoration />
         <Analytics />
         <SpeedInsights />
       </body>
