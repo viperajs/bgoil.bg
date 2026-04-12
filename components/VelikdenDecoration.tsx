@@ -655,7 +655,7 @@ export default function VelikdenDecoration() {
 
             {/* Date pill */}
             <div className="vk-date-pill">
-              <span className="vk-date-label">✦&nbsp;&nbsp;19 Април 2026&nbsp;&nbsp;✦</span>
+              <span className="vk-date-label">✦&nbsp;&nbsp;12 Април 2026&nbsp;&nbsp;✦</span>
             </div>
 
             {/* Main heading */}
