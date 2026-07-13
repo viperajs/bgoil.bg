@@ -1,12 +1,15 @@
 // app/api/hotel/route.ts
-import { NextResponse } from 'next/server'
-import type { HotelRoom, HotelInfo } from '@/lib/types'
+import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
+import { requireAdmin, unauthorizedResponse } from '@/lib/auth'
+import { getAvailableRooms } from '@/lib/roomsStore'
+import { getHotelInfo, setHotelInfo } from '@/lib/hotelStore'
+import type { HotelInfo } from '@/lib/types'
 
+// Публично: налични стаи + информация за настаняване
 export async function GET() {
   try {
-    const mod = (await import('@/lib/hotelStore')) as typeof import('@/lib/hotelStore')
-    const rooms = await mod.getEffectiveRooms()
-    const info = await mod.getHotelInfo()
+    const [rooms, info] = await Promise.all([getAvailableRooms(), getHotelInfo()])
     return NextResponse.json({ rooms, info })
   } catch (e) {
     console.error('GET /api/hotel error:', e)
@@ -14,52 +17,33 @@ export async function GET() {
   }
 }
 
-type HotelUpdate = {
-  name: string
-  price: number
-}
-
-export async function POST(req: Request) {
+// Админ: запис на часове за настаняване/напускане
+export async function POST(req: NextRequest) {
+  if (!requireAdmin(req)) return unauthorizedResponse()
   try {
     const body = await req.json()
-    const raw = Array.isArray(body?.items) ? body.items : []
     const info = body?.info as HotelInfo | undefined
 
-    const items: HotelUpdate[] = raw
-      .map((x: any) => ({
-        name: String(x?.name ?? '').trim(),
-        price: Number(x?.price),
-      }))
-      .filter((x: HotelUpdate) => {
-        const priceValid = Number.isFinite(x.price) && x.price >= 0
-        return x.name.length > 0 && priceValid
-      })
-
-    const mod = (await import('@/lib/hotelStore')) as typeof import('@/lib/hotelStore')
-
-    if (items.length > 0) {
-      await mod.setHotelPrices(items)
+    const timePattern = /^\d{1,2}:\d{2}$/
+    if (
+      !info ||
+      typeof info.checkIn !== 'string' ||
+      typeof info.checkOut !== 'string' ||
+      !timePattern.test(info.checkIn.trim()) ||
+      !timePattern.test(info.checkOut.trim())
+    ) {
+      return NextResponse.json(
+        { ok: false, error: 'Часовете трябва да са във формат ЧЧ:ММ' },
+        { status: 400 }
+      )
     }
 
-    if (info && typeof info.checkIn === 'string' && typeof info.checkOut === 'string') {
-      await mod.setHotelInfo(info)
-    }
-
-    const before = await mod.getEffectiveRooms()
-    const after = await mod.getEffectiveRooms()
-
-    const changed = items.filter((it: HotelUpdate) => {
-      const beforeRoom = before.find(r => r.name === it.name)
-      const afterRoom = after.find(r => r.name === it.name)
-      if (!beforeRoom || !afterRoom) return false
-      return beforeRoom.price !== afterRoom.price
-    })
-
-    const wrote = changed.length > 0 || !!info
-    return NextResponse.json({ ok: wrote, saved: items, changed, info })
-  } catch {
+    await setHotelInfo({ checkIn: info.checkIn.trim(), checkOut: info.checkOut.trim() })
+    revalidatePath('/hotel')
+    revalidatePath('/booking')
+    return NextResponse.json({ ok: true, info })
+  } catch (e) {
+    console.error('POST /api/hotel error:', e)
     return NextResponse.json({ ok: false, error: 'Bad JSON' }, { status: 400 })
   }
 }
-
-

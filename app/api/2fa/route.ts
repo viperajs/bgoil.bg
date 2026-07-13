@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend('re_bi4yjZMr_ChWbYwDLQMsYiVmKDULda66K');
+const resend = new Resend(process.env.RESEND_API_KEY || 're_missing_key');
 const ALLOWED_EMAILS = ['balakchiev09@gmail.com', 'bgoil_3000@abv.bg'];
 
 export async function POST(req: NextRequest) {

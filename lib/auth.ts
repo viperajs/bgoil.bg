@@ -17,6 +17,42 @@ export async function isAdmin(): Promise<boolean> {
 }
 
 /**
+ * Проверка за админ в API route handler-и (route.ts).
+ * Приема Request, за да работи и с Basic Auth fallback.
+ */
+export function requireAdmin(request: Request): boolean {
+  const cookieHeader = request.headers.get('cookie') || ''
+  const cookiePairs = cookieHeader.split(';').map(c => c.trim())
+  const adminSession = cookiePairs.find(c => c.startsWith('admin_session='))
+  if (adminSession && adminSession.split('=')[1] === 'authenticated') {
+    return true
+  }
+
+  const authHeader = request.headers.get('authorization') || ''
+  const [type, blob] = authHeader.split(' ')
+  if (type !== 'Basic' || !blob) return false
+
+  try {
+    const creds = Buffer.from(blob, 'base64').toString('utf8')
+    const idx = creds.indexOf(':')
+    if (idx === -1) return false
+    const u = creds.slice(0, idx)
+    const p = creds.slice(idx + 1)
+    return !!process.env.ADMIN_USER && !!process.env.ADMIN_PASS &&
+      u === process.env.ADMIN_USER && p === process.env.ADMIN_PASS
+  } catch {
+    return false
+  }
+}
+
+export function unauthorizedResponse() {
+  return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
+    status: 401,
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
+/**
  * Проверка за админ в client-side компонент
  * Използва document.cookie за проверка
  */

@@ -67,19 +67,30 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate unique filename
-    const ext = file.name.split('.').pop() || 'png'
+    const rawExt = (file.name.split('.').pop() || 'png').toLowerCase()
+    const ext = /^[a-z0-9]{1,5}$/.test(rawExt) ? rawExt : 'png'
     const timestamp = Date.now()
     const randomStr = Math.random().toString(36).substring(2, 8)
-    const filename = `products/product-${timestamp}-${randomStr}.${ext}`
+    const folderParam = (formData.get('folder') as string | null) || 'products'
+    const folder = /^[a-z0-9-]{1,30}$/.test(folderParam) ? folderParam : 'products'
+    const basename = `${folder}-${timestamp}-${randomStr}.${ext}`
 
-    // Upload to Vercel Blob
-    const blob = await put(filename, file, {
-      access: 'public',
-    })
+    // Prefer Vercel Blob when configured; fall back to local filesystem in dev
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(`${folder}/${basename}`, file, { access: 'public' })
+      console.log('Upload successful (blob):', blob.url)
+      return NextResponse.json({ ok: true, url: blob.url })
+    }
 
-    console.log('Upload successful:', blob.url)
-
-    return NextResponse.json({ ok: true, url: blob.url })
+    const { default: fs } = await import('fs/promises')
+    const { default: path } = await import('path')
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder)
+    await fs.mkdir(uploadDir, { recursive: true })
+    const buffer = Buffer.from(await file.arrayBuffer())
+    await fs.writeFile(path.join(uploadDir, basename), buffer)
+    const url = `/uploads/${folder}/${basename}`
+    console.log('Upload successful (local):', url)
+    return NextResponse.json({ ok: true, url })
   } catch (error) {
     console.error('Upload failed:', error)
     return NextResponse.json(

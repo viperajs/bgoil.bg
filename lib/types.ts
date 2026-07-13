@@ -37,6 +37,38 @@ export interface HotelRoom {
   unit: string
 }
 
+// Пълен модел на стая за CRUD управление от админ панела
+export interface HotelRoomFull {
+  id: string
+  name: string
+  type: string
+  price: number // € на нощувка
+  capacity: number
+  size?: string
+  bedType?: string
+  description: string
+  amenities: string[]
+  images: string[]
+  available: boolean
+  sortOrder?: number
+}
+
+export interface Booking {
+  id: string
+  fullName: string
+  phone: string
+  roomId: string
+  roomType: string
+  checkIn: string
+  checkOut: string
+  nights: number
+  callRequested: boolean
+  preferredTime?: string
+  totalPrice: number
+  status: 'new' | 'confirmed'
+  createdAt: string
+}
+
 export interface HotelInfo {
   checkIn: string
   checkOut: string
