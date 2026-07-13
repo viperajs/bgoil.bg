@@ -1,14 +1,14 @@
 import type { Metadata } from "next"
-import { companyInfo } from "@/lib/config"
+import Link from "next/link"
+import { companyInfo, contacts } from "@/lib/config"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import { Button } from "@/components/ui/button"
 import {
-  Hotel as HotelIcon, Clock, Bed, Users, Home, Info,
-  Phone, MapPin, Mail, Calendar, Sparkles, ArrowUpRight, CheckCircle2,
+  Hotel as HotelIcon, Clock, Users, Info, Ruler, BedDouble,
+  Phone, MapPin, Mail, Calendar, Sparkles, ArrowUpRight, ArrowRight, CheckCircle2,
 } from "lucide-react"
-import { getEffectiveRooms, getHotelInfo } from "@/lib/hotelStore"
-import { contacts } from "@/lib/config"
+import { getAvailableRooms } from "@/lib/roomsStore"
+import { getHotelInfo } from "@/lib/hotelStore"
 import * as motion from "motion/react-client"
 
 export const revalidate = 60
@@ -33,31 +33,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://bgoil.bg/hotel" },
 }
 
-const ROOM_ICONS: Record<string, typeof HotelIcon> = {
-  "Единична стая": Users,
-  "Двойна стая": Bed,
-  "Тройна стая": Users,
-  "Апартамент": Home,
-}
-
-const ROOM_COLORS = [
-  { text: "#ef4444", border: "rgba(239,68,68,0.25)", bg: "rgba(239,68,68,0.08)", glow: "rgba(239,68,68,0.12)" },
-  { text: "#f97316", border: "rgba(249,115,22,0.25)", bg: "rgba(249,115,22,0.08)", glow: "rgba(249,115,22,0.12)" },
-  { text: "#f87171", border: "rgba(248,113,113,0.25)", bg: "rgba(248,113,113,0.08)", glow: "rgba(248,113,113,0.12)" },
-  { text: "#ef4444", border: "rgba(239,68,68,0.25)", bg: "rgba(239,68,68,0.08)", glow: "rgba(239,68,68,0.12)" },
+const amenitiesGeneral = [
+  { title: "Климатизация", description: "Пълна климатизация във всички стаи" },
+  { title: "Черни аут завеси", description: "Блокиращи светлина за спокоен сън" },
+  { title: "Безплатен паркинг", description: "Охраняван паркинг за гостите на хотела" },
 ]
 
+const bookingSteps = ["Изберете тип стая", "Свържете се с нас или резервирайте онлайн", "Потвърждение", "Настаняване"]
+
 export default async function HotelPage() {
-  const rooms = await getEffectiveRooms()
+  const rooms = await getAvailableRooms()
   const info = await getHotelInfo()
-
-  const amenities = [
-    { title: "Климатизация", description: "Пълна климатизация във всички стаи", icon: Sparkles },
-    { title: "Черни аут завеси", description: "Блокиращи светлина за спокоен сън", icon: Sparkles },
-    { title: "Безплатен паркинг", description: "Охраняван паркинг за гостите на хотела", icon: Sparkles },
-  ]
-
-  const bookingSteps = ["Изберете тип стая", "Свържете се с нас", "Потвърждение", "Настаняване"]
 
   return (
     <>
@@ -65,14 +51,12 @@ export default async function HotelPage() {
       <main className="min-h-screen text-white overflow-x-hidden">
 
         {/* Page Hero */}
-        <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
-          {/* Background layers */}
+        <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full"
               style={{ background: "radial-gradient(ellipse, rgba(239,68,68,0.07), transparent 65%)", filter: "blur(100px)" }} />
             <div className="absolute -bottom-20 right-0 w-[400px] h-[400px] rounded-full"
               style={{ background: "radial-gradient(circle, rgba(249,115,22,0.04), transparent)", filter: "blur(80px)" }} />
-            {/* Grid pattern */}
             <div className="absolute inset-0 opacity-[0.013]"
               style={{
                 backgroundImage: "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
@@ -80,7 +64,7 @@ export default async function HotelPage() {
               }} />
           </div>
 
-          <div className="container relative z-10 px-4 text-center">
+          <div className="container relative z-10 px-4 text-center mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -105,11 +89,33 @@ export default async function HotelPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-lg text-white/35 max-w-2xl mx-auto"
+              className="text-lg text-white/35 max-w-2xl mx-auto mb-10"
               style={{ fontFamily: "var(--font-sans)", textTransform: "none", letterSpacing: "0.01em" }}
             >
               Комфортни стаи с климатизация и черни аут блокиращи завеси. Идеално за професионални шофьори и семейства.
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3"
+            >
+              <Link
+                href="/booking"
+                className="group inline-flex items-center justify-center gap-2 min-h-[48px] px-8 rounded-xl bg-primary hover:bg-red-500 text-sm font-bold text-white transition-all duration-200 cursor-pointer shadow-[0_0_32px_rgba(239,68,68,0.3)] hover:shadow-[0_0_44px_rgba(239,68,68,0.45)]"
+              >
+                Резервирай онлайн
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <a
+                href={`tel:${contacts.hotelReservation}`}
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] px-8 rounded-xl border border-white/[0.12] text-sm font-bold text-white/70 hover:text-white hover:bg-white/[0.05] transition-colors cursor-pointer"
+              >
+                <Phone className="w-4 h-4" />
+                {contacts.hotelReservation}
+              </a>
+            </motion.div>
           </div>
         </section>
 
@@ -130,57 +136,90 @@ export default async function HotelPage() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12" style={{ perspective: "1100px" }}>
-              {rooms.map((room, index) => {
-                const Icon = ROOM_ICONS[room.name] || HotelIcon
-                const colors = ROOM_COLORS[index % ROOM_COLORS.length]
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 50, rotateX: 14, scale: 0.94 }}
-                    whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.65, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ transformStyle: "preserve-3d" }}
-                    className="group p-8 rounded-2xl glass-depth neon-card-glow animated-gradient-border text-center relative overflow-hidden cursor-default hover-border-red"
-                  >
-                    {/* Top accent line */}
-                    <div className="absolute top-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{ background: `linear-gradient(90deg, transparent, ${colors.text}70, transparent)` }} />
-
-                    {/* BG glow */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                      style={{ background: `radial-gradient(ellipse at 50% 0%, ${colors.bg}, transparent 70%)` }} />
-
-                    <div className="relative z-10">
-                      {/* Icon */}
-                      <div
-                        className="w-14 h-14 mx-auto mb-6 rounded-2xl flex items-center justify-center transition-all duration-400 group-hover:scale-110"
-                        style={{ background: colors.bg, border: `1px solid ${colors.border}` }}
-                      >
-                        <Icon className="w-6 h-6 transition-colors duration-300" style={{ color: colors.text }} />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-12">
+              {rooms.map((room, index) => (
+                <motion.div
+                  key={room.id}
+                  initial={{ opacity: 0, y: 50, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.65, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="group rounded-2xl glass-depth neon-card-glow overflow-hidden relative flex flex-col hover-border-red"
+                >
+                  {/* Photo */}
+                  <div className="relative h-52 overflow-hidden bg-white/[0.02]">
+                    {room.images[0] ? (
+                      <img
+                        src={room.images[0]}
+                        alt={room.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <BedDouble className="w-10 h-10 text-white/10" />
                       </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#101012] via-transparent to-transparent" />
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] bg-black/60 backdrop-blur-md border border-white/10 text-white/70 rounded-full px-3 py-1.5">
+                        {room.type}
+                      </span>
+                    </div>
+                  </div>
 
-                      <h3 className="text-base font-bold text-white mb-4 group-hover:text-white transition-colors">{room.name}</h3>
+                  {/* Content */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="text-lg font-bold text-white mb-2">{room.name}</h3>
 
-                      {/* Price display */}
-                      <div className="relative">
-                        <div className="text-4xl font-black mb-1 transition-all duration-300"
-                          style={{ color: colors.text, fontFamily: "var(--font-mono)", letterSpacing: "-0.03em" }}>
-                          {room.price.toFixed(0)} €
-                        </div>
-                        <div className="text-xs text-white/25 uppercase tracking-wider" style={{ fontFamily: "var(--font-mono)" }}>
-                          {room.unit}
-                        </div>
-                      </div>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-white/40 mb-4"
+                      style={{ fontFamily: "var(--font-sans)", textTransform: "none" }}>
+                      <span className="inline-flex items-center gap-1.5"><Users className="w-3.5 h-3.5 text-primary/60" />{room.capacity} {room.capacity === 1 ? "гост" : "гости"}</span>
+                      {room.size && <span className="inline-flex items-center gap-1.5"><Ruler className="w-3.5 h-3.5 text-primary/60" />{room.size}</span>}
                     </div>
 
-                    {/* Corner glow */}
-                    <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{ background: `radial-gradient(circle, ${colors.glow}, transparent)`, filter: "blur(16px)" }} />
-                  </motion.div>
-                )
-              })}
+                    <p className="text-xs text-white/35 leading-relaxed mb-5 line-clamp-3"
+                      style={{ fontFamily: "var(--font-sans)", textTransform: "none", letterSpacing: "0.01em" }}>
+                      {room.description}
+                    </p>
+
+                    {room.amenities.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-6">
+                        {room.amenities.slice(0, 4).map((a) => (
+                          <span key={a} className="text-[10px] font-medium bg-white/[0.04] border border-white/[0.07] text-white/50 rounded-md px-2 py-1"
+                            style={{ fontFamily: "var(--font-sans)", textTransform: "none" }}>
+                            {a}
+                          </span>
+                        ))}
+                        {room.amenities.length > 4 && (
+                          <span className="text-[10px] font-medium text-white/30 px-1 py-1">+{room.amenities.length - 4}</span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Price + CTA */}
+                    <div className="mt-auto flex items-end justify-between gap-3 pt-4 border-t border-white/[0.06]">
+                      <div>
+                        <div className="text-3xl font-black transition-colors duration-300 text-white group-hover:text-primary"
+                          style={{ fontFamily: "var(--font-mono)", letterSpacing: "-0.03em" }}>
+                          {room.price.toFixed(0)} €
+                        </div>
+                        <div className="text-[10px] text-white/25 uppercase tracking-wider" style={{ fontFamily: "var(--font-mono)" }}>
+                          на нощувка
+                        </div>
+                      </div>
+                      <Link
+                        href="/booking"
+                        aria-label={`Резервирай ${room.name}`}
+                        className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-xl bg-primary/10 border border-primary/25 text-xs font-bold text-primary hover:bg-primary hover:text-white transition-colors duration-200 cursor-pointer"
+                      >
+                        Резервирай
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
             {/* Check-in/out */}
@@ -192,7 +231,6 @@ export default async function HotelPage() {
               className="rounded-3xl glass-depth p-8 md:p-10 mb-6 relative overflow-hidden animated-gradient-border"
               style={{ border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              {/* Top bar */}
               <div className="absolute top-0 left-0 right-0 h-px"
                 style={{ background: "linear-gradient(90deg, transparent, rgba(239,68,68,0.4), rgba(249,115,22,0.3), transparent)" }} />
 
@@ -240,7 +278,7 @@ export default async function HotelPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {amenities.map((a, i) => (
+                {amenitiesGeneral.map((a, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, scale: 0.88, y: 20 }}
@@ -273,7 +311,6 @@ export default async function HotelPage() {
               className="rounded-3xl glass-depth p-8 md:p-10 mb-6 relative overflow-hidden"
               style={{ border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              {/* Top bar */}
               <div className="absolute top-0 left-0 right-0 h-px"
                 style={{ background: "linear-gradient(90deg, transparent, rgba(239,68,68,0.35), transparent)" }} />
 
@@ -302,19 +339,29 @@ export default async function HotelPage() {
                         <a
                           href={item.href}
                           {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                          className="text-sm font-bold text-white hover:text-primary transition-colors flex-1 min-w-0 break-words"
+                          className="text-sm font-bold text-white hover:text-primary transition-colors flex-1 min-w-0 break-words cursor-pointer"
                         >
                           {item.value}
                         </a>
-                        <Button asChild size="sm" className="hidden sm:flex bg-primary hover:bg-red-600 text-white px-4 py-2 flex-shrink-0 text-xs rounded-xl transition-all duration-200 hover:scale-105 cursor-pointer">
-                          <a href={item.href} {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-                            {item.btnText}
-                            <ArrowUpRight className="w-3 h-3 ml-1 inline" />
-                          </a>
-                        </Button>
+                        <a
+                          href={item.href}
+                          {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          className="hidden sm:inline-flex items-center gap-1 min-h-[40px] px-4 rounded-xl bg-primary hover:bg-red-500 text-white text-xs font-bold transition-colors duration-200 cursor-pointer"
+                        >
+                          {item.btnText}
+                          <ArrowUpRight className="w-3 h-3" />
+                        </a>
                       </div>
                     ))}
                   </div>
+
+                  <Link
+                    href="/booking"
+                    className="group flex items-center justify-center gap-2 min-h-[48px] rounded-2xl bg-primary/[0.07] border border-primary/25 text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors duration-200 cursor-pointer"
+                  >
+                    Или резервирайте онлайн
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
                 </div>
 
                 {/* Steps */}
