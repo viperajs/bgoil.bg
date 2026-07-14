@@ -132,7 +132,6 @@ export default function AdminHotelPage() {
     if (!form.price.trim() || !Number.isFinite(price) || price < 0) errors.price = 'Въведете валидна цена (≥ 0)'
     const capacity = Number(form.capacity)
     if (!Number.isInteger(capacity) || capacity < 1) errors.capacity = 'Капацитетът трябва да е цяло число ≥ 1'
-    if (form.description.trim().length < 10) errors.description = 'Описанието трябва да е поне 10 символа'
     setFormErrors(errors)
     return Object.keys(errors).length === 0
   }
@@ -400,7 +399,9 @@ export default function AdminHotelPage() {
                   {room.size && <span className="inline-flex items-center gap-1.5"><Ruler className="w-3.5 h-3.5" />{room.size}</span>}
                   {room.bedType && <span className="inline-flex items-center gap-1.5"><BedDouble className="w-3.5 h-3.5" />{room.bedType}</span>}
                 </div>
-                <p className="text-xs text-white/35 leading-relaxed line-clamp-2">{room.description}</p>
+                {room.description && (
+                  <p className="text-xs text-white/35 leading-relaxed line-clamp-2">{room.description}</p>
+                )}
 
                 <div className="flex items-center justify-between pt-2 border-t border-white/[0.05]">
                   <label className="flex items-center gap-2.5 cursor-pointer">
@@ -536,7 +537,7 @@ export default function AdminHotelPage() {
               className={inputClass}
             />
           </Field>
-          <Field label="Описание *" htmlFor="room-desc" error={formErrors.description} className="sm:col-span-2">
+          <Field label="Описание (по избор)" htmlFor="room-desc" error={formErrors.description} className="sm:col-span-2">
             <textarea
               id="room-desc"
               rows={3}

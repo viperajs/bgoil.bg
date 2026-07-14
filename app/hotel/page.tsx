@@ -169,10 +169,12 @@ export default async function HotelPage() {
                       {room.size && <span className="inline-flex items-center gap-1.5"><Ruler className="w-3.5 h-3.5 text-primary/60" />{room.size}</span>}
                     </div>
 
-                    <p className="text-xs text-white/35 leading-relaxed mb-5 line-clamp-3"
-                      style={{ fontFamily: "var(--font-sans)", textTransform: "none", letterSpacing: "0.01em" }}>
-                      {room.description}
-                    </p>
+                    {room.description && (
+                      <p className="text-xs text-white/35 leading-relaxed mb-5 line-clamp-3"
+                        style={{ fontFamily: "var(--font-sans)", textTransform: "none", letterSpacing: "0.01em" }}>
+                        {room.description}
+                      </p>
+                    )}
 
                     {(room.amenities?.length ?? 0) > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-6">

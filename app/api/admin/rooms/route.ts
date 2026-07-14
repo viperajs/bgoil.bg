@@ -12,7 +12,7 @@ const roomSchema = z.object({
   capacity: z.number().int().min(1, 'Капацитетът трябва да е поне 1').max(20),
   size: z.string().trim().max(30).optional().default(''),
   bedType: z.string().trim().max(100).optional().default(''),
-  description: z.string().trim().min(10, 'Описанието трябва да е поне 10 символа').max(2000),
+  description: z.string().trim().max(2000).optional().default(''),
   amenities: z.array(z.string().trim().min(1).max(60)).max(30).default([]),
   images: z.array(z.string().trim().min(1).max(500)).max(12).default([]),
   available: z.boolean().default(true),
