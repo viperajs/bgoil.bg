@@ -1,7 +1,55 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { X, AlertTriangle } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { X, AlertTriangle, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react'
+
+/* ====== Кратки статус съобщения (flash) ====== */
+export type FlashMsg = { type: 'success' | 'error'; text: string }
+
+export function useFlash(timeoutMs = 5000): [FlashMsg | null, (m: FlashMsg) => void] {
+  const [msg, setMsg] = useState<FlashMsg | null>(null)
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => {
+    if (timer.current) clearTimeout(timer.current)
+  }, [])
+
+  const flash = useCallback((m: FlashMsg) => {
+    setMsg(m)
+    if (timer.current) clearTimeout(timer.current)
+    timer.current = setTimeout(() => setMsg(null), timeoutMs)
+  }, [timeoutMs])
+
+  return [msg, flash]
+}
+
+export function FlashBanner({ msg }: { msg: FlashMsg | null }) {
+  if (!msg) return null
+  return (
+    <div
+      role="status"
+      className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-semibold ${
+        msg.type === 'success'
+          ? 'bg-emerald-500/[0.08] border-emerald-500/25 text-emerald-300'
+          : 'bg-red-500/[0.08] border-red-500/25 text-red-300'
+      }`}
+    >
+      {msg.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertCircle className="w-5 h-5 shrink-0" />}
+      {msg.text}
+    </div>
+  )
+}
+
+export function LoadingState() {
+  return (
+    <div className="flex items-center justify-center min-h-[50vh]">
+      <div className="text-center">
+        <RefreshCw className="w-10 h-10 text-primary animate-spin mx-auto mb-4" />
+        <p className="text-sm text-white/50">Зареждане…</p>
+      </div>
+    </div>
+  )
+}
 
 /* ====== Модален прозорец ====== */
 export function Modal({

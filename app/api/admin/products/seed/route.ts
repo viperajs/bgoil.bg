@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { saveProducts, Product } from '@/lib/productsStore'
+import { requireAdmin } from '@/lib/auth'
 
 // Продуктите от локалния файл
 const productsToSeed: Product[] = [
@@ -45,36 +46,9 @@ const productsToSeed: Product[] = [
   },
 ]
 
-/**
- * Check for admin authentication
- */
-function requireAdminAuth(request: Request): boolean {
-  const cookieHeader = request.headers.get('cookie') || ''
-  const cookies = cookieHeader.split(';').map(c => c.trim())
-  const adminSessionCookie = cookies.find(c => c.startsWith('admin_session='))
-  if (adminSessionCookie && adminSessionCookie.includes('authenticated')) {
-    return true
-  }
-
-  const authHeader = request.headers.get('authorization') || ''
-  if (!authHeader) return false
-
-  const [type, blob] = authHeader.split(' ')
-  if (type !== 'Basic' || !blob) return false
-
-  try {
-    const creds = Buffer.from(blob, 'base64').toString('utf8')
-    const [u, p] = creds.split(':')
-    const basicOk = u === process.env.ADMIN_USER && p === process.env.ADMIN_PASS
-    return basicOk
-  } catch {
-    return false
-  }
-}
-
 // POST - Seed products to Redis
 export async function POST(req: Request) {
-  if (!requireAdminAuth(req)) {
+  if (!await requireAdmin(req)) {
     return NextResponse.json(
       { ok: false, error: 'Unauthorized' },
       { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Admin Area"' } }

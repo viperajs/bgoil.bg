@@ -7,8 +7,6 @@ import {
   Pencil,
   Trash2,
   RefreshCw,
-  CheckCircle2,
-  AlertCircle,
   Clock,
   Save,
   ImagePlus,
@@ -18,7 +16,7 @@ import {
   Ruler,
   ImageOff,
 } from 'lucide-react'
-import { Modal, ConfirmDialog, Toggle, Field, inputClass } from '@/components/admin/ui'
+import { Modal, ConfirmDialog, Toggle, Field, inputClass, useFlash, FlashBanner, LoadingState } from '@/components/admin/ui'
 import type { HotelRoomFull, HotelInfo } from '@/lib/types'
 
 type RoomForm = {
@@ -47,13 +45,11 @@ const emptyForm: RoomForm = {
   available: true,
 }
 
-type Msg = { type: 'success' | 'error'; text: string }
-
 export default function AdminHotelPage() {
   const [rooms, setRooms] = useState<HotelRoomFull[]>([])
   const [info, setInfo] = useState<HotelInfo>({ checkIn: '12:00', checkOut: '11:00' })
   const [loading, setLoading] = useState(true)
-  const [msg, setMsg] = useState<Msg | null>(null)
+  const [msg, flash] = useFlash()
 
   // модал за добавяне/редакция
   const [modalOpen, setModalOpen] = useState(false)
@@ -72,18 +68,9 @@ export default function AdminHotelPage() {
   // info запис
   const [savingInfo, setSavingInfo] = useState(false)
 
-  const msgTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  function flash(m: Msg) {
-    setMsg(m)
-    if (msgTimer.current) clearTimeout(msgTimer.current)
-    msgTimer.current = setTimeout(() => setMsg(null), 5000)
-  }
-
   useEffect(() => {
     loadData()
-    return () => {
-      if (msgTimer.current) clearTimeout(msgTimer.current)
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function loadData() {
@@ -286,14 +273,7 @@ export default function AdminHotelPage() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="text-center">
-          <RefreshCw className="w-10 h-10 text-primary animate-spin mx-auto mb-4" />
-          <p className="text-sm text-white/50">Зареждане…</p>
-        </div>
-      </div>
-    )
+    return <LoadingState />
   }
 
   return (
@@ -324,20 +304,7 @@ export default function AdminHotelPage() {
         </div>
       </div>
 
-      {/* Message */}
-      {msg && (
-        <div
-          role="status"
-          className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-semibold ${
-            msg.type === 'success'
-              ? 'bg-emerald-500/[0.08] border-emerald-500/25 text-emerald-300'
-              : 'bg-red-500/[0.08] border-red-500/25 text-red-300'
-          }`}
-        >
-          {msg.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertCircle className="w-5 h-5 shrink-0" />}
-          {msg.text}
-        </div>
-      )}
+      <FlashBanner msg={msg} />
 
       {/* Rooms grid */}
       {rooms.length === 0 ? (

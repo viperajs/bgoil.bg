@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getAdminSessionToken, ADMIN_COOKIE, ADMIN_COOKIE_MAX_AGE } from '@/lib/adminSession';
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,24 +25,18 @@ export async function POST(req: NextRequest) {
     }
 
     if (username === adminUser && password === adminPass) {
+      const token = await getAdminSessionToken();
+      if (!token) {
+        return NextResponse.json({ error: 'Конфигурационна грешка' }, { status: 500 });
+      }
+
       const response = NextResponse.json({ success: true });
-      
-      // Задаваме admin session cookie
-      response.cookies.set('admin_session', 'authenticated', {
-        maxAge: 86400, // 24 часа
+      response.cookies.set(ADMIN_COOKIE, token, {
+        maxAge: ADMIN_COOKIE_MAX_AGE,
         httpOnly: true,
         path: '/',
         sameSite: 'lax'
       });
-      
-      // Също задаваме isAdmin cookie за обратна съвместимост
-      response.cookies.set('isAdmin', 'true', {
-        maxAge: 86400,
-        httpOnly: false,
-        path: '/',
-        sameSite: 'lax'
-      });
-
       return response;
     }
 
@@ -49,14 +44,10 @@ export async function POST(req: NextRequest) {
       { error: 'Грешно потребителско име или парола' },
       { status: 401 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Възникна грешка при обработка на заявката' },
       { status: 500 }
     );
   }
 }
-
-
-
-

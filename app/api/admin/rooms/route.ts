@@ -26,7 +26,7 @@ function revalidatePublicPages() {
 }
 
 export async function GET(req: NextRequest) {
-  if (!requireAdmin(req)) return unauthorizedResponse()
+  if (!(await requireAdmin(req))) return unauthorizedResponse()
   try {
     const rooms = await getRooms()
     return NextResponse.json({ ok: true, rooms })
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!requireAdmin(req)) return unauthorizedResponse()
+  if (!(await requireAdmin(req))) return unauthorizedResponse()
   try {
     const body = await req.json()
     const parsed = roomSchema.safeParse(body)
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  if (!requireAdmin(req)) return unauthorizedResponse()
+  if (!(await requireAdmin(req))) return unauthorizedResponse()
   try {
     const body = await req.json()
     const id = typeof body?.id === 'string' ? body.id : ''
@@ -84,7 +84,7 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!requireAdmin(req)) return unauthorizedResponse()
+  if (!(await requireAdmin(req))) return unauthorizedResponse()
   try {
     const id = req.nextUrl.searchParams.get('id') || ''
     if (!id) {

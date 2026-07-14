@@ -42,8 +42,7 @@ const amenitiesGeneral = [
 const bookingSteps = ["Изберете тип стая", "Свържете се с нас или резервирайте онлайн", "Потвърждение", "Настаняване"]
 
 export default async function HotelPage() {
-  const rooms = await getAvailableRooms()
-  const info = await getHotelInfo()
+  const [rooms, info] = await Promise.all([getAvailableRooms(), getHotelInfo()])
 
   return (
     <>

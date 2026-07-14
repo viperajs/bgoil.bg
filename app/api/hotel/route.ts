@@ -19,12 +19,12 @@ export async function GET() {
 
 // Админ: запис на часове за настаняване/напускане
 export async function POST(req: NextRequest) {
-  if (!requireAdmin(req)) return unauthorizedResponse()
+  if (!(await requireAdmin(req))) return unauthorizedResponse()
   try {
     const body = await req.json()
     const info = body?.info as HotelInfo | undefined
 
-    const timePattern = /^\d{1,2}:\d{2}$/
+    const timePattern = /^([01]?\d|2[0-3]):[0-5]\d$/
     if (
       !info ||
       typeof info.checkIn !== 'string' ||

@@ -1,41 +1,13 @@
 import { NextResponse } from 'next/server'
 import { getPromoConfig, savePromoConfig, isPromoActive, type PromoConfig } from '@/lib/promoStore'
-
-/**
- * Проверка за Basic Auth или Session Cookie (админ достъп)
- */
-function requireAdminAuth(request: Request): boolean {
-  // Check for session cookie first (set by middleware after Basic Auth)
-  const cookieHeader = request.headers.get('cookie') || ''
-  const cookies = cookieHeader.split(';').map(c => c.trim())
-  const adminSessionCookie = cookies.find(c => c.startsWith('admin_session='))
-  if (adminSessionCookie && adminSessionCookie.includes('authenticated')) {
-    return true
-  }
-
-  // Fallback to Basic Auth
-  const authHeader = request.headers.get('authorization') || ''
-  if (!authHeader) return false
-  
-  const [type, blob] = authHeader.split(' ')
-  if (type !== 'Basic' || !blob) return false
-  
-  try {
-    const creds = Buffer.from(blob, 'base64').toString('utf8')
-    const [u, p] = creds.split(':')
-    const basicOk = u === process.env.ADMIN_USER && p === process.env.ADMIN_PASS
-    return basicOk
-  } catch {
-    return false
-  }
-}
+import { requireAdmin } from '@/lib/auth'
 
 /**
  * GET /api/admin/promo
  * Връща текущата конфигурация на промоцията
  */
 export async function GET(req: Request) {
-  if (!requireAdminAuth(req)) {
+  if (!await requireAdmin(req)) {
     return NextResponse.json(
       { ok: false, error: 'Unauthorized' },
       { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Admin Area"' } }
@@ -60,7 +32,7 @@ export async function GET(req: Request) {
  * Обновява конфигурацията на промоцията
  */
 export async function PUT(req: Request) {
-  if (!requireAdminAuth(req)) {
+  if (!await requireAdmin(req)) {
     return NextResponse.json(
       { ok: false, error: 'Unauthorized' },
       { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Admin Area"' } }

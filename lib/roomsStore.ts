@@ -1,13 +1,11 @@
 // lib/roomsStore.ts
 import 'server-only'
-import { Redis } from '@upstash/redis'
 import fs from 'fs/promises'
 import path from 'path'
 import { randomUUID } from 'crypto'
+import { createJsonKvStore } from '@/lib/jsonKvStore'
 import type { HotelRoomFull } from '@/lib/types'
 
-const ROOMS_KEY = 'hotel:rooms:v2'
-const ROOMS_FILE = path.join(process.cwd(), '.data', 'hotel-rooms.json')
 const LEGACY_OVERRIDES_FILE = path.join(process.cwd(), '.data', 'hotel-overrides.json')
 
 // Първоначални стаи – обединени данни от старите hotel/booking страници
@@ -86,41 +84,11 @@ const defaultRooms: HotelRoomFull[] = [
   },
 ]
 
-// ---- Redis клиент (по избор, продукция) ----
-let redisAuthFailed = false
-
-function getRedis(): Redis | null {
-  const url = process.env.UPSTASH_REDIS_KV_REST_API_URL
-  const token = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN
-  if (!url || !token) return null
-  return new Redis({ url, token })
-}
-const redis = getRedis()
-
-function isRedisAuthError(e: unknown): boolean {
-  const msg = e instanceof Error ? e.message : ''
-  return msg.includes('WRONGPASS') || msg.includes('invalid or missing auth token') || msg.includes('unauthorized')
-}
-
-// ---- локален файл ----
-async function readLocalRooms(): Promise<HotelRoomFull[] | null> {
-  try {
-    const data = await fs.readFile(ROOMS_FILE, 'utf-8')
-    const parsed = JSON.parse(data)
-    return Array.isArray(parsed) ? (parsed as HotelRoomFull[]) : null
-  } catch {
-    return null
-  }
-}
-
-async function writeLocalRooms(rooms: HotelRoomFull[]): Promise<void> {
-  try {
-    await fs.mkdir(path.dirname(ROOMS_FILE), { recursive: true })
-    await fs.writeFile(ROOMS_FILE, JSON.stringify(rooms, null, 2), 'utf-8')
-  } catch (e) {
-    console.error('roomsStore: failed to write local file:', e)
-  }
-}
+const store = createJsonKvStore<HotelRoomFull[]>({
+  key: 'hotel:rooms:v2',
+  filename: 'hotel-rooms.json',
+  label: 'roomsStore',
+})
 
 // Миграция: пренасяме старите ценови override-и (име -> цена) върху дефолтните стаи
 async function seedRooms(): Promise<HotelRoomFull[]> {
@@ -136,51 +104,16 @@ async function seedRooms(): Promise<HotelRoomFull[]> {
   } catch {
     // няма стари данни
   }
-  await saveRooms(seeded)
+  await store.write(seeded)
   return seeded
-}
-
-async function saveRooms(rooms: HotelRoomFull[]): Promise<void> {
-  await writeLocalRooms(rooms)
-
-  if (!redis || redisAuthFailed) return
-  try {
-    await redis.set(ROOMS_KEY, rooms as any)
-  } catch (e) {
-    if (isRedisAuthError(e)) {
-      redisAuthFailed = true
-      console.warn('roomsStore: Redis authentication failed. Using local file storage.')
-    } else {
-      console.error('roomsStore: redis.set failed:', e)
-    }
-  }
 }
 
 // ---- публичен API ----
 export async function getRooms(): Promise<HotelRoomFull[]> {
-  const local = await readLocalRooms()
-  if (local !== null) return sortRooms(local)
-
-  if (redis && !redisAuthFailed) {
-    try {
-      const val = (await redis.get(ROOMS_KEY)) as unknown
-      const parsed = typeof val === 'string' ? JSON.parse(val) : val
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        const rooms = parsed as HotelRoomFull[]
-        await writeLocalRooms(rooms)
-        return sortRooms(rooms)
-      }
-    } catch (e) {
-      if (isRedisAuthError(e)) {
-        redisAuthFailed = true
-        console.warn('roomsStore: Redis authentication failed. Using local file storage.')
-      } else {
-        console.error('roomsStore: redis.get failed:', e)
-      }
-    }
-  }
-
-  return sortRooms(await seedRooms())
+  const rooms = await store.read()
+  // null = никога не е записвано (празният масив [] е валидно състояние)
+  if (rooms === null) return sortRooms(await seedRooms())
+  return sortRooms(rooms)
 }
 
 export async function getAvailableRooms(): Promise<HotelRoomFull[]> {
@@ -196,33 +129,39 @@ export async function getRoomById(id: string): Promise<HotelRoomFull | null> {
 export type RoomInput = Omit<HotelRoomFull, 'id' | 'sortOrder'> & { sortOrder?: number }
 
 export async function createRoom(input: RoomInput): Promise<HotelRoomFull> {
-  const rooms = await getRooms()
-  const room: HotelRoomFull = {
-    ...input,
-    id: randomUUID(),
-    sortOrder: input.sortOrder ?? (rooms.length > 0 ? Math.max(...rooms.map(r => r.sortOrder ?? 0)) + 1 : 0),
-  }
-  await saveRooms([...rooms, room])
-  return room
+  return store.withLock(async () => {
+    const rooms = await getRooms()
+    const room: HotelRoomFull = {
+      ...input,
+      id: randomUUID(),
+      sortOrder: input.sortOrder ?? (rooms.length > 0 ? Math.max(...rooms.map(r => r.sortOrder ?? 0)) + 1 : 0),
+    }
+    await store.write([...rooms, room])
+    return room
+  })
 }
 
 export async function updateRoom(id: string, input: Partial<RoomInput>): Promise<HotelRoomFull | null> {
-  const rooms = await getRooms()
-  const idx = rooms.findIndex(r => r.id === id)
-  if (idx === -1) return null
-  const updated: HotelRoomFull = { ...rooms[idx], ...input, id }
-  const next = [...rooms]
-  next[idx] = updated
-  await saveRooms(next)
-  return updated
+  return store.withLock(async () => {
+    const rooms = await getRooms()
+    const idx = rooms.findIndex(r => r.id === id)
+    if (idx === -1) return null
+    const updated: HotelRoomFull = { ...rooms[idx], ...input, id }
+    const next = [...rooms]
+    next[idx] = updated
+    await store.write(next)
+    return updated
+  })
 }
 
 export async function deleteRoom(id: string): Promise<boolean> {
-  const rooms = await getRooms()
-  const next = rooms.filter(r => r.id !== id)
-  if (next.length === rooms.length) return false
-  await saveRooms(next)
-  return true
+  return store.withLock(async () => {
+    const rooms = await getRooms()
+    const next = rooms.filter(r => r.id !== id)
+    if (next.length === rooms.length) return false
+    await store.write(next)
+    return true
+  })
 }
 
 function sortRooms(rooms: HotelRoomFull[]): HotelRoomFull[] {

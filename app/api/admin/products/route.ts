@@ -1,38 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getProducts, updateProduct, addProduct, deleteProduct } from '@/lib/productsStore'
-
-/**
- * Check for admin authentication
- */
-function requireAdminAuth(request: Request): boolean {
-  const cookieHeader = request.headers.get('cookie') || ''
-  console.log('Auth check - cookies:', cookieHeader)
-  const cookies = cookieHeader.split(';').map(c => c.trim())
-  const adminSessionCookie = cookies.find(c => c.startsWith('admin_session='))
-  console.log('Auth check - admin_session cookie:', adminSessionCookie)
-  if (adminSessionCookie && adminSessionCookie.includes('authenticated')) {
-    console.log('Auth check - authenticated via cookie')
-    return true
-  }
-
-  const authHeader = request.headers.get('authorization') || ''
-  if (!authHeader) {
-    console.log('Auth check - no auth header, returning false')
-    return false
-  }
-
-  const [type, blob] = authHeader.split(' ')
-  if (type !== 'Basic' || !blob) return false
-
-  try {
-    const creds = Buffer.from(blob, 'base64').toString('utf8')
-    const [u, p] = creds.split(':')
-    const basicOk = u === process.env.ADMIN_USER && p === process.env.ADMIN_PASS
-    return basicOk
-  } catch {
-    return false
-  }
-}
+import { requireAdmin } from '@/lib/auth'
 
 // GET - Get all products
 export async function GET() {
@@ -50,7 +18,7 @@ export async function GET() {
 
 // POST - Add a new product
 export async function POST(req: Request) {
-  if (!requireAdminAuth(req)) {
+  if (!await requireAdmin(req)) {
     return NextResponse.json(
       { ok: false, error: 'Unauthorized' },
       { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Admin Area"' } }
@@ -101,7 +69,7 @@ export async function POST(req: Request) {
 
 // PUT - Update a product
 export async function PUT(req: Request) {
-  if (!requireAdminAuth(req)) {
+  if (!await requireAdmin(req)) {
     return NextResponse.json(
       { ok: false, error: 'Unauthorized' },
       { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Admin Area"' } }
@@ -141,7 +109,7 @@ export async function PUT(req: Request) {
 
 // DELETE - Delete a product
 export async function DELETE(req: Request) {
-  if (!requireAdminAuth(req)) {
+  if (!await requireAdmin(req)) {
     return NextResponse.json(
       { ok: false, error: 'Unauthorized' },
       { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Admin Area"' } }
