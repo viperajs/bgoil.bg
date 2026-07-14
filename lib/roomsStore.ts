@@ -113,12 +113,36 @@ async function seedRooms(): Promise<HotelRoomFull[]> {
   return seeded
 }
 
+// Нормализация на записи от склада: стари/непълни записи (напр. {name, price}
+// от предишната версия на сайта) получават всички задължителни полета, за да
+// не гърми UI-ят на липсващи масиви и да се показват на сайта.
+function normalizeRoom(raw: unknown, index: number): HotelRoomFull {
+  const r = (raw ?? {}) as Partial<HotelRoomFull> & Record<string, unknown>
+  const name = typeof r.name === 'string' && r.name.trim() ? r.name.trim() : `Стая ${index + 1}`
+  const price = Number(r.price)
+  const capacity = Number(r.capacity)
+  return {
+    id: typeof r.id === 'string' && r.id ? r.id : name,
+    name,
+    type: typeof r.type === 'string' && r.type.trim() ? r.type : name,
+    price: Number.isFinite(price) && price >= 0 ? price : 0,
+    capacity: Number.isInteger(capacity) && capacity >= 1 ? capacity : 2,
+    size: typeof r.size === 'string' ? r.size : '',
+    bedType: typeof r.bedType === 'string' ? r.bedType : '',
+    description: typeof r.description === 'string' ? r.description : '',
+    amenities: Array.isArray(r.amenities) ? r.amenities.filter((a): a is string => typeof a === 'string') : [],
+    images: Array.isArray(r.images) ? r.images.filter((i): i is string => typeof i === 'string') : [],
+    available: typeof r.available === 'boolean' ? r.available : true,
+    sortOrder: typeof r.sortOrder === 'number' ? r.sortOrder : index,
+  }
+}
+
 // ---- публичен API ----
 export async function getRooms(): Promise<HotelRoomFull[]> {
   const rooms = await store.read()
   // null = никога не е записвано (празният масив [] е валидно състояние)
   if (rooms === null) return sortRooms(await seedRooms())
-  return sortRooms(rooms)
+  return sortRooms(rooms.map(normalizeRoom))
 }
 
 export async function getAvailableRooms(): Promise<HotelRoomFull[]> {

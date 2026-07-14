@@ -115,8 +115,8 @@ export default function AdminHotelPage() {
       size: room.size || '',
       bedType: room.bedType || '',
       description: room.description,
-      amenities: [...room.amenities],
-      images: [...room.images],
+      amenities: [...(room.amenities ?? [])],
+      images: [...(room.images ?? [])],
       available: room.available,
     })
     setFormErrors({})
@@ -366,7 +366,7 @@ export default function AdminHotelPage() {
             >
               {/* Photo */}
               <div className="relative h-40 bg-white/[0.03]">
-                {room.images[0] ? (
+                {room.images?.[0] ? (
                   <img src={room.images[0]} alt={room.name} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">

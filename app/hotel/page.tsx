@@ -139,7 +139,7 @@ export default async function HotelPage() {
                 >
                   {/* Photo */}
                   <div className="relative h-52 overflow-hidden bg-white/[0.02]">
-                    {room.images[0] ? (
+                    {room.images?.[0] ? (
                       <img
                         src={room.images[0]}
                         alt={room.name}
@@ -174,7 +174,7 @@ export default async function HotelPage() {
                       {room.description}
                     </p>
 
-                    {room.amenities.length > 0 && (
+                    {(room.amenities?.length ?? 0) > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-6">
                         {room.amenities.slice(0, 4).map((a) => (
                           <span key={a} className="text-[10px] font-medium bg-white/[0.04] border border-white/[0.07] text-white/50 rounded-md px-2 py-1"
