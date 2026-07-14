@@ -90,6 +90,11 @@ const store = createJsonKvStore<HotelRoomFull[]>({
   label: 'roomsStore',
 })
 
+// Възстановяване на стандартните стаи (ползва се и от админ бутона)
+export async function restoreDefaultRooms(): Promise<HotelRoomFull[]> {
+  return store.withLock(() => seedRooms())
+}
+
 // Миграция: пренасяме старите ценови override-и (име -> цена) върху дефолтните стаи
 async function seedRooms(): Promise<HotelRoomFull[]> {
   let seeded = defaultRooms

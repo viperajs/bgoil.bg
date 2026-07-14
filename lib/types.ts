@@ -53,22 +53,6 @@ export interface HotelRoomFull {
   sortOrder?: number
 }
 
-export interface Booking {
-  id: string
-  fullName: string
-  phone: string
-  roomId: string
-  roomType: string
-  checkIn: string
-  checkOut: string
-  nights: number
-  callRequested: boolean
-  preferredTime?: string
-  totalPrice: number
-  status: 'new' | 'confirmed'
-  createdAt: string
-}
-
 export interface HotelInfo {
   checkIn: string
   checkOut: string

@@ -1,11 +1,10 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { companyInfo, contacts } from "@/lib/config"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import {
   Hotel as HotelIcon, Clock, Users, Info, Ruler, BedDouble,
-  Phone, MapPin, Mail, Calendar, Sparkles, ArrowUpRight, ArrowRight, CheckCircle2,
+  Phone, MapPin, Mail, Calendar, Sparkles, ArrowUpRight, CheckCircle2,
 } from "lucide-react"
 import { getAvailableRooms } from "@/lib/roomsStore"
 import { getHotelInfo } from "@/lib/hotelStore"
@@ -39,7 +38,7 @@ const amenitiesGeneral = [
   { title: "Безплатен паркинг", description: "Охраняван паркинг за гостите на хотела" },
 ]
 
-const bookingSteps = ["Изберете тип стая", "Свържете се с нас или резервирайте онлайн", "Потвърждение", "Настаняване"]
+const bookingSteps = ["Изберете тип стая", "Свържете се с нас", "Потвърждение", "Настаняване"]
 
 export default async function HotelPage() {
   const [rooms, info] = await Promise.all([getAvailableRooms(), getHotelInfo()])
@@ -100,19 +99,12 @@ export default async function HotelPage() {
               transition={{ duration: 0.7, delay: 0.45 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-3"
             >
-              <Link
-                href="/booking"
-                className="group inline-flex items-center justify-center gap-2 min-h-[48px] px-8 rounded-xl bg-primary hover:bg-red-500 text-sm font-bold text-white transition-all duration-200 cursor-pointer shadow-[0_0_32px_rgba(239,68,68,0.3)] hover:shadow-[0_0_44px_rgba(239,68,68,0.45)]"
-              >
-                Резервирай онлайн
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
               <a
                 href={`tel:${contacts.hotelReservation}`}
-                className="inline-flex items-center justify-center gap-2 min-h-[48px] px-8 rounded-xl border border-white/[0.12] text-sm font-bold text-white/70 hover:text-white hover:bg-white/[0.05] transition-colors cursor-pointer"
+                className="group inline-flex items-center justify-center gap-2 min-h-[48px] px-8 rounded-xl bg-primary hover:bg-red-500 text-sm font-bold text-white transition-all duration-200 cursor-pointer shadow-[0_0_32px_rgba(239,68,68,0.3)] hover:shadow-[0_0_44px_rgba(239,68,68,0.45)]"
               >
                 <Phone className="w-4 h-4" />
-                {contacts.hotelReservation}
+                Резервация: {contacts.hotelReservation}
               </a>
             </motion.div>
           </div>
@@ -207,14 +199,14 @@ export default async function HotelPage() {
                           на нощувка
                         </div>
                       </div>
-                      <Link
-                        href="/booking"
-                        aria-label={`Резервирай ${room.name}`}
+                      <a
+                        href={`tel:${contacts.hotelReservation}`}
+                        aria-label={`Обади се за ${room.name}`}
                         className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-xl bg-primary/10 border border-primary/25 text-xs font-bold text-primary hover:bg-primary hover:text-white transition-colors duration-200 cursor-pointer"
                       >
-                        Резервирай
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </Link>
+                        <Phone className="w-3.5 h-3.5" />
+                        Обади се
+                      </a>
                     </div>
                   </div>
                 </motion.div>
@@ -354,13 +346,6 @@ export default async function HotelPage() {
                     ))}
                   </div>
 
-                  <Link
-                    href="/booking"
-                    className="group flex items-center justify-center gap-2 min-h-[48px] rounded-2xl bg-primary/[0.07] border border-primary/25 text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors duration-200 cursor-pointer"
-                  >
-                    Или резервирайте онлайн
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
                 </div>
 
                 {/* Steps */}

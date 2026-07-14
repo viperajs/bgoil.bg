@@ -55,6 +55,17 @@ const nextConfig = {
   // Turbopack конфигурация (празна, за да се избегнат грешки)
   turbopack: {},
 
+  // Стари линкове към премахнатата страница за резервации
+  async redirects() {
+    return [
+      {
+        source: '/booking',
+        destination: '/hotel',
+        permanent: true,
+      },
+    ]
+  },
+
   // Хедъри за кеширане
   async headers() {
     return [

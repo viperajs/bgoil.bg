@@ -21,7 +21,6 @@ const roomSchema = z.object({
 
 function revalidatePublicPages() {
   revalidatePath('/hotel')
-  revalidatePath('/booking')
   revalidatePath('/')
 }
 

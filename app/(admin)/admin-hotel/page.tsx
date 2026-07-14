@@ -67,6 +67,7 @@ export default function AdminHotelPage() {
 
   // info запис
   const [savingInfo, setSavingInfo] = useState(false)
+  const [restoring, setRestoring] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -249,6 +250,26 @@ export default function AdminHotelPage() {
     setAmenityInput('')
   }
 
+  /* ====== Възстановяване на стандартните стаи ====== */
+  async function restoreDefaults() {
+    setRestoring(true)
+    try {
+      const res = await fetch('/api/admin/rooms/seed', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok || !data.ok) {
+        flash({ type: 'error', text: data.error || 'Грешка при възстановяване' })
+        return
+      }
+      await loadData()
+      flash({ type: 'success', text: 'Стандартните стаи са възстановени' })
+    } catch (e) {
+      console.error(e)
+      flash({ type: 'error', text: 'Грешка при възстановяване' })
+    } finally {
+      setRestoring(false)
+    }
+  }
+
   /* ====== Часове ====== */
   async function saveInfo() {
     setSavingInfo(true)
@@ -311,14 +332,26 @@ export default function AdminHotelPage() {
         <div className="rounded-2xl border border-dashed border-white/[0.12] p-12 text-center">
           <BedDouble className="w-10 h-10 text-white/20 mx-auto mb-3" />
           <p className="text-white/50 font-semibold mb-1">Няма добавени стаи</p>
-          <p className="text-sm text-white/30 mb-5">Добавете първата стая, за да се покаже на сайта.</p>
-          <button
-            onClick={openCreate}
-            className="inline-flex items-center gap-2 min-h-[44px] px-5 rounded-xl bg-primary hover:bg-red-500 text-sm font-bold text-white transition-colors cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            Добави стая
-          </button>
+          <p className="text-sm text-white/30 mb-5">
+            Сайтът в момента не показва нито една стая. Добавете стая или възстановете стандартните четири.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={openCreate}
+              className="inline-flex items-center gap-2 min-h-[44px] px-5 rounded-xl bg-primary hover:bg-red-500 text-sm font-bold text-white transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              Добави стая
+            </button>
+            <button
+              onClick={restoreDefaults}
+              disabled={restoring}
+              className="inline-flex items-center gap-2 min-h-[44px] px-5 rounded-xl border border-white/[0.12] text-sm font-bold text-white/70 hover:text-white hover:bg-white/[0.05] transition-colors cursor-pointer disabled:opacity-50"
+            >
+              {restoring ? <RefreshCw className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+              Възстанови стандартните стаи
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

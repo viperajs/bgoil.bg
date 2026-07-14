@@ -1,6 +1,6 @@
 // lib/jsonKvStore.ts — общ слой за съхранение: локален JSON файл в .data/
 // (основен в dev) + опционален Upstash Redis (продукция). Използва се от
-// roomsStore, bookingStore и hotelStore.
+// roomsStore и hotelStore.
 import 'server-only'
 import { Redis } from '@upstash/redis'
 import fs from 'fs/promises'

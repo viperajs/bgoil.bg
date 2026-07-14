@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard,
-  CalendarDays,
   Hotel,
   ShoppingBag,
   Percent,
@@ -19,7 +18,6 @@ import {
 
 const NAV_ITEMS = [
   { name: 'Табло', href: '/admin', icon: LayoutDashboard },
-  { name: 'Резервации', href: '/admin-bookings', icon: CalendarDays },
   { name: 'Хотел и стаи', href: '/admin-hotel', icon: Hotel },
   { name: 'Магазин', href: '/admin-shop', icon: ShoppingBag },
   { name: 'Промоции', href: '/admin-promo', icon: Percent },

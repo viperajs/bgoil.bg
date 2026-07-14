@@ -1,62 +1,55 @@
 import Link from "next/link"
 import {
   Hotel,
-  CalendarDays,
   ShoppingBag,
   Percent,
   CreditCard,
   ChevronRight,
   BedDouble,
-  PhoneCall,
+  EyeOff,
+  Euro,
   Sparkles,
 } from "lucide-react"
 import { getRooms } from "@/lib/roomsStore"
-import { getBookings } from "@/lib/bookingStore"
 
 export const dynamic = "force-dynamic"
 
 export default async function AdminDashboard() {
-  const [rooms, bookings] = await Promise.all([getRooms(), getBookings()])
+  const rooms = await getRooms()
 
-  const newBookings = bookings.filter(b => b.status === "new")
-  const callRequests = newBookings.filter(b => b.callRequested)
   const availableRooms = rooms.filter(r => r.available)
+  const hiddenRooms = rooms.length - availableRooms.length
+  const minPrice = availableRooms.length > 0 ? Math.min(...availableRooms.map(r => r.price)) : 0
+  const maxPrice = availableRooms.length > 0 ? Math.max(...availableRooms.map(r => r.price)) : 0
 
   const stats = [
     {
-      label: "Нови резервации",
-      value: newBookings.length,
-      hint: `${bookings.length} общо`,
-      icon: CalendarDays,
-      color: "#60a5fa",
-      href: "/admin-bookings",
-    },
-    {
-      label: "Заявки за обаждане",
-      value: callRequests.length,
-      hint: "чакат потвърждение",
-      icon: PhoneCall,
-      color: "#fbbf24",
-      href: "/admin-bookings",
-    },
-    {
-      label: "Активни стаи",
-      value: availableRooms.length,
+      label: "Видими стаи на сайта",
+      value: String(availableRooms.length),
       hint: `${rooms.length} общо в системата`,
       icon: BedDouble,
       color: "#34d399",
       href: "/admin-hotel",
     },
+    {
+      label: "Скрити стаи",
+      value: String(hiddenRooms),
+      hint: "не се показват на сайта",
+      icon: EyeOff,
+      color: "#fbbf24",
+      href: "/admin-hotel",
+    },
+    {
+      label: "Цени на нощувка",
+      value: availableRooms.length > 0 ? `${minPrice}–${maxPrice} €` : "—",
+      hint: "от най-ниска до най-висока",
+      icon: Euro,
+      color: "#60a5fa",
+      href: "/admin-hotel",
+    },
   ]
 
   const modules = [
-    {
-      title: "Резервации",
-      description: "Заявки за настаняване, потвърждаване и обаждания",
-      href: "/admin-bookings",
-      icon: CalendarDays,
-      color: "#60a5fa",
-    },
     {
       title: "Хотел и стаи",
       description: "Добавяне, редакция и изтриване на стаи, цени и снимки",
