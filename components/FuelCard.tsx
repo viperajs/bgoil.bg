@@ -37,7 +37,7 @@ export default function FuelCard({ fuel }: FuelCardProps) {
           </div>
           <div>
             <h3 className="text-h4 text-foreground leading-tight">
-              {fuel.name.replace("Diesel", "Дизел").replace("Gasoline", "Бензин")}
+              {fuel.name.replace("Diesel", "Дизел").replace("Gasoline", "Бензин").replace("Г П Б", "Пропан-бутан (ПБ)")}
             </h3>
             <div className="text-caption uppercase text-muted-foreground/60 font-mono mt-0.5">
               BG OIL
