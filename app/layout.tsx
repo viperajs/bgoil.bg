@@ -1,7 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
-import { Oswald, DM_Sans, JetBrains_Mono } from "next/font/google"
+import { GeistSans } from "geist/font/sans"
+import { GeistMono } from "geist/font/mono"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { generateCombinedSchema } from "@/lib/schema"
 import { companyInfo } from "@/lib/config"
@@ -9,27 +10,6 @@ import TsvetnitsaDecoration from "@/components/TsvetnitsaDecoration"
 import VelikdenDecoration from "@/components/VelikdenDecoration"
 
 import "./globals.css"
-
-const oswald = Oswald({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-display",
-})
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-sans",
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-  variable: "--font-mono",
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bgoil.bg"),
@@ -195,7 +175,7 @@ export default function RootLayout({
   const combinedSchema = generateCombinedSchema()
 
   return (
-    <html lang="bg" className={`${oswald.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
+    <html lang="bg" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -204,7 +184,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${dmSans.className} antialiased`}>
+      <body className={`${GeistSans.className} antialiased`}>
         {children}
         <TsvetnitsaDecoration />
         <VelikdenDecoration />
