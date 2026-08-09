@@ -34,16 +34,12 @@ export default function Header() {
             <img
               src="/bg-oil-logo.webp"
               alt="BG OIL"
-              className="h-8 w-auto object-contain drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]"
+              className="h-8 w-auto object-contain"
             />
           </Link>
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton
-              href="/contact"
-              variant="gradient"
-              className="!bg-gradient-to-r !from-red-600 !to-red-500 !text-white !font-bold hover:!from-red-500 hover:!to-red-400 !shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:!shadow-[0_0_30px_rgba(239,68,68,0.5)] !transition-all !duration-300"
-            >
+            <NavbarButton href="/contact" variant="primary">
               Контакти
             </NavbarButton>
           </div>
@@ -60,7 +56,7 @@ export default function Header() {
               <img
                 src="/bg-oil-logo.webp"
                 alt="BG OIL"
-                className="h-7 w-auto object-contain drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]"
+                className="h-7 w-auto object-contain"
               />
             </Link>
             <MobileNavToggle
@@ -80,19 +76,19 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`relative w-full py-2.5 transition-colors ${
                   pathname === item.link
-                    ? "text-primary"
-                    : "text-white/70 hover:text-white"
+                    ? "text-brand-500"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 <span className="block text-base font-medium">{item.name}</span>
               </Link>
             ))}
-            <div className="flex w-full flex-col gap-3 mt-3 pt-3 border-t border-white/10">
+            <div className="flex w-full flex-col gap-3 mt-3 pt-3 border-t border-border">
               <NavbarButton
                 href="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                variant="gradient"
-                className="w-full !bg-gradient-to-r !from-red-600 !to-red-500 !text-white !font-bold !shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+                variant="primary"
+                className="w-full"
               >
                 Контакти
               </NavbarButton>

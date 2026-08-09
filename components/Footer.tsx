@@ -4,88 +4,79 @@ import { Phone, Mail, MapPin, Clock, Facebook, ArrowRight } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="relative text-white overflow-hidden">
-      {/* Gradient separator */}
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.4), rgba(220,38,38,0.3), transparent)' }}></div>
-
-      {/* Ambient glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top, rgba(239,68,68,0.04), transparent 70%)' }} />
-
+    <footer className="relative text-foreground border-t border-border">
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
           <div className="space-y-5">
-            <div className="flex items-center space-x-3">
-              <span className="font-black text-2xl text-white tracking-tight">{companyInfo.name}</span>
-            </div>
-            <p className="text-white/60 leading-relaxed text-sm">
+            <span className="text-h4 text-foreground">{companyInfo.name}</span>
+            <p className="text-muted-foreground leading-relaxed text-sm">
               {companyInfo.description}
             </p>
-            <p className="text-primary font-bold text-sm">{companyInfo.slogan}</p>
+            <p className="text-brand-500 font-bold text-sm">{companyInfo.slogan}</p>
 
             {/* Social */}
             <div className="flex items-center space-x-3 pt-2">
               <a
                 href="https://www.facebook.com/share/1ZaL36Ykbk/?mibextid=wwXIfr"
-                className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-primary/20 hover:border-primary/30 flex items-center justify-center transition-all duration-300"
+                className="w-10 h-10 rounded-md border border-border bg-secondary hover:bg-brand-500/10 hover:border-brand-500/30 flex items-center justify-center transition-colors duration-200"
                 aria-label="Facebook"
               >
-                <Facebook className="w-4 h-4 text-white/60 hover:text-white" />
+                <Facebook className="w-4 h-4 text-muted-foreground hover:text-foreground" />
               </a>
             </div>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-5">
-            <h3 className="font-bold text-lg text-white">Контакти</h3>
-            <div className="space-y-4">
+            <h3 className="font-bold text-lg text-foreground">Контакти</h3>
+            <div className="space-y-1">
               <a
                 href={contacts.mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start space-x-3 group"
+                className="flex items-start gap-3 group -mx-2 px-2 py-2.5 rounded-md hover:bg-secondary transition-colors duration-200"
               >
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4 text-primary" />
+                <div className="w-9 h-9 rounded-md border border-border bg-secondary flex items-center justify-center flex-shrink-0 text-brand-500">
+                  <MapPin className="w-4 h-4" />
                 </div>
-                <span className="text-white/60 text-sm leading-relaxed pt-1.5 group-hover:text-white/60 transition-colors duration-300">{contacts.address}</span>
+                <span className="text-muted-foreground text-sm leading-relaxed pt-1.5 group-hover:text-foreground transition-colors duration-200">{contacts.address}</span>
               </a>
-              <div className="flex items-center space-x-3 group">
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0">
-                  <Phone className="w-4 h-4 text-primary" />
+              <a
+                href={`tel:${contacts.phoneMain}`}
+                className="flex items-center gap-3 group -mx-2 px-2 py-2.5 rounded-md hover:bg-secondary transition-colors duration-200"
+              >
+                <div className="w-9 h-9 rounded-md border border-border bg-secondary flex items-center justify-center flex-shrink-0 text-brand-500">
+                  <Phone className="w-4 h-4" />
                 </div>
-                <a
-                  href={`tel:${contacts.phoneMain}`}
-                  className="text-white/60 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
-                >
+                <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-200 font-medium text-sm">
                   {contacts.phoneMain}
-                </a>
-              </div>
-              <div className="flex items-center space-x-3 group">
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0">
-                  <Mail className="w-4 h-4 text-primary" />
+                </span>
+              </a>
+              <a
+                href={`mailto:${contacts.email}`}
+                className="flex items-center gap-3 group -mx-2 px-2 py-2.5 rounded-md hover:bg-secondary transition-colors duration-200"
+              >
+                <div className="w-9 h-9 rounded-md border border-border bg-secondary flex items-center justify-center flex-shrink-0 text-brand-500">
+                  <Mail className="w-4 h-4" />
                 </div>
-                <a
-                  href={`mailto:${contacts.email}`}
-                  className="text-white/60 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
-                >
+                <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-200 font-medium text-sm">
                   {contacts.email}
-                </a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-4 h-4 text-primary" />
+                </span>
+              </a>
+              <div className="flex items-center gap-3 -mx-2 px-2 py-2.5">
+                <div className="w-9 h-9 rounded-md border border-border bg-secondary flex items-center justify-center flex-shrink-0 text-brand-500">
+                  <Clock className="w-4 h-4" />
                 </div>
-                <span className="text-white/60 text-sm font-medium">{contacts.workingHours}</span>
+                <span className="text-muted-foreground text-sm font-medium">{contacts.workingHours}</span>
               </div>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-5">
-            <h3 className="font-bold text-lg text-white">Бързи връзки</h3>
-            <div className="space-y-3">
+            <h3 className="font-bold text-lg text-foreground">Бързи връзки</h3>
+            <div className="space-y-1">
               {[
                 { name: "Цени на горива", href: "/products" },
                 { name: "Нашите услуги", href: "/about" },
@@ -95,10 +86,10 @@ export default function Footer() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="flex items-center space-x-2 text-white/60 hover:text-white/70 transition-all duration-300 group text-sm"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200 group text-sm -mx-2 px-2 py-2.5 rounded-md hover:bg-secondary"
                 >
-                  <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-primary" />
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
+                  <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 text-brand-500" />
+                  <span>{link.name}</span>
                 </Link>
               ))}
             </div>
@@ -106,20 +97,20 @@ export default function Footer() {
 
           {/* Benefits */}
           <div className="space-y-5">
-            <h3 className="font-bold text-lg text-white">За клиенти</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
+            <h3 className="font-bold text-lg text-foreground">За клиенти</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Предимства и удобства на едно място
             </p>
             <div className="space-y-3">
-              <div className="p-4 rounded-xl bg-primary/[0.06] border border-primary/10">
-                <p className="text-white font-bold text-sm mb-1">24/7 Обслужване</p>
-                <p className="text-white/50 text-xs leading-relaxed">
+              <div className="p-4 rounded-md border border-brand-500/20 bg-brand-500/[0.06]">
+                <p className="text-foreground font-bold text-sm mb-1">24/7 обслужване</p>
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   Винаги на ваше разположение
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.05]">
-                <p className="text-white font-bold text-sm mb-1">Безплатен паркинг</p>
-                <p className="text-white/50 text-xs leading-relaxed">
+              <div className="p-4 rounded-md border border-border bg-secondary">
+                <p className="text-foreground font-bold text-sm mb-1">Безплатен паркинг</p>
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   Удобно паркиране за всички клиенти
                 </p>
               </div>
@@ -128,19 +119,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 border-t border-white/[0.04]">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-white/45 text-xs text-center md:text-left">
+        <div className="pt-10 border-t border-border">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-muted-foreground/70 text-xs text-center md:text-left">
               © {new Date().getFullYear()} {companyInfo.name}. Всички права запазени.
             </p>
-            <div className="flex items-center space-x-6 text-xs">
-              <Link href="/about" className="text-white/45 hover:text-white/50 transition-colors duration-300">
+            <div className="flex items-center gap-6 text-xs">
+              <Link href="/about" className="text-muted-foreground/70 hover:text-foreground transition-colors duration-200">
                 За нас
               </Link>
-              <Link href="/contact" className="text-white/45 hover:text-white/50 transition-colors duration-300">
+              <Link href="/contact" className="text-muted-foreground/70 hover:text-foreground transition-colors duration-200">
                 Контакти
               </Link>
-              <Link href="/products" className="text-white/45 hover:text-white/50 transition-colors duration-300">
+              <Link href="/products" className="text-muted-foreground/70 hover:text-foreground transition-colors duration-200">
                 Горива
               </Link>
             </div>

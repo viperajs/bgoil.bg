@@ -99,8 +99,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       }}
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-5xl flex-row items-center justify-between rounded-full px-6 py-2 lg:flex",
-        "bg-black/40 backdrop-blur-xl border border-white/10",
-        "shadow-[0_8px_32px_rgba(239,68,68,0.15),0_0_60px_rgba(244,63,94,0.1),inset_0_1px_0_rgba(255,255,255,0.1)]",
+        "bg-card/70 backdrop-blur-xl border border-border shadow-elevation-2",
         className,
       )}
     >
@@ -124,14 +123,14 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <Link
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-white/70 hover:text-white transition-colors"
+          className="relative px-4 py-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:text-foreground"
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-white/10"
+              className="absolute inset-0 h-full w-full rounded-full bg-secondary"
             />
           )}
           <span className="relative z-20">{item.name}</span>
@@ -155,8 +154,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       }}
       className={cn(
         "relative z-50 mx-auto flex w-full flex-col px-4 py-3 lg:hidden rounded-2xl",
-        "bg-black/40 backdrop-blur-xl border border-white/10",
-        "shadow-[0_8px_32px_rgba(239,68,68,0.15),0_0_60px_rgba(244,63,94,0.1),inset_0_1px_0_rgba(255,255,255,0.1)]",
+        "bg-card/70 backdrop-blur-xl border border-border shadow-elevation-2",
         className,
       )}
     >
@@ -196,7 +194,7 @@ export const MobileNavMenu = ({
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className={cn(
-            "w-full flex flex-col items-start justify-start gap-3 pt-4 mt-3 border-t border-white/20 overflow-hidden",
+            "w-full flex flex-col items-start justify-start gap-3 pt-4 mt-3 border-t border-border overflow-hidden",
             className,
           )}
         >
@@ -214,10 +212,16 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="text-white cursor-pointer h-6 w-6" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="text-white cursor-pointer h-6 w-6" onClick={onClick} />
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isOpen ? "Затвори менюто" : "Отвори менюто"}
+      aria-expanded={isOpen}
+      className="p-1 -m-1 rounded-md text-foreground cursor-pointer"
+    >
+      {isOpen ? <IconX className="h-6 w-6" /> : <IconMenu2 className="h-6 w-6" />}
+    </button>
   );
 };
 
@@ -256,15 +260,13 @@ export const NavbarButton = ({
   | React.ComponentPropsWithoutRef<"button">
 )) => {
   const baseStyles =
-    "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+    "px-4 py-2 rounded-md text-sm font-bold relative cursor-pointer transition-colors duration-200 inline-block text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
   const variantStyles = {
-    primary:
-      "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-    secondary: "bg-transparent shadow-none dark:text-white",
-    dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-    gradient:
-      "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
+    primary: "bg-primary text-primary-foreground shadow-elevation-1 hover:bg-primary-hover",
+    secondary: "bg-transparent text-foreground hover:bg-secondary",
+    dark: "bg-secondary text-foreground hover:bg-muted",
+    gradient: "bg-primary text-primary-foreground shadow-elevation-1 hover:bg-primary-hover",
   };
 
   return (
