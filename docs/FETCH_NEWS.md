@@ -31,20 +31,6 @@ const news = await fetchNews({
 // news е масив от { title, link, publishedAt, source }
 ```
 
-### Чрез API endpoint
-
-```typescript
-// GET /api/news-feed/simple
-// Query parameters:
-//   - hoursBack: number (по подразбиране 72)
-//   - maxPerFeed: number (по подразбиране 30)
-//   - maxTotal: number (по подразбиране 150)
-//   - requireKeywordMatch: boolean (по подразбиране true)
-
-const response = await fetch("/api/news-feed/simple?hoursBack=48&maxTotal=100");
-const data = await response.json();
-```
-
 ## Характеристики
 
 - ✅ Чете източниците от `.env` (NEWS_FEED_SOURCES + INTERNATIONAL_FEEDS)

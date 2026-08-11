@@ -203,24 +203,6 @@ Authorization: Bearer <your-token>
 
 ## Тестване
 
-### Тест на AI Резюме
-
-Използвайте endpoint `/api/news-feed/test-summary` за тестване на AI резюметата:
-
-```bash
-# GET - Проверка на конфигурацията
-curl http://localhost:3000/api/news-feed/test-summary
-
-# POST - Тест на резюме
-curl -X POST http://localhost:3000/api/news-feed/test-summary \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Цените на бензина растат с 5%",
-    "content": "Според последните данни от пазара на горива, цените на бензина са се увеличили с 5% през последния месец. Това се дължи на повишените цени на суровия петрол и промените в акцизите.",
-    "language": "bg"
-  }'
-```
-
 ### Първо събиране на новини
 
 1. Конфигурирайте RSS източници в `app/api/news-feed/ingest/route.ts`

@@ -25,8 +25,8 @@ const NAV_ITEMS = [
   { name: 'Цени горива', href: '/admin-prices', icon: CreditCard },
 ]
 
-// Страници без административна рамка (login/2fa)
-const BARE_ROUTES = ['/admin/login', '/admin/2fa']
+// Страници без административна рамка (login)
+const BARE_ROUTES = ['/admin/login']
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()

@@ -111,18 +111,7 @@ export const revalidate = 3600; // 1 час
 
 ## Тестване
 
-1. Тест на AI резюме:
-
-```
-POST /api/news-feed/test-summary
-{
-  "title": "Цените на бензина растат",
-  "content": "Текст...",
-  "language": "bg"
-}
-```
-
-2. Проверка на здравословен статус:
+1. Проверка на здравословен статус:
 
 ```
 GET /api/news-feed/health
