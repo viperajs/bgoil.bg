@@ -57,21 +57,36 @@ All three carry Cyrillic, which is non-negotiable for Bulgarian.
 
 ## 4. The band map
 
-Hero height 460vh, so the scroll range is 360vh and 0.02 of progress is 7.2vh.
+Hero height 520vh, so the scroll range is 420vh and 0.02 of progress is 8.4vh.
 **Deviation, said out loud:** the skill's ramp constant (0.02) would give 7vh ramps on a hero this short,
 against the intended ~20vh. So the ramp is computed as `f = Math.min(0.055, (b - a) / 3)` here, which lands
-ramps at ~20vh and keeps plateaus at ~95vh, inside the 80 to 130vh standard.
+ramps at ~23vh and keeps plateaus at ~90 to 110vh, inside the 80 to 130vh standard.
 
 | Band | Range | Footage moment | Copy (verbatim) | Entrance |
 |---|---|---|---|---|
-| 1 | 0.00 – 0.30 | high in the black sky, falling, station is a pinprick far below | BG: «Тъмно е.» / «Всичко е затворено.» · EN: "It is dark." / "Everything is closed." | **Drift-down**, word by word, echoing the fall. Band 1 opens settled via the one-time load ramp. |
-| 2 | 0.36 – 0.66 | through the mist layer, light climbing the frame, canopy taking shape | BG: «Освен едно място.» · EN: "Except one place." | **Blur-to-sharp**, two stacked copies, echoing the mist clearing. |
-| 3 | 0.72 – 1.00 | at rest under the lit canopy, wet asphalt, light steady | BG headline: «СВЕТЛО Е. ВИНАГИ.» sub: «Гориво, магазин, сервиз, легло и топло кафе. Във Враца, бул. Мито Орозов 34. Всеки час от денонощието.» CTA: «Обади се сега» / «Виж маршрута» · EN headline: "THE LIGHT IS ON. ALWAYS." | **Word-by-word rise into a staged settle**: headline words rise, then the subline at k>0.66, then the CTA row at k>0.78. |
+| 1 | 0.00 – 0.31 | high in the black sky, falling, station is a pinprick far below | BG: «Тъмно е.» / «Всичко е затворено.» · EN: "It is dark." / "Everything is closed." | **Drift-down**, word by word, echoing the fall. Band 1 opens settled via the one-time load ramp. |
+| 2 | 0.35 – 0.66 | through the mist layer, light climbing the frame, canopy taking shape | BG: «Освен едно място.» · EN: "Except one place." | **Blur-to-sharp**, two stacked copies, echoing the mist clearing. |
+| 3 | 0.71 – 1.00 | at rest under the lit canopy, wet asphalt, light steady | BG headline: «СВЕТЛО Е. ВИНАГИ.» sub: «Гориво, магазин, сервиз, легло и топло кафе. Във Враца, бул. Мито Орозов 34. Всеки час от денонощието.» CTA: «Обади се сега» / «Виж маршрута» · EN headline: "THE LIGHT IS ON. ALWAYS." | **Word-by-word rise into a staged settle**: headline words rise, then the subline at k>0.66, then the CTA row at k>0.78. |
 
 Action lane: the canopy sits centre-low through the shot, so bands 1 and 2 live in the upper third
 (sky, empty by design) and band 3 settles centre with the subject spread wide and low behind it.
 
-## 5. The static-hero copy block (phones, reduced motion)
+## 5. The mobile decision (revised after the build, at the owner's request)
+
+The journey runs on **every** screen, not just desktop. The only gate left is reduced motion,
+which still gets the composed still hero and downloads no media at all.
+
+- **Landscape and desktop:** full-bleed `cover`, as designed.
+- **Portrait phones and tablets:** the frame is a 4:3 crop pinned across the top of the stage with its
+  top and bottom edges feathered by a CSS mask, and the caption bands sit in the space beneath it.
+  A tall screen filled edge to edge would crop this wide aerial to a narrow strip and destroy the
+  premise (one small light in a large dark world), so the picture is placed rather than cropped.
+- **A lighter cut for small screens:** `hero-scrub-mobile.mp4`, 960px wide, 570KB against the
+  desktop file's 2.0MB, chosen at `(max-width: 900px)`.
+- Verified: worst-pixel contrast 13.0, 18.0 and 14.7 to 1 on the phone layout; every beat reaches
+  full opacity at 300, 500 and 700px swipes with none skippable; no sideways scroll at any width.
+
+## 6. The static-hero copy block (reduced motion)
 
 Over the ending frame:
 
@@ -80,7 +95,7 @@ Over the ending frame:
 - Subline: «Гориво, магазин, сервиз, легло и топло кафе. Бул. Мито Орозов 34, Враца. Отворено по всяко време.»
 - CTA: «Обади се сега» (tel) + «Виж маршрута» (maps)
 
-## 6. The below-fold outline
+## 7. The below-fold outline
 
 Every section funnels to one anchor: **#контакт**, and the one action is **обади се**.
 No two adjacent sections share a skeleton (price board → hold interaction → icon grid → split image →
@@ -146,7 +161,7 @@ No fictional-brand disclosure (real business) and no AI-imagery note (owner's de
 **Language.** Bulgarian is default. A BG/EN switch in the nav swaps every viewer-facing string
 (`data-bg` / `data-en`), sets `<html lang>`, and remembers the choice in localStorage.
 
-## 7. The vector layer plan
+## 8. The vector layer plan
 
 - **The signature: the 0-24 hour rail.** A fixed vertical rail on the left edge, 25 tick marks for the hours,
   drawn in SVG. A red marker glides down it with scroll progress, and the visitor's **real current hour** is lit
@@ -161,17 +176,17 @@ No fictional-brand disclosure (real business) and no AI-imagery note (owner's de
   blue field, drifting on a 90 second cycle, so the whole page reads as one night.
 - Reduced motion: rail marker pinned to the live hour, dividers drawn, particles stopped, holds completed.
 
-## 8. The engineering list
+## 9. The engineering list
 
 Blob fetch with poster-first paint and the loading ring (streamed if over ~8MB, with the 20s watchdog);
 dt-normalised lerp in a rAF loop that rests; gated seeks with the error-path deadlock escape; delta-gated
 DOM writes; band pacing with the flick test at 120/240/360px; the four-layer legibility system (global scrim,
 per-band scrim riding `--k`, three-layer text shadow token, chip scrim for mono labels) audited at the worst
-frame to 3.5:1 minimum; the five static-hero gates matched character-for-character in CSS and JS and kept
-live with change listeners; complete-without-video; `overflow-x: clip` on html and body; reduced motion
+frame to 3.5:1 minimum; the reduced-motion gate matched character-for-character in CSS and JS and kept
+live with a change listener; complete-without-video; `overflow-x: clip` on html and body; reduced motion
 honoured live in both directions; the whole-site-animated standard.
 
-## 9. The copy gate
+## 10. The copy gate
 
 Every viewer-facing line above ships verbatim. Before anyone sees the build it must pass the grep gate:
 zero em dashes, zero stock words (leverage, seamless, empower, unlock, robust, actionable, data-driven,

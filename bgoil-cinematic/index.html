@@ -427,11 +427,39 @@ textarea{min-height:104px;resize:vertical}
   display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 /* ---------- the static hero gates (must match the JS strings exactly) ---------- */
-@media (max-width:720px),
-       (orientation:portrait) and (max-width:1024px),
-       (orientation:portrait) and (pointer:coarse),
-       (orientation:landscape) and (pointer:coarse) and (max-height:560px),
-       (prefers-reduced-motion:reduce){
+/* the journey on phones: the whole wide frame across the top, the words beneath it,
+   so the composition survives a tall screen instead of being cropped to a strip */
+@media (orientation:portrait) and (max-width:1024px){
+  .stage video,.poster{position:absolute;inset:auto;top:7%;left:0;right:auto;bottom:auto;
+    width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+    background-size:cover;background-position:center;transform:none;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 84%,transparent 100%);
+            mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 84%,transparent 100%)}
+  .scrim{background:radial-gradient(ellipse 140% 46% at 50% 22%,rgba(6,10,24,0) 46%,rgba(6,10,24,.42) 100%)}
+  .vign{background:linear-gradient(to bottom,rgba(6,10,24,.6) 0%,rgba(6,10,24,0) 11%,rgba(6,10,24,0) 34%,rgba(6,10,24,.5) 44%,var(--canvas-deep) 66%)}
+  .band{width:min(92vw,560px)}
+  .b1,.b2{top:60vh}
+  .b3{top:46vh}
+  .band .line{font-size:clamp(27px,7.6vw,42px)}
+  .b3 .line{font-size:clamp(30px,8.6vw,46px)}
+  .b3 .sub{margin-top:16px;font-size:14.5px;max-width:34ch}
+  .b3 .ctarow{margin-top:20px;gap:10px}
+  .b3 .ctarow .btn{width:100%}
+  .band::before{top:-26%;height:152%}
+  .hud{left:12px;right:12px;bottom:70px;justify-content:center}
+  .cue{bottom:20px}
+  .ringwrap{right:14px;bottom:70px}
+}
+/* a phone held sideways matches the frame, so it keeps the full-bleed crop */
+@media (orientation:landscape) and (max-height:560px){
+  .band .line{font-size:clamp(20px,4.2vw,30px)}
+  .b1,.b2{top:26vh}
+  .b3{top:19vh}
+  .b3 .sub{margin-top:12px;font-size:13.5px}
+  .b3 .ctarow{margin-top:14px}
+}
+
+@media (prefers-reduced-motion:reduce){
   .hero{display:none}
   .statichero{display:block}
 }
@@ -948,8 +976,9 @@ function splitAllBands(){
 }
 
 /* ================= the scrub hero ================= */
-var VIDEO_URL = 'assets/hero-scrub.mp4';
-var VIDEO_BYTES = 2023880;
+var SMALL_SCREEN = matchMedia('(max-width: 900px)').matches;
+var VIDEO_URL = SMALL_SCREEN ? 'assets/hero-scrub-mobile.mp4' : 'assets/hero-scrub.mp4';
+var VIDEO_BYTES = SMALL_SCREEN ? 570107 : 2023880;
 var POSTER_URL = 'assets/hero-poster.jpg';
 
 var stage = document.getElementById('stage');
@@ -1111,13 +1140,7 @@ function initHeroOnce(){
 }
 
 /* ---- the five static-hero gates, identical to the CSS ---- */
-var GATES = [
-  '(max-width: 720px)',
-  '(orientation: portrait) and (max-width: 1024px)',
-  '(orientation: portrait) and (pointer: coarse)',
-  '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
-  '(prefers-reduced-motion: reduce)'
-];
+var GATES = ['(prefers-reduced-motion: reduce)'];
 function enableScrub(){
   if(scrubOn) return;
   scrubOn = true;
