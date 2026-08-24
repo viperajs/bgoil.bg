@@ -919,11 +919,16 @@ setInterval(clockTick, 30000);
 
 var railMark = document.getElementById('railmark');
 var lastMarkY = -1;
+function pageOffset(){
+  var d = document.documentElement;
+  var t = d.getBoundingClientRect().top;
+  return t < 0 ? -t : (window.scrollY || 0);
+}
 function updateRail(){
   if(!railMark) return;
   var doc = document.documentElement;
   var max = doc.scrollHeight - window.innerHeight;
-  var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  var p = max > 0 ? Math.min(1, Math.max(0, pageOffset() / max)) : 0;
   var y = Math.round(6 + (420 - 12) * p);
   if(y === lastMarkY) return;
   lastMarkY = y;
@@ -993,7 +998,7 @@ var bandEls = [].slice.call(document.querySelectorAll('.band')).map(function(el)
            sub: el.querySelector('.sub'), cta: el.querySelector('.ctarow'), op: -1, k: -1, on: -1 };
 });
 
-var target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true;
+var target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true, ticks = 0, scrolls = 0;
 var seekBusy = false, pendingTime = null;
 var heroInit = false, videoOk = false, scrubOn = false;
 var loadK = 0, loadStart = 0, loadRamping = false;
@@ -1054,8 +1059,11 @@ function updateCaptions(p){
 }
 
 function tick(now){
+  if(!scrubOn){ rafId = null; lastTick = 0; return; }
   var dt = Math.min(100, now - (lastTick || now));
   lastTick = now;
+  target = heroProgress();
+  ticks++;
   var k = 0.16;
   shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
 
@@ -1064,18 +1072,23 @@ function tick(now){
     if(loadK >= 1) loadRamping = false;
   }
 
-  var done = Math.abs(target - shown) < 0.0005 && !loadRamping;
-  if(done){ shown = target; rafId = null; lastTick = 0; }
-  else { rafId = requestAnimationFrame(tick); }
+  var settled = Math.abs(target - shown) < 0.0005 && !loadRamping;
+  if(settled) shown = target;
+
+  if(heroOnScreen) rafId = requestAnimationFrame(tick);
+  else { rafId = null; lastTick = 0; }
 
   if(videoOk && video.duration) requestSeek(shown * video.duration);
   updateCaptions(shown);
+  updateRail();
+  navState();
 }
 
 function kick(){
   if(rafId === null && heroOnScreen && scrubOn) rafId = requestAnimationFrame(tick);
 }
 function onScroll(){
+  scrolls++;
   target = heroProgress();
   kick();
   updateRail();
@@ -1089,6 +1102,27 @@ function failVideo(){
 }
 
 function loadHeroBlob(){
+  // an embedded copy carries the clip inline: hand it straight to the element,
+  // since some hosts refuse to play media from a blob url
+  if(VIDEO_URL.slice(0,5) === 'data:'){
+    return new Promise(function(res, rej){
+      video.addEventListener('canplay', function(){
+        primeVideo();
+        stage.classList.add('video-ready');
+        verifyScrub().then(function(diff){
+          if(diff < 4) enablePlayMode();
+          videoOk = true; seekBusy = false; pendingTime = null;
+          target = heroProgress();
+          requestSeek(target * video.duration);
+          kick(); res();
+        });
+      }, { once:true });
+      video.addEventListener('error', function(){ rej(new Error('media')); }, { once:true });
+      if(ring) ring.style.setProperty('--ld', 0);
+      video.src = VIDEO_URL;
+      video.load();
+    });
+  }
   var ctrl = new AbortController();
   var watchdog = setTimeout(function(){ ctrl.abort(); }, 20000);
   return fetch(VIDEO_URL, { signal: ctrl.signal }).then(function(res){
@@ -1210,6 +1244,7 @@ function enableScrub(){
   scrubOn = true;
   initHeroOnce();
   window.addEventListener('scroll', onScroll, { passive:true });
+  document.addEventListener('scroll', onScroll, { passive:true, capture:true });
   for(var i=0;i<bandEls.length;i++){ bandEls[i].op = -1; bandEls[i].k = -1; bandEls[i].on = -1; }
   unpinFinalStates();
   target = heroProgress();
@@ -1221,6 +1256,7 @@ function disableScrub(){
   if(!scrubOn) return;
   scrubOn = false;
   window.removeEventListener('scroll', onScroll);
+  document.removeEventListener('scroll', onScroll, true);
   if(rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
 }
 function applyHeroMode(){
@@ -1246,7 +1282,7 @@ if(hero){
 /* ================= nav state ================= */
 var navEl = document.getElementById('nav'), navSolid = false;
 function navState(){
-  var s = window.scrollY > 40;
+  var s = pageOffset() > 40;
   if(s !== navSolid){ navSolid = s; navEl.classList.toggle('solid', s); }
 }
 window.addEventListener('scroll', function(){ updateRail(); navState(); }, { passive:true });
@@ -1377,6 +1413,28 @@ matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', functi
 document.addEventListener('visibilitychange', function(){
   document.body.classList.toggle('paused', document.hidden);
 });
+
+/* ================= a readout, only when the address ends in #debug ================= */
+if(location.hash === '#debug'){
+  var dbg = document.createElement('div');
+  dbg.setAttribute('style','position:fixed;left:8px;top:64px;z-index:99;background:rgba(0,0,0,.86);'+
+    'color:#7CFFB2;font:11px/1.5 ui-monospace,monospace;padding:9px 11px;border-radius:8px;'+
+    'white-space:pre;pointer-events:none;max-width:92vw');
+  document.body.appendChild(dbg);
+  setInterval(function(){
+    var r = hero ? hero.getBoundingClientRect() : {top:0};
+    dbg.textContent =
+      'in frame : ' + (window.top !== window.self) + '\n' +
+      'viewport : ' + window.innerWidth + ' x ' + window.innerHeight + '\n' +
+      'scrollY  : ' + Math.round(window.scrollY) + '   pageOffset ' + Math.round(pageOffset()) + '\n' +
+      'hero top : ' + Math.round(r.top) + '   progress ' + heroProgress().toFixed(3) + '\n' +
+      'scrubOn  : ' + scrubOn + '   onScreen ' + heroOnScreen + '\n' +
+      'raf ticks: ' + ticks + '   scroll events ' + scrolls + '\n' +
+      'video    : ' + (videoOk ? 'ready' : 'not ready') + '   playMode ' + playMode + '\n' +
+      'time     : ' + (video && video.duration ? video.currentTime.toFixed(2) + ' / ' + video.duration.toFixed(2) : 'n/a') + '\n' +
+      'stage    : ' + (stage ? stage.className : '-');
+  }, 200);
+}
 
 /* ================= boot ================= */
 document.getElementById('year').textContent = new Date().getFullYear();
