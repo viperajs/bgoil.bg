@@ -513,7 +513,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 <section class="hero" id="hero" aria-label="BG OIL">
   <div class="stage" id="stage">
     <div class="poster" id="poster" aria-hidden="true"></div>
-    <video id="hero-video" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
+    <video id="hero-video" preload="none" muted playsinline webkit-playsinline disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
     <div class="scrim" aria-hidden="true"></div>
     <div class="vign" aria-hidden="true"></div>
 
@@ -1104,6 +1104,7 @@ function loadHeroBlob(){
           video.load();
           video.addEventListener('canplay', function(){
             videoOk = true;
+            primeVideo();
             stage.classList.add('video-ready');
             target = heroProgress();
             requestSeek(target * video.duration);
@@ -1125,6 +1126,24 @@ function loadHeroBlob(){
     return pump();
   });
 }
+
+var primed = false;
+function primeVideo(){
+  if(primed || !video) return;
+  primed = true;
+  try{
+    var pr = video.play();
+    if(pr && pr.then) pr.then(function(){ video.pause(); }).catch(function(){ primed = false; });
+    else video.pause();
+  }catch(e){ primed = false; }
+}
+// a first touch always satisfies a browser that wanted a gesture before loading media
+['touchstart','pointerdown'].forEach(function(ev){
+  window.addEventListener(ev, function once(){
+    window.removeEventListener(ev, once);
+    if(videoOk) primeVideo();
+  }, { passive:true });
+});
 
 function initHeroOnce(){
   if(heroInit) return;
