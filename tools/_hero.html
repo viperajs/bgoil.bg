@@ -1,0 +1,62 @@
+<div class="rail" id="rail" aria-hidden="true">
+  <svg width="18" height="420" viewBox="0 0 18 420" id="railsvg"></svg>
+  <span class="railnow" id="railnow"></span>
+</div>
+
+<main id="main" tabindex="-1">
+<div id="top"></div>
+
+<!-- ============ HERO (scrub) ============ -->
+<section class="hero" id="hero" aria-label="BG OIL">
+  <div class="stage" id="stage">
+    <div class="poster" id="poster" aria-hidden="true"></div>
+    <video id="hero-video" preload="none" muted playsinline webkit-playsinline disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+    <div class="scrim" aria-hidden="true"></div>
+    <div class="vign" aria-hidden="true"></div>
+
+    <div class="bands" id="bands">
+      <div class="band b1" data-a="0" data-b="0.31" data-entrance="drift" data-spread="0.30">
+        <p class="line" data-split="words" data-bg="Тъмно е." data-en="It is dark."></p>
+        <p class="line" data-split="words" data-bg="Всичко е затворено." data-en="Everything is closed."></p>
+      </div>
+      <div class="band b2" data-a="0.35" data-b="0.66" data-entrance="blur">
+        <p class="line" data-split="blur" data-bg="Освен едно място." data-en="Except one place."></p>
+      </div>
+      <div class="band b3" data-a="0.71" data-b="1" data-entrance="rise" data-spread="0.34">
+        <p class="line" data-split="words" data-bg="Светло е. Винаги." data-en="The light is on. Always."></p>
+        <p class="sub" data-bg="Гориво, магазин, сервиз, легло и топло кафе. Във Враца, бул. Мито Орозов 34. Всеки час от денонощието." data-en="Fuel, a shop, a workshop, a bed and hot coffee. Vratsa, 34 Mito Orozov Blvd. Every hour of the day and night."></p>
+        <div class="ctarow">
+          <a class="btn btn-primary" href="tel:+359878618640" data-bg="Обади се сега" data-en="Call us now">Обади се сега</a>
+          <a class="btn btn-ghost" href="https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8" target="_blank" rel="noopener" data-bg="Виж маршрута" data-en="Get directions">Виж маршрута</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud" aria-hidden="true">
+      <span class="chip" id="hudclock"></span>
+      <span class="chip" data-bg="Враца · бул. Мито Орозов 34" data-en="Vratsa · 34 Mito Orozov Blvd"></span>
+    </div>
+    <div class="ringwrap" id="ringwrap" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><circle class="trk" cx="24" cy="24" r="20" fill="none" stroke-width="3"/>
+      <circle class="ring" cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3"
+        stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+    <div class="cue" aria-hidden="true"><span data-bg="Скролни" data-en="Scroll"></span>
+      <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1v15M1.6 11.6 6 16.4l4.4-4.8"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATIC HERO (phones, reduced motion) ============ -->
+<section class="statichero" id="statichero" aria-label="BG OIL">
+  <div class="sh" aria-hidden="true"></div>
+  <div class="inner">
+    <p class="kick" id="statickick"></p>
+    <h1><span data-bg="Светло е." data-en="The light is on."></span> <span class="accent" data-bg="Винаги." data-en="Always."></span></h1>
+    <p data-bg="Гориво, магазин, сервиз, легло и топло кафе. Бул. Мито Орозов 34, Враца. Отворено по всяко време." data-en="Fuel, a shop, a workshop, a bed and hot coffee. 34 Mito Orozov Blvd, Vratsa. Open at any hour."></p>
+    <div class="ctarow">
+      <a class="btn btn-primary" href="tel:+359878618640" data-bg="Обади се сега" data-en="Call us now"></a>
+      <a class="btn btn-ghost" href="https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8" target="_blank" rel="noopener" data-bg="Виж маршрута" data-en="Get directions"></a>
+    </div>
+  </div>
+</section>
