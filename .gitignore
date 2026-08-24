@@ -32,3 +32,6 @@ next-env.d.ts
 
 # local photo uploads (dev fallback for Vercel Blob)
 /public/uploads/
+
+# cinematic site: raw generations and review copies (never deployed)
+/review/
