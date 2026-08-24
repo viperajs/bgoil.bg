@@ -50,9 +50,14 @@ Accent doses only: the CTA, the hour marker, the price highlight, focus rings, t
 
 All three carry Cyrillic, which is non-negotiable for Bulgarian.
 
-- **Display: Oswald 500/600.** Condensed signage. It is the typography of road price boards and totems,
+All three are self-hosted (`assets/fonts/`, cyrillic and latin subsets only), so the page depends on
+no third party and the weights that ship are exactly the weights in use.
+
+- **Display: Oswald 600.** Condensed signage. It is the typography of road price boards and totems,
   which is exactly this brand's world. Uppercase headlines, tight tracking.
-- **Body: Manrope 400/500/700.** Quiet, warm, geometric. Excellent Cyrillic.
+- **Body: Golos Text 400.** Chosen after the build: the first pick, Manrope, draws Cyrillic in the old
+  Bulgarian cursive style (и as u, т as m), which clashed with the headline face drawing the same
+  letters conventionally. Golos Text is a Cyrillic-first design with standard forms.
 - **Mono: JetBrains Mono 400/500.** Prices, litres, hours, small labels, the 0-24 chips.
 
 ## 4. The band map
