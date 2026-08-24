@@ -86,8 +86,15 @@ which still gets the composed still hero and downloads no media at all.
   top and bottom edges feathered by a CSS mask, and the caption bands sit in the space beneath it.
   A tall screen filled edge to edge would crop this wide aerial to a narrow strip and destroy the
   premise (one small light in a large dark world), so the picture is placed rather than cropped.
-- **A lighter cut for small screens:** `hero-scrub-mobile.mp4`, 960px wide, 570KB against the
-  desktop file's 2.0MB, chosen at `(max-width: 900px)`.
+- **Two cuts of the same shot, each framed for its screen.** A phone shows a 4:3 slice, so it gets
+  `hero-phone.mp4`: that slice cropped at the source's own resolution and encoded at 1280x960, rather
+  than a wide cut with three quarters of its pixels cropped off the sides. The desktop file is the full
+  frame at 1712x956. Both carry a light unsharp pass, because the source shot is only 1284x716 (Kling
+  standard mode) and every screen upscales it.
+- **The hero is one centred block on phones,** picture and captions together, sized from
+  `min(75vw, 44vh)` plus a real text reserve, never from screen height alone. A percentage-of-height
+  layout looked right on a 812px phone and fell apart on a 1932px one, with the picture stranded at
+  the top and the words adrift in the middle.
 - Verified: worst-pixel contrast 13.0, 18.0 and 14.7 to 1 on the phone layout; every beat reaches
   full opacity at 300, 500 and 700px swipes with none skippable; no sideways scroll at any width.
 
