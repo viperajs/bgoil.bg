@@ -643,3 +643,93 @@ body.leaving{opacity:0;transition:opacity .28s var(--ease-soft)}
   transition:opacity .6s var(--ease-soft),transform 1.2s var(--ease)}
 .teaser .wm svg{width:100%;height:auto}
 .teaser:hover .wm{opacity:.11;transform:scale(1.06) rotate(-4deg)}
+
+/* ============================================================
+   THE PHONE MENU. Below 900px the row of links has nowhere to go,
+   so it becomes a full screen menu that opens from the button.
+   ============================================================ */
+.burger{display:none;position:relative;width:44px;height:44px;border-radius:11px;flex:0 0 auto;
+  border:1px solid var(--line-strong);background:rgba(142,155,191,.06);cursor:pointer;
+  transition:border-color .4s var(--ease-soft),background .4s var(--ease-soft)}
+.burger:hover{border-color:var(--accent)}
+.burger span{position:absolute;left:12px;width:20px;height:1.5px;border-radius:2px;background:var(--text-primary);
+  transition:transform .45s var(--ease),opacity .3s var(--ease-soft),background .3s var(--ease-soft)}
+.burger span:nth-child(1){top:17px}
+.burger span:nth-child(2){top:25px}
+.burger[aria-expanded="true"] span{background:var(--accent)}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(4px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+
+.mobmenu{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;justify-content:center;
+  padding:96px clamp(22px,7vw,44px) calc(28px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,var(--canvas-deep),var(--canvas) 62%,var(--canvas-deep));
+  opacity:0;pointer-events:none;transition:opacity .42s var(--ease-soft)}
+.mobmenu::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 90% 50% at 50% 108%,rgba(255,58,50,.18),transparent 66%)}
+.mobmenu.open{opacity:1;pointer-events:auto}
+.mobmenu a.mm{position:relative;display:flex;align-items:baseline;gap:16px;text-decoration:none;
+  padding:clamp(11px,2.2vh,18px) 0;border-bottom:1px solid var(--line);
+  font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(26px,8vw,42px);line-height:1;color:var(--text-primary);
+  opacity:0;transform:translateY(26px);
+  transition:opacity .5s var(--ease),transform .6s var(--ease),color .35s var(--ease-soft)}
+.mobmenu.open a.mm{opacity:1;transform:none}
+.mobmenu.open a.mm:nth-child(1){transition-delay:.06s}
+.mobmenu.open a.mm:nth-child(2){transition-delay:.115s}
+.mobmenu.open a.mm:nth-child(3){transition-delay:.17s}
+.mobmenu.open a.mm:nth-child(4){transition-delay:.225s}
+.mobmenu.open a.mm:nth-child(5){transition-delay:.28s}
+.mobmenu.open a.mm:nth-child(6){transition-delay:.335s}
+.mobmenu.open a.mm:nth-child(7){transition-delay:.39s}
+.mobmenu a.mm .i{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);
+  flex:0 0 auto;opacity:.75}
+.mobmenu a.mm.here{color:var(--accent)}
+.mobmenu a.mm::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--accent);
+  transition:width .5s var(--ease)}
+.mobmenu a.mm:active::after,.mobmenu a.mm.here::after{width:100%}
+.mmfoot{position:relative;margin-top:clamp(22px,4vh,40px);display:flex;flex-direction:column;gap:14px;
+  opacity:0;transform:translateY(20px);transition:opacity .5s var(--ease) .45s,transform .6s var(--ease) .45s}
+.mobmenu.open .mmfoot{opacity:1;transform:none}
+.mmfoot .btn{width:100%}
+.mmfoot .chip{align-self:flex-start}
+body.menu-open{overflow:hidden}
+
+@media (max-width:900px){
+  .burger{display:block}
+  .navlinks{display:none}
+  .nav{gap:10px}
+  .langbtn{margin-left:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .mobmenu,.mobmenu a.mm,.mmfoot{transition:none}
+  .mobmenu a.mm{opacity:1;transform:none}
+  .mmfoot{opacity:1;transform:none}
+}
+
+/* ---------- the promo strip, switched on from the admin panel ---------- */
+.promo{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:center;
+  gap:10px;min-height:38px;padding:8px 16px;text-align:center;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(90deg,var(--accent-deep),#B7000C 55%,var(--accent-deep));
+  box-shadow:0 6px 24px rgba(224,16,24,.28)}
+.promo[hidden]{display:none}
+.promo::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.16) 45%,transparent 70%);
+  transform:translateX(-100%);animation:promoshine 6.5s var(--ease-soft) -1s infinite}
+@keyframes promoshine{0%{transform:translateX(-100%)}55%,100%{transform:translateX(120%)}}
+body.has-promo .nav{top:38px}
+body.has-promo .mobmenu{padding-top:128px}
+
+/* ---------- tonight's rooms, from the admin panel ---------- */
+.roomstate{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:9px 14px;border-radius:11px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:#BFF3D2;background:rgba(60,200,120,.09);border:1px solid rgba(60,200,120,.32)}
+.roomstate:empty{display:none}
+.roomstate b{color:#8FE9B4;font-weight:500}
+.roomstate::before{content:"";width:8px;height:8px;border-radius:50%;background:#4FD98A;flex:0 0 auto;
+  box-shadow:0 0 10px rgba(79,217,138,.8);animation:pulse 2.6s var(--ease-soft) infinite}
+.roomstate.busy{color:#FFC9C6;background:rgba(255,58,50,.08);border-color:rgba(255,58,50,.3)}
+.roomstate.busy b{color:var(--accent-hover)}
+.roomstate.busy::before{background:var(--accent);box-shadow:0 0 10px rgba(255,58,50,.8)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+@media (prefers-reduced-motion:reduce){.promo::before,.roomstate::before{animation:none}}

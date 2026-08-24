@@ -57,6 +57,7 @@ def head(title_bg, title_en, desc):
 <body data-title-bg="{tbg}">
 <a class="skip" href="#main" {skip}>Към съдържанието</a>
 
+<div class="promo" id="promo" hidden><span></span></div>
 <div class="env" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="motes" id="motes" aria-hidden="true"></div>
@@ -67,9 +68,24 @@ def head(title_bg, title_en, desc):
 {links}
   </div>
   <button class="langbtn" id="lang" type="button" aria-label="Смени езика / Change language"><b id="langA">BG</b> / <span id="langB">EN</span></button>
+  <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mobmenu" aria-label="Меню">
+    <span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobmenu" id="mobmenu" aria-label="Меню">
+{mlinks}
+  <div class="mmfoot">
+    <a class="btn btn-primary" href="tel:+359878618640" data-c="phone.station" {callattr}>Обади се сега</a>
+    <span class="chip" id="menuclock"></span>
+  </div>
+</div>
 """.format(tbg=title_bg, ten=title_en, desc=desc, skip=t('Към съдържанието','Skip to content'), mark=MARK,
-           links='\n'.join('    <a href="%s" %s>%s</a>' % (h, t(bg, en), bg) for h, bg, en in NAV))
+           links='\n'.join('    <a href="%s" %s>%s</a>' % (h, t(bg, en), bg) for h, bg, en in NAV),
+           callattr=t('Обади се сега','Call us now'),
+           mlinks='\n'.join(
+               '  <a class="mm" href="%s"><span class="i">%02d</span><span %s>%s</span></a>' % (h, i, t(bg, en), bg)
+               for i, (h, bg, en) in enumerate([('index.html','Начало','Home')] + NAV)))
 
 FOOT = '''
 <footer class="foot">
@@ -88,8 +104,8 @@ FOOT = '''
       <p class="fh" %s>Намери ни</p>
       <ul>
         <li><a href="https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8" target="_blank" rel="noopener" %s>бул. Мито Орозов 34, Враца</a></li>
-        <li><a href="tel:+359878618640">+359 878 618 640</a></li>
-        <li><a href="mailto:bgoil_3000@abv.bg">bgoil_3000@abv.bg</a></li>
+        <li><a href="tel:+359878618640" data-c="phone.station" data-cpfx-bg="" data-cpfx-en="">+359 878 618 640</a></li>
+        <li><a href="mailto:bgoil_3000@abv.bg" data-c="email">bgoil_3000@abv.bg</a></li>
       </ul>
     </div>
   </div>
@@ -218,12 +234,12 @@ FUELS = [('Дизел','Diesel',2.29), ('Бензин А95','Petrol A95',2.29), 
 
 def page_ceni():
     rows = []
-    for bg, en, pr in FUELS:
-        rows.append('''    <div class="bigrow reveal">
-      <span class="nm" %s>%s</span>
-      <span class="was"><span %s>без карта</span> %.2f</span>
-      <span class="now"><span data-count="%.2f" data-dec="2">0.00</span><small %s>лв/л</small></span>
-    </div>''' % (t(bg, en), bg, t('без карта','standard'), pr, pr - 0.10, t('лв/л','lv/l')))
+    for i, (bg, en, pr) in enumerate(FUELS):
+        rows.append('''    <div class="bigrow reveal" data-fuel="%d">
+      <span class="nm" data-fuel-name %s>%s</span>
+      <span class="was"><span %s>без карта</span> <span data-fuel-std>%.2f</span></span>
+      <span class="now"><span data-fuel-card data-count="%.2f" data-dec="2">0.00</span><small %s>лв/л</small></span>
+    </div>''' % (i, t(bg, en), bg, t('без карта','standard'), pr, pr - 0.10, t('лв/л','lv/l')))
     return phero('plain', 'Цени', 'Prices',
         'Цената я виждаш преди да спреш.', 'You see the price before you pull in.',
         'Без изненади на колонката. С картата на BG OIL плащаш 10 стотинки по-малко на литър. Всеки литър, по всяко време.',
@@ -432,8 +448,9 @@ def page_hotel():
       <p class="kick" %s>Резервация</p>
       <h2 class="h2" %s>Обади се и питай за тази вечер.</h2>
       <p class="lede" %s>Обикновено има свободна стая и без резервация. Един телефон стига, за да разбереш веднага.</p>
+      <p class="roomstate" id="roomState" role="status"></p>
       <div class="callrow">
-        <a class="btn btn-primary" href="tel:0878618625" %s>Хотел: 087 8618625</a>
+        <a class="btn btn-primary" href="tel:0878618625" data-c="phone.hotel" data-cpfx-bg="Хотел: " data-cpfx-en="Hotel: " %s>Хотел: 087 8618625</a>
       </div>
       <div class="strip" style="margin-top:34px">
         <div><p class="v" %s>0-24</p><p class="l" %s>Приемане</p></div>
@@ -505,8 +522,8 @@ def page_serviz():
         <li %s>Налични части за спешни ремонти</li>
       </ul>
       <div class="callrow">
-        <a class="btn btn-primary" href="tel:+359877141742" %s>Сервиз: +359 87 714 1742</a>
-        <a class="btn btn-ghost" href="mailto:autoservice_1313@abv.bg">autoservice_1313@abv.bg</a>
+        <a class="btn btn-primary" href="tel:+359877141742" data-c="phone.service" data-cpfx-bg="Сервиз: " data-cpfx-en="Workshop: " %s>Сервиз: +359 87 714 1742</a>
+        <a class="btn btn-ghost" href="mailto:autoservice_1313@abv.bg" data-c="emailService">autoservice_1313@abv.bg</a>
       </div>
     </div>
   </div>
@@ -586,14 +603,14 @@ def page_vaprosi():
 
 # ------------------------------------------------------------------ contact
 def page_kontakt():
-    cards = [('Станция','Station','+359 878 618 640','tel:+359878618640','Гориво, магазин, EasyPay','Fuel, shop, EasyPay'),
-             ('Хотел','Hotel','087 8618625','tel:0878618625','Стаи и резервации','Rooms and bookings'),
-             ('Сервиз','Workshop','+359 87 714 1742','tel:+359877141742','Ремонти, части, гуми','Repairs, parts, tyres')]
-    cc = '\n'.join('''    <a class="ccard reveal" href="%s">
+    cards = [('station','Станция','Station','+359 878 618 640','tel:+359878618640','Гориво, магазин, EasyPay','Fuel, shop, EasyPay'),
+             ('hotel','Хотел','Hotel','087 8618625','tel:0878618625','Стаи и резервации','Rooms and bookings'),
+             ('service','Сервиз','Workshop','+359 87 714 1742','tel:+359877141742','Ремонти, части, гуми','Repairs, parts, tyres')]
+    cc = '\n'.join('''    <a class="ccard reveal" href="%s" data-c="phone.%s">
       <span class="who" %s>%s</span>
-      <span class="num">%s</span>
+      <span class="num" data-c-num>%s</span>
       <span class="note" %s>%s</span>
-    </a>''' % (href, t(bg, en), bg, num, t(nbg, nen), nbg) for bg, en, num, href, nbg, nen in cards)
+    </a>''' % (href, key, t(bg, en), bg, num, t(nbg, nen), nbg) for key, bg, en, num, href, nbg, nen in cards)
     return phero('', 'Контакт', 'Contact',
         'Светло е. Заповядай.', 'The light is on. Come in.',
         'гр. Враца 3000, бул. Мито Орозов 34. Отворено 0-24, всеки ден от годината.',
@@ -611,19 +628,19 @@ def page_kontakt():
         <dl>
           <div>
             <dt %s>Адрес</dt>
-            <dd><a href="https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8" target="_blank" rel="noopener" %s>гр. Враца 3000, бул. Мито Орозов 34</a></dd>
+            <dd><a href="https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8" target="_blank" rel="noopener" data-c="address" %s>гр. Враца 3000, бул. Мито Орозов 34</a></dd>
           </div>
           <div>
             <dt %s>Работно време</dt>
-            <dd %s>Отворено 0-24, всеки ден от годината</dd>
+            <dd data-c="hours" %s>Отворено 0-24, всеки ден от годината</dd>
           </div>
           <div>
             <dt %s>Поща</dt>
-            <dd><a href="mailto:bgoil_3000@abv.bg">bgoil_3000@abv.bg</a></dd>
+            <dd><a href="mailto:bgoil_3000@abv.bg" data-c="email">bgoil_3000@abv.bg</a></dd>
           </div>
           <div>
             <dt %s>Поща на сервиза</dt>
-            <dd><a href="mailto:autoservice_1313@abv.bg">autoservice_1313@abv.bg</a></dd>
+            <dd><a href="mailto:autoservice_1313@abv.bg" data-c="emailService">autoservice_1313@abv.bg</a></dd>
           </div>
         </dl>
         <div class="callrow" style="margin-top:30px">

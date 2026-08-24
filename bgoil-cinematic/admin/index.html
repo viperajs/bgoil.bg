@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BG OIL · Управление</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060A18'/%3E%3Cpath fill='%23FF3A32' fill-rule='evenodd' d='M16 4c0 0-9 11.2-9 16.2A9 9 0 0 0 25 20.2C25 15.2 16 4 16 4zm0 8.6c0 0 4.6 5.6 4.6 8.1a4.6 4.6 0 1 1-9.2 0c0-2.5 4.6-8.1 4.6-8.1z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+body{opacity:1;padding-bottom:110px}
+.abar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:14px clamp(16px,4vw,34px);border-bottom:1px solid var(--line);
+  background:rgba(6,10,24,.94);backdrop-filter:blur(14px)}
+.abar .brand{margin-right:auto}
+.awrap{max-width:900px;margin:0 auto;padding:clamp(24px,5vw,44px) clamp(16px,4vw,34px)}
+.card{border:1px solid var(--line);border-radius:16px;padding:clamp(20px,3vw,30px);margin-bottom:18px;
+  background:linear-gradient(180deg,rgba(20,27,51,.6),rgba(14,20,40,.4))}
+.card h2{font-size:clamp(18px,2.4vw,24px);margin-bottom:6px}
+.card .hint{color:var(--text-secondary);font-size:13.5px;margin-bottom:20px;max-width:60ch;line-height:1.6}
+.grid{display:grid;gap:14px}
+@media (min-width:620px){.grid.two{grid-template-columns:1fr 1fr}}
+label{display:grid;gap:7px}
+input[type=text],input[type=password],input[type=number]{width:100%}
+.fuelrow{display:grid;grid-template-columns:1fr 120px;gap:12px;align-items:end}
+.fuelrow .out{font-family:var(--mono);font-size:12px;color:var(--accent);padding-bottom:13px;white-space:nowrap}
+@media (min-width:620px){.fuelrow{grid-template-columns:1fr 130px 130px}}
+.switch{display:flex;align-items:center;gap:13px;cursor:pointer;padding:12px 0}
+.switch input{position:absolute;opacity:0;width:0;height:0}
+.track{width:52px;height:30px;border-radius:16px;background:rgba(142,155,191,.18);position:relative;flex:0 0 auto;
+  border:1px solid var(--line-strong);transition:background .35s var(--ease-soft),border-color .35s var(--ease-soft)}
+.track::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;
+  background:var(--text-secondary);transition:transform .38s var(--ease),background .35s var(--ease-soft)}
+.switch input:checked + .track{background:rgba(255,58,50,.22);border-color:var(--accent)}
+.switch input:checked + .track::after{transform:translateX(22px);background:var(--accent)}
+.switch input:focus-visible + .track{outline:2px solid var(--accent);outline-offset:3px}
+.switch .txt{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary)}
+.savebar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:14px clamp(16px,4vw,34px);border-top:1px solid var(--line);background:rgba(6,10,24,.95);
+  backdrop-filter:blur(14px)}
+.savebar .msg{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--text-secondary);margin-right:auto}
+.savebar .msg.good{color:#8FE9B4}
+.savebar .msg.bad{color:var(--accent-hover)}
+.gate{max-width:440px;margin:12vh auto;padding:clamp(24px,4vw,36px);border:1px solid var(--line);border-radius:18px;
+  background:linear-gradient(180deg,rgba(20,27,51,.7),rgba(14,20,40,.45))}
+.gate h1{font-size:clamp(24px,4vw,34px)}
+.gate p{color:var(--text-secondary);font-size:14px;margin:12px 0 22px;line-height:1.6}
+.note{border:1px solid var(--line-strong);border-radius:12px;padding:14px 16px;margin-bottom:20px;
+  font-size:13.5px;color:var(--text-secondary);line-height:1.6;background:rgba(255,58,50,.05)}
+.note b{color:var(--text-primary)}
+.hidden{display:none !important}
+</style>
+</head>
+<body data-title-bg="BG OIL · Управление">
+
+<div class="abar">
+  <a class="brand" href="../index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true" style="width:26px;height:26px"><path fill="#FF3A32" fill-rule="evenodd" d="M16 3c0 0-9.4 11.7-9.4 16.9A9.4 9.4 0 0 0 25.4 19.9C25.4 14.7 16 3 16 3zm0 9c0 0 4.8 5.9 4.8 8.5a4.8 4.8 0 1 1-9.6 0C11.2 17.9 16 12 16 12z"/></svg>
+    <b>BG OIL</b><i>Управление</i>
+  </a>
+  <a class="btn btn-ghost" href="../index.html" target="_blank" rel="noopener">Виж сайта</a>
+  <button class="btn btn-ghost hidden" id="logout" type="button">Излез</button>
+</div>
+
+<!-- ПЪРВО ВЛИЗАНЕ: задаване на парола -->
+<section class="gate hidden" id="setup">
+  <h1>Задай парола</h1>
+  <p>Това е първото отваряне на панела. Избери парола, с която ще влизаш оттук нататък. Поне 8 знака. Запиши си я, няма как да бъде възстановена.</p>
+  <div class="grid">
+    <label><span>Нова парола</span><input id="pw1" type="password" autocomplete="new-password"></label>
+    <label><span>Повтори паролата</span><input id="pw2" type="password" autocomplete="new-password"></label>
+    <button class="btn btn-primary" id="doSetup" type="button">Запази паролата</button>
+    <p class="msg" id="setupMsg" style="font-family:var(--mono);font-size:11.5px;color:var(--accent-hover)"></p>
+  </div>
+</section>
+
+<!-- ВХОД -->
+<section class="gate hidden" id="login">
+  <h1>Вход</h1>
+  <p>Въведи паролата за управление на сайта.</p>
+  <div class="grid">
+    <label><span>Парола</span><input id="pw" type="password" autocomplete="current-password"></label>
+    <button class="btn btn-primary" id="doLogin" type="button">Влез</button>
+    <p class="msg" id="loginMsg" style="font-family:var(--mono);font-size:11.5px;color:var(--accent-hover)"></p>
+  </div>
+</section>
+
+<!-- ПАНЕЛ -->
+<main class="awrap hidden" id="panel">
+  <div class="note hidden" id="offline">
+    <b>Панелът работи без връзка със сървъра.</b> Промените няма да се качат сами. Натисни
+    <b>Изтегли файла</b> долу и качи получения <b>content.json</b> в папка <b>data</b> на сайта,
+    през файловия мениджър на хостинга.
+  </div>
+
+  <div class="card">
+    <h2>Цени на горивата</h2>
+    <p class="hint">Пиши само числото, например 2.29. Отстъпката с картата се вади автоматично и се показва на страница Цени, в брояча и в сметката за спестяване.</p>
+    <div class="grid" id="fuels"></div>
+    <div class="fuelrow" style="margin-top:18px">
+      <label><span>Отстъпка с карта (лв на литър)</span><input id="discount" type="number" step="0.01" min="0" max="5"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Хотел</h2>
+    <p class="hint">Показва се на страница Хотел като зелена или червена лента. Смени я, когато стаите свършат, и пак когато се освободят.</p>
+    <label class="switch">
+      <input id="rooms" type="checkbox">
+      <span class="track"></span>
+      <span class="txt" id="roomsTxt">Има свободни стаи</span>
+    </label>
+  </div>
+
+  <div class="card">
+    <h2>Лента с новина</h2>
+    <p class="hint">Тънка червена лента най-горе на всяка страница. Използвай я за промоция, за спряна колонка или за каквото трябва да се види веднага. Остави я изключена, когато няма нищо.</p>
+    <label class="switch">
+      <input id="promoOn" type="checkbox">
+      <span class="track"></span>
+      <span class="txt">Покажи лентата</span>
+    </label>
+    <div class="grid two" style="margin-top:14px">
+      <label><span>Текст на български</span><input id="promoBg" type="text" maxlength="160"></label>
+      <label><span>Текст на английски</span><input id="promoEn" type="text" maxlength="160"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Контакти</h2>
+    <p class="hint">Телефоните се сменят навсякъде из сайта, включително в бутоните за обаждане.</p>
+    <div class="grid two">
+      <label><span>Телефон станция</span><input id="cStation" type="text"></label>
+      <label><span>Телефон хотел</span><input id="cHotel" type="text"></label>
+      <label><span>Телефон сервиз</span><input id="cService" type="text"></label>
+      <label><span>Поща</span><input id="cEmail" type="text"></label>
+      <label><span>Поща сервиз</span><input id="cEmailService" type="text"></label>
+      <label><span>Адрес</span><input id="cAddressBg" type="text"></label>
+      <label><span>Адрес на английски</span><input id="cAddressEn" type="text"></label>
+      <label><span>Работно време</span><input id="cHoursBg" type="text"></label>
+      <label><span>Работно време на английски</span><input id="cHoursEn" type="text"></label>
+    </div>
+  </div>
+
+  <div class="card" id="pwCard">
+    <h2>Смяна на паролата</h2>
+    <p class="hint">Ако някой е видял старата или просто искаш нова.</p>
+    <div class="grid two">
+      <label><span>Стара парола</span><input id="oldPw" type="password" autocomplete="current-password"></label>
+      <label><span>Нова парола</span><input id="newPw" type="password" autocomplete="new-password"></label>
+    </div>
+    <button class="btn btn-ghost" id="doChpass" type="button" style="margin-top:14px">Смени паролата</button>
+    <p id="chpassMsg" style="font-family:var(--mono);font-size:11.5px;margin-top:12px;color:var(--text-secondary)"></p>
+  </div>
+</main>
+
+<div class="savebar hidden" id="savebar">
+  <span class="msg" id="msg">Готово за промени</span>
+  <button class="btn btn-ghost" id="download" type="button">Изтегли файла</button>
+  <button class="btn btn-primary" id="save" type="button">Запази промените</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var state = { csrf: null, php: false, content: null };
+
+  var DEFAULTS = {
+    discount: 0.10,
+    fuels: [
+      { bg:'Дизел', en:'Diesel', price:2.29 },
+      { bg:'Бензин А95', en:'Petrol A95', price:2.29 },
+      { bg:'Г П Б', en:'LPG', price:1.05 },
+      { bg:'AdBlue', en:'AdBlue', price:1.19 }
+    ],
+    contacts: {
+      station:'+359 878 618 640', hotel:'087 8618625', service:'+359 87 714 1742',
+      email:'bgoil_3000@abv.bg', emailService:'autoservice_1313@abv.bg',
+      addressBg:'гр. Враца 3000, бул. Мито Орозов 34',
+      addressEn:'34 Mito Orozov Blvd, Vratsa 3000, Bulgaria',
+      hoursBg:'Отворено 0-24, всеки ден от годината',
+      hoursEn:'Open 0-24, every day of the year'
+    },
+    hotel:{ available:true },
+    promo:{ enabled:false, bg:'', en:'' }
+  };
+
+  function say(text, kind){
+    var m = $('msg');
+    m.textContent = text;
+    m.className = 'msg' + (kind ? ' ' + kind : '');
+  }
+  function show(id){ $(id).classList.remove('hidden'); }
+  function hide(id){ $(id).classList.add('hidden'); }
+
+  function api(action, payload){
+    return fetch('api.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ action: action, csrf: state.csrf }, payload || {}))
+    }).then(function(r){ return r.json().then(function(j){ return { status:r.status, body:j }; }); });
+  }
+
+  /* ---------- форма ---------- */
+  function drawFuels(fuels){
+    var box = $('fuels');
+    box.innerHTML = '';
+    fuels.forEach(function(f, i){
+      var row = document.createElement('div');
+      row.className = 'fuelrow';
+      row.innerHTML =
+        '<label><span>Гориво ' + (i+1) + '</span><input type="text" data-f="bg" value=""></label>' +
+        '<label><span>Цена (лв/л)</span><input type="number" step="0.01" min="0" max="99" data-f="price" value=""></label>' +
+        '<span class="out">с карта <b>0.00</b></span>';
+      row.querySelector('[data-f="bg"]').value = f.bg || '';
+      row.querySelector('[data-f="price"]').value = (typeof f.price === 'number' ? f.price.toFixed(2) : '');
+      row.setAttribute('data-en', f.en || '');
+      box.appendChild(row);
+    });
+    box.addEventListener('input', paintCards);
+    paintCards();
+  }
+  function paintCards(){
+    var d = parseFloat($('discount').value);
+    if(isNaN(d)) d = 0;
+    [].forEach.call(document.querySelectorAll('#fuels .fuelrow'), function(row){
+      var p = parseFloat(row.querySelector('[data-f="price"]').value);
+      row.querySelector('.out b').textContent = isNaN(p) ? '0.00' : Math.max(0, p - d).toFixed(2);
+    });
+  }
+  function fill(c){
+    state.content = c;
+    $('discount').value = (typeof c.discount === 'number' ? c.discount : 0.10).toFixed(2);
+    drawFuels(Array.isArray(c.fuels) && c.fuels.length ? c.fuels : DEFAULTS.fuels);
+    var k = c.contacts || {};
+    [['cStation','station'],['cHotel','hotel'],['cService','service'],['cEmail','email'],
+     ['cEmailService','emailService'],['cAddressBg','addressBg'],['cAddressEn','addressEn'],
+     ['cHoursBg','hoursBg'],['cHoursEn','hoursEn']].forEach(function(pair){
+      $(pair[0]).value = k[pair[1]] || DEFAULTS.contacts[pair[1]] || '';
+    });
+    $('rooms').checked = !(c.hotel && c.hotel.available === false);
+    roomsLabel();
+    $('promoOn').checked = !!(c.promo && c.promo.enabled);
+    $('promoBg').value = (c.promo && c.promo.bg) || '';
+    $('promoEn').value = (c.promo && c.promo.en) || '';
+    $('discount').addEventListener('input', paintCards);
+  }
+  function roomsLabel(){
+    $('roomsTxt').textContent = $('rooms').checked ? 'Има свободни стаи' : 'Няма свободни стаи';
+  }
+  $('rooms').addEventListener('change', roomsLabel);
+
+  function collect(){
+    var fuels = [].map.call(document.querySelectorAll('#fuels .fuelrow'), function(row){
+      var p = parseFloat(row.querySelector('[data-f="price"]').value);
+      return {
+        bg: row.querySelector('[data-f="bg"]').value.trim(),
+        en: row.getAttribute('data-en') || '',
+        price: isNaN(p) ? 0 : Math.round(p * 100) / 100
+      };
+    });
+    return {
+      updated: '',
+      discount: Math.round((parseFloat($('discount').value) || 0) * 100) / 100,
+      fuels: fuels,
+      contacts: {
+        station: $('cStation').value.trim(), hotel: $('cHotel').value.trim(),
+        service: $('cService').value.trim(), email: $('cEmail').value.trim(),
+        emailService: $('cEmailService').value.trim(),
+        addressBg: $('cAddressBg').value.trim(), addressEn: $('cAddressEn').value.trim(),
+        hoursBg: $('cHoursBg').value.trim(), hoursEn: $('cHoursEn').value.trim()
+      },
+      hotel: { available: $('rooms').checked },
+      promo: { enabled: $('promoOn').checked, bg: $('promoBg').value.trim(), en: $('promoEn').value.trim() }
+    };
+  }
+
+  /* ---------- бутони ---------- */
+  $('save').addEventListener('click', function(){
+    var c = collect();
+    if(!state.php){ downloadJson(c); return; }
+    say('Записвам…');
+    api('save', { content: c }).then(function(r){
+      if(r.body && r.body.ok){
+        say('Записано. Обнови сайта, за да видиш промяната.', 'good');
+      } else if(r.status === 401){
+        say('Излязъл си. Презареди страницата и влез пак.', 'bad');
+      } else {
+        say('Не се записа: ' + ((r.body && r.body.error) || 'грешка') + '. Изтегли файла и го качи ръчно.', 'bad');
+      }
+    }).catch(function(){ say('Няма връзка със сървъра. Изтегли файла и го качи ръчно.', 'bad'); });
+  });
+
+  function downloadJson(c){
+    c.updated = new Date().toISOString().slice(0,16).replace('T',' ');
+    var blob = new Blob([JSON.stringify(c, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'content.json';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+    say('Файлът е свален. Качи го в папка data на сайта.', 'good');
+  }
+  $('download').addEventListener('click', function(){ downloadJson(collect()); });
+
+  $('doChpass').addEventListener('click', function(){
+    var msg = $('chpassMsg');
+    if(!state.php){ msg.textContent = 'Смяната на парола иска работещ сървър.'; return; }
+    msg.textContent = 'Сменям…';
+    api('chpass', { old: $('oldPw').value, password: $('newPw').value }).then(function(r){
+      if(r.body && r.body.ok){ msg.textContent = 'Готово. Новата парола важи отсега.'; $('oldPw').value = ''; $('newPw').value = ''; }
+      else if(r.body && r.body.error === 'too_short') msg.textContent = 'Новата парола е под 8 знака.';
+      else if(r.body && r.body.error === 'bad_password') msg.textContent = 'Старата парола не е вярна.';
+      else msg.textContent = 'Не стана. Провери дали папката admin позволява запис.';
+    });
+  });
+
+  $('logout').addEventListener('click', function(){
+    api('logout').then(function(){ location.reload(); });
+  });
+
+  $('doLogin').addEventListener('click', function(){
+    var m = $('loginMsg');
+    m.textContent = 'Проверявам…';
+    api('login', { password: $('pw').value }).then(function(r){
+      if(r.body && r.body.ok){ state.csrf = r.body.csrf; openPanel(); }
+      else m.textContent = 'Грешна парола.';
+    }).catch(function(){ m.textContent = 'Няма връзка със сървъра.'; });
+  });
+  $('pw').addEventListener('keydown', function(e){ if(e.key === 'Enter') $('doLogin').click(); });
+
+  $('doSetup').addEventListener('click', function(){
+    var m = $('setupMsg');
+    if($('pw1').value.length < 8){ m.textContent = 'Паролата трябва да е поне 8 знака.'; return; }
+    if($('pw1').value !== $('pw2').value){ m.textContent = 'Двете полета не съвпадат.'; return; }
+    m.textContent = 'Запазвам…';
+    api('setup', { password: $('pw1').value }).then(function(r){
+      if(r.body && r.body.ok){ state.csrf = r.body.csrf; openPanel(); }
+      else if(r.body && r.body.error === 'config_not_writable') m.textContent = 'Папката admin не позволява запис. Дай ѝ права за писане от хостинга.';
+      else m.textContent = 'Не стана. Опитай пак.';
+    }).catch(function(){ m.textContent = 'Няма връзка със сървъра.'; });
+  });
+
+  function openPanel(){
+    hide('login'); hide('setup');
+    show('panel'); show('savebar'); show('logout');
+    say('Готово за промени');
+  }
+
+  /* ---------- старт ---------- */
+  function loadContent(){
+    return fetch('../data/content.json', { cache:'no-store' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; })
+      .then(function(c){ fill(c && typeof c === 'object' ? c : DEFAULTS); });
+  }
+
+  loadContent().then(function(){
+    return fetch('api.php?action=status', { cache:'no-store' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; });
+  }).then(function(st){
+    if(st && st.php){
+      state.php = true;
+      if(st.auth){ state.csrf = st.csrf; openPanel(); if(!st.writable) say('Внимание: папка data не позволява запис.', 'bad'); }
+      else if(st.setup){ show('setup'); }
+      else { show('login'); }
+    } else {
+      // без PHP панелът пак работи, но записът става чрез сваляне на файла
+      state.php = false;
+      hide('pwCard');
+      show('panel'); show('savebar'); show('offline');
+      say('Режим без сървър: промените се свалят като файл');
+    }
+  });
+})();
+</script>
+</body>
+</html>

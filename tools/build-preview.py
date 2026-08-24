@@ -26,7 +26,8 @@ for f in FILES:
 index = io.open(os.path.join(SRC, 'index.html'), encoding='utf-8').read()
 nav = re.search(r'(<nav class="nav".*?</nav>)', index, re.S).group(1)
 foot = re.search(r'(<footer class="foot".*?</footer>)', index, re.S).group(1)
-chrome = re.search(r'(<div class="env".*?</div>\n<div class="motes"[^>]*></div>)', index, re.S).group(1)
+chrome = re.search(r'(<div class="promo".*?<div class="motes"[^>]*></div>)', index, re.S).group(1)
+mobmenu = re.search(r'(<div class="mobmenu".*?\n</div>)', index, re.S).group(1)
 
 css = io.open(os.path.join(SRC,'assets','site.css'), encoding='utf-8').read()
 js  = io.open(os.path.join(SRC,'assets','site.js'),  encoding='utf-8').read()
@@ -47,6 +48,15 @@ js = re.sub(r"var VIDEO_BYTES = PHONE_CUT \? \d+ : \d+;",
 # every picture is stored once and handed to each <img> at load, so a photograph used
 # on three pages does not travel three times
 IMGS = ['hero-poster.jpg','hero-ending.jpg','hotel.jpg','serviz.jpg','nosht.jpg']
+# the preview has no data folder to read, so the current content travels inside it
+content_json = io.open(os.path.join(SRC,'data','content.json'), encoding='utf-8').read()
+FETCH_CHAIN = ("  fetch('data/content.json', { cache: 'no-store' })\n"
+               "    .then(function(r){ return r.ok ? r.json() : null; })\n"
+               "    .then(applyThenRepaint)\n"
+               "    .catch(function(){ /* the built-in values stand */ });")
+assert FETCH_CHAIN in js, 'the content fetch block moved; update build-preview.py'
+js = js.replace(FETCH_CHAIN, "  applyThenRepaint(%s);" % ' '.join(content_json.split()), 1)
+
 body = ''
 for f in FILES:
     m = pages[f]
@@ -103,7 +113,7 @@ doc = ('<meta charset="utf-8">\n'
        '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
        '<title>BG OIL Враца</title>\n'
        '<style>\n' + css + '\n.pgwrap{display:none}\n.pgwrap.on{display:block}\n</style>\n'
-       + chrome + '\n' + nav + '\n' + body + foot
+       + chrome + '\n' + nav + '\n' + mobmenu + '\n' + body + foot
        + '\n<script>window.__BUNDLE=1;</script>\n<script>\n' + js + '\n</script>\n' + ROUTER)
 io.open(OUT,'w',encoding='utf-8').write(doc)
 print('%s  %.2f MB' % (OUT, len(doc.encode())/1048576))

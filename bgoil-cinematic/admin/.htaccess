@@ -1,0 +1,4 @@
+# конфигурацията не се отваря директно от браузър
+<Files "config.php">
+  Require all denied
+</Files>

@@ -527,7 +527,9 @@ function armReveals(){
   var litresEl = document.getElementById('litresHold');
   var sumStd = document.getElementById('sumStd'), sumCard = document.getElementById('sumCard');
   var meters = document.querySelectorAll('.meter');
-  var MAXL = 50, PRICE = 2.29;
+  var MAXL = 50;
+  var priceNow = function(){ return typeof window.__price === 'number' ? window.__price : 2.29; };
+  var discNow  = function(){ return typeof window.__discount === 'number' ? window.__discount : 0.10; };
   var p = 0, holding = false, raf = null, last = 0, lastPaint = -1;
 
   function paint(){
@@ -535,8 +537,8 @@ function armReveals(){
     lastPaint = p;
     var L = p * MAXL;
     litresEl.textContent = L.toFixed(0);
-    sumStd.textContent = (L * PRICE).toFixed(2);
-    sumCard.textContent = (L * (PRICE - DISCOUNT)).toFixed(2);
+    sumStd.textContent = (L * priceNow()).toFixed(2);
+    sumCard.textContent = (L * (priceNow() - discNow())).toFixed(2);
     btn.style.setProperty('--hd', Math.round(289 * (1 - p)));
     for(var i=0;i<meters.length;i++) meters[i].style.setProperty('--hp', p.toFixed(3));
   }
@@ -559,6 +561,7 @@ function armReveals(){
   btn.addEventListener('keyup', function(e){ if(e.key === ' ' || e.key === 'Enter'){ up(); } });
 
   window.__fillHold = function(){ p = 1; paint(); out.classList.add('lit'); };
+  window.__repaintHold = function(){ lastPaint = -1; paint(); };
   window.__unfillHold = function(){ if(p >= 1 && !holding){ /* left as completed */ } };
 })();
 
@@ -746,7 +749,7 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
   /* what the card saves you, in your own numbers */
   var slider = document.getElementById('litres');
   if(slider){
-    var perL = 0.10;
+    var perL = function(){ return typeof window.__discount === 'number' ? window.__discount : 0.10; };
     var outM = document.getElementById('saveMonth'), outY = document.getElementById('saveYear'),
         outL = document.getElementById('litresOut');
     var paint = function(){
@@ -754,31 +757,209 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
       var pct = ((v - slider.min) / (slider.max - slider.min)) * 100;
       slider.style.setProperty('--fill', pct.toFixed(1) + '%');
       outL.textContent = v;
-      outM.textContent = (v * perL).toFixed(2);
-      outY.textContent = (v * perL * 12).toFixed(2);
+      outM.textContent = (v * perL()).toFixed(2);
+      outY.textContent = (v * perL() * 12).toFixed(2);
     };
     slider.addEventListener('input', paint);
+    window.__repaintCalc = paint;
     paint();
   }
 
-  /* numbers that count up once, when you reach them */
+  /* numbers that count up when you reach them. Restartable, because live prices can
+     land while an animation is still running, and the newest figure must win. */
   var nums = [].slice.call(document.querySelectorAll('[data-count]'));
   if(nums.length){
+    var token = 0;
+    function runCount(el){
+      var to = parseFloat(el.getAttribute('data-count'));
+      if(isNaN(to)) return;
+      var dec = (el.getAttribute('data-dec') | 0);
+      var mine = ++token;
+      el._tok = mine;
+      if(reduce){ el.textContent = to.toFixed(dec); return; }
+      var t0 = performance.now(), dur = 1100;
+      (function step(now){
+        if(el._tok !== mine) return;              // a newer value took over
+        var k = Math.min(1, (now - t0) / dur);
+        el.textContent = (to * (1 - Math.pow(1 - k, 3))).toFixed(dec);
+        if(k < 1) requestAnimationFrame(step);
+      })(performance.now());
+    }
     var nio = new IntersectionObserver(function(es){
       es.forEach(function(e){
         if(!e.isIntersecting) return;
-        var el = e.target, to = parseFloat(el.getAttribute('data-count')), dec = (el.getAttribute('data-dec')|0);
-        nio.unobserve(el);
-        if(reduce){ el.textContent = to.toFixed(dec); return; }
-        var t0 = performance.now(), dur = 1100;
-        (function step(now){
-          var k = Math.min(1, (now - t0) / dur);
-          var e2 = 1 - Math.pow(1 - k, 3);
-          el.textContent = (to * e2).toFixed(dec);
-          if(k < 1) requestAnimationFrame(step);
-        })(performance.now());
+        e.target._seen = true;
+        nio.unobserve(e.target);
+        runCount(e.target);
       });
     }, { threshold:.6 });
     nums.forEach(function(n){ nio.observe(n); });
+    // called when fresh content arrives: whatever has already been seen re-counts to the new figure
+    window.__recount = function(){
+      nums.forEach(function(n){ if(n._seen) runCount(n); });
+    };
   }
+})();
+
+/* ============================================================
+   THE PHONE MENU
+   ============================================================ */
+(function(){
+  "use strict";
+  var burger = document.getElementById('burger'), menu = document.getElementById('mobmenu');
+  if(!burger || !menu) return;
+  var lastFocus = null;
+
+  function setOpen(on){
+    burger.setAttribute('aria-expanded', on ? 'true' : 'false');
+    menu.classList.toggle('open', on);
+    document.body.classList.toggle('menu-open', on);
+    if(on){
+      lastFocus = document.activeElement;
+      var first = menu.querySelector('a.mm');
+      if(first) setTimeout(function(){ first.focus(); }, 120);
+    } else if(lastFocus){
+      lastFocus.focus();
+    }
+  }
+  burger.addEventListener('click', function(){
+    setOpen(burger.getAttribute('aria-expanded') !== 'true');
+  });
+  menu.addEventListener('click', function(e){
+    if(e.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') setOpen(false);
+  });
+  // a menu left open while the window grows back to a desktop width would trap the page
+  matchMedia('(min-width: 901px)').addEventListener('change', function(e){
+    if(e.matches && burger.getAttribute('aria-expanded') === 'true') setOpen(false);
+  });
+  // keep tabbing inside the menu while it is open
+  document.addEventListener('focusin', function(e){
+    if(burger.getAttribute('aria-expanded') !== 'true') return;
+    if(menu.contains(e.target) || e.target === burger) return;
+    var first = menu.querySelector('a.mm');
+    if(first) first.focus();
+  });
+  // mark where you are, and keep the menu's clock honest
+  var here = window.__BUNDLE ? '' : (location.pathname.split('/').pop() || 'index.html');
+  [].forEach.call(menu.querySelectorAll('a.mm'), function(a){
+    if((a.getAttribute('href') || '') === here) a.classList.add('here');
+  });
+  function menuClock(){
+    var el = document.getElementById('menuclock');
+    if(!el) return;
+    var d = new Date(), bg = document.documentElement.lang !== 'en';
+    el.innerHTML = (bg ? 'СЕГА ' : 'NOW ') + String(d.getHours()).padStart(2,'0') + ':' +
+      String(d.getMinutes()).padStart(2,'0') + ' · <b>' + (bg ? 'ОТВОРЕНО' : 'OPEN') + '</b>';
+  }
+  menuClock();
+  setInterval(menuClock, 30000);
+  document.getElementById('lang') && document.getElementById('lang').addEventListener('click', function(){
+    setTimeout(menuClock, 30);
+  });
+})();
+
+/* ============================================================
+   LIVE CONTENT. Prices, contacts, the promo strip and room
+   availability come from data/content.json, which the admin panel
+   writes. If that file is missing or broken the page keeps the
+   values it was built with, so the site can never go blank.
+   ============================================================ */
+(function(){
+  "use strict";
+  var bg = function(){ return document.documentElement.lang !== 'en'; };
+  var digits = function(s){ return String(s).replace(/[^\d+]/g, ''); };
+
+  function apply(c){
+    if(!c || typeof c !== 'object') return;
+    window.__content = c;
+
+    // fuel prices
+    if(Array.isArray(c.fuels)){
+      var disc = typeof c.discount === 'number' ? c.discount : 0.10;
+      [].forEach.call(document.querySelectorAll('[data-fuel]'), function(row){
+        var f = c.fuels[+row.getAttribute('data-fuel')];
+        if(!f || typeof f.price !== 'number') return;
+        var nm = row.querySelector('[data-fuel-name]'),
+            std = row.querySelector('[data-fuel-std]'),
+            card = row.querySelector('[data-fuel-card]');
+        if(nm) nm.textContent = bg() ? f.bg : (f.en || f.bg);
+        if(std) std.textContent = f.price.toFixed(2);
+        if(card){
+          // set both: the attribute drives the count-up if it has not run yet,
+          // the text corrects it if the animation already finished on the old value
+          var v = (f.price - disc).toFixed(2);
+          card.setAttribute('data-count', v);
+          card.textContent = v;
+        }
+      });
+      // the hold moment and the saving slider price off the first fuel
+      if(typeof c.fuels[0].price === 'number') window.__price = c.fuels[0].price;
+      window.__discount = disc;
+      [].forEach.call(document.querySelectorAll('[data-c="discount"]'), function(el){
+        el.textContent = (disc * 100).toFixed(0);
+      });
+    }
+
+    // phones, email, address, hours
+    var k = c.contacts || {};
+    [].forEach.call(document.querySelectorAll('[data-c]'), function(el){
+      var key = el.getAttribute('data-c');
+      var map = { 'phone.station':k.station, 'phone.hotel':k.hotel, 'phone.service':k.service };
+      if(map[key]){
+        var num = map[key];
+        if(el.tagName === 'A' && /^tel:/.test(el.getAttribute('href') || '')) el.setAttribute('href', 'tel:' + digits(num));
+        var pfx = el.getAttribute(bg() ? 'data-cpfx-bg' : 'data-cpfx-en');
+        var target = el.querySelector('[data-c-num]') || el;
+        if(target === el && pfx !== null) el.textContent = pfx + num;
+        else if(target !== el) target.textContent = num;
+      }
+      if(key === 'email' && k.email){ el.textContent = k.email; if(el.tagName === 'A') el.setAttribute('href','mailto:' + k.email); }
+      if(key === 'emailService' && k.emailService){ el.textContent = k.emailService; if(el.tagName === 'A') el.setAttribute('href','mailto:' + k.emailService); }
+      if(key === 'address'){ var a = bg() ? k.addressBg : k.addressEn; if(a) el.textContent = a; }
+      if(key === 'hours'){ var h = bg() ? k.hoursBg : k.hoursEn; if(h) el.textContent = h; }
+    });
+
+    // rooms tonight
+    var room = document.getElementById('roomState');
+    if(room && c.hotel){
+      var free = c.hotel.available !== false;
+      room.classList.toggle('busy', !free);
+      room.innerHTML = bg()
+        ? (free ? 'Тази вечер <b>има свободни стаи</b>' : 'Тази вечер <b>няма свободни стаи</b>')
+        : (free ? 'Tonight there are <b>rooms free</b>' : 'Tonight there are <b>no rooms free</b>');
+    }
+
+    // the promo strip
+    var strip = document.getElementById('promo');
+    if(strip && c.promo){
+      var txt = bg() ? c.promo.bg : (c.promo.en || c.promo.bg);
+      if(c.promo.enabled && txt){
+        strip.querySelector('span').textContent = txt;
+        strip.hidden = false;
+        document.body.classList.add('has-promo');
+      } else {
+        strip.hidden = true;
+        document.body.classList.remove('has-promo');
+      }
+    }
+  }
+
+  var applyThenRepaint = function(c){
+    apply(c);
+    if(window.__recount) window.__recount();
+    if(window.__repaintCalc) window.__repaintCalc();
+    if(window.__repaintHold) window.__repaintHold();
+  };
+  window.__applyContent = applyThenRepaint;
+  fetch('data/content.json', { cache: 'no-store' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(applyThenRepaint)
+    .catch(function(){ /* the built-in values stand */ });
+
+  // re-apply on a language switch, so the live values follow the language too
+  var lang = document.getElementById('lang');
+  if(lang) lang.addEventListener('click', function(){ setTimeout(function(){ apply(window.__content); }, 20); });
 })();

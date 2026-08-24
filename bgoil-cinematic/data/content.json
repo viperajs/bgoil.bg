@@ -1,0 +1,23 @@
+{
+  "updated": "",
+  "discount": 0.10,
+  "fuels": [
+    { "bg": "Дизел",       "en": "Diesel",     "price": 2.29 },
+    { "bg": "Бензин А95",  "en": "Petrol A95", "price": 2.29 },
+    { "bg": "Г П Б",       "en": "LPG",        "price": 1.05 },
+    { "bg": "AdBlue",      "en": "AdBlue",     "price": 1.19 }
+  ],
+  "contacts": {
+    "station": "+359 878 618 640",
+    "hotel": "087 8618625",
+    "service": "+359 87 714 1742",
+    "email": "bgoil_3000@abv.bg",
+    "emailService": "autoservice_1313@abv.bg",
+    "addressBg": "гр. Враца 3000, бул. Мито Орозов 34",
+    "addressEn": "34 Mito Orozov Blvd, Vratsa 3000, Bulgaria",
+    "hoursBg": "Отворено 0-24, всеки ден от годината",
+    "hoursEn": "Open 0-24, every day of the year"
+  },
+  "hotel": { "available": true },
+  "promo": { "enabled": false, "bg": "", "en": "" }
+}
