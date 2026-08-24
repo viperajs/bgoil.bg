@@ -1,11 +1,27 @@
 {
   "updated": "",
-  "discount": 0.10,
+  "discount": 0.05,
   "fuels": [
-    { "bg": "Дизел",       "en": "Diesel",     "price": 2.29 },
-    { "bg": "Бензин А95",  "en": "Petrol A95", "price": 2.29 },
-    { "bg": "Г П Б",       "en": "LPG",        "price": 1.05 },
-    { "bg": "AdBlue",      "en": "AdBlue",     "price": 1.19 }
+    {
+      "bg": "Дизел",
+      "en": "Diesel",
+      "price": 1.171
+    },
+    {
+      "bg": "Бензин А95",
+      "en": "Petrol A95",
+      "price": 1.171
+    },
+    {
+      "bg": "Г П Б",
+      "en": "LPG",
+      "price": 0.537
+    },
+    {
+      "bg": "AdBlue",
+      "en": "AdBlue",
+      "price": 0.608
+    }
   ],
   "contacts": {
     "station": "+359 878 618 640",
@@ -18,6 +34,18 @@
     "hoursBg": "Отворено 0-24, всеки ден от годината",
     "hoursEn": "Open 0-24, every day of the year"
   },
-  "hotel": { "available": true },
-  "promo": { "enabled": false, "bg": "", "en": "" }
+  "hotel": {
+    "available": true
+  },
+  "promo": {
+    "enabled": false,
+    "bg": "",
+    "en": ""
+  },
+  "currency": {
+    "symbol": "€",
+    "decimals": 3,
+    "showBgn": true,
+    "rate": 1.95583
+  }
 }

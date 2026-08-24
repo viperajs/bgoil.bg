@@ -205,7 +205,7 @@ def page_index():
     </div>
     <div class="strip stag">
       <div><p class="v"><span data-count="24">0</span></p><p class="l" %s>Часа отворено</p></div>
-      <div><p class="v"><span data-count="0.10" data-dec="2">0</span> <span style="font-size:.5em">лв</span></p><p class="l" %s>По-малко на литър</p></div>
+      <div><p class="v"><span data-c="discount">5</span> <span style="font-size:.5em" %s>цента</span></p><p class="l" %s>По-малко на литър</p></div>
       <div><p class="v"><span data-count="6">0</span></p><p class="l" %s>Услуги на едно място</p></div>
       <div><p class="v">365</p><p class="l" %s>Дни в годината</p></div>
     </div>
@@ -221,7 +221,7 @@ def page_index():
        t('Чисти тоалетни. По всяко време.','Clean toilets. At any hour.'),
        t('Истинско кафе в три сутринта.','Real coffee at three in the morning.'),
        t('Светъл паркинг, на който оставяш колата спокойно.','A lit car park where you leave the vehicle without worrying.'),
-       t('Часа отворено','Hours open'), t('По-малко на литър','Less per litre'),
+       t('Часа отворено','Hours open'), t('цента','cents'), t('По-малко на литър','Less per litre'),
        t('Услуги на едно място','Services in one stop'), t('Дни в годината','Days a year')
        ) + ctaband('Светло е. Заповядай.', 'The light is on. Come in.',
                    'Бул. Мито Орозов 34, Враца. Вдигаме телефона по всяко време на денонощието.',
@@ -230,20 +230,22 @@ def page_index():
                     ('btn-ghost','kontakt.html','Контакти и маршрут','Contact and directions')])
 
 # ------------------------------------------------------------------ prices
-FUELS = [('Дизел','Diesel',2.29), ('Бензин А95','Petrol A95',2.29), ('Г П Б','LPG',1.05), ('AdBlue','AdBlue',1.19)]
+FUELS = [('Дизел','Diesel',1.171), ('Бензин А95','Petrol A95',1.171), ('Г П Б','LPG',0.537), ('AdBlue','AdBlue',0.608)]
+DISCOUNT = 0.05          # 5 цента на литър с картата
 
 def page_ceni():
     rows = []
     for i, (bg, en, pr) in enumerate(FUELS):
         rows.append('''    <div class="bigrow reveal" data-fuel="%d">
       <span class="nm" data-fuel-name %s>%s</span>
-      <span class="was"><span %s>без карта</span> <span data-fuel-std>%.2f</span></span>
-      <span class="now"><span data-fuel-card data-count="%.2f" data-dec="2">0.00</span><small %s>лв/л</small></span>
-    </div>''' % (i, t(bg, en), bg, t('без карта','standard'), pr, pr - 0.10, t('лв/л','lv/l')))
+      <span class="was"><span %s>без карта</span> <span data-fuel-std>%.3f</span></span>
+      <span class="now"><span data-fuel-card data-count="%.3f" data-dec="3">0.000</span><small data-cur-unit>&#8364;/л</small>
+        <small class="bgn" data-fuel-bgn></small></span>
+    </div>''' % (i, t(bg, en), bg, t('без карта','standard'), pr, pr - DISCOUNT))
     return phero('plain', 'Цени', 'Prices',
         'Цената я виждаш преди да спреш.', 'You see the price before you pull in.',
-        'Без изненади на колонката. С картата на BG OIL плащаш 10 стотинки по-малко на литър. Всеки литър, по всяко време.',
-        'No surprises at the pump. With the BG OIL card you pay 10 stotinki less per litre. Every litre, at any hour.'
+        'Без изненади на колонката. С картата на BG OIL плащаш {d} цента по-малко на литър. Всеки литър, по всяко време.',
+        'No surprises at the pump. With the BG OIL card you pay {d} cents less per litre. Every litre, at any hour.'
     ) + '''
 <section class="sec">
   <div class="wrap">
@@ -264,7 +266,7 @@ def page_ceni():
     <div class="holdstage">
       <div class="meter reveal">
         <p class="lab" %s>Без карта</p>
-        <p class="val"><span id="sumStd">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)">лв</span></p>
+        <p class="val"><span id="sumStd">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)" data-cur>&#8364;</span></p>
         <div class="bar"><i></i></div>
       </div>
       <button class="holdbtn" id="holdbtn" type="button" aria-describedby="holdhint">
@@ -277,13 +279,13 @@ def page_ceni():
       </button>
       <div class="meter card reveal">
         <p class="lab" %s>С карта на BG OIL</p>
-        <p class="val"><span id="sumCard">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)">лв</span></p>
+        <p class="val"><span id="sumCard">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)" data-cur>&#8364;</span></p>
         <div class="bar"><i></i></div>
       </div>
     </div>
     <p id="holdhint" class="sr" %s>Задръж бутона, за да напълниш резервоара и да видиш разликата в цената.</p>
     <div class="holdout" id="holdout">
-      <p class="big"><span %s>50 литра.</span> <em><span %s>5.00 лв. разлика.</span></em> <span %s>Всеки път.</span></p>
+      <p class="big"><span %s>50 литра.</span> <em><span %s>{d} цента на литър.</span></em> <span %s>Всеки път.</span></p>
       <p class="small" %s>Картата се взема на място за нула лева.</p>
     </div>
   </div>
@@ -305,9 +307,9 @@ def page_ceni():
       <input id="litres" type="range" min="20" max="600" step="10" value="120" aria-label="Литра на месец">
       <div class="calcout">
         <div><p class="l" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)" %s>На месец</p>
-          <p class="v"><span id="saveMonth">12.00</span> <span style="font-size:.45em">лв</span></p></div>
+          <p class="v"><span id="saveMonth">12.00</span> <span style="font-size:.45em" data-cur>&#8364;</span></p></div>
         <div class="save"><p class="l" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)" %s>На година</p>
-          <p class="v"><span id="saveYear">144.00</span> <span style="font-size:.45em">лв</span></p></div>
+          <p class="v"><span id="saveYear">144.00</span> <span style="font-size:.45em" data-cur>&#8364;</span></p></div>
       </div>
     </div>
   </div>
@@ -319,7 +321,7 @@ def page_ceni():
        t('Без карта','Without the card'), t('Дръж, за да заредиш','Hold to fill'),
        t('С карта на BG OIL','With the BG OIL card'),
        t('Задръж бутона, за да напълниш резервоара и да видиш разликата в цената.','Hold the button to fill the tank and see the price difference.'),
-       t('50 литра.','50 litres.'), t('5.00 лв. разлика.','5.00 lv difference.'), t('Всеки път.','Every time.'),
+       t('50 литра.','50 litres.'), t('{d} цента на литър.','{d} cents a litre.'), t('Всеки път.','Every time.'),
        t('Картата се взема на място за нула лева.','You pick the card up here, for nothing.'),
        t('Сметката','The sum'), t('Колко ти спестява за година.','What it saves you in a year.'),
        t('Дръпни колкото литра зареждаш на месец. Останалото се смята само.','Drag to the litres you buy in a month. The rest works itself out.'),
@@ -557,8 +559,8 @@ QA = [
     'There is, open around the clock and cleaned regularly. It is one of the things we hold to.')]),
  ('Гориво и цени','Fuel and prices', [
    ('По-скъпо ли е при вас?','Is it more expensive here?',
-    'Не. Цените ни вървят с тези на големите вериги, а с нашата карта плащаш 10 ст. по-малко на литър.',
-    'No. Our prices track the big chains, and with our card you pay 10 stotinki less per litre.'),
+    'Не. Цените ни вървят с тези на големите вериги, а с нашата карта плащаш {d} цента по-малко на литър.',
+    'No. Our prices track the big chains, and with our card you pay {d} cents less per litre.'),
    ('Как се взема картата?','How do I get the card?',
     'Кажи на касата, че я искаш. Не струва нищо и важи от същото зареждане.',
     'Ask at the counter. It costs nothing and works from that same fill-up.'),

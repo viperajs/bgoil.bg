@@ -119,12 +119,19 @@ if ($action === 'save') {
     $price = (float)($f['price'] ?? 0);
     if ($price < 0) $price = 0;
     if ($price > 99) $price = 99;
-    $fuels[] = ['bg' => $txt($f['bg'] ?? '', 40), 'en' => $txt($f['en'] ?? '', 40), 'price' => round($price, 2)];
+    $fuels[] = ['bg' => $txt($f['bg'] ?? '', 40), 'en' => $txt($f['en'] ?? '', 40), 'price' => round($price, 3)];
     if (count($fuels) >= 12) break;
   }
   $disc = (float)($in['discount'] ?? 0.10);
   if ($disc < 0) $disc = 0;
   if ($disc > 5) $disc = 5;
+
+  $cur  = (array)($in['currency'] ?? []);
+  $dec  = (int)($cur['decimals'] ?? 3);
+  if ($dec < 0) $dec = 0;
+  if ($dec > 3) $dec = 3;
+  $sym  = $txt($cur['symbol'] ?? '€', 3);
+  if ($sym === '') $sym = '€';
 
   $c = (array)($in['contacts'] ?? []);
   $clean = [
@@ -141,6 +148,12 @@ if ($action === 'save') {
       'addressEn'    => $txt($c['addressEn'] ?? '', 160),
       'hoursBg'      => $txt($c['hoursBg'] ?? '', 120),
       'hoursEn'      => $txt($c['hoursEn'] ?? '', 120),
+    ],
+    'currency' => [
+      'symbol'   => $sym,
+      'decimals' => $dec,
+      'showBgn'  => !empty($cur['showBgn']),
+      'rate'     => 1.95583,          // официалният фиксиран курс, не се променя
     ],
     'hotel' => ['available' => !empty($in['hotel']['available'])],
     'promo' => [

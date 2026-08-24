@@ -733,3 +733,8 @@ body.has-promo .mobmenu{padding-top:128px}
 .roomstate.busy::before{background:var(--accent);box-shadow:0 0 10px rgba(255,58,50,.8)}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
 @media (prefers-reduced-motion:reduce){.promo::before,.roomstate::before{animation:none}}
+
+/* the leva figure under the euro price, for as long as people still want to see it */
+.bgn{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  color:var(--text-secondary);text-shadow:none;margin-top:4px}
+.bgn:empty{display:none}

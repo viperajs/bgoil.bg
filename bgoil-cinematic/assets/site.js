@@ -5,20 +5,27 @@
 var LANG = 'bg';
 try{ var saved = localStorage.getItem('bgoil-lang'); if(saved === 'bg' || saved === 'en') LANG = saved; }catch(e){}
 
+function tokens(txt){
+  var c = (window.__content && window.__content.currency) || {};
+  var d = typeof window.__discount === 'number' ? window.__discount : 0.05;
+  return txt.replace(/\{d\}/g, String(Math.round(d * 100)))
+            .replace(/\{cur\}/g, c.symbol || '\u20AC');
+}
 function applyLang(){
   document.documentElement.lang = LANG;
   var nodes = document.querySelectorAll('[data-bg]');
   for(var i=0;i<nodes.length;i++){
     var t = nodes[i].getAttribute(LANG === 'bg' ? 'data-bg' : 'data-en');
-    if(t !== null) nodes[i].textContent = t;
+    if(t !== null) nodes[i].textContent = tokens(t);
   }
   document.getElementById('langA').textContent = LANG === 'bg' ? 'BG' : 'EN';
   document.getElementById('langB').textContent = LANG === 'bg' ? 'EN' : 'BG';
   var tEn = document.querySelector('meta[name="title-en"]');
   if(LANG === 'en' && tEn) document.title = tEn.getAttribute('content');
   else if(LANG === 'bg' && document.body.dataset.titleBg) document.title = document.body.dataset.titleBg;
-  buildBoard(); buildServices(); buildFaq(); clockTick(); splitAllBands();
+  clockTick(); splitAllBands();
 }
+window.__applyLang = applyLang;
 document.getElementById('lang').addEventListener('click', function(){
   LANG = LANG === 'bg' ? 'en' : 'bg';
   try{ localStorage.setItem('bgoil-lang', LANG); }catch(e){}
@@ -26,74 +33,9 @@ document.getElementById('lang').addEventListener('click', function(){
 });
 
 /* ================= content data ================= */
-var FUELS = [
-  {bg:'Дизел', en:'Diesel', price:2.29},
-  {bg:'Бензин А95', en:'Petrol A95', price:2.29},
-  {bg:'Г П Б', en:'LPG', price:1.05},
-  {bg:'AdBlue', en:'AdBlue', price:1.19}
-];
-var DISCOUNT = 0.10;
 
-function buildBoard(){
-  var el = document.getElementById('board'); if(!el) return;
-  var html = '';
-  for(var i=0;i<FUELS.length;i++){
-    var f = FUELS[i];
-    html += '<div class="row"><span class="fuel">' + (LANG==='bg'?f.bg:f.en) + '</span>' +
-            '<span class="pstd">' + f.price.toFixed(2) + ' ' + (LANG==='bg'?'лв/л':'lv/l') + '</span>' +
-            '<span class="card">' + (f.price - DISCOUNT).toFixed(2) + ' ' + (LANG==='bg'?'лв/л':'lv/l') + '</span></div>';
-  }
-  el.innerHTML = html;
-}
 
-var SVG_MARKS = {
-  shop:'<path d="M4.5 13h23v13.5a1.5 1.5 0 0 1-1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M4.5 13 7 6.6A1.5 1.5 0 0 1 8.4 5.6h15.2a1.5 1.5 0 0 1 1.4 1L27.5 13"/><path d="M12.5 28v-7.5h7V28"/><path d="M4.5 13h23"/>',
-  pay:'<rect x="3" y="8" width="26" height="17" rx="2.5"/><path d="M3 13.5h26"/><path d="M7 20h6"/><path d="M22 20h3"/>',
-  wrench:'<path d="M21.4 5.2a6.8 6.8 0 0 0-8.2 8.8L5.4 21.8a2.9 2.9 0 1 0 4.1 4.1l7.8-7.8a6.8 6.8 0 0 0 8.8-8.2l-3.8 3.8-3.8-1-1-3.8z"/>',
-  tyre:'<circle cx="16" cy="16" r="12"/><circle cx="16" cy="16" r="4.6"/><path d="M16 4v7.4M16 20.6V28M4 16h7.4M20.6 16H28"/>',
-  wash:'<path d="M5.5 25h21"/><path d="M7.5 25l2.2-6.4A1.5 1.5 0 0 1 11.1 17.5h9.8a1.5 1.5 0 0 1 1.4 1.1L24.5 25"/><circle cx="10.5" cy="26.5" r="1.5"/><circle cx="21.5" cy="26.5" r="1.5"/><path d="M10 6.5c0 0-1.8 2.4-1.8 3.6a1.8 1.8 0 0 0 3.6 0c0-1.2-1.8-3.6-1.8-3.6z"/><path d="M16 4.5c0 0-1.8 2.4-1.8 3.6a1.8 1.8 0 0 0 3.6 0c0-1.2-1.8-3.6-1.8-3.6z"/><path d="M22 6.5c0 0-1.8 2.4-1.8 3.6a1.8 1.8 0 0 0 3.6 0c0-1.2-1.8-3.6-1.8-3.6z"/>',
-  paint:'<rect x="10.5" y="12" width="8.5" height="15.5" rx="1.5"/><path d="M12.5 12V8.5h4.5V12"/><path d="M17 6.5h3"/><circle cx="23.5" cy="6" r="1"/><circle cx="26" cy="9" r="1"/><circle cx="22.5" cy="10.5" r="1"/>'
-};
-function buildServices(){
-  var el = document.getElementById('svcgrid'); if(!el) return;
-  var items = [
-    {k:'shop', bg:['Магазин 0-24','Кафе, храна, цигари, всичко за път. Не затваряме.'], en:['Shop 0-24','Coffee, food, cigarettes, everything for the road. We do not close.']},
-    {k:'pay', bg:['EasyPay каса','Ток, вода, телефон, данъци. Плащаш ги тук, по всяко време.'], en:['EasyPay counter','Electricity, water, phone, taxes. Pay them here, at any hour.']},
-    {k:'wrench', bg:['Автосервиз и части','Бърза диагностика, оригинални и алтернативни части.'], en:['Workshop and parts','Fast diagnosis, original and alternative parts.']},
-    {k:'tyre', bg:['Гуми и джанти','Смяна, баланс и машинно изправяне на изкривени джанти.'], en:['Tyres and rims','Fitting, balancing and machine straightening of bent rims.']},
-    {k:'wash', bg:['Автомивка на самообслужване','Ти държиш пистолета. Плащаш само колкото ползваш.'], en:['Self-service car wash','You hold the lance. You pay only for what you use.']},
-    {k:'paint', bg:['Автобои и камера под наем','За професионалисти, които искат сами да контролират резултата.'], en:['Paints and booth for hire','For professionals who want to control the result themselves.']}
-  ];
-  var html = '';
-  for(var i=0;i<items.length;i++){
-    var it = items[i], txt = LANG==='bg' ? it.bg : it.en;
-    html += '<article class="svc"><svg viewBox="0 0 32 32" aria-hidden="true">' + SVG_MARKS[it.k] + '</svg>' +
-            '<h3>' + txt[0] + '</h3><p>' + txt[1] + '</p></article>';
-  }
-  el.innerHTML = html;
-}
 
-function buildFaq(){
-  var el = document.getElementById('faq'); if(!el) return;
-  var qa = [
-    {bg:['Наистина ли сте отворени 24 часа?','Да. Колонките, магазинът и EasyPay работят без прекъсване, включително на празници.'],
-     en:['Are you really open 24 hours?','Yes. The pumps, the shop and EasyPay run without a break, holidays included.']},
-    {bg:['По-скъпо ли е при вас?','Не. Цените ни вървят с тези на големите вериги, а с нашата карта плащаш 10 ст. по-малко на литър.'],
-     en:['Is it more expensive here?','No. Our prices track the big chains, and with our card you pay 10 stotinki less per litre.']},
-    {bg:['Безплатен ли е паркингът?','Да, за клиенти, и е осветен цяла нощ. Има място и за камион.'],
-     en:['Is the parking free?','Yes, for customers, and it is lit all night. There is room for a truck too.']},
-    {bg:['Мога ли да взема стая без резервация?','Обикновено да. Обади се на 087 8618625 и ти казваме веднага дали има свободна.'],
-     en:['Can I get a room without booking?','Usually yes. Call 087 8618625 and we will tell you straight away if one is free.']},
-    {bg:['Качествено ли е горивото?','Работим с доказани доставчици и държим на качеството. Ако имаш въпрос за конкретна доставка, питай на място.'],
-     en:['Is the fuel good quality?','We work with proven suppliers and we hold to quality. If you have a question about a delivery, ask us here.']}
-  ];
-  var html = '';
-  for(var i=0;i<qa.length;i++){
-    var t = LANG==='bg' ? qa[i].bg : qa[i].en;
-    html += '<details class="qa"><summary>' + t[0] + '</summary><p class="a">' + t[1] + '</p></details>';
-  }
-  el.innerHTML = html;
-}
 
 /* ================= the hour rail + clock ================= */
 (function buildRail(){
@@ -876,9 +818,22 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
     if(!c || typeof c !== 'object') return;
     window.__content = c;
 
+    var cur = c.currency || {};
+    var sym = cur.symbol || '\u20AC';
+    var dec = (typeof cur.decimals === 'number' && cur.decimals >= 0 && cur.decimals <= 3) ? cur.decimals : 3;
+    var rate = typeof cur.rate === 'number' && cur.rate > 0 ? cur.rate : 1.95583;
+    var showBgn = cur.showBgn !== false;
+    var money = function(v, d){ return v.toFixed(typeof d === 'number' ? d : dec); };
+
+    // the currency itself, wherever it is printed
+    [].forEach.call(document.querySelectorAll('[data-cur]'), function(el){ el.textContent = sym; });
+    [].forEach.call(document.querySelectorAll('[data-cur-unit]'), function(el){
+      el.textContent = sym + (bg() ? '/\u043B' : '/l');
+    });
+
     // fuel prices
     if(Array.isArray(c.fuels)){
-      var disc = typeof c.discount === 'number' ? c.discount : 0.10;
+      var disc = typeof c.discount === 'number' ? c.discount : 0.05;
       [].forEach.call(document.querySelectorAll('[data-fuel]'), function(row){
         var f = c.fuels[+row.getAttribute('data-fuel')];
         if(!f || typeof f.price !== 'number') return;
@@ -886,13 +841,19 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
             std = row.querySelector('[data-fuel-std]'),
             card = row.querySelector('[data-fuel-card]');
         if(nm) nm.textContent = bg() ? f.bg : (f.en || f.bg);
-        if(std) std.textContent = f.price.toFixed(2);
+        if(std) std.textContent = money(f.price);
         if(card){
           // set both: the attribute drives the count-up if it has not run yet,
           // the text corrects it if the animation already finished on the old value
-          var v = (f.price - disc).toFixed(2);
+          var v = money(Math.max(0, f.price - disc));
           card.setAttribute('data-count', v);
+          card.setAttribute('data-dec', String(dec));
           card.textContent = v;
+        }
+        // during the changeover the leva figure still helps people read the price
+        var old = row.querySelector('[data-fuel-bgn]');
+        if(old){
+          old.textContent = showBgn ? ('\u2248 ' + ((f.price - disc) * rate).toFixed(2) + ' \u043B\u0432') : '';
         }
       });
       // the hold moment and the saving slider price off the first fuel
@@ -901,6 +862,8 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
       [].forEach.call(document.querySelectorAll('[data-c="discount"]'), function(el){
         el.textContent = (disc * 100).toFixed(0);
       });
+      window.__money = money;
+      window.__dec = dec;
     }
 
     // phones, email, address, hours
@@ -949,6 +912,7 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
 
   var applyThenRepaint = function(c){
     apply(c);
+    if(window.__applyLang) window.__applyLang();
     if(window.__recount) window.__recount();
     if(window.__repaintCalc) window.__repaintCalc();
     if(window.__repaintHold) window.__repaintHold();

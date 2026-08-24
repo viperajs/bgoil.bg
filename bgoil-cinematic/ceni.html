@@ -61,7 +61,7 @@
   <div class="wrap">
     <p class="kick" data-bg="Цени" data-en="Prices">Цени</p>
     <h1 data-bg="Цената я виждаш преди да спреш." data-en="You see the price before you pull in.">Цената я виждаш преди да спреш.</h1>
-    <p class="lede" data-bg="Без изненади на колонката. С картата на BG OIL плащаш 10 стотинки по-малко на литър. Всеки литър, по всяко време." data-en="No surprises at the pump. With the BG OIL card you pay 10 stotinki less per litre. Every litre, at any hour.">Без изненади на колонката. С картата на BG OIL плащаш 10 стотинки по-малко на литър. Всеки литър, по всяко време.</p>
+    <p class="lede" data-bg="Без изненади на колонката. С картата на BG OIL плащаш {d} цента по-малко на литър. Всеки литър, по всяко време." data-en="No surprises at the pump. With the BG OIL card you pay {d} cents less per litre. Every litre, at any hour.">Без изненади на колонката. С картата на BG OIL плащаш {d} цента по-малко на литър. Всеки литър, по всяко време.</p>
     <span class="drawline" aria-hidden="true"></span>
   </div>
 </section>
@@ -71,23 +71,27 @@
     <div class="bigboard">
     <div class="bigrow reveal" data-fuel="0">
       <span class="nm" data-fuel-name data-bg="Дизел" data-en="Diesel">Дизел</span>
-      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>2.29</span></span>
-      <span class="now"><span data-fuel-card data-count="2.19" data-dec="2">0.00</span><small data-bg="лв/л" data-en="lv/l">лв/л</small></span>
+      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>1.171</span></span>
+      <span class="now"><span data-fuel-card data-count="1.121" data-dec="3">0.000</span><small data-cur-unit>&#8364;/л</small>
+        <small class="bgn" data-fuel-bgn></small></span>
     </div>
     <div class="bigrow reveal" data-fuel="1">
       <span class="nm" data-fuel-name data-bg="Бензин А95" data-en="Petrol A95">Бензин А95</span>
-      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>2.29</span></span>
-      <span class="now"><span data-fuel-card data-count="2.19" data-dec="2">0.00</span><small data-bg="лв/л" data-en="lv/l">лв/л</small></span>
+      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>1.171</span></span>
+      <span class="now"><span data-fuel-card data-count="1.121" data-dec="3">0.000</span><small data-cur-unit>&#8364;/л</small>
+        <small class="bgn" data-fuel-bgn></small></span>
     </div>
     <div class="bigrow reveal" data-fuel="2">
       <span class="nm" data-fuel-name data-bg="Г П Б" data-en="LPG">Г П Б</span>
-      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>1.05</span></span>
-      <span class="now"><span data-fuel-card data-count="0.95" data-dec="2">0.00</span><small data-bg="лв/л" data-en="lv/l">лв/л</small></span>
+      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>0.537</span></span>
+      <span class="now"><span data-fuel-card data-count="0.487" data-dec="3">0.000</span><small data-cur-unit>&#8364;/л</small>
+        <small class="bgn" data-fuel-bgn></small></span>
     </div>
     <div class="bigrow reveal" data-fuel="3">
       <span class="nm" data-fuel-name data-bg="AdBlue" data-en="AdBlue">AdBlue</span>
-      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>1.19</span></span>
-      <span class="now"><span data-fuel-card data-count="1.09" data-dec="2">0.00</span><small data-bg="лв/л" data-en="lv/l">лв/л</small></span>
+      <span class="was"><span data-bg="без карта" data-en="standard">без карта</span> <span data-fuel-std>0.608</span></span>
+      <span class="now"><span data-fuel-card data-count="0.558" data-dec="3">0.000</span><small data-cur-unit>&#8364;/л</small>
+        <small class="bgn" data-fuel-bgn></small></span>
     </div>
     </div>
     <p class="boardnote" data-bg="Ориентировъчни цени. Актуалните светят на таблото при входа." data-en="Indicative prices. The live ones are lit on the board at the entrance.">Ориентировъчни цени. Актуалните светят на таблото при входа.</p>
@@ -104,7 +108,7 @@
     <div class="holdstage">
       <div class="meter reveal">
         <p class="lab" data-bg="Без карта" data-en="Without the card">Без карта</p>
-        <p class="val"><span id="sumStd">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)">лв</span></p>
+        <p class="val"><span id="sumStd">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)" data-cur>&#8364;</span></p>
         <div class="bar"><i></i></div>
       </div>
       <button class="holdbtn" id="holdbtn" type="button" aria-describedby="holdhint">
@@ -117,13 +121,13 @@
       </button>
       <div class="meter card reveal">
         <p class="lab" data-bg="С карта на BG OIL" data-en="With the BG OIL card">С карта на BG OIL</p>
-        <p class="val"><span id="sumCard">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)">лв</span></p>
+        <p class="val"><span id="sumCard">0.00</span> <span style="font-size:.45em;color:var(--text-secondary)" data-cur>&#8364;</span></p>
         <div class="bar"><i></i></div>
       </div>
     </div>
     <p id="holdhint" class="sr" data-bg="Задръж бутона, за да напълниш резервоара и да видиш разликата в цената." data-en="Hold the button to fill the tank and see the price difference.">Задръж бутона, за да напълниш резервоара и да видиш разликата в цената.</p>
     <div class="holdout" id="holdout">
-      <p class="big"><span data-bg="50 литра." data-en="50 litres.">50 литра.</span> <em><span data-bg="5.00 лв. разлика." data-en="5.00 lv difference.">5.00 лв. разлика.</span></em> <span data-bg="Всеки път." data-en="Every time.">Всеки път.</span></p>
+      <p class="big"><span data-bg="50 литра." data-en="50 litres.">50 литра.</span> <em><span data-bg="{d} цента на литър." data-en="{d} cents a litre.">{d} цента на литър.</span></em> <span data-bg="Всеки път." data-en="Every time.">Всеки път.</span></p>
       <p class="small" data-bg="Картата се взема на място за нула лева." data-en="You pick the card up here, for nothing.">Картата се взема на място за нула лева.</p>
     </div>
   </div>
@@ -145,9 +149,9 @@
       <input id="litres" type="range" min="20" max="600" step="10" value="120" aria-label="Литра на месец">
       <div class="calcout">
         <div><p class="l" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)" data-bg="На месец" data-en="A month">На месец</p>
-          <p class="v"><span id="saveMonth">12.00</span> <span style="font-size:.45em">лв</span></p></div>
+          <p class="v"><span id="saveMonth">12.00</span> <span style="font-size:.45em" data-cur>&#8364;</span></p></div>
         <div class="save"><p class="l" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)" data-bg="На година" data-en="A year">На година</p>
-          <p class="v"><span id="saveYear">144.00</span> <span style="font-size:.45em">лв</span></p></div>
+          <p class="v"><span id="saveYear">144.00</span> <span style="font-size:.45em" data-cur>&#8364;</span></p></div>
       </div>
     </div>
   </div>

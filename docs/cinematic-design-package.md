@@ -18,6 +18,11 @@ Facts (from the project, all real): BG OIL, гр. Враца 3000, бул. Ми�
 Станция +359 878 618 640 · Хотел 087 8618625 · Сервиз +359 87 714 1742 · bgoil_3000@abv.bg ·
 autoservice_1313@abv.bg · maps: https://maps.app.goo.gl/8KYkuhrDv4fAZLbn8 · слоган: Качеството над всичко.
 
+**Currency:** the site works in euro, since Bulgaria adopted it on 1 January 2026. The prices it was
+built with are the old leva figures converted at the official fixed rate of 1.95583, which is why they
+carry three decimals (1.171). The leva equivalent still appears under the card price during the
+changeover and is switched off from the admin panel. All of it lives in `data/content.json`.
+
 **Claims to confirm with the owner before deploy:** current fuel prices, the 0.10 лв/л card discount,
 "безплатен и охраняван паркинг", room availability without booking, truck parking space.
 
