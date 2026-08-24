@@ -1007,6 +1007,7 @@ function heroProgress(){
 }
 
 function requestSeek(t){
+  if(playMode) return;
   if(!video.duration || !videoOk) return;
   if(seekBusy){ pendingTime = t; return; }
   seekBusy = true;
@@ -1103,12 +1104,16 @@ function loadHeroBlob(){
           video.src = URL.createObjectURL(new Blob(chunks, {type:'video/mp4'}));
           video.load();
           video.addEventListener('canplay', function(){
-            videoOk = true;
             primeVideo();
             stage.classList.add('video-ready');
-            target = heroProgress();
-            requestSeek(target * video.duration);
-            kick();
+            verifyScrub().then(function(diff){
+              if(diff < 4) enablePlayMode();
+              videoOk = true;
+              seekBusy = false; pendingTime = null;
+              target = heroProgress();
+              requestSeek(target * video.duration);
+              kick();
+            });
           }, { once:true });
           return;
         }
@@ -1125,6 +1130,46 @@ function loadHeroBlob(){
     }
     return pump();
   });
+}
+
+var playMode = false;
+
+/* Some phones, iOS Safari above all, will not repaint a paused video when its
+   time is set. Rather than trust that, prove it: seek to two points that look
+   nothing alike and compare the pixels. If the picture never changed, scrubbing
+   is dead on this device, so play the clip instead. Motion either way. */
+function verifyScrub(){
+  try{
+    var c = document.createElement('canvas'); c.width = 16; c.height = 9;
+    var ctx = c.getContext('2d', { willReadFrequently:true });
+    var grab = function(){ ctx.drawImage(video, 0, 0, 16, 9); return ctx.getImageData(0,0,16,9).data; };
+    var seekTo = function(t){
+      return new Promise(function(res){
+        var t0 = setTimeout(fin, 1500);
+        function fin(){ clearTimeout(t0); video.removeEventListener('seeked', fin); setTimeout(res, 70); }
+        video.addEventListener('seeked', fin);
+        try{ video.currentTime = t; }catch(e){ fin(); }
+      });
+    };
+    return seekTo(0.05).then(function(){
+      var a = grab();
+      return seekTo(video.duration * 0.72).then(function(){
+        var b = grab(), diff = 0;
+        for(var i=0;i<a.length;i+=4) diff += Math.abs(a[i]-b[i]) + Math.abs(a[i+1]-b[i+1]) + Math.abs(a[i+2]-b[i+2]);
+        return diff / (a.length / 4);
+      });
+    });
+  }catch(e){ return Promise.resolve(999); }
+}
+
+function enablePlayMode(){
+  if(playMode) return;
+  playMode = true;
+  video.loop = true;
+  var go = function(){ try{ var pr = video.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} };
+  go();
+  window.addEventListener('touchstart', go, { passive:true, once:true });
+  window.addEventListener('pointerdown', go, { once:true });
 }
 
 var primed = false;
@@ -1189,6 +1234,10 @@ MQLS.forEach(function(m){ m.addEventListener('change', applyHeroMode); });
 if(hero){
   var io = new IntersectionObserver(function(es){
     heroOnScreen = es[0].isIntersecting;
+    if(playMode && video){
+      if(heroOnScreen){ try{ var pr = video.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
+      else { try{ video.pause(); }catch(e){} }
+    }
     if(heroOnScreen) kick();
   }, { threshold:0 });
   io.observe(hero);
