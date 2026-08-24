@@ -672,14 +672,14 @@ requestAnimationFrame(function(){ document.body.classList.add('ready'); });
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* mark the tab you are on */
-  var here = location.pathname.split('/').pop() || 'index.html';
+  var here = window.__BUNDLE ? '' : (location.pathname.split('/').pop() || 'index.html');
   [].forEach.call(document.querySelectorAll('.navlinks a, .foot a'), function(a){
     var href = (a.getAttribute('href') || '').split('#')[0];
     if(href && href === here) a.classList.add('here');
   });
 
   /* leaving one page for another should feel like a move, not a blink */
-  if(!reduce){
+  if(!reduce && !window.__BUNDLE){
     document.addEventListener('click', function(e){
       var a = e.target.closest && e.target.closest('a');
       if(!a) return;
