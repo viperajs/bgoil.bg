@@ -222,6 +222,14 @@ function updateCaptions(p){
   }
 }
 
+var cueEl = document.querySelector('.stage .cue'), cueGone = false;
+function fadeCue(p){
+  var gone = p > 0.02;
+  if(gone === cueGone) return;
+  cueGone = gone;
+  if(cueEl) cueEl.classList.toggle('gone', gone);
+}
+
 function tick(now){
   if(!scrubOn){ rafId = null; lastTick = 0; return; }
   var dt = Math.min(100, now - (lastTick || now));
@@ -243,6 +251,7 @@ function tick(now){
   else { rafId = null; lastTick = 0; }
 
   if(videoOk && video.duration) requestSeek(shown * video.duration);
+  fadeCue(shown);
   updateCaptions(shown);
   updateRail();
   navState();
@@ -562,9 +571,11 @@ function pinToFinalStates(){
     el.style.setProperty('--kb','1');
   });
   if(window.__fillHold) window.__fillHold();
+  if(cueEl) cueEl.classList.add('gone');
   if(HAS_HERO) disableScrub();
 }
 function unpinFinalStates(){
+  if(cueEl){ cueEl.classList.remove('gone'); cueGone = false; }
   document.querySelectorAll('.pinned').forEach(function(el){ el.classList.remove('pinned'); });
   document.querySelectorAll('.band').forEach(function(el){
     el.style.removeProperty('opacity');

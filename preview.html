@@ -205,6 +205,9 @@ main,.nav,.foot{position:relative;z-index:3}
   text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;
   animation:cuepulse 3.4s var(--ease-soft) -1s infinite}
 @keyframes cuepulse{0%,100%{opacity:.42;transform:translate(-50%,0)}50%{opacity:.9;transform:translate(-50%,5px)}}
+/* the prompt has done its job the moment the page starts moving */
+.cue{transition:opacity .45s var(--ease-soft)}
+.cue.gone{opacity:0!important;animation:none;pointer-events:none}
 @media (max-height:560px){.cue,.hud{display:none}}
 
 /* static hero (phones, reduced motion) */
@@ -1690,6 +1693,14 @@ function updateCaptions(p){
   }
 }
 
+var cueEl = document.querySelector('.stage .cue'), cueGone = false;
+function fadeCue(p){
+  var gone = p > 0.02;
+  if(gone === cueGone) return;
+  cueGone = gone;
+  if(cueEl) cueEl.classList.toggle('gone', gone);
+}
+
 function tick(now){
   if(!scrubOn){ rafId = null; lastTick = 0; return; }
   var dt = Math.min(100, now - (lastTick || now));
@@ -1711,6 +1722,7 @@ function tick(now){
   else { rafId = null; lastTick = 0; }
 
   if(videoOk && video.duration) requestSeek(shown * video.duration);
+  fadeCue(shown);
   updateCaptions(shown);
   updateRail();
   navState();
@@ -2030,9 +2042,11 @@ function pinToFinalStates(){
     el.style.setProperty('--kb','1');
   });
   if(window.__fillHold) window.__fillHold();
+  if(cueEl) cueEl.classList.add('gone');
   if(HAS_HERO) disableScrub();
 }
 function unpinFinalStates(){
+  if(cueEl){ cueEl.classList.remove('gone'); cueGone = false; }
   document.querySelectorAll('.pinned').forEach(function(el){ el.classList.remove('pinned'); });
   document.querySelectorAll('.band').forEach(function(el){
     el.style.removeProperty('opacity');

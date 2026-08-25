@@ -201,6 +201,9 @@ main,.nav,.foot{position:relative;z-index:3}
   text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;
   animation:cuepulse 3.4s var(--ease-soft) -1s infinite}
 @keyframes cuepulse{0%,100%{opacity:.42;transform:translate(-50%,0)}50%{opacity:.9;transform:translate(-50%,5px)}}
+/* the prompt has done its job the moment the page starts moving */
+.cue{transition:opacity .45s var(--ease-soft)}
+.cue.gone{opacity:0!important;animation:none;pointer-events:none}
 @media (max-height:560px){.cue,.hud{display:none}}
 
 /* static hero (phones, reduced motion) */
