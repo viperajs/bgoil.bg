@@ -24,6 +24,7 @@ function applyLang(){
               : el.getAttribute(LANG === 'bg' ? 'data-bg' : 'data-en');
     if(t !== null) el.textContent = tokens(t);
   }
+  if(window.__measureHud) setTimeout(window.__measureHud, 0);
   document.getElementById('langA').textContent = LANG === 'bg' ? 'BG' : 'EN';
   document.getElementById('langB').textContent = LANG === 'bg' ? 'EN' : 'BG';
   var tEn = document.querySelector('meta[name="title-en"]');
@@ -604,9 +605,23 @@ if(location.hash === '#debug'){
   }, 200);
 }
 
+/* ---- keep the scroll cue clear of the bottom chips ----
+   On a narrow phone the two chips wrap onto two rows, so the cue cannot sit
+   at a fixed height without landing on top of them. Measure instead. */
+function measureHud(){
+  var hud = document.querySelector('.stage .hud');
+  if(!hud) return;
+  var h = Math.round(hud.getBoundingClientRect().height);
+  if(h > 0) document.documentElement.style.setProperty('--hudH', h + 'px');
+}
+window.__measureHud = measureHud;
+addEventListener('resize', measureHud);
+addEventListener('orientationchange', function(){ setTimeout(measureHud, 220); });
+
 /* ================= boot ================= */
 document.getElementById('year').textContent = new Date().getFullYear();
 applyLang();
+measureHud();
 armReveals();
 if(HAS_HERO) applyHeroMode();
 updateRail();
