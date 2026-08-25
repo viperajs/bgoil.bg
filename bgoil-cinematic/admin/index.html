@@ -49,6 +49,20 @@ input[type=text],input[type=password],input[type=number]{width:100%}
   font-size:13.5px;color:var(--text-secondary);line-height:1.6;background:rgba(255,58,50,.05)}
 .note b{color:var(--text-primary)}
 .hidden{display:none !important}
+.tgroup{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.tgroup > summary{cursor:pointer;list-style:none;padding:14px 18px;background:rgba(20,27,51,.5);
+  font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:16px;letter-spacing:.02em}
+.tgroup > summary::-webkit-details-marker{display:none}
+.tgroup > summary:hover{color:var(--accent)}
+.tgroup > summary .n{font-family:var(--mono);font-size:11px;color:var(--text-secondary);margin-left:10px}
+.trow{padding:16px 18px;border-top:1px solid var(--line)}
+.trow .was{font-family:var(--mono);font-size:11px;color:var(--text-secondary);margin-bottom:9px;
+  line-height:1.5;word-break:break-word}
+.trow .pair{display:grid;gap:10px}
+@media (min-width:720px){.trow .pair{grid-template-columns:1fr 1fr}}
+.trow input{font-size:14px}
+.trow.changed{background:rgba(255,58,50,.05)}
+.trow.changed .was::after{content:" · променен";color:var(--accent)}
 </style>
 </head>
 <body data-title-bg="BG OIL · Управление">
@@ -156,6 +170,15 @@ input[type=text],input[type=password],input[type=number]{width:100%}
     </div>
   </div>
 
+  <div class="card">
+    <h2>Текстовете на сайта</h2>
+    <p class="hint">Всяка дума от сайта е тук, подредена по страници. Пиши направо в полето и запази.
+      Един и същи текст, използван на две места, се сменя и на двете.</p>
+    <label style="margin-bottom:16px"><span>Търси текст</span>
+      <input id="txtSearch" type="text" placeholder="например: паркинг"></label>
+    <div id="textGroups"></div>
+  </div>
+
   <div class="card" id="pwCard">
     <h2>Смяна на паролата</h2>
     <p class="hint">Ако някой е видял старата или просто искаш нова.</p>
@@ -179,6 +202,70 @@ input[type=text],input[type=password],input[type=number]{width:100%}
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
   var state = { csrf: null, php: false, content: null };
+
+  var TEXTS = {};
+  var PAGE_NAMES = {
+    'index.html':'Начало', 'ceni.html':'Цени', 'uslugi.html':'Услуги', 'hotel.html':'Хотел',
+    'serviz.html':'Сервиз', 'vaprosi.html':'Въпроси', 'kontakt.html':'Контакт',
+    'shared':'Общи (меню, долен колонтитул)'
+  };
+  var PAGE_ORDER = ['shared','index.html','ceni.html','uslugi.html','hotel.html','serviz.html','vaprosi.html','kontakt.html'];
+
+  function drawTexts(over){
+    var box = $('textGroups');
+    if(!box) return;
+    var groups = {};
+    Object.keys(TEXTS).forEach(function(k){
+      var g = TEXTS[k].p || 'shared';
+      (groups[g] = groups[g] || []).push(k);
+    });
+    box.innerHTML = '';
+    PAGE_ORDER.forEach(function(g){
+      var keys = groups[g];
+      if(!keys || !keys.length) return;
+      keys.sort(function(a,b){ return TEXTS[a].bg.localeCompare(TEXTS[b].bg, 'bg'); });
+      var d = document.createElement('details');
+      d.className = 'tgroup';
+      var sum = document.createElement('summary');
+      sum.textContent = PAGE_NAMES[g] || g;
+      var n = document.createElement('span');
+      n.className = 'n';
+      n.textContent = keys.length + ' текста';
+      sum.appendChild(n);
+      d.appendChild(sum);
+      keys.forEach(function(k){
+        var def = TEXTS[k], o = over[k] || {};
+        var row = document.createElement('div');
+        row.className = 'trow';
+        row.setAttribute('data-k', k);
+        row.innerHTML = '<p class="was"></p><div class="pair">' +
+          '<label><span>Български</span><input type="text" data-l="bg"></label>' +
+          '<label><span>Английски</span><input type="text" data-l="en"></label></div>';
+        row.querySelector('.was').textContent = def.bg;
+        var ib = row.querySelector('[data-l="bg"]'), ie = row.querySelector('[data-l="en"]');
+        ib.value = (typeof o.bg === 'string' && o.bg !== '') ? o.bg : def.bg;
+        ie.value = (typeof o.en === 'string' && o.en !== '') ? o.en : def.en;
+        var mark = function(){ row.classList.toggle('changed', ib.value !== def.bg || ie.value !== def.en); };
+        ib.addEventListener('input', mark);
+        ie.addEventListener('input', mark);
+        mark();
+        d.appendChild(row);
+      });
+      box.appendChild(d);
+    });
+  }
+
+  function collectTexts(){
+    var out = {};
+    [].forEach.call(document.querySelectorAll('#textGroups .trow'), function(row){
+      var k = row.getAttribute('data-k'), def = TEXTS[k];
+      if(!def) return;
+      var bgv = row.querySelector('[data-l="bg"]').value;
+      var env = row.querySelector('[data-l="en"]').value;
+      if(bgv !== def.bg || env !== def.en) out[k] = { bg: bgv, en: env };
+    });
+    return out;
+  }
 
   var DEFAULTS = {
     discount: 0.10,
@@ -271,6 +358,7 @@ input[type=text],input[type=password],input[type=number]{width:100%}
     $('curSymbol').addEventListener('input', function(){
       [].forEach.call(document.querySelectorAll('[data-cur]'), function(el){ el.textContent = $('curSymbol').value || '\u20AC'; });
     });
+    drawTexts(c.texts || {});
     $('rooms').checked = !(c.hotel && c.hotel.available === false);
     roomsLabel();
     $('promoOn').checked = !!(c.promo && c.promo.enabled);
@@ -282,6 +370,21 @@ input[type=text],input[type=password],input[type=number]{width:100%}
     $('roomsTxt').textContent = $('rooms').checked ? 'Има свободни стаи' : 'Няма свободни стаи';
   }
   $('rooms').addEventListener('change', roomsLabel);
+
+  $('txtSearch').addEventListener('input', function(){
+    var q = this.value.trim().toLowerCase();
+    [].forEach.call(document.querySelectorAll('.tgroup'), function(g){
+      var shown = 0;
+      [].forEach.call(g.querySelectorAll('.trow'), function(row){
+        var hit = !q || row.textContent.toLowerCase().indexOf(q) >= 0 ||
+                  [].some.call(row.querySelectorAll('input'), function(i){ return i.value.toLowerCase().indexOf(q) >= 0; });
+        row.classList.toggle('hidden', !hit);
+        if(hit) shown++;
+      });
+      g.classList.toggle('hidden', shown === 0);
+      g.open = !!(q && shown);
+    });
+  });
 
   function collect(){
     var fuels = [].map.call(document.querySelectorAll('#fuels .fuelrow'), function(row){
@@ -303,6 +406,7 @@ input[type=text],input[type=password],input[type=number]{width:100%}
         addressBg: $('cAddressBg').value.trim(), addressEn: $('cAddressEn').value.trim(),
         hoursBg: $('cHoursBg').value.trim(), hoursEn: $('cHoursEn').value.trim()
       },
+      texts: collectTexts(),
       hotel: { available: $('rooms').checked },
       currency: { symbol: ($('curSymbol').value || '\u20AC').trim(), decimals: dec(),
                   showBgn: $('showBgn').checked, rate: 1.95583 },
@@ -385,7 +489,11 @@ input[type=text],input[type=password],input[type=number]{width:100%}
 
   /* ---------- старт ---------- */
   function loadContent(){
-    return fetch('../data/content.json', { cache:'no-store' })
+    return fetch('../data/texts.json', { cache:'no-store' })
+      .then(function(r){ return r.ok ? r.json() : {}; })
+      .catch(function(){ return {}; })
+      .then(function(t){ TEXTS = t || {}; })
+      .then(function(){ return fetch('../data/content.json', { cache:'no-store' }) })
       .then(function(r){ return r.ok ? r.json() : null; })
       .catch(function(){ return null; })
       .then(function(c){ fill(c && typeof c === 'object' ? c : DEFAULTS); });

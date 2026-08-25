@@ -103,8 +103,12 @@ ROUTER = '''
     document.body.classList.add('leaving');
     setTimeout(function(){ show(href, true); }, 240);
   });
-  var start = (location.hash || '').replace('#/','');
-  if(start) show(start, false);
+  function fromHash(push){
+    var h = (location.hash || '').replace('#/','');
+    if(h) show(h, push);
+  }
+  window.addEventListener('hashchange', function(){ fromHash(false); });
+  fromHash(false);
 })();
 </script>
 '''  % (IMGMAP, '{' + ','.join('"%s":"%s"' % (f, titles[f]) for f in FILES) + '}')

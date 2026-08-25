@@ -1,0 +1,1032 @@
+{
+ "t0014f28a": {
+  "bg": "Стая тази вечер?",
+  "en": "A room tonight?",
+  "p": "hotel.html"
+ },
+ "t0036d4bf": {
+  "bg": "Дръж и виж разликата.",
+  "en": "Hold and see the difference.",
+  "p": "ceni.html"
+ },
+ "t00472de9": {
+  "bg": "Не намери отговора?",
+  "en": "Did not find your answer?",
+  "p": "vaprosi.html"
+ },
+ "t01066238": {
+  "bg": "Наистина ли сте отворени 24 часа?",
+  "en": "Are you really open 24 hours?",
+  "p": "vaprosi.html"
+ },
+ "t010e562b": {
+  "bg": "Магазинът е до теб",
+  "en": "The shop is next door",
+  "p": "hotel.html"
+ },
+ "t014883b7": {
+  "bg": "Услуги на едно място",
+  "en": "Services in one stop",
+  "p": "index.html"
+ },
+ "t03816f8d": {
+  "bg": "AdBlue",
+  "en": "AdBlue",
+  "p": "ceni.html"
+ },
+ "t03ff70d8": {
+  "bg": "цента",
+  "en": "cents",
+  "p": "index.html"
+ },
+ "t05795961": {
+  "bg": "Хладно през лятото, топло през зимата.",
+  "en": "Cool in summer, warm in winter.",
+  "p": "hotel.html"
+ },
+ "t066e039c": {
+  "bg": "Ще ми кажете ли цената преди ремонта?",
+  "en": "Will you tell me the price before the repair?",
+  "p": "vaprosi.html"
+ },
+ "t07b289dc": {
+  "bg": "+359 878 618 640",
+  "en": "+359 878 618 640",
+  "p": "vaprosi.html"
+ },
+ "t089f0f73": {
+  "bg": "Приемане",
+  "en": "Check-in",
+  "p": "hotel.html"
+ },
+ "t09caba4e": {
+  "bg": "Черни завеси",
+  "en": "Blackout curtains",
+  "p": "hotel.html"
+ },
+ "t0b295a01": {
+  "bg": "Цената я казваме, преди да пипнем колата.",
+  "en": "We tell you the price before we touch the car.",
+  "p": "serviz.html"
+ },
+ "t0c25f0f6": {
+  "bg": "Всичко на едно място",
+  "en": "All in one place",
+  "p": "index.html"
+ },
+ "t0c3c9411": {
+  "bg": "Автобои и камера за боядисване под наем",
+  "en": "Car paints and a spray booth for hire",
+  "p": "serviz.html"
+ },
+ "t0d1e0cd7": {
+  "bg": "Начало",
+  "en": "Home",
+  "p": "shared"
+ },
+ "t0fb01b56": {
+  "bg": "Автомивка на самообслужване за финала",
+  "en": "A self-service wash to finish",
+  "p": "serviz.html"
+ },
+ "t1018747d": {
+  "bg": "Без изненади на колонката. С картата на BG OIL плащаш {d} цента по-малко на литър. Всеки литър, по всяко време.",
+  "en": "No surprises at the pump. With the BG OIL card you pay {d} cents less per litre. Every litre, at any hour.",
+  "p": "ceni.html"
+ },
+ "t112a8d15": {
+  "bg": "Работа",
+  "en": "The work",
+  "p": "serviz.html"
+ },
+ "t11723a34": {
+  "bg": "Дни в годината",
+  "en": "Days a year",
+  "p": "index.html"
+ },
+ "t119a55fc": {
+  "bg": "Твоето да",
+  "en": "Your yes",
+  "p": "serviz.html"
+ },
+ "t13c3c719": {
+  "bg": "Топла вода по всяко време.",
+  "en": "Hot water at any hour.",
+  "p": "hotel.html"
+ },
+ "t15e9416b": {
+  "bg": "Кафе и закуска на 30 крачки.",
+  "en": "Coffee and breakfast thirty steps away.",
+  "p": "hotel.html"
+ },
+ "t1606e5df": {
+  "bg": "Данъци и такси",
+  "en": "Taxes and fees",
+  "p": "uslugi.html"
+ },
+ "t16612a54": {
+  "bg": "Правим ремонта и ти показваме старата част в ръката си.",
+  "en": "We do the repair and show you the old part in our hand.",
+  "p": "serviz.html"
+ },
+ "t172eeb22": {
+  "bg": "Намери ни",
+  "en": "Find us",
+  "p": "shared"
+ },
+ "t1913ce56": {
+  "bg": "Климатик",
+  "en": "Air conditioning",
+  "p": "hotel.html"
+ },
+ "t1b351587": {
+  "bg": "Всеки път.",
+  "en": "Every time.",
+  "p": "ceni.html"
+ },
+ "t1bfc3ceb": {
+  "bg": "Място за камион",
+  "en": "Room for a truck",
+  "p": "hotel.html"
+ },
+ "t1d16e480": {
+  "bg": "Контакт",
+  "en": "Contact",
+  "p": "shared"
+ },
+ "t1dc57dbb": {
+  "bg": "Име",
+  "en": "Name",
+  "p": "kontakt.html"
+ },
+ "t1dc7d633": {
+  "bg": "Оригинални и алтернативни части",
+  "en": "Original and alternative parts",
+  "p": "uslugi.html"
+ },
+ "t1ec476e8": {
+  "bg": "Хотел",
+  "en": "Hotel",
+  "p": "shared"
+ },
+ "t1fbe5bb4": {
+  "bg": "Поща на сервиза",
+  "en": "Workshop email",
+  "p": "kontakt.html"
+ },
+ "t2073bd57": {
+  "bg": "Подходяща и за микробуси",
+  "en": "Suitable for vans too",
+  "p": "uslugi.html"
+ },
+ "t21d858c0": {
+  "bg": "Автобои и камера под наем",
+  "en": "Paints and booth for hire",
+  "p": "uslugi.html"
+ },
+ "t220229a4": {
+  "bg": "Опиши шума или проблема по телефона. Често още там става ясно какво е.",
+  "en": "Describe the noise or the fault on the phone. Often that alone makes it clear.",
+  "p": "serviz.html"
+ },
+ "t22c29257": {
+  "bg": "Машинно изправяне на джанти",
+  "en": "Machine straightening of rims",
+  "p": "uslugi.html"
+ },
+ "t23bc7c65": {
+  "bg": "Чисти тоалетни. По всяко време.",
+  "en": "Clean toilets. At any hour.",
+  "p": "index.html"
+ },
+ "t25433fc0": {
+  "bg": "Смяна, баланс и машинно изправяне на изкривени джанти с гаранция за праволинейност.",
+  "en": "Fitting, balancing and machine straightening of bent rims, with a guarantee they run true.",
+  "p": "uslugi.html"
+ },
+ "t2554cfb5": {
+  "bg": "Нищо не започва, докато не се съгласиш. Тук 140 не стават 270.",
+  "en": "Nothing starts until you agree. Here 140 does not turn into 270.",
+  "p": "serviz.html"
+ },
+ "t255f6fff": {
+  "bg": "Към съдържанието",
+  "en": "Skip to content",
+  "p": "shared"
+ },
+ "t25e424e1": {
+  "bg": "Има, отворена е денонощно и се чисти редовно. Това е едно от нещата, за които държим.",
+  "en": "There is, open around the clock and cleaned regularly. It is one of the things we hold to.",
+  "p": "vaprosi.html"
+ },
+ "t2928e19c": {
+  "bg": "Телефон",
+  "en": "Phone",
+  "p": "kontakt.html"
+ },
+ "t29963a70": {
+  "bg": "Мога ли да взема стая без резервация?",
+  "en": "Can I get a room without booking?",
+  "p": "vaprosi.html"
+ },
+ "t2ce77296": {
+  "bg": "На година",
+  "en": "A year",
+  "p": "ceni.html"
+ },
+ "t321c75fc": {
+  "bg": "Ти държиш пистолета и плащаш само колкото ползваш. Отворена, когато ти трябва.",
+  "en": "You hold the lance and pay only for what you use. Open when you need it.",
+  "p": "uslugi.html"
+ },
+ "t33f58d7e": {
+  "bg": "Това, което хората питат.",
+  "en": "What people ask.",
+  "p": "vaprosi.html"
+ },
+ "t341cf97b": {
+  "bg": "Легло на 30 крачки от камиона.",
+  "en": "A bed thirty steps from your truck.",
+  "p": "hotel.html"
+ },
+ "t342cf0bd": {
+  "bg": "Бул. Мито Орозов 34, Враца. Вдигаме телефона по всяко време на денонощието.",
+  "en": "34 Mito Orozov Blvd, Vratsa. We answer the phone at any hour.",
+  "p": "index.html"
+ },
+ "t346c8fd2": {
+  "bg": "Обикновено има свободна стая и без резервация. Един телефон стига, за да разбереш веднага.",
+  "en": "There is usually a room free even without booking. One phone call tells you straight away.",
+  "p": "hotel.html"
+ },
+ "t3777499a": {
+  "bg": "Какво ти трябва?",
+  "en": "What do you need?",
+  "p": "kontakt.html"
+ },
+ "t3d7ffd8d": {
+  "bg": "Чиста тоалетна, отворена денонощно",
+  "en": "A clean toilet, open around the clock",
+  "p": "uslugi.html"
+ },
+ "t3dd9dd47": {
+  "bg": "Шест неща под един покрив, на бул. Мито Орозов 34. Отвори всяко, за да видиш какво включва.",
+  "en": "Six things under one roof on Mito Orozov Blvd. Open any of them to see what it covers.",
+  "p": "uslugi.html"
+ },
+ "t3fe2513e": {
+  "bg": "Цени",
+  "en": "Prices",
+  "p": "shared"
+ },
+ "t41eaba75": {
+  "bg": "Осветена през нощта",
+  "en": "Lit at night",
+  "p": "uslugi.html"
+ },
+ "t422b12d5": {
+  "bg": "Да, и с оригинални. Казваме ти разликата в цената и решаваш ти.",
+  "en": "Yes, and with original ones. We tell you the price difference and you decide.",
+  "p": "vaprosi.html"
+ },
+ "t44c141de": {
+  "bg": "Г П Б",
+  "en": "LPG",
+  "p": "ceni.html"
+ },
+ "t45357c6e": {
+  "bg": "Дръпни колкото литра зареждаш на месец. Останалото се смята само.",
+  "en": "Drag to the litres you buy in a month. The rest works itself out.",
+  "p": "ceni.html"
+ },
+ "t471d895b": {
+  "bg": "Ремонти, части, гуми",
+  "en": "Repairs, parts, tyres",
+  "p": "kontakt.html"
+ },
+ "t4733bfc9": {
+  "bg": "Диагностика и ремонт",
+  "en": "Diagnosis and repair",
+  "p": "uslugi.html"
+ },
+ "t47e7ae34": {
+  "bg": "Как работим",
+  "en": "How we work",
+  "p": "serviz.html"
+ },
+ "t48a2656f": {
+  "bg": "Часа отворено",
+  "en": "Hours open",
+  "p": "index.html"
+ },
+ "t4ab368bd": {
+  "bg": "50 литра.",
+  "en": "50 litres.",
+  "p": "ceni.html"
+ },
+ "t4e1a0e95": {
+  "bg": "Услуги",
+  "en": "Services",
+  "p": "shared"
+ },
+ "t4fe1f30f": {
+  "bg": "Магазин 0-24",
+  "en": "Shop 0-24",
+  "p": "uslugi.html"
+ },
+ "t52b4dc49": {
+  "bg": "Спираш веднъж. Готово е всичко.",
+  "en": "Stop once. Everything is done.",
+  "p": "index.html"
+ },
+ "t531d47ba": {
+  "bg": "Стаи и резервации",
+  "en": "Rooms and bookings",
+  "p": "kontakt.html"
+ },
+ "t567a11c6": {
+  "bg": "Картата се взема на място за нула лева.",
+  "en": "You pick the card up here, for nothing.",
+  "p": "ceni.html"
+ },
+ "t56b2b693": {
+  "bg": "+359 87 714 1742",
+  "en": "+359 87 714 1742",
+  "p": "serviz.html"
+ },
+ "t57deecd2": {
+  "bg": "Обади се и питай за тази вечер.",
+  "en": "Call and ask about tonight.",
+  "p": "hotel.html"
+ },
+ "t5a214e27": {
+  "bg": "Винаги. Първо диагностика, после цена, после твоето съгласие. Чак тогава започваме.",
+  "en": "Always. First the diagnosis, then the price, then your agreement. Only then do we start.",
+  "p": "vaprosi.html"
+ },
+ "t5a4981ad": {
+  "bg": "За професионалисти",
+  "en": "For professionals",
+  "p": "uslugi.html"
+ },
+ "t5a4dd0bc": {
+  "bg": "Първо гледаме какво има. Без да сваляме нищо излишно.",
+  "en": "First we find out what is actually wrong, without stripping anything needlessly.",
+  "p": "serviz.html"
+ },
+ "t5b6ca9ff": {
+  "bg": "Захранване на мобилни кредити",
+  "en": "Mobile top-ups",
+  "p": "uslugi.html"
+ },
+ "t5b8554eb": {
+  "bg": "бул. Мито Орозов 34, Враца",
+  "en": "34 Mito Orozov Blvd, Vratsa",
+  "p": "shared"
+ },
+ "t5bdba195": {
+  "bg": "Гуми, баланс и машинно изправяне на джанти",
+  "en": "Tyres, balancing and machine straightening of rims",
+  "p": "serviz.html"
+ },
+ "t5d3c1e9c": {
+  "bg": "Изпрати запитване",
+  "en": "Send enquiry",
+  "p": "kontakt.html"
+ },
+ "t60c745e7": {
+  "bg": "Гориво и цени",
+  "en": "Fuel and prices",
+  "p": "vaprosi.html"
+ },
+ "t63ec3212": {
+  "bg": "Качеството над всичко",
+  "en": "Quality above all",
+  "p": "shared"
+ },
+ "t66c617a1": {
+  "bg": "Бои и консумативи за локален ремонт или цялостно възстановяване, плюс камера за боядисване под наем.",
+  "en": "Paints and materials for a local repair or a full restoration, plus a spray booth for hire.",
+  "p": "uslugi.html"
+ },
+ "t66d50423": {
+  "bg": "Обикновено да. Обади се на 087 8618625 и ти казваме веднага дали има свободна.",
+  "en": "Usually yes. Call 087 8618625 and we will tell you straight away if one is free.",
+  "p": "vaprosi.html"
+ },
+ "t675df2fa": {
+  "bg": "Хотел: 087 8618625",
+  "en": "Hotel: 087 8618625",
+  "p": "hotel.html"
+ },
+ "t682fa8db": {
+  "bg": "Цена",
+  "en": "Price",
+  "p": "serviz.html"
+ },
+ "t698255f7": {
+  "bg": "Виждаш колата си от леглото.",
+  "en": "You can see your vehicle from the bed.",
+  "p": "hotel.html"
+ },
+ "t6b1e6ee2": {
+  "bg": "Сервиз",
+  "en": "Workshop",
+  "p": "shared"
+ },
+ "t6d9c35ee": {
+  "bg": "гр. Враца 3000, бул. Мито Орозов 34. Отворено 0-24, всеки ден от годината.",
+  "en": "34 Mito Orozov Blvd, Vratsa 3000. Open 0-24, every day of the year.",
+  "p": "kontakt.html"
+ },
+ "t6e5dbc3f": {
+  "bg": "Нощната смяна",
+  "en": "The night shift",
+  "p": "index.html"
+ },
+ "t714e83c5": {
+  "bg": "Всички услуги",
+  "en": "All services",
+  "p": "serviz.html"
+ },
+ "t7195e898": {
+  "bg": "Станция",
+  "en": "Station",
+  "p": "kontakt.html"
+ },
+ "t71b1b950": {
+  "bg": "Ти избираш оригинална или алтернативна част",
+  "en": "You choose the original or the alternative part",
+  "p": "serviz.html"
+ },
+ "t72be2787": {
+  "bg": "Четири стъпки, в този ред.",
+  "en": "Four steps, in this order.",
+  "p": "serviz.html"
+ },
+ "t73d76c3b": {
+  "bg": "Автосервиз и части",
+  "en": "Workshop and parts",
+  "p": "uslugi.html"
+ },
+ "t75c674ae": {
+  "bg": "Застраховки",
+  "en": "Insurance",
+  "p": "uslugi.html"
+ },
+ "t766f2005": {
+  "bg": "Не. Цените ни вървят с тези на големите вериги, а с нашата карта плащаш {d} цента по-малко на литър.",
+  "en": "No. Our prices track the big chains, and with our card you pay {d} cents less per litre.",
+  "p": "vaprosi.html"
+ },
+ "t7673b92d": {
+  "bg": "Страниците",
+  "en": "Pages",
+  "p": "shared"
+ },
+ "t7699556d": {
+  "bg": "{d} цента на литър.",
+  "en": "{d} cents a litre.",
+  "p": "ceni.html"
+ },
+ "t774a763f": {
+  "bg": "На месец",
+  "en": "A month",
+  "p": "ceni.html"
+ },
+ "t78ed5eb6": {
+  "bg": "Хотел · 0-24",
+  "en": "Hotel · 0-24",
+  "p": "hotel.html"
+ },
+ "t79d6005c": {
+  "bg": "Хотел и сервиз",
+  "en": "Hotel and workshop",
+  "p": "vaprosi.html"
+ },
+ "t7a0cceaf": {
+  "bg": "Виж услугите",
+  "en": "See the services",
+  "p": "ceni.html"
+ },
+ "t7c63e1df": {
+  "bg": "В стаята",
+  "en": "In the room",
+  "p": "hotel.html"
+ },
+ "t80148fa5": {
+  "bg": "Адрес",
+  "en": "Address",
+  "p": "kontakt.html"
+ },
+ "t801dfd6f": {
+  "bg": "Въпроси",
+  "en": "FAQ",
+  "p": "shared"
+ },
+ "t805c800f": {
+  "bg": "Гуми и джанти",
+  "en": "Tyres and rims",
+  "p": "uslugi.html"
+ },
+ "t81413c01": {
+  "bg": "Не струва нищо и важи веднага. Кажи на касата, че я искаш.",
+  "en": "It costs nothing and works immediately. Just ask at the counter.",
+  "p": "ceni.html"
+ },
+ "t8386fdd5": {
+  "bg": "От спешен ремонт до цяло възстановяване.",
+  "en": "From an emergency repair to a full restoration.",
+  "p": "serviz.html"
+ },
+ "t83c99863": {
+  "bg": "Поща",
+  "en": "Email",
+  "p": "kontakt.html"
+ },
+ "t887ad167": {
+  "bg": "087 8618625",
+  "en": "087 8618625",
+  "p": "hotel.html"
+ },
+ "t88a4bcda": {
+  "bg": "Цигари и дребни стоки за път",
+  "en": "Cigarettes and small things for the road",
+  "p": "uslugi.html"
+ },
+ "t8a2e1bc7": {
+  "bg": "Резервация",
+  "en": "Booking",
+  "p": "hotel.html"
+ },
+ "t8be7cc21": {
+  "bg": "Бензин А95",
+  "en": "Petrol A95",
+  "p": "ceni.html"
+ },
+ "t8c083294": {
+  "bg": "Истинско кафе в три сутринта.",
+  "en": "Real coffee at three in the morning.",
+  "p": "index.html"
+ },
+ "t8c18472d": {
+  "bg": "Направена е за хора, които пътуват.",
+  "en": "Made for people who travel.",
+  "p": "hotel.html"
+ },
+ "t8ce131d3": {
+  "bg": "Бърза диагностика и ясна цена, преди да започне работата. Оригинални или алтернативни части, ти избираш.",
+  "en": "Fast diagnosis and a clear price before any work starts. Original or alternative parts, you choose.",
+  "p": "uslugi.html"
+ },
+ "t8f4a4279": {
+  "bg": "Гаранция за праволинейност",
+  "en": "Guaranteed to run true",
+  "p": "uslugi.html"
+ },
+ "t8f5f4693": {
+  "bg": "Събрали сме въпросите, които чуваме най-често на касата и по телефона. Ако твоят го няма, обади се.",
+  "en": "These are the questions we hear most at the counter and on the phone. If yours is missing, call us.",
+  "p": "vaprosi.html"
+ },
+ "t8f906554": {
+  "bg": "Магазин, кафе, EasyPay, гуми, автомивка. Спираш веднъж и готово.",
+  "en": "Shop, coffee, EasyPay, tyres, car wash. Stop once and it is done.",
+  "p": "index.html"
+ },
+ "t967019a7": {
+  "bg": "Обади се и питай направо. Отговаряме по всяко време на денонощието.",
+  "en": "Call and ask directly. We answer at any hour of the day or night.",
+  "p": "vaprosi.html"
+ },
+ "t970fb3d9": {
+  "bg": "Звънни и питай. Ако има свободна, я запазваме за теб веднага.",
+  "en": "Call and ask. If one is free we hold it for you on the spot.",
+  "p": "hotel.html"
+ },
+ "t991ee04f": {
+  "bg": "По-малко на литър",
+  "en": "Less per litre",
+  "p": "index.html"
+ },
+ "t9baae309": {
+  "bg": "Обади се сега",
+  "en": "Call us now",
+  "p": "shared"
+ },
+ "t9c61d518": {
+  "bg": "Кафе, храна, цигари, вода, всичко за път. Не затваряме нито нощем, нито на празник.",
+  "en": "Coffee, food, cigarettes, water, everything for the road. We close neither at night nor on holidays.",
+  "p": "uslugi.html"
+ },
+ "t9cb5ec50": {
+  "bg": "Гориво, топло кафе, чиста тоалетна, магазин, каса за сметки, сервиз, гуми, мивка и легло. Всяко от тях има своя страница по-долу.",
+  "en": "Fuel, hot coffee, a clean toilet, a shop, a bill counter, a workshop, tyres, a wash and a bed. Each has its own page below.",
+  "p": "index.html"
+ },
+ "t9cb9b850": {
+  "bg": "Ориентировъчни цени. Актуалните светят на таблото при входа.",
+  "en": "Indicative prices. The live ones are lit on the board at the entrance.",
+  "p": "ceni.html"
+ },
+ "t9f252c38": {
+  "bg": "Модерна баланс машина",
+  "en": "A modern balancing machine",
+  "p": "uslugi.html"
+ },
+ "t9f484c19": {
+  "bg": "Сервиз: +359 87 714 1742",
+  "en": "Workshop: +359 87 714 1742",
+  "p": "serviz.html"
+ },
+ "ta2009c2f": {
+  "bg": "0-24",
+  "en": "0-24",
+  "p": "hotel.html"
+ },
+ "ta327a728": {
+  "bg": "Налични части за спешни ремонти",
+  "en": "Parts in stock for emergency repairs",
+  "p": "serviz.html"
+ },
+ "ta34ffe33": {
+  "bg": "Светло е. Заповядай.",
+  "en": "The light is on. Come in.",
+  "p": "index.html"
+ },
+ "ta3573887": {
+  "bg": "Задръж бутона. Литрите текат. Отляво плащаш без карта, отдясно с карта.",
+  "en": "Hold the button down. The litres run. On the left you pay without the card, on the right with it.",
+  "p": "ceni.html"
+ },
+ "ta4063823": {
+  "bg": "Работно време",
+  "en": "Opening hours",
+  "p": "kontakt.html"
+ },
+ "ta4164cab": {
+  "bg": "Виж маршрута",
+  "en": "Get directions",
+  "p": "kontakt.html"
+ },
+ "ta474be69": {
+  "bg": "Малките неща, заради които се връщат.",
+  "en": "The small things people come back for.",
+  "p": "index.html"
+ },
+ "ta51d5516": {
+  "bg": "Какво правим",
+  "en": "What we do",
+  "p": "serviz.html"
+ },
+ "ta657d297": {
+  "bg": "гр. Враца 3000, бул. Мито Орозов 34",
+  "en": "34 Mito Orozov Blvd, Vratsa 3000, Bulgaria",
+  "p": "kontakt.html"
+ },
+ "ta70904ce": {
+  "bg": "Работите ли с алтернативни части?",
+  "en": "Do you work with alternative parts?",
+  "p": "vaprosi.html"
+ },
+ "ta7365ed5": {
+  "bg": "Отворени ли сте наистина 24 часа? По-скъпо ли е? Отговорите са тук.",
+  "en": "Are you really open 24 hours? Is it dearer? The answers are here.",
+  "p": "index.html"
+ },
+ "ta76f8a87": {
+  "bg": "Стаите гледат встрани от колонките.",
+  "en": "The rooms face away from the pumps.",
+  "p": "hotel.html"
+ },
+ "ta9ab72ac": {
+  "bg": "Паркинг пред прозореца",
+  "en": "Parking under the window",
+  "p": "hotel.html"
+ },
+ "ta9d5c56d": {
+  "bg": "Цената я казваме, преди да пипнем колата. Старата част ти я показваме.",
+  "en": "We tell you the price before we touch the car, and show you the old part.",
+  "p": "index.html"
+ },
+ "tacf44838": {
+  "bg": "Качествено ли е горивото?",
+  "en": "Is the fuel good quality?",
+  "p": "vaprosi.html"
+ },
+ "tad556fd2": {
+  "bg": "Легло на 30 крачки от камиона. Климатик, черни завеси, тишина.",
+  "en": "A bed thirty steps from your truck. Air conditioning, blackout curtains, quiet.",
+  "p": "index.html"
+ },
+ "tb2842a77": {
+  "bg": "Автосервиз",
+  "en": "Workshop",
+  "p": "index.html"
+ },
+ "tb33cd064": {
+  "bg": "без карта",
+  "en": "standard",
+  "p": "ceni.html"
+ },
+ "tb91d60ba": {
+  "bg": "Не си сигурен дали го правим?",
+  "en": "Not sure whether we do it?",
+  "p": "uslugi.html"
+ },
+ "tb96be0a1": {
+  "bg": "EasyPay каса",
+  "en": "EasyPay counter",
+  "p": "uslugi.html"
+ },
+ "tba00fd26": {
+  "bg": "Автомивка на самообслужване",
+  "en": "Self-service car wash",
+  "p": "uslugi.html"
+ },
+ "tba36749a": {
+  "bg": "Кажи какво прави колата.",
+  "en": "Tell us what the car is doing.",
+  "p": "serviz.html"
+ },
+ "tbca8d0d3": {
+  "bg": "Литра на месец",
+  "en": "Litres a month",
+  "p": "ceni.html"
+ },
+ "tbe6ca90c": {
+  "bg": "Задръж бутона, за да напълниш резервоара и да видиш разликата в цената.",
+  "en": "Hold the button to fill the tank and see the price difference.",
+  "p": "ceni.html"
+ },
+ "tbeee7fff": {
+  "bg": "Без карта",
+  "en": "Without the card",
+  "p": "ceni.html"
+ },
+ "tbfdbdec0": {
+  "bg": "Виж",
+  "en": "Open",
+  "p": "index.html"
+ },
+ "tbfea4435": {
+  "bg": "Камера за боядисване под наем",
+  "en": "A spray booth for hire",
+  "p": "uslugi.html"
+ },
+ "tc21d3721": {
+  "bg": "Смяна и баланс на гуми",
+  "en": "Tyre fitting and balancing",
+  "p": "uslugi.html"
+ },
+ "tc2c51b77": {
+  "bg": "Картата",
+  "en": "The card",
+  "p": "ceni.html"
+ },
+ "tc312bc53": {
+  "bg": "Гориво, магазин, EasyPay",
+  "en": "Fuel, shop, EasyPay",
+  "p": "kontakt.html"
+ },
+ "tc3e6d657": {
+  "bg": "Враца · Отворено 24 часа",
+  "en": "Vratsa · Open 24 hours",
+  "p": "shared"
+ },
+ "tc57d7cce": {
+  "bg": "Станция: +359 878 618 640",
+  "en": "Station: +359 878 618 640",
+  "p": "uslugi.html"
+ },
+ "tc590dfd2": {
+  "bg": "Запитването тръгва от твоята поща към bgoil_3000@abv.bg. За бърз отговор се обади.",
+  "en": "The enquiry goes from your own mailbox to bgoil_3000@abv.bg. For a fast answer, call.",
+  "p": "kontakt.html"
+ },
+ "tc5e271b7": {
+  "bg": "Три телефона, един адрес и маршрут до нас. Вдигаме по всяко време.",
+  "en": "Three phone numbers, one address and directions. We answer at any hour.",
+  "p": "index.html"
+ },
+ "tc626bb9d": {
+  "bg": "Готово. Отваря се пощата ти с попълнено съобщение. Ако бързаш, звънни на +359 878 618 640.",
+  "en": "Done. Your mail app opens with the message filled in. If you are in a hurry, call +359 878 618 640.",
+  "p": "kontakt.html"
+ },
+ "tc80c2770": {
+  "bg": "Спешни ремонти с налични части",
+  "en": "Emergency repairs with parts in stock",
+  "p": "uslugi.html"
+ },
+ "tc84f92d5": {
+  "bg": "Сметки за ток, вода, телефон и интернет",
+  "en": "Electricity, water, phone and internet bills",
+  "p": "uslugi.html"
+ },
+ "tc8821ad3": {
+  "bg": "Автобои и консумативи",
+  "en": "Car paints and materials",
+  "p": "uslugi.html"
+ },
+ "tc99af057": {
+  "bg": "Обади се: +359 878 618 640",
+  "en": "Call: +359 878 618 640",
+  "p": "ceni.html"
+ },
+ "tca81f10b": {
+  "bg": "Спиш и по обед, все едно е нощ.",
+  "en": "Sleep at midday as if it were night.",
+  "p": "hotel.html"
+ },
+ "tcc33c79d": {
+  "bg": "Светъл паркинг, на който оставяш колата спокойно.",
+  "en": "A lit car park where you leave the vehicle without worrying.",
+  "p": "index.html"
+ },
+ "tcfeba456": {
+  "bg": "Колко ти спестява за година.",
+  "en": "What it saves you in a year.",
+  "p": "ceni.html"
+ },
+ "td1d45e44": {
+  "bg": "Дръж, за да заредиш",
+  "en": "Hold to fill",
+  "p": "ceni.html"
+ },
+ "td2674077": {
+  "bg": "Виж какво плащаш и колко пести картата. Всеки литър, по всяко време.",
+  "en": "See what you pay and what the card saves. Every litre, at any hour.",
+  "p": "index.html"
+ },
+ "td2b4feb8": {
+  "bg": "Обади се и питай. По-бързо е от търсенето и отговаряме по всяко време.",
+  "en": "Call and ask. It is quicker than searching, and we answer at any hour.",
+  "p": "uslugi.html"
+ },
+ "td526f335": {
+  "bg": "Да. Колонките, магазинът и EasyPay работят без прекъсване, включително на празници.",
+  "en": "Yes. The pumps, the shop and EasyPay run without a break, holidays included.",
+  "p": "vaprosi.html"
+ },
+ "td556fc38": {
+  "bg": "Всички контакти",
+  "en": "All contacts",
+  "p": "vaprosi.html"
+ },
+ "td5df9296": {
+  "bg": "По-скъпо ли е при вас?",
+  "en": "Is it more expensive here?",
+  "p": "vaprosi.html"
+ },
+ "td7a262e7": {
+  "bg": "Мястото",
+  "en": "The place",
+  "p": "vaprosi.html"
+ },
+ "td7eb472d": {
+  "bg": "Студени напитки, вода, енергийни",
+  "en": "Cold drinks, water, energy drinks",
+  "p": "uslugi.html"
+ },
+ "td9ac9b3d": {
+  "bg": "Има ли тоалетна през нощта?",
+  "en": "Is there a toilet at night?",
+  "p": "vaprosi.html"
+ },
+ "td9bcda68": {
+  "bg": "Как да стигнеш",
+  "en": "How to get here",
+  "p": "hotel.html"
+ },
+ "tdb4df9d7": {
+  "bg": "Спиш, когато ти трябва сън, дори по обед. Стаята е тиха, климатизирана и с черни завеси, а колата ти стои пред прозореца.",
+  "en": "You sleep when you need sleep, even at midday. The room is quiet, air conditioned and blacked out, and your vehicle sits under the window.",
+  "p": "hotel.html"
+ },
+ "tdb967091": {
+  "bg": "С карта на BG OIL",
+  "en": "With the BG OIL card",
+  "p": "ceni.html"
+ },
+ "tdc077982": {
+  "bg": "Топло кафе и закуска по всяко време",
+  "en": "Hot coffee and a bite at any hour",
+  "p": "uslugi.html"
+ },
+ "tdc864d49": {
+  "bg": "Отворено 0-24, всеки ден от годината",
+  "en": "Open 0-24, every day of the year",
+  "p": "kontakt.html"
+ },
+ "tdfdcdcc5": {
+  "bg": "Показваме сменената част",
+  "en": "We show you the part we replaced",
+  "p": "uslugi.html"
+ },
+ "te04af96a": {
+  "bg": "Да",
+  "en": "Yes",
+  "p": "hotel.html"
+ },
+ "te2043ac8": {
+  "bg": "Контакти и маршрут",
+  "en": "Contact and directions",
+  "p": "index.html"
+ },
+ "te2884588": {
+  "bg": "Ток, вода, телефон, интернет, данъци и застраховки. Плащаш ги тук, когато ти е удобно.",
+  "en": "Electricity, water, phone, internet, taxes and insurance. Pay them here, when it suits you.",
+  "p": "uslugi.html"
+ },
+ "te304090f": {
+  "bg": "Най-честият страх в сервиза е сметката накрая. При нас редът е обърнат: първо знаеш, после решаваш.",
+  "en": "The commonest fear in a workshop is the bill at the end. Here the order is reversed: first you know, then you decide.",
+  "p": "serviz.html"
+ },
+ "te648d5f7": {
+  "bg": "Ти решаваш колко да измиеш",
+  "en": "You decide how much to wash",
+  "p": "uslugi.html"
+ },
+ "te7212f2a": {
+  "bg": "Работим с доказани доставчици и държим на качеството. Ако имаш въпрос за конкретна доставка, питай на място.",
+  "en": "We work with proven suppliers and we hold to quality. If you have a question about a delivery, ask us here.",
+  "p": "vaprosi.html"
+ },
+ "te7b9f3e0": {
+  "bg": "Баня в стаята",
+  "en": "Private bathroom",
+  "p": "hotel.html"
+ },
+ "te7d184af": {
+  "bg": "Цената я виждаш преди да спреш.",
+  "en": "You see the price before you pull in.",
+  "p": "ceni.html"
+ },
+ "tf057a776": {
+  "bg": "Да, за клиенти, и е осветен цяла нощ. Има място и за камион.",
+  "en": "Yes, for customers, and it is lit all night. There is room for a truck too.",
+  "p": "vaprosi.html"
+ },
+ "tf1ae728d": {
+  "bg": "Безплатен ли е паркингът?",
+  "en": "Is the parking free?",
+  "p": "vaprosi.html"
+ },
+ "tf27035b6": {
+  "bg": "Тишина",
+  "en": "Quiet",
+  "p": "hotel.html"
+ },
+ "tf34c21f2": {
+  "bg": "Без излишни неща и без театър. Легло, тишина, топла вода и спокойствие за колата отвън. Точно каквото ти трябва, преди пак да тръгнеш.",
+  "en": "Nothing surplus and no theatre. A bed, quiet, hot water and peace of mind about the vehicle outside. Exactly what you need before setting off again.",
+  "p": "hotel.html"
+ },
+ "tf435494c": {
+  "bg": "Диагностика",
+  "en": "Diagnosis",
+  "p": "serviz.html"
+ },
+ "tf54a40cc": {
+  "bg": "Сметката",
+  "en": "The sum",
+  "p": "ceni.html"
+ },
+ "tf5ec180e": {
+  "bg": "Казваме ти колко струва и от какво е съставена сумата.",
+  "en": "We tell you the cost and what makes it up.",
+  "p": "serviz.html"
+ },
+ "tf7721754": {
+  "bg": "Как се взема картата?",
+  "en": "How do I get the card?",
+  "p": "vaprosi.html"
+ },
+ "tf9113db6": {
+  "bg": "Плащаш на време, без излишно",
+  "en": "You pay by time, nothing wasted",
+  "p": "uslugi.html"
+ },
+ "tfd1b4ebf": {
+  "bg": "Дизел",
+  "en": "Diesel",
+  "p": "ceni.html"
+ },
+ "tff3f9634": {
+  "bg": "Вземи картата на място.",
+  "en": "Pick the card up here.",
+  "p": "ceni.html"
+ },
+ "tff802209": {
+  "bg": "За локален или цялостен ремонт",
+  "en": "For a local or a full repair",
+  "p": "uslugi.html"
+ },
+ "tfff50865": {
+  "bg": "Кажи на касата, че я искаш. Не струва нищо и важи от същото зареждане.",
+  "en": "Ask at the counter. It costs nothing and works from that same fill-up.",
+  "p": "vaprosi.html"
+ }
+}

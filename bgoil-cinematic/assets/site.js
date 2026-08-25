@@ -13,10 +13,16 @@ function tokens(txt){
 }
 function applyLang(){
   document.documentElement.lang = LANG;
+  var over = (window.__content && window.__content.texts) || {};
   var nodes = document.querySelectorAll('[data-bg]');
   for(var i=0;i<nodes.length;i++){
-    var t = nodes[i].getAttribute(LANG === 'bg' ? 'data-bg' : 'data-en');
-    if(t !== null) nodes[i].textContent = tokens(t);
+    var el = nodes[i];
+    var key = el.getAttribute('data-t');
+    var o = key ? over[key] : null;
+    var t = (o && typeof o[LANG] === 'string' && o[LANG] !== '')
+              ? o[LANG]
+              : el.getAttribute(LANG === 'bg' ? 'data-bg' : 'data-en');
+    if(t !== null) el.textContent = tokens(t);
   }
   document.getElementById('langA').textContent = LANG === 'bg' ? 'BG' : 'EN';
   document.getElementById('langB').textContent = LANG === 'bg' ? 'EN' : 'BG';

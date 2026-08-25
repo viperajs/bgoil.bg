@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # Builds the BG OIL site: seven plain HTML pages sharing assets/site.css and assets/site.js.
 # Run from the repo root:  python3 tools/build-pages.py
-import io, os, re
+import io, os, re, hashlib, json
+
+# Every piece of copy gets a stable key derived from its Bulgarian text, so the admin
+# panel can offer it for editing. Same text used twice shares one key on purpose:
+# editing it once changes both places.
+TEXTS = {}
+CURRENT = ['shared']      # which page is being written right now
 
 OUT = 'bgoil-cinematic'
 PAGES = [
@@ -25,7 +31,10 @@ NAV = [('ceni.html','Цени','Prices'), ('uslugi.html','Услуги','Service
        ('vaprosi.html','Въпроси','FAQ'), ('kontakt.html','Контакт','Contact')]
 
 def t(bg, en):
-    return 'data-bg="%s" data-en="%s"' % (bg.replace('"','&quot;'), en.replace('"','&quot;'))
+    key = 't' + hashlib.md5(bg.encode('utf-8')).hexdigest()[:8]
+    rec = TEXTS.setdefault(key, {'bg': bg, 'en': en, 'on': set()})
+    rec['on'].add(CURRENT[0])
+    return 'data-t="%s" data-bg="%s" data-en="%s"' % (key, bg.replace('"','&quot;'), en.replace('"','&quot;'))
 
 MARK = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#FF3A32" fill-rule="evenodd" '
         'd="M16 3c0 0-9.4 11.7-9.4 16.9A9.4 9.4 0 0 0 25.4 19.9C25.4 14.7 16 3 16 3zm0 9c0 0 4.8 5.9 4.8 8.5'
@@ -677,7 +686,17 @@ BODIES = {'index.html':page_index, 'ceni.html':page_ceni, 'uslugi.html':page_usl
 
 if __name__ == '__main__':
     for fn, tbg, ten, desc in PAGES:
+        CURRENT[0] = fn
         body = BODIES[fn]()
         html = head(tbg, ten, desc) + '\n<main id="main" tabindex="-1">\n' + body + '</main>\n' + FOOT
         io.open(os.path.join(OUT, fn), 'w', encoding='utf-8').write(html)
         print('%-14s %6d bytes' % (fn, len(html.encode())))
+    # the catalogue of default texts, so the admin panel knows what there is to edit
+    out = {}
+    for k, v in TEXTS.items():
+        pages = sorted(v['on'])
+        out[k] = {'bg': v['bg'], 'en': v['en'],
+                  'p': 'shared' if len(pages) >= 3 else pages[0]}
+    io.open(os.path.join(OUT, 'data', 'texts.json'), 'w', encoding='utf-8').write(
+        json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + '\n')
+    print('%-14s %6d texts' % ('texts.json', len(TEXTS)))

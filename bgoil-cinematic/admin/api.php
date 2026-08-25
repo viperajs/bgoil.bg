@@ -126,6 +126,18 @@ if ($action === 'save') {
   if ($disc < 0) $disc = 0;
   if ($disc > 5) $disc = 5;
 
+  // текстовете: пазим само това, което е променено спрямо направеното в сайта
+  $texts = [];
+  foreach ((array)($in['texts'] ?? []) as $k => $v) {
+    if (!is_string($k) || !preg_match('/^t[0-9a-f]{8}$/', $k)) continue;
+    if (!is_array($v)) continue;
+    $bgv = $txt($v['bg'] ?? '', 400);
+    $env = $txt($v['en'] ?? '', 400);
+    if ($bgv === '' && $env === '') continue;
+    $texts[$k] = ['bg' => $bgv, 'en' => $env];
+    if (count($texts) >= 400) break;
+  }
+
   $cur  = (array)($in['currency'] ?? []);
   $dec  = (int)($cur['decimals'] ?? 3);
   if ($dec < 0) $dec = 0;
@@ -155,6 +167,7 @@ if ($action === 'save') {
       'showBgn'  => !empty($cur['showBgn']),
       'rate'     => 1.95583,          // официалният фиксиран курс, не се променя
     ],
+    'texts' => $texts,
     'hotel' => ['available' => !empty($in['hotel']['available'])],
     'promo' => [
       'enabled' => !empty($in['promo']['enabled']),
