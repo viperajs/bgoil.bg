@@ -4,6 +4,7 @@ import Footer from "@/components/Footer"
 import Hero from "@/components/Hero"
 import ServicesSection from "@/components/ServicesSection"
 import FeaturedFuels from "@/components/FeaturedFuels"
+import MoneyTransferSection from "@/components/MoneyTransferSection"
 import { Suspense } from "react"
 import { companyInfo, contacts } from "@/lib/config"
 import { MapPin, Phone, Clock, ArrowUpRight } from "lucide-react"
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
 
 const marqueeItems = [
   'БЕНЗИН А95', 'ДИЗЕЛ', 'ADBLUE', 'МАГАЗИН 24/7',
-  'ХОТЕЛ', 'EASYPAY 24/7', 'БЕЗПЛАТЕН ПАРКИНГ',
+  'ХОТЕЛ', 'EASYPAY 24/7', 'WESTERN UNION', 'MONEYGRAM', 'RIA', 'БЕЗПЛАТЕН ПАРКИНГ',
   'АВТОСЕРВИЗ', 'АВТОМИВКА', 'КАЧЕСТВО №1',
 ]
 
@@ -90,6 +91,7 @@ export default function HomePage() {
         </div>
 
         <ServicesSection />
+        <MoneyTransferSection />
         <Suspense fallback={null}>
           <FeaturedFuels />
         </Suspense>

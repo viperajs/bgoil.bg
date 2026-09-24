@@ -54,7 +54,6 @@ export default function Tilt3DCard({
       style={{
         transition: "transform 0.18s ease-out, box-shadow 0.4s ease",
         transformStyle: "preserve-3d",
-        willChange: "transform",
       }}
     >
       {children}

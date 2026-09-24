@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react"
+import { ExternalLink, Calendar, User, ChevronLeft, ChevronRight, Flame } from "lucide-react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import "dayjs/locale/bg"
@@ -117,8 +117,9 @@ export default function NewsFeedList({ articles }: NewsFeedListProps) {
               </div>
             )}
             {article.is_important && (
-              <Badge variant="destructive" className="shadow-sm">
-                🔥 Важно
+              <Badge variant="destructive" className="shadow-sm gap-1">
+                <Flame className="w-3.5 h-3.5" />
+                Важно
               </Badge>
             )}
             {article.category && (

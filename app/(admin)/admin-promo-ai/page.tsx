@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Sparkles, Loader2, CheckCircle2, AlertCircle, Send, Copy } from "lucide-react"
+import { Sparkles, Loader2, CheckCircle2, AlertCircle, Send, Copy, Lightbulb, Gift, Megaphone, Calendar, Check } from "lucide-react"
 
 interface PromoConfig {
   enabled: boolean
@@ -159,7 +159,7 @@ export default function AdminPromoAIPage() {
 
               {/* Examples */}
               <div className="mt-6 p-4 rounded-lg bg-muted/50 border border-border">
-                <p className="text-xs font-bold text-muted-foreground mb-2">💡 Съвети:</p>
+                <p className="text-xs font-bold text-muted-foreground mb-2 flex items-center gap-1.5"><Lightbulb className="w-3.5 h-3.5" /> Съвети:</p>
                 <ul className="text-xs text-muted-foreground space-y-1">
                   <li>• Пишете на естествен български език</li>
                   <li>• Споменете конкретни дати ако има</li>
@@ -193,7 +193,7 @@ export default function AdminPromoAIPage() {
                   <div className="flex items-center space-x-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600" />
                     <p className="text-sm font-semibold text-green-800">
-                      ✅ Промоцията е запазена успешно!
+                      Промоцията е запазена успешно!
                     </p>
                   </div>
                 </div>
@@ -217,12 +217,14 @@ export default function AdminPromoAIPage() {
                       : 'bg-gradient-to-r from-blue-50 to-blue-100 border-blue-300'
                   }`}>
                     <div className="flex items-center space-x-2 mb-3">
-                      <span className="text-xs font-bold px-2 py-1 rounded-full bg-white/80">
-                        {generatedConfig.kind === 'promo' ? '🎁 ПРОМОЦИЯ' : '📢 НОВИНА'}
+                      <span className="text-xs font-bold px-2 py-1 rounded-full bg-white/80 inline-flex items-center gap-1">
+                        {generatedConfig.kind === 'promo'
+                          ? <><Gift className="w-3.5 h-3.5" /> ПРОМОЦИЯ</>
+                          : <><Megaphone className="w-3.5 h-3.5" /> НОВИНА</>}
                       </span>
                       {generatedConfig.enabled && (
-                        <span className="text-xs font-bold px-2 py-1 rounded-full bg-green-500 text-white">
-                          ✓ АКТИВНА
+                        <span className="text-xs font-bold px-2 py-1 rounded-full bg-green-500 text-white inline-flex items-center gap-1">
+                          <Check className="w-3.5 h-3.5" /> АКТИВНА
                         </span>
                       )}
                     </div>
@@ -246,10 +248,10 @@ export default function AdminPromoAIPage() {
                     {(generatedConfig.startAt || generatedConfig.endAt) && (
                       <div className="mt-3 pt-3 border-t border-gray-300 text-xs text-gray-600">
                         {generatedConfig.startAt && (
-                          <div>📅 Начало: {new Date(generatedConfig.startAt).toLocaleDateString('bg-BG')}</div>
+                          <div className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> Начало: {new Date(generatedConfig.startAt).toLocaleDateString('bg-BG')}</div>
                         )}
                         {generatedConfig.endAt && (
-                          <div>📅 Край: {new Date(generatedConfig.endAt).toLocaleDateString('bg-BG')}</div>
+                          <div className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> Край: {new Date(generatedConfig.endAt).toLocaleDateString('bg-BG')}</div>
                         )}
                       </div>
                     )}

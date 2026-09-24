@@ -60,7 +60,7 @@ export default function AdminPricesPage() {
       setMsg(null)
     } catch (e) {
       console.error(e)
-      setMsg({ type: 'error', text: 'Грешка при зареждане ❌' })
+      setMsg({ type: 'error', text: 'Грешка при зареждане' })
     } finally {
       setLoading(false)
     }
@@ -94,7 +94,7 @@ export default function AdminPricesPage() {
         }))
 
       if (items.length === 0) {
-        setMsg({ type: 'error', text: 'Няма валидни записи за запазване ❌' })
+        setMsg({ type: 'error', text: 'Няма валидни записи за запазване' })
         return
       }
 
@@ -114,23 +114,23 @@ export default function AdminPricesPage() {
       }
 
       if (!responseData.ok) {
-        setMsg({ type: 'error', text: `Грешка: ${responseData.reason || responseData.error || 'Промените не бяха запазени'} ❌` })
+        setMsg({ type: 'error', text: `Грешка: ${responseData.reason || responseData.error || 'Промените не бяха запазени'}` })
         return
       }
 
       await loadData()
 
       if (responseData.changed && responseData.changed.length > 0) {
-        setMsg({ type: 'success', text: `✅ Записано успешно! Променени ${responseData.changed.length} горива.` })
+        setMsg({ type: 'success', text: `Записано успешно! Променени ${responseData.changed.length} горива.` })
       } else {
-        setMsg({ type: 'success', text: '✅ Няма промени за запазване (цените са същите)' })
+        setMsg({ type: 'success', text: 'Няма промени за запазване (цените са същите)' })
       }
 
       setTimeout(() => setMsg(null), 5000)
     } catch (e) {
       console.error('Save error:', e)
       const errorMsg = e instanceof Error ? e.message : 'Неизвестна грешка'
-      setMsg({ type: 'error', text: `Грешка при запис: ${errorMsg} ❌` })
+      setMsg({ type: 'error', text: `Грешка при запис: ${errorMsg}` })
     } finally {
       setSaving(false)
     }

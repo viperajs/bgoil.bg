@@ -9,6 +9,10 @@ interface DiscountBannerProps {
   renderWrapper?: boolean
 }
 
+// Stored messages may still carry emoji from older defaults — the site uses icons only
+const stripEmoji = (text: string) =>
+  text.replace(/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim()
+
 export default function DiscountBanner({ className, fallback, wrapperClassName, renderWrapper = false }: DiscountBannerProps) {
   const [message, setMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -19,7 +23,7 @@ export default function DiscountBanner({ className, fallback, wrapperClassName, 
       .then(res => res.json())
       .then(data => {
         if (data.active && data.message) {
-          setMessage(data.message)
+          setMessage(stripEmoji(data.message))
         } else {
           // Don't show fallback if banner is disabled
           setMessage(null)

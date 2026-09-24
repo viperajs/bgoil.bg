@@ -2,7 +2,7 @@
  * Функции за проверка на релевантност на новини за горива
  */
 
-// 🔹 силни ключови думи, които са задължителни
+// силни ключови думи, които са задължителни
 export const STRONG_FUEL = [
   'горива','гориво','бензин','дизел','nafta','petrol','fuel',
   'lpg','пропан-бутан','газстанция','бензиностанц','лукойл',
@@ -22,16 +22,16 @@ export function isFuelRelevant(title = '', summary = '', link = ''): boolean {
 
   const host = (() => { try { return new URL(link).hostname.replace(/^www\./, ''); } catch { return ''; } })();
 
-  // 🔹 силни ключови думи, които са задължителни
+  // силни ключови думи, които са задължителни
   const STRONG = STRONG_FUEL;
 
-  // 🔹 вторични (поддържащи) термини
+  // вторични (поддържащи) термини
   const RELATED = [
     'цени','котировки','пазар','barrel','нефт','търговия','energy market',
     'petrochemical','refinery','pipeline','доставка','склад','резерви'
   ];
 
-  // 🔹 изключващи — политически/общи/вик/вода и т.н.
+  // изключващи — политически/общи/вик/вода и т.н.
   const EXCLUDE = [
     'вода','вик','електро','енергия','солар','вятър','батерии',
     'заплата','минималн','борисов','герб','избори','политика','данък',
@@ -42,16 +42,16 @@ export function isFuelRelevant(title = '', summary = '', link = ''): boolean {
   const hasRelated = RELATED.some(k => text.includes(k));
   const hasExclude = EXCLUDE.some(k => text.includes(k));
 
-  // 🔸 whitelisted домейни (доверени за горива) - приемаме само ако има силна дума
+  // whitelisted домейни (доверени за горива) - приемаме само ако има силна дума
   const WHITELIST = ['oilprice.com','investor.bg','mediapool.bg','capital.bg','dnevnik.bg','segabg.com'];
   if (WHITELIST.some(d => host.endsWith(d))) {
     return hasStrong;
   }
 
-  // 🔸 допускане: трябва да има поне една силна дума
+  // допускане: трябва да има поне една силна дума
   if (!hasStrong) return false;
   
-  // 🔸 изключваме ако има изключващи термини (но само ако не е whitelisted)
+  // изключваме ако има изключващи термини (но само ако не е whitelisted)
   if (hasExclude) return false;
 
   return true;

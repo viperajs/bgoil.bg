@@ -31,7 +31,7 @@ export async function getDiscountBannerConfig(): Promise<DiscountBannerConfig> {
     // Return default if file doesn't exist
     const defaultConfig: DiscountBannerConfig = {
       enabled: true,
-      message: '💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията',
+      message: 'С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията',
       startAt: null,
       endAt: null,
     }

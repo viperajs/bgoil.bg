@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         to: email,
         subject: 'Код за достъп: ' + generatedCode,
         html: `<h1>Вашият код е: ${generatedCode}
-         <p> Ако сте доволни от услугата, дайте някое евро че трудни време идват 😆</p>
+         <p> Ако сте доволни от услугата, дайте някое евро че трудни време идват</p>
         </h1>`
       });
 

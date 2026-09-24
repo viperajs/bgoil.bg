@@ -49,7 +49,6 @@ export default function Hero() {
   const [statsVisible,   setStatsVisible]   = useState(false)
   const [barsVisible,    setBarsVisible]    = useState(false)
   const [discountBanner, setDiscountBanner] = useState<{ active: boolean; message: string | null }>({ active: false, message: null })
-  const [mouseX,         setMouseX]         = useState(0)
   const [lettersReady,   setLettersReady]   = useState(false)
 
 
@@ -83,18 +82,6 @@ export default function Hero() {
     return () => observer.disconnect()
   }, [])
 
-  /* ── mouse handler: parallax grid + magnetic CTAs ── */
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const nx = (e.clientX / window.innerWidth - 0.5) * 2
-    setMouseX(nx)
-
-  }, [])
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [handleMouseMove])
-
   /* ── 3D card tilt ── */
   const handleTilt = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = e.currentTarget, r = el.getBoundingClientRect()
@@ -127,7 +114,8 @@ export default function Hero() {
       {/* ══ Background video ══ */}
       <video
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        src="/Gas_Station_Scene_A_white_sedan_drives_past_a_gas_station_at_night_uTdWARsS.mp4"
+        src="/hero.mp4"
+        poster="/hero-poster.jpg"
         autoPlay
         muted
         loop
@@ -148,8 +136,7 @@ export default function Hero() {
           style={{
             top:        '-10%',
             left:       '50%',
-            transform:  `translateX(calc(-50% + ${mouseX * 30}px))`,
-            transition: 'transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94)',
+            transform:  'translateX(-50%)',
             width:      '900px',
             height:     '700px',
             background: 'radial-gradient(ellipse 60% 55% at 50% 40%, rgba(220,38,38,0.14), rgba(239,68,68,0.06) 55%, transparent 80%)',
@@ -182,7 +169,6 @@ export default function Hero() {
               inset:              0,
               backgroundImage:    'linear-gradient(rgba(239,68,68,0.2) 1px, transparent 1px)',
               backgroundSize:     `100% 55px`,
-              backgroundPosition: `0 ${mouseX * 8}px`,
             }}
           />
           {/* Vertical lines (converging to vanishing point) */}
@@ -210,8 +196,7 @@ export default function Hero() {
             position:   'absolute',
             top:        '8%',
             left:       '50%',
-            transform:  `translateX(calc(-50% + ${mouseX * 20}px))`,
-            transition: 'transform 0.9s ease-out',
+            transform:  'translateX(-50%)',
             width:      '75%',
             height:     '50%',
             background: 'radial-gradient(ellipse 65% 35% at 50% 15%, rgba(239,68,68,0.28), rgba(249,115,22,0.1) 50%, transparent 80%)',
@@ -253,7 +238,6 @@ export default function Hero() {
               style={{
                 background:    'rgba(255,255,255,0.03)',
                 border:        '1px solid rgba(255,255,255,0.08)',
-                backdropFilter:'blur(20px)',
               }}
             >
               <span className="relative flex h-1.5 w-1.5">
@@ -278,9 +262,7 @@ export default function Hero() {
               style={{
                 inset:      '-35% -20%',
                 zIndex:     -1,
-                filter:     'blur(90px)',
-                background: 'radial-gradient(ellipse at 50% 60%, rgba(220,38,38,0.35), transparent 70%)',
-                animation:  'halo-pulse 4s ease-in-out infinite',
+                background: 'radial-gradient(ellipse at 50% 60%, rgba(220,38,38,0.3), transparent 70%)',
               }}
             />
 
@@ -301,13 +283,10 @@ export default function Hero() {
                   style={{
                     opacity:    lettersReady ? 1 : 0,
                     transform:  lettersReady ? 'translateY(0)' : 'translateY(0.4em)',
-                    filter:     lettersReady
-                      ? 'drop-shadow(-2px 0 rgba(220,38,38,0.5)) drop-shadow(2px 0 rgba(0,180,255,0.18)) drop-shadow(0 0 55px rgba(239,68,68,0.45))'
-                      : 'blur(20px)',
+                    filter:     'drop-shadow(0 0 40px rgba(239,68,68,0.4))',
                     transition: [
                       `opacity   0.9s cubic-bezier(0.16,1,0.3,1) ${i * 0.09}s`,
                       `transform 0.9s cubic-bezier(0.16,1,0.3,1) ${i * 0.09}s`,
-                      `filter    0.75s cubic-bezier(0.16,1,0.3,1) ${i * 0.09}s`,
                     ].join(', '),
                     /* Chrome metallic gradient */
                     background:           'linear-gradient(180deg, #ffffff 0%, #f5f5f5 40%, #e8d5b0 70%, #d4a96a 100%)',
@@ -373,8 +352,9 @@ export default function Hero() {
           >
             {/* Primary */}
             <div className="relative group w-full sm:w-auto">
-              <button
-                className="relative w-full sm:w-auto rounded-xl font-bold px-10 py-4 text-sm uppercase tracking-[0.12em] overflow-hidden cursor-pointer z-10 group"
+              <Link
+                href="/products"
+                className="relative flex w-full sm:w-auto rounded-xl font-bold px-10 py-4 text-sm uppercase tracking-[0.12em] overflow-hidden cursor-pointer z-10 group"
                 style={{
                   background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%)',
                   color:      '#fff',
@@ -385,22 +365,22 @@ export default function Hero() {
               >
                 {/* Inner shimmer on hover */}
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
-                <Link href="/products" className="flex items-center gap-2.5 justify-center relative z-10">
+                <span className="flex w-full items-center gap-2.5 justify-center relative z-10">
                   <Fuel className="w-4 h-4" />
                   Цени на горива
-                </Link>
-              </button>
+                </span>
+              </Link>
             </div>
 
             {/* Secondary */}
             <div className="w-full sm:w-auto">
-              <button
-                className="w-full sm:w-auto rounded-xl font-bold px-10 py-4 text-sm uppercase tracking-[0.12em] cursor-pointer group"
+              <Link
+                href="/contact"
+                className="flex w-full sm:w-auto rounded-xl font-bold px-10 py-4 text-sm uppercase tracking-[0.12em] cursor-pointer group"
                 style={{
                   background:    'rgba(255,255,255,0.03)',
                   border:        '1px solid rgba(255,255,255,0.1)',
                   color:         'rgba(255,255,255,0.75)',
-                  backdropFilter:'blur(12px)',
                   transition:    'all 0.25s ease',
                   fontFamily:    'var(--font-display)',
                 }}
@@ -417,12 +397,12 @@ export default function Hero() {
                   el.style.background  = 'rgba(255,255,255,0.03)'
                 }}
               >
-                <Link href="/contact" className="flex items-center gap-2.5 justify-center">
+                <span className="flex w-full items-center gap-2.5 justify-center">
                   <Phone className="w-4 h-4" />
                   Контакти
                   <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:translate-x-0.5 transition-transform duration-200" />
-                </Link>
-              </button>
+                </span>
+              </Link>
             </div>
           </div>
 
@@ -431,7 +411,7 @@ export default function Hero() {
             <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <div
                 className="inline-block px-5 py-2.5 rounded-xl"
-                style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.14)', backdropFilter: 'blur(12px)' }}
+                style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.14)' }}
               >
                 <p className="text-green-400 font-medium flex items-center gap-2 text-sm">
                   <Sparkles className="w-3.5 h-3.5" /> {discountBanner.message}
@@ -458,10 +438,8 @@ export default function Hero() {
                     style={{
                       background:     'rgba(255,255,255,0.022)',
                       border:         '1px solid rgba(255,255,255,0.06)',
-                      backdropFilter: 'blur(20px)',
                       transformStyle: 'preserve-3d',
                       transition:     'transform 0.18s ease-out, border-color 0.25s, box-shadow 0.25s',
-                      willChange:     'transform',
                       /* Inner top glow matching stat color */
                       boxShadow:      `inset 0 1px 0 ${stat.color}22`,
                     }}
@@ -546,17 +524,9 @@ export default function Hero() {
 
       {/* ── Keyframes ── */}
       <style>{`
-        @keyframes halo-pulse {
-          0%,100%{ opacity:.65; transform:scale(1)   }
-          50%    { opacity:1;   transform:scale(1.08) }
-        }
         @keyframes blink {
           0%,100%{ opacity:1 }
           50%    { opacity:0 }
-        }
-        @keyframes spin {
-          from { transform:rotate(0deg) }
-          to   { transform:rotate(360deg) }
         }
         @keyframes scroll-drop {
           0%   { transform:translateY(-100%); opacity:0 }

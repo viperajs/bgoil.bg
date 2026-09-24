@@ -24,7 +24,14 @@ export default function MarchThirdDecoration() {
         <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-500/10 via-transparent to-red-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
         <p className="text-lg sm:text-xl font-bold text-white/90 group-hover:text-white transition-colors whitespace-nowrap">
-          🇧🇬 Честит Трети Март!
+          <span className="inline-flex items-center gap-3">
+            <span aria-hidden className="inline-flex flex-col w-6 h-4 rounded-[3px] overflow-hidden ring-1 ring-white/20">
+              <span className="flex-1 bg-white" />
+              <span className="flex-1 bg-green-600" />
+              <span className="flex-1 bg-red-600" />
+            </span>
+            Честит Трети Март!
+          </span>
         </p>
       </div>
     </div>

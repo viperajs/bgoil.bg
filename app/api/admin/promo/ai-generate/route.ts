@@ -55,7 +55,7 @@ export async function POST(req: Request) {
 
 ВАЖНИ ПРАВИЛА:
 1. "message" е ЗАДЪЛЖИТЕЛНО и трябва да е кратко, привлекателно и до 180 символа
-2. Използвай емоджита умерено (1-2 максимум)
+2. НЕ използвай емоджита
 3. Ако има конкретни дати в описанието, използвай ги за startAt/endAt
 4. Ако е промоция за горива, използвай kind: "promo"
 5. Ако е информационна новина, използвай kind: "news"
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
   "enabled": true,
   "kind": "promo",
   "title": "Дизел -10%",
-  "message": "Специална промоция! 10% отстъпка на дизел за целия януари. Не пропускайте! ⛽",
+  "message": "Специална промоция! 10% отстъпка на дизел за целия януари. Не пропускайте!",
   "ctaText": "Вземи отстъпката",
   "ctaUrl": "/contact",
   "startAt": "${new Date(new Date().getFullYear(), 0, 1).toISOString()}",
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
 {
   "enabled": true,
   "kind": "news",
-  "message": "На 1 януари работим от 10:00 до 18:00 часа. Честита Нова година! 🎉",
+  "message": "На 1 януари работим от 10:00 до 18:00 часа. Честита Нова година!",
   "startAt": null,
   "endAt": null
 }
@@ -94,7 +94,7 @@ export async function POST(req: Request) {
   "enabled": true,
   "kind": "promo",
   "title": "Подарък при 50л+",
-  "message": "Зареди над 50 литра и получи безплатно измиване на стъкла! 🎁",
+  "message": "Зареди над 50 литра и получи безплатно измиване на стъкла!",
   "ctaText": null,
   "ctaUrl": null,
   "startAt": null,

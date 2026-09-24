@@ -435,7 +435,7 @@ export async function GET() {
           if (articleData.text) {
             readingTime = calculateReadingTime(articleData.text)
             
-            // 🔹 ВТОРА ПРОВЕРКА: AI филтриране (само ако не е NO_AI режим)
+            // ВТОРА ПРОВЕРКА: AI филтриране (само ако не е NO_AI режим)
             if (!NO_AI) {
               const aiRelevant = await limit(() => isFuelRelevantAI(title, articleData.text))
               if (!aiRelevant) {

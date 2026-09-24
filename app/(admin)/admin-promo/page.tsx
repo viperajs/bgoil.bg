@@ -23,7 +23,7 @@ export default function AdminPromoPage() {
   // Discount Banner state
   const [discountBanner, setDiscountBanner] = useState<DiscountBannerConfig>({
     enabled: true,
-    message: '💳 С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията',
+    message: 'С карта BG OIL имате 10 % отстъпка при закупуване стоки от магазина на бензиностанцията',
     startAt: null,
     endAt: null,
   })
@@ -66,12 +66,12 @@ export default function AdminPromoPage() {
     setDiscountBannerMsg(null)
     try {
       if (!discountBanner.message.trim()) {
-        setDiscountBannerMsg({ type: 'error', text: 'Съобщението е задължително ❌' })
+        setDiscountBannerMsg({ type: 'error', text: 'Съобщението е задължително' })
         return
       }
 
       if (discountBanner.message.length > 200) {
-        setDiscountBannerMsg({ type: 'error', text: 'Съобщението трябва да е максимум 200 символа ❌' })
+        setDiscountBannerMsg({ type: 'error', text: 'Съобщението трябва да е максимум 200 символа' })
         return
       }
 
@@ -96,11 +96,11 @@ export default function AdminPromoPage() {
 
       setDiscountBanner(data.config)
       setDiscountBannerActive(data.active)
-      setDiscountBannerMsg({ type: 'success', text: 'Записано успешно ✅' })
+      setDiscountBannerMsg({ type: 'success', text: 'Записано успешно' })
       setTimeout(() => setDiscountBannerMsg(null), 5000)
     } catch (e) {
       console.error(e)
-      const errorMsg = e instanceof Error ? e.message : 'Грешка при запис ❌'
+      const errorMsg = e instanceof Error ? e.message : 'Грешка при запис'
       setDiscountBannerMsg({ type: 'error', text: errorMsg })
     } finally {
       setSavingDiscountBanner(false)
