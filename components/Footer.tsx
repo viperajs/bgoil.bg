@@ -1,150 +1,93 @@
 import Link from "next/link"
+import { Clock, Facebook, Mail, MapPin, Phone } from "lucide-react"
 import { companyInfo, contacts } from "@/lib/config"
-import { Phone, Mail, MapPin, Clock, Facebook, ArrowRight } from "lucide-react"
+
+const quickLinks = [
+  { name: "Цени на горива", href: "/products" },
+  { name: "Нашите услуги", href: "/about" },
+  { name: "Магазин", href: "/shop" },
+  { name: "Хотел", href: "/hotel" },
+  { name: "Как да ни намерите", href: "/contact" },
+]
 
 export default function Footer() {
   return (
-    <footer className="relative text-white overflow-hidden">
-      {/* Gradient separator */}
-      <div className="h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(239,68,68,0.4), rgba(220,38,38,0.3), transparent)' }}></div>
+    <footer className="s-footer s-on-ink">
+      <div className="s-footer__stripe" aria-hidden="true" />
+      <div className="s-wrap">
+        <div className="s-footer__grid">
+          <div className="s-footer__brand">
+            <img src="/bg-oil-logo.webp" alt={companyInfo.name} width={128} height={44} loading="lazy" />
+            <p>{companyInfo.description}</p>
+            <p className="s-footer__slogan">{companyInfo.slogan}</p>
+            <a
+              className="s-footer__social"
+              href="https://www.facebook.com/share/1ZaL36Ykbk/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook aria-hidden="true" />
+              Facebook
+            </a>
+          </div>
 
-      {/* Ambient glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top, rgba(239,68,68,0.04), transparent 70%)' }} />
-
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Company Info */}
-          <div className="space-y-5">
-            <div className="flex items-center space-x-3">
-              <span className="font-black text-2xl text-white tracking-tight">{companyInfo.name}</span>
-            </div>
-            <p className="text-white/60 leading-relaxed text-sm">
-              {companyInfo.description}
-            </p>
-            <p className="text-primary font-bold text-sm">{companyInfo.slogan}</p>
-
-            {/* Social */}
-            <div className="flex items-center space-x-3 pt-2">
-              <a
-                href="https://www.facebook.com/share/1ZaL36Ykbk/?mibextid=wwXIfr"
-                className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-primary/20 hover:border-primary/30 flex items-center justify-center transition-all duration-300"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-4 h-4 text-white/60 hover:text-white" />
+          <div>
+            <h3>Контакти</h3>
+            <div className="s-footer__list">
+              <a href={contacts.mapsLink} target="_blank" rel="noopener noreferrer">
+                <MapPin aria-hidden="true" />
+                {contacts.address}
               </a>
+              <a href={`tel:${contacts.phoneMain.replace(/\s+/g, "")}`}>
+                <Phone aria-hidden="true" />
+                {contacts.phoneMain}
+              </a>
+              <a href={`mailto:${contacts.email}`}>
+                <Mail aria-hidden="true" />
+                {contacts.email}
+              </a>
+              <span className="row">
+                <Clock aria-hidden="true" />
+                {contacts.workingHours}
+              </span>
             </div>
           </div>
 
-          {/* Contact Info */}
-          <div className="space-y-5">
-            <h3 className="font-bold text-lg text-white">Контакти</h3>
-            <div className="space-y-4">
-              <a
-                href={contacts.mapsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start space-x-3 group"
-              >
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4 text-primary" />
-                </div>
-                <span className="text-white/60 text-sm leading-relaxed pt-1.5 group-hover:text-white/60 transition-colors duration-300">{contacts.address}</span>
-              </a>
-              <div className="flex items-center space-x-3 group">
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0">
-                  <Phone className="w-4 h-4 text-primary" />
-                </div>
-                <a
-                  href={`tel:${contacts.phoneMain}`}
-                  className="text-white/60 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
-                >
-                  {contacts.phoneMain}
-                </a>
-              </div>
-              <div className="flex items-center space-x-3 group">
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 flex-shrink-0">
-                  <Mail className="w-4 h-4 text-primary" />
-                </div>
-                <a
-                  href={`mailto:${contacts.email}`}
-                  className="text-white/60 hover:text-white/70 transition-colors duration-300 font-medium text-sm"
-                >
-                  {contacts.email}
-                </a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] border border-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-4 h-4 text-primary" />
-                </div>
-                <span className="text-white/60 text-sm font-medium">{contacts.workingHours}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-5">
-            <h3 className="font-bold text-lg text-white">Бързи връзки</h3>
-            <div className="space-y-3">
-              {[
-                { name: "Цени на горива", href: "/products" },
-                { name: "Нашите услуги", href: "/about" },
-                { name: "Магазин", href: "/shop" },
-                { name: "Как да ни намерите", href: "/contact" },
-              ].map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="flex items-center space-x-2 text-white/60 hover:text-white/70 transition-all duration-300 group text-sm"
-                >
-                  <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-primary" />
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
+          <div>
+            <h3>Бързи връзки</h3>
+            <div className="s-footer__links">
+              {quickLinks.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  {link.name}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Benefits */}
-          <div className="space-y-5">
-            <h3 className="font-bold text-lg text-white">За клиенти</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
-              Предимства и удобства на едно място
-            </p>
-            <div className="space-y-3">
-              <div className="p-4 rounded-xl bg-primary/[0.06] border border-primary/10">
-                <p className="text-white font-bold text-sm mb-1">24/7 Обслужване</p>
-                <p className="text-white/50 text-xs leading-relaxed">
-                  Винаги на ваше разположение
-                </p>
+          <div>
+            <h3>За клиенти</h3>
+            <div className="s-footer__perks">
+              <div>
+                <b>24/7 обслужване</b>
+                <small>Винаги на ваше разположение</small>
               </div>
-              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.05]">
-                <p className="text-white font-bold text-sm mb-1">Безплатен паркинг</p>
-                <p className="text-white/50 text-xs leading-relaxed">
-                  Удобно паркиране за всички клиенти
-                </p>
+              <div>
+                <b>Безплатен паркинг</b>
+                <small>Удобно паркиране за всички клиенти</small>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-10 border-t border-white/[0.04]">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-white/45 text-xs text-center md:text-left">
-              © {new Date().getFullYear()} {companyInfo.name}. Всички права запазени.
-            </p>
-            <div className="flex items-center space-x-6 text-xs">
-              <Link href="/about" className="text-white/45 hover:text-white/50 transition-colors duration-300">
-                За нас
-              </Link>
-              <Link href="/contact" className="text-white/45 hover:text-white/50 transition-colors duration-300">
-                Контакти
-              </Link>
-              <Link href="/products" className="text-white/45 hover:text-white/50 transition-colors duration-300">
-                Горива
-              </Link>
-            </div>
-          </div>
+        <div className="s-footer__bottom">
+          <span>
+            © {new Date().getFullYear()} {companyInfo.name}. Всички права запазени.
+          </span>
+          <nav aria-label="Долна навигация">
+            <Link href="/about">За нас</Link>
+            <Link href="/contact">Контакти</Link>
+            <Link href="/products">Горива</Link>
+          </nav>
         </div>
       </div>
     </footer>

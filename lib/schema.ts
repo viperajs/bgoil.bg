@@ -13,7 +13,7 @@ export function generateProductSchema() {
     category: "Automotive Fuel",
     offers: {
       "@type": "AggregateOffer",
-      priceCurrency: "BGN",
+      priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
     },
   }
