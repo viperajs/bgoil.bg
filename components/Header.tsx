@@ -1,105 +1,161 @@
-"use client";
-import {
-  Navbar,
-  NavBody,
-  NavItems,
-  MobileNav,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
-} from "@/components/ui/resizable-navbar";
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+"use client"
+
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { ArrowUpRight, Clock, MapPin, Menu, Phone, X } from "lucide-react"
+import { contacts } from "@/lib/config"
+
+const navItems = [
+  { name: "Начало", link: "/" },
+  { name: "За нас", link: "/about" },
+  { name: "Горива", link: "/products" },
+  { name: "Магазин", link: "/shop" },
+  { name: "Хотел", link: "/hotel" },
+]
 
 export default function Header() {
-  const pathname = usePathname();
-  const navItems = [
-    { name: "Начало", link: "/" },
-    { name: "За нас", link: "/about" },
-    { name: "Горива", link: "/products" },
-    { name: "Магазин", link: "/shop" },
-    { name: "Хотел", link: "/hotel" },
-  ];
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+  const [stuck, setStuck] = useState(false)
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setStuck(window.scrollY > 40)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Затваряме мобилното меню при смяна на страницата и с Escape
+  useEffect(() => { setOpen(false) }, [pathname])
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false) }
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", onKey)
+    return () => {
+      document.body.style.overflow = ""
+      window.removeEventListener("keydown", onKey)
+    }
+  }, [open])
+
+  const current = (link: string) => (pathname === link ? "page" : undefined)
+  const telHref = `tel:${contacts.phoneMain.replace(/\s+/g, "")}`
 
   return (
-    <div className="relative w-full">
-      <Navbar>
-        {/* Desktop Navigation */}
-        <NavBody>
-          <Link href="/" className="relative z-20 mr-4 flex items-center gap-2">
-            <img
-              src="/bg-oil-logo.webp"
-              alt="BG OIL"
-              className="h-8 w-auto object-contain drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]"
-            />
-          </Link>
-          <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
-            <NavbarButton
-              href="/contact"
-              variant="gradient"
-              className="!bg-gradient-to-r !from-red-600 !to-red-500 !text-white !font-bold hover:!from-red-500 hover:!to-red-400 !shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:!shadow-[0_0_30px_rgba(239,68,68,0.5)] !transition-all !duration-300"
+    <>
+      <div className="s-topbar s-on-red">
+        <div className="s-wrap">
+          <span className="s-topbar__item">
+            <span className="s-live" aria-hidden="true" />
+            Отворено 24/7
+          </span>
+          <div className="s-topbar__group">
+            <a
+              className="s-topbar__item s-topbar__hide"
+              href={contacts.mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Контакти
-            </NavbarButton>
+              <MapPin aria-hidden="true" />
+              {contacts.address}
+            </a>
+            <a className="s-topbar__item" href={telHref}>
+              <Phone aria-hidden="true" />
+              {contacts.phoneMain}
+            </a>
           </div>
-        </NavBody>
+        </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        <MobileNav>
-          <MobileNavHeader>
-            <Link
-              href="/"
-              className="relative z-20 flex items-center"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <img
-                src="/bg-oil-logo.webp"
-                alt="BG OIL"
-                className="h-7 w-auto object-contain drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]"
-              />
-            </Link>
-            <MobileNavToggle
-              isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            />
-          </MobileNavHeader>
+      <header className={`s-header${stuck ? " is-stuck" : ""}`}>
+        <div className="s-wrap s-header__in">
+          <Link href="/" className="s-logo" aria-label="BG OIL — начало">
+            <img src="/bg-oil-logo.webp" alt="BG OIL" width={111} height={38} />
+          </Link>
 
-          <MobileNavMenu
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          >
-            {navItems.map((item, idx) => (
-              <Link
-                key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`relative w-full py-2.5 transition-colors ${
-                  pathname === item.link
-                    ? "text-primary"
-                    : "text-white/70 hover:text-white"
-                }`}
-              >
-                <span className="block text-base font-medium">{item.name}</span>
+          <nav className="s-nav" aria-label="Основна навигация">
+            {navItems.map((item) => (
+              <Link key={item.link} href={item.link} aria-current={current(item.link)}>
+                {item.name}
               </Link>
             ))}
-            <div className="flex w-full flex-col gap-3 mt-3 pt-3 border-t border-white/10">
-              <NavbarButton
-                href="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="gradient"
-                className="w-full !bg-gradient-to-r !from-red-600 !to-red-500 !text-white !font-bold !shadow-[0_0_15px_rgba(239,68,68,0.3)]"
-              >
-                Контакти
-              </NavbarButton>
-            </div>
-          </MobileNavMenu>
-        </MobileNav>
-      </Navbar>
-    </div>
-  );
+          </nav>
+
+          <div className="s-header__cta">
+            <Link href="/contact" className="s-btn s-btn--red s-btn--sm">
+              Контакти
+              <ArrowUpRight className="s-arrow" aria-hidden="true" />
+            </Link>
+            <button
+              type="button"
+              className="s-burger"
+              aria-label="Отвори менюто"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen(true)}
+            >
+              <Menu aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div
+        id="mobile-menu"
+        className={`s-mobile s-on-red${open ? " is-open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Меню"
+        aria-hidden={!open}
+      >
+        <div className="s-mobile__top">
+          <span className="s-plate">BG OIL</span>
+          <button
+            type="button"
+            className="s-mobile__close"
+            aria-label="Затвори менюто"
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+          >
+            <X aria-hidden="true" />
+          </button>
+        </div>
+        <nav aria-label="Мобилна навигация">
+          {[...navItems, { name: "Контакти", link: "/contact" }].map((item) => (
+            <Link
+              key={item.link}
+              href={item.link}
+              aria-current={current(item.link)}
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+            >
+              {item.name}
+              <ArrowUpRight aria-hidden="true" />
+            </Link>
+          ))}
+        </nav>
+        <div className="s-mobile__foot">
+          <a className="s-btn s-btn--white s-btn--block" href={telHref} tabIndex={open ? 0 : -1}>
+            <Phone aria-hidden="true" />
+            {contacts.phoneMain}
+          </a>
+          <a
+            className="s-btn s-btn--ghost-white s-btn--block"
+            href={contacts.mapsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={open ? 0 : -1}
+          >
+            <MapPin aria-hidden="true" />
+            Навигация до нас
+          </a>
+          <p>
+            <Clock aria-hidden="true" style={{ display: "inline", width: 14, height: 14, verticalAlign: "-2px", marginRight: 6 }} />
+            {contacts.address} · 24/7
+          </p>
+        </div>
+      </div>
+    </>
+  )
 }
